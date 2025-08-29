@@ -5,10 +5,10 @@ class DashboardController < ApplicationController
 
   def index
     article1 = Article.new(
-      title: 'AAA'
+      title: "AAA"
     )
     render Views::Articles::Index.new(
-      articles: [article1]
+      articles: [ article1 ]
     )
   end
 end

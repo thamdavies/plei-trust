@@ -6,7 +6,7 @@ module PleiTrust
       @redis ||= ConnectionPool::Wrapper.new do
         redis_config = Rails.application.credentials[:redis] || {}
         Redis.new(
-          host: redis_config[:host] || 'localhost',
+          host: redis_config[:host] || "localhost",
           port: redis_config[:port] || 6379,
           password: redis_config[:password],
           db: redis_config[:db] || 0
