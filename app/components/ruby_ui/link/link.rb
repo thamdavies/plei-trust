@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module RubyUI
-  class Button < Base
-    def initialize(type: :button, variant: :primary, size: :md, icon: false, **attrs)
-      @type = type
+  class Link < Base
+    def initialize(href: "#", variant: :link, size: :md, icon: false, **attrs)
+      @href = href
       @variant = variant.to_sym
       @size = size.to_sym
       @icon = icon
@@ -11,7 +11,7 @@ module RubyUI
     end
 
     def view_template(&)
-      button(**attrs, &)
+      a(href: @href, **attrs, &)
     end
 
     private
@@ -76,16 +76,15 @@ module RubyUI
       ]
     end
 
-    def faded_icon_classes
+    def sidebar_classes
       [
-        "p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700",
-        size_classes
+        "whitespace-nowrap flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700",
       ]
     end
 
-    def sidebar_classes
+    def sidebar_item_classes
       [
-        "flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+        "flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700",
       ]
     end
 
@@ -97,14 +96,14 @@ module RubyUI
       when :destructive then destructive_classes
       when :outline then outline_classes
       when :ghost then ghost_classes
-      when :faded_icon then faded_icon_classes
       when :sidebar then sidebar_classes
+      when :sidebar_item then sidebar_item_classes
       end
     end
 
     def default_attrs
       {
-        type: @type,
+        type: "button",
         class: default_classes
       }
     end

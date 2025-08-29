@@ -18,10 +18,10 @@ class Components::Navigation < Components::Base
               aria_controls: "sidebar",
               class: "p-2 text-gray-600 rounded cursor-pointer lg:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             ) do
-              Remix::MenuLine(id: "toggleSidebarMobileHamburger", class: "w-6 h-6")
-              Remix::CloseLine(id: "toggleSidebarMobileClose", class: "hidden w-6 h-6")
+              Remix::MenuLine(data_app_target: "toggleSidebarMobileHamburger", data_action: "click->app#toggleSidebarMobile", class: "w-6 h-6")
+              Remix::CloseLine(data_app_target: "toggleSidebarMobileClose", data_action: "click->app#toggleSidebarMobile", class: "hidden w-6 h-6")
             end
-            a(href: "/", class: "flex ml-2 md:mr-24") do
+            a(href: "/", class: "flex ml-2 md:mr-24 justify-center") do
               image_tag("logo.png", class: "h-8 mr-3", alt: "PleiTrust Logo")
               # span(class: "self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white") { "Money" }
             end

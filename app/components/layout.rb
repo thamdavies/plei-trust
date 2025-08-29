@@ -18,9 +18,11 @@ class Components::Layout < Components::Base
         javascript_include_tag "application", "data-turbo-track": "reload", type: "module"
       end
 
-      body(class: "bg-gray-50 dark:bg-gray-800") do
+      body(class: "bg-gray-50 dark:bg-gray-800", data_controller: "app") do
         render Navigation.new
         div(class: "flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900") do
+          render Sidebar.new
+          div(class: "fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90", data_app_target: "sidebarBackdrop")
           yield
         end
       end
