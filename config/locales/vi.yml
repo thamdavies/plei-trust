@@ -1,0 +1,5 @@
+vi:
+  sidebar:
+    dashboard: "Trang chủ"
+    contract: "Hợp đồng"
+    all_contracts: "Tất cả hợp đồng"

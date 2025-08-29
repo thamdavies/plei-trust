@@ -13,8 +13,16 @@ class Views::Base < Components::Base
   PageInfo = Data.define(:title)
 
   def around_template
-    render layout.new(page_info) do
+    render template_layout.new(page_info) do
       super
+    end
+  end
+
+  def template_layout
+    if defined?(layout)
+      layout
+    else
+      Components::Layout
     end
   end
 
