@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Components::Navigation < Components::Base
-  def initialize(user_name: "Neil Sims", user_email: "neil.sims@flowbite.com", user_avatar: "https://flowbite.com/docs/images/people/profile-picture-5.jpg")
+  def initialize(user_name: "Dai Nam", user_email: "dai.nam@pleitrust.com", user_avatar: "https://pleitrust.com/docs/images/people/profile-picture-5.jpg")
     @user_name = user_name
     @user_email = user_email
     @user_avatar = user_avatar
@@ -11,8 +11,96 @@ class Components::Navigation < Components::Base
     nav(class: "fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700") do
       div(class: "px-3 py-3 lg:px-5 lg:pl-3") do
         div(class: "flex items-center justify-between") do
-          render_left_section
-          render_right_section
+          div(class: "flex items-center justify-start") do
+            button(
+              id: "toggleSidebarMobile",
+              aria_expanded: "true",
+              aria_controls: "sidebar",
+              class: "p-2 text-gray-600 rounded cursor-pointer lg:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            ) do
+              Remix::MenuLine(id: "toggleSidebarMobileHamburger", class: "w-6 h-6")
+              Remix::CloseLine(id: "toggleSidebarMobileClose", class: "hidden w-6 h-6")
+            end
+            a(href: "/", class: "flex ml-2 md:mr-24") do
+              image_tag("logo.png", class: "h-8 mr-3", alt: "PleiTrust Logo")
+              # span(class: "self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white") { "Money" }
+            end
+            form(action: "#", method: "GET", class: "hidden lg:block lg:pl-3.5") do
+              label(for: "topbar-search", class: "sr-only") { "Search" }
+              div(class: "relative mt-1 lg:w-96") do
+                div(class: "absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none") do
+                  Remix::SearchLine(class: "w-5 h-5 text-gray-500 dark:text-gray-400")
+                end
+                input(type: "text", name: "email", id: "topbar-search", class: "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Search")
+              end
+            end
+          end
+          div(class: "flex items-center") do
+          #   div(class: "hidden mr-3 -mb-1 sm:block") { span }
+          #   button(id: "toggleSidebarMobileSearch", type: "button", class: "p-2 text-gray-500 rounded-lg lg:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white") do
+          #     span(class: "sr-only") { "Search" }
+          #     Remix::SearchLine(class: "w-6 h-6")
+          #   end
+          #   button(type: "button", data_dropdown_toggle: "notification-dropdown", class: "p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700") do
+          #     span(class: "sr-only") { "View notifications" }
+          #     Remix::Notification3Line(class: "w-6 h-6")
+          #   end
+          #   div(class: "z-20 z-50 hidden max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:divide-gray-600 dark:bg-gray-700", id: "notification-dropdown", data_popper_placement: "bottom", style: "position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(1333px, 65px, 0px);") do
+          #     div(class: "block px-4 py-2 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400") { "Notifications" }
+          #     div do
+          #       # ...notification items...
+          #     end
+          #     a(href: "#", class: "block py-2 text-base font-normal text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:text-white dark:hover:underline") do
+          #       div(class: "inline-flex items-center") do
+          #         Remix::EyeLine(class: "w-5 h-5")
+          #         "View all"
+          #       end
+          #     end
+          #   end
+          #   button(type: "button", data_dropdown_toggle: "apps-dropdown", class: "hidden p-2 text-gray-500 rounded-lg sm:flex hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700") do
+          #     span(class: "sr-only") { "View notifications" }
+          #     Remix::Apps2Line(class: "w-5 h-5")
+          #   end
+          #   div(class: "z-20 z-50 hidden max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:bg-gray-700 dark:divide-gray-600", id: "apps-dropdown", data_popper_placement: "bottom", style: "position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(1373px, 65px, 0px);") do
+          #     div(class: "block px-4 py-2 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400") { "Apps" }
+          #     div(class: "grid grid-cols-3 gap-4 p-4") do
+          #       # ...app items...
+          #     end
+          #   end
+            ThemeToggle do |toggle|
+              SetLightMode do
+                Button(variant: :faded_icon, icon: true) do
+                  Remix::MoonFill(class: "w-5 h-5")
+                end
+              end
+              SetDarkMode do
+                Button(variant: :faded_icon, icon: true) do
+                  Remix::SunLine(class: "w-5 h-5")
+                end
+              end
+            end
+
+            div(class: "flex items-center ml-3") do
+              div do
+                button(type: "button", class: "flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600", id: "user-menu-button-2", aria_expanded: "false", data_dropdown_toggle: "dropdown-2") do
+                  span(class: "sr-only") { "Open user menu" }
+                  img(class: "w-8 h-8 rounded-full", src: "https://flowbite.com/docs/images/people/profile-picture-5.jpg", alt: "user photo")
+                end
+              end
+              div(class: "z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600 hidden", id: "dropdown-2", aria_hidden: "true", data_popper_placement: "bottom", style: "position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(1461px, 61px, 0px);") do
+                div(class: "px-4 py-3", role: "none") do
+                  p(class: "text-sm text-gray-900 dark:text-white", role: "none") { "Neil Sims" }
+                  p(class: "text-sm font-medium text-gray-900 truncate dark:text-gray-300", role: "none") { "neil.sims@flowbite.com" }
+                end
+                ul(class: "py-1", role: "none") do
+                  li { a(href: "#", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white", role: "menuitem") { "Dashboard" } }
+                  li { a(href: "#", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white", role: "menuitem") { "Settings" } }
+                  li { a(href: "#", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white", role: "menuitem") { "Earnings" } }
+                  li { a(href: "#", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white", role: "menuitem") { "Sign out" } }
+                end
+              end
+            end
+          end
         end
       end
     end
@@ -204,7 +292,6 @@ class Components::Navigation < Components::Base
       button(
         type: "button",
         class: "flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600",
-        data_action: "click->dropdown#toggle"
       ) do
         span(class: "sr-only") { "Open user menu" }
         img(class: "w-8 h-8 rounded-full", src: @user_avatar, alt: "user photo")

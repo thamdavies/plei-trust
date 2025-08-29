@@ -4,14 +4,8 @@
 
 import { application } from "./application"
 
-import DropdownController from "./dropdown_controller"
-application.register("dropdown", DropdownController)
-
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
-
-import NavigationController from "./navigation_controller"
-application.register("navigation", NavigationController)
-
 import RubyUi__AccordionController from "./ruby_ui/accordion_controller"
 application.register("ruby-ui--accordion", RubyUi__AccordionController)
+
+import RubyUi__ThemeToggleController from "./ruby_ui/theme_toggle_controller"
+application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
