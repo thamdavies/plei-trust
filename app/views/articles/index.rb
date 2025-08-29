@@ -4,7 +4,6 @@ class Views::Articles::Index < Views::Base
   end
 
   def page_title = "Articles"
-  def layout = Components::Layout
 
   def view_template
     h1 { "Articles" }

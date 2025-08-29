@@ -1,8 +1,9 @@
+@import "flowbite/src/themes/default";
 @import "tailwindcss";
 
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
-
+@plugin "flowbite/plugin";
 
 @import "tw-animate-css";
 
