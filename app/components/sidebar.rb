@@ -26,7 +26,7 @@ class Components::Sidebar < Components::Base
               li do
                 Link(href: "/", variant: :sidebar) do
                   Remix::HomeLine(class: "w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
-                  span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Dashboard" }
+                  span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { I18n.t('sidebar.dashboard') }
                 end
               end
 
@@ -37,14 +37,14 @@ class Components::Sidebar < Components::Base
                   data_collapse_toggle: "dropdown-layouts",
                   aria_expanded: "false") do
                   Remix::ContractLine(class: "flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
-                  span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Hợp đồng" }
+                  span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { I18n.t('sidebar.contract') }
                   Remix::ArrowDownSLine(class: "w-6 h-6")
                 end
 
                 ul(id: "dropdown-layouts", class: "py-2 space-y-2 hidden") do
                   li do
                     Link(href: "/", variant: :sidebar_item) do
-                      span(class: "text-left whitespace-nowrap") { "Tất cả hợp đồng" }
+                      span(class: "text-left whitespace-nowrap") { I18n.t('sidebar.all_contracts') }
                     end
                   end
                 end
