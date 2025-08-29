@@ -23,5 +23,8 @@ module PleiTrust
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # set default locale to vi
+    config.i18n.default_locale = :vi
   end
 end
