@@ -1,0 +1,2 @@
+class AssetSettingService < ApplicationRecord
+end

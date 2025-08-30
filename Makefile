@@ -8,4 +8,4 @@ dev:
 	bin/rails server
 
 db:
-  docker compose up -d
+	docker compose up -d
