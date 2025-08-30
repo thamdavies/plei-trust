@@ -11,7 +11,6 @@
 
 @source "../../../node_modules/flowbite";
 
-@custom-variant dark (&:is(.dark *));
 
 :root {
   --background: oklch(1 0 0);
