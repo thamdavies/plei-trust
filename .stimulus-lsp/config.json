@@ -1,0 +1,11 @@
+{
+  "version": "1.0.4",
+  "createdAt": "2025-08-30T17:21:22.314Z",
+  "updatedAt": "2025-08-30T17:21:22.315Z",
+  "options": {
+    "ignoredControllerIdentifiers": [],
+    "ignoredAttributes": [
+      "group-data-[ruby-ui--select-open-value"
+    ]
+  }
+}
