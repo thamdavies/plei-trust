@@ -16,6 +16,7 @@ export default class extends Controller {
     }
   }
 
+  open(e) {
     if (e) e.preventDefault()
     document.body.insertAdjacentHTML('beforeend', this.contentTarget.innerHTML)
     // prevent scroll on body
