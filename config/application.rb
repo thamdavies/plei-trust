@@ -26,5 +26,11 @@ module PleiTrust
 
     # set default locale to vi
     config.i18n.default_locale = :vi
+
+    config.to_prepare do
+      Clearance::PasswordsController.layout "clearance"
+      Clearance::SessionsController.layout "clearance"
+      Clearance::UsersController.layout "clearance"
+    end
   end
 end
