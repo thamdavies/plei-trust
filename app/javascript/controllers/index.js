@@ -4,11 +4,26 @@
 
 import { application } from "./application"
 
+import AppController from "./app_controller"
+application.register("app", AppController)
+
 import RubyUi__AccordionController from "./ruby_ui/accordion_controller"
 application.register("ruby-ui--accordion", RubyUi__AccordionController)
 
+import RubyUi__ComboboxController from "./ruby_ui/combobox_controller"
+application.register("ruby-ui--combobox", RubyUi__ComboboxController)
+
+import RubyUi__DialogController from "./ruby_ui/dialog_controller"
+application.register("ruby-ui--dialog", RubyUi__DialogController)
+
+import RubyUi__FormFieldController from "./ruby_ui/form_field_controller"
+application.register("ruby-ui--form-field", RubyUi__FormFieldController)
+
+import RubyUi__SelectController from "./ruby_ui/select_controller"
+application.register("ruby-ui--select", RubyUi__SelectController)
+
+import RubyUi__SelectItemController from "./ruby_ui/select_item_controller"
+application.register("ruby-ui--select-item", RubyUi__SelectItemController)
+
 import RubyUi__ThemeToggleController from "./ruby_ui/theme_toggle_controller"
 application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
-
-import AppController from "./app_controller"
-application.register("app", AppController)

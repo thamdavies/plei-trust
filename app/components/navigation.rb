@@ -25,13 +25,17 @@ class Components::Navigation < Components::Base
               image_tag("logo.png", class: "h-8 mr-3", alt: "PleiTrust Logo")
               # span(class: "self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white") { "Money" }
             end
-            form(action: "#", method: "GET", class: "hidden lg:block lg:pl-3.5") do
-              label(for: "topbar-search", class: "sr-only") { "Search" }
-              div(class: "relative mt-1 lg:w-96") do
-                div(class: "absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none") do
-                  Remix::SearchLine(class: "w-5 h-5 text-gray-500 dark:text-gray-400")
+            div(class: "ml-8 w-56 flex items-center justify-center") do
+              Remix::Store2Line(class: "w-6 h-6")
+              Select do
+                SelectInput(value: "Gemons", id: "select-a-branch")
+                SelectTrigger(variant: :ghost) do
+                  SelectValue(placeholder: "Select a branch", id: "select-a-branch") { "Gemons" }
                 end
-                input(type: "text", name: "email", id: "topbar-search", class: "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Search")
+                SelectContent(outlet_id: "select-a-branch") do
+                  SelectItem(value: "gemons") { "Gemons" }
+                  SelectItem(value: "dnm") { "Đại Nam Money" }
+                end
               end
             end
           end
@@ -89,13 +93,11 @@ class Components::Navigation < Components::Base
               end
               div(class: "z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600 hidden", id: "dropdown-2", aria_hidden: "true", data_popper_placement: "bottom", style: "position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(1461px, 61px, 0px);") do
                 div(class: "px-4 py-3", role: "none") do
-                  p(class: "text-sm text-gray-900 dark:text-white", role: "none") { "Neil Sims" }
-                  p(class: "text-sm font-medium text-gray-900 truncate dark:text-gray-300", role: "none") { "neil.sims@flowbite.com" }
+                  p(class: "text-sm text-gray-900 dark:text-white", role: "none") { "Plei Trust" }
+                  p(class: "text-sm font-medium text-gray-900 truncate dark:text-gray-300", role: "none") { "user@pleitrust.com" }
                 end
                 ul(class: "py-1", role: "none") do
                   li { a(href: "#", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white", role: "menuitem") { "Dashboard" } }
-                  li { a(href: "#", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white", role: "menuitem") { "Settings" } }
-                  li { a(href: "#", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white", role: "menuitem") { "Earnings" } }
                   li { a(href: "#", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white", role: "menuitem") { "Sign out" } }
                 end
               end
