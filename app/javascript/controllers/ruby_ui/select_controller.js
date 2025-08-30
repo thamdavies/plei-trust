@@ -38,7 +38,7 @@ export default class extends Controller {
   }
 
   onClick() {
-    this.toogleContent();
+    this.toggleContent();
 
     if (this.openValue) {
       this.setFocusAndCurrent();
@@ -109,10 +109,10 @@ export default class extends Controller {
     if (this.element.contains(event.target)) return;
 
     event.preventDefault();
-    this.toogleContent();
+    this.toggleContent();
   }
 
-  toogleContent() {
+  toggleContent() {
     this.openValue = !this.openValue;
     this.contentTarget.classList.toggle("hidden");
     this.triggerTarget.setAttribute("aria-expanded", this.openValue);
@@ -151,7 +151,7 @@ export default class extends Controller {
   }
 
   closeContent() {
-    this.toogleContent();
+    this.toggleContent();
     this.resetCurrent();
 
     this.triggerTarget.setAttribute("aria-activedescendant", true);
