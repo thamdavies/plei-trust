@@ -1,0 +1,2 @@
+class InterestRateHistory < ApplicationRecord
+end

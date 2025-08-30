@@ -1,0 +1,2 @@
+class AssetSetting < ApplicationRecord
+end
