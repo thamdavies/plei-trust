@@ -25,12 +25,12 @@ class Components::Navigation < Components::Base
               image_tag("logo.png", class: "h-8 mr-3", alt: "PleiTrust Logo")
               # span(class: "self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white") { "Money" }
             end
-            div(class: 'ml-8 w-56 flex items-center justify-center') do
+            div(class: "ml-8 w-56 flex items-center justify-center") do
               Remix::Store2Line(class: "w-6 h-6")
               Select do
                 SelectInput(value: "Gemons", id: "select-a-branch")
                 SelectTrigger(variant: :ghost) do
-                  SelectValue(placeholder: 'Select a branch', id: "select-a-branch") { "Gemons" }
+                  SelectValue(placeholder: "Select a branch", id: "select-a-branch") { "Gemons" }
                 end
                 SelectContent(outlet_id: "select-a-branch") do
                   SelectItem(value: "gemons") { "Gemons" }
