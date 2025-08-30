@@ -25,13 +25,17 @@ class Components::Navigation < Components::Base
               image_tag("logo.png", class: "h-8 mr-3", alt: "PleiTrust Logo")
               # span(class: "self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white") { "Money" }
             end
-            form(action: "#", method: "GET", class: "hidden lg:block lg:pl-3.5") do
-              label(for: "topbar-search", class: "sr-only") { "Search" }
-              div(class: "relative mt-1 lg:w-96") do
-                div(class: "absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none") do
-                  Remix::SearchLine(class: "w-5 h-5 text-gray-500 dark:text-gray-400")
+            div(class: 'ml-8 w-56 flex items-center justify-center') do
+              Remix::Store2Line(class: "w-6 h-6")
+              Select do
+                SelectInput(value: "Gemons", id: "select-a-branch")
+                SelectTrigger(variant: :ghost) do
+                  SelectValue(placeholder: 'Select a branch', id: "select-a-branch") { "Gemons" }
                 end
-                input(type: "text", name: "email", id: "topbar-search", class: "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Search")
+                SelectContent(outlet_id: "select-a-branch") do
+                  SelectItem(value: "gemons") { "Gemons" }
+                  SelectItem(value: "dnm") { "Đại Nam Money" }
+                end
               end
             end
           end
