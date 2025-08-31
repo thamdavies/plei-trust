@@ -7,6 +7,9 @@ import { application } from "./application"
 import AppController from "./app_controller"
 application.register("app", AppController)
 
+import { InputValidator } from "stimulus-inline-input-validations"
+application.register("input-validator", InputValidator)
+
 import RubyUi__AccordionController from "./ruby_ui/accordion_controller"
 application.register("ruby-ui--accordion", RubyUi__AccordionController)
 

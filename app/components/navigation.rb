@@ -97,8 +97,8 @@ class Components::Navigation < Components::Base
                   p(class: "text-sm font-medium text-gray-900 truncate dark:text-gray-300", role: "none") { "user@pleitrust.com" }
                 end
                 ul(class: "py-1", role: "none") do
-                  li { a(href: "#", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white", role: "menuitem") { "Dashboard" } }
-                  li { a(href: "#", class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white", role: "menuitem") { "Sign out" } }
+                  li { a(href: root_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white", role: "menuitem") { I18n.t("nav.dashboard") } }
+                  li { button_to I18n.t("nav.sign_out"), sign_out_path, method: :delete, class: "w-full block px-4 py-2 text-left cursor-pointer text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" }
                 end
               end
             end

@@ -1,0 +1,14 @@
+vi:
+  dry_validation:
+    errors:
+      taken: đã tồn tại
+      filled?: bắt buộc nhập
+      invalid_format: không đúng định dạng
+      invalid_phone_number: không phải là số điện thoại
+      password_mismatch: mật khẩu không khớp
+      min_size?: "tối thiểu %{num} ký tự"
+      max_size?: "tối đa %{num} ký tự"
+      gt?: "lớn hơn %{num}"
+      lteq?: "nhỏ hơn hoặc bằng %{num}"
+      decimal?: "phải là số thập phân"
+      int?: "phải là số nguyên"

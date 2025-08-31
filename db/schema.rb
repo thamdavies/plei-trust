@@ -249,6 +249,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_30_170543) do
 
   create_table "users", id: { type: :string, limit: 27 }, force: :cascade do |t|
     t.string "email", null: false
+    t.string "full_name", null: false
     t.string "branch_id", null: false
     t.string "encrypted_password", limit: 128, null: false
     t.string "confirmation_token", limit: 128

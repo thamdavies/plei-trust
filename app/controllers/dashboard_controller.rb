@@ -1,14 +1,9 @@
 class DashboardController < ApplicationController
   layout false
 
-  Article = Data.define(:title)
+  before_action :require_login
 
   def index
-    article1 = Article.new(
-      title: "AAA"
-    )
-    render Views::Articles::Index.new(
-      articles: [ article1 ]
-    )
+    render(Views::Dashboard::Index.new())
   end
 end

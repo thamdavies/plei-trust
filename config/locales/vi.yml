@@ -3,3 +3,18 @@ vi:
     dashboard: "Trang chủ"
     contract: "Hợp đồng"
     all_contracts: "Tất cả hợp đồng"
+  nav:
+    dashboard: "Trang chủ"
+    sign_out: "Đăng xuất"
+  auth:
+    login: "Đăng nhập"
+    email: "Tên đăng nhập"
+    forgot_password: "Quên mật khẩu?"
+    back_to_login: "Quay lại đăng nhập"
+    back_to_reset_password: "Quay lại đặt lại mật khẩu"
+  button:
+    submit: "Gửi"
+  invalid_email: "Email không hợp lệ"
+  errors:
+    messages:
+      invalid: "không hợp lệ"

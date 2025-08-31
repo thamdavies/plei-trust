@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+  <head>
+    <title>DNM Web Portal</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag 'application', data: { "turbo-track": "reload" } %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body class="bg-gray-50 dark:bg-gray-800">
+    <main class="bg-gray-50 dark:bg-gray-900">
+      <div class="flex flex-col items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900">
+        <a href="<%= sign_in_path %>" class="flex items-center justify-center mb-8 text-2xl font-semibold lg:mb-10 dark:text-white">
+          <%= image_tag "logo.png", class: "mr-4 h-11 w-[110px]", alt: "DNM Logo" %>
+        </a>
+        <%= yield %>
+      </div>
+    </main>
+  </body>
+</html>
+
