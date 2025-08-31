@@ -1,0 +1,17 @@
+vi:
+  activerecord:
+    models:
+      user: Nhân viên
+    attributes:
+      user:
+        email: "Email"
+        password: "Mật khẩu"
+    errors:
+      models:
+        user:
+          attributes:
+            password:
+              too_short: Mật khẩu phải có ít nhất 6 ký tự
+      messages:
+        too_short: quá ngắn
+        blank: không được để trống

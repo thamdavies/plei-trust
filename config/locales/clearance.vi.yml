@@ -8,7 +8,7 @@ vi:
     change_password:
       closing: Nếu bạn không yêu cầu điều này, hãy bỏ qua email này. Mật khẩu của bạn chưa bị thay đổi.
       link_text: Thay đổi mật khẩu của tôi
-      opening: "Ai đó, hy vọng là bạn, đã yêu cầu chúng tôi gửi cho bạn một liên kết để thay đổi mật khẩu:"
+      opening: "Bạn (hoặc ai đó) đã yêu cầu đặt lại mật khẩu. Nhấn vào liên kết dưới đây để tiếp tục:"
   flashes:
     failure_after_create: Email hoặc mật khẩu không đúng.
     failure_after_update: Mật khẩu không được để trống.
@@ -42,11 +42,11 @@ vi:
     create:
       description: Bạn sẽ nhận được một email trong vài phút tới. Email này chứa hướng dẫn thay đổi mật khẩu của bạn.
     edit:
-      description: Mật khẩu của bạn đã được đặt lại. Hãy chọn mật khẩu mới bên dưới.
-      title: Thay đổi mật khẩu của bạn
+      description: Bạn có thể thay đổi mật khẩu bằng cách nhập ở ô bên dưới
+      title: Thay đổi mật khẩu
     new:
       description: Để nhận được liên kết đặt lại mật khẩu qua email, vui lòng nhập địa chỉ email của bạn.
-      title: Đặt lại mật khẩu của bạn
+      title: Đặt lại mật khẩu
   sessions:
     form:
       forgot_password: Quên mật khẩu?

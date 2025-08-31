@@ -1,0 +1,9 @@
+<div id="clearance" class="password-reset">
+  <p class="mb-2.5"><%= t(".description") %></p>
+  <div class="flex space-x-4">
+    <%= render(RubyUI::Link.new(href: sign_in_path, variant: :primary)) do %>
+      <span><%= t("auth.back_to_login") %></span>
+    <% end %>
+    <%= render(RubyUI::Link.new(href: new_password_path) { t("auth.back_to_reset_password") }) %>
+  </div>
+</div>

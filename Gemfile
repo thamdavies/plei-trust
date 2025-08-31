@@ -83,3 +83,5 @@ gem "trailblazer-rails"
 gem "reform", ">= 2.3.3"
 gem "reform-rails"
 gem "dry-validation"
+
+gem "letter_opener_web", "~> 3.0"
