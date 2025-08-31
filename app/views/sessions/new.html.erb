@@ -1,6 +1,15 @@
 <div class="w-full max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow dark:bg-gray-800">
-  <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+  <h2 class="text-2xl font-bold text-gray-900 dark:text-white text-center">
     Đăng nhập hệ thống
   </h2>
-  <%= render "sessions/form", form: @user || User.new %>
+  <% if flash.any? %>
+    <% flash.each do |key, message| %>
+      <% if key == "alert" %>
+        <%= render RubyUI::Alert.new(variant: :destructive) do %>
+          <%= render RubyUI::AlertDescription.new { message } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= render "sessions/form", form: User.new %>
 </div>

@@ -1,0 +1,59 @@
+---
+vi:
+  clearance:
+    models:
+      clearance_mailer:
+        change_password: Thay đổi mật khẩu của bạn
+  clearance_mailer:
+    change_password:
+      closing: Nếu bạn không yêu cầu điều này, hãy bỏ qua email này. Mật khẩu của bạn chưa bị thay đổi.
+      link_text: Thay đổi mật khẩu của tôi
+      opening: "Ai đó, hy vọng là bạn, đã yêu cầu chúng tôi gửi cho bạn một liên kết để thay đổi mật khẩu:"
+  flashes:
+    failure_after_create: Email hoặc mật khẩu không đúng.
+    failure_after_update: Mật khẩu không được để trống.
+    failure_when_forbidden: Vui lòng kiểm tra lại URL hoặc thử gửi lại biểu mẫu.
+    failure_when_not_signed_in: Vui lòng đăng nhập để tiếp tục.
+    failure_when_missing_email: Email không được để trống.
+  helpers:
+    label:
+      password:
+        email: Địa chỉ email
+      password_reset:
+        password: Chọn mật khẩu
+      session:
+        password: Mật khẩu
+      user:
+        password: Mật khẩu
+    submit:
+      password:
+        submit: Đặt lại mật khẩu
+      password_reset:
+        submit: Lưu mật khẩu này
+      session:
+        submit: Đăng nhập
+      user:
+        create: Đăng ký
+  layouts:
+    application:
+      sign_in: Đăng nhập
+      sign_out: Đăng xuất
+  passwords:
+    create:
+      description: Bạn sẽ nhận được một email trong vài phút tới. Email này chứa hướng dẫn thay đổi mật khẩu của bạn.
+    edit:
+      description: Mật khẩu của bạn đã được đặt lại. Hãy chọn mật khẩu mới bên dưới.
+      title: Thay đổi mật khẩu của bạn
+    new:
+      description: Để nhận được liên kết đặt lại mật khẩu qua email, vui lòng nhập địa chỉ email của bạn.
+      title: Đặt lại mật khẩu của bạn
+  sessions:
+    form:
+      forgot_password: Quên mật khẩu?
+      sign_up: Đăng ký
+    new:
+      title: Đăng nhập
+  users:
+    new:
+      sign_in: Đăng nhập
+      title: Đăng ký

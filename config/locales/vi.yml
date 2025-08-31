@@ -3,3 +3,6 @@ vi:
     dashboard: "Trang chủ"
     contract: "Hợp đồng"
     all_contracts: "Tất cả hợp đồng"
+  nav:
+    dashboard: "Trang chủ"
+    sign_out: "Đăng xuất"

@@ -3,6 +3,7 @@ class CreateUsers < ActiveRecord::Migration[8.0]
     create_table :users, id: false do |t|
       t.ksuid :id, primary_key: true
       t.string :email, null: false
+      t.string :full_name, null: false
       t.references :branch, null: false, foreign_key: true, type: :string
       t.string :encrypted_password, limit: 128, null: false
       t.string :confirmation_token, limit: 128

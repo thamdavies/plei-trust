@@ -77,3 +77,9 @@ gem "activerecord-ksuid", "~> 1.0"
 gem "clearance", "~> 2.10"
 
 gem "simple_form", "~> 5.3"
+
+gem "trailblazer", ">= 2.1.0"
+gem "trailblazer-rails"
+gem "reform", ">= 2.3.3"
+gem "reform-rails"
+gem "dry-validation"
