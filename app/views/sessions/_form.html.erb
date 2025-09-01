@@ -1,13 +1,13 @@
 <%= simple_form_for form, as: :session, url: session_path, html: { class: "mt-8 space-y-6", data: { turbo: false } } do |f| %>
   <%= f.input :email, 
-    input_html: { autocomplete: "off", class: "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" },
+    input_html: { autocomplete: "off", class: "flex h-9 w-full rounded-md border bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50 border-border focus-visible:ring-ring placeholder:text-muted-foreground" },
     validate: { presence: true },
     label_html: { class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" },
     label: t("auth.email"),
     required: false
   %>
 <%= f.input :password, 
-  input_html: { autocomplete: "off", class: "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" },
+  input_html: { autocomplete: "off", class: "flex h-9 w-full rounded-md border bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50 border-border focus-visible:ring-ring placeholder:text-muted-foreground" },
   validate: { presence: true },
   label_html: { class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" },
   required: false
