@@ -3,6 +3,7 @@ vi:
     dashboard: "Trang chủ"
     contract: "Hợp đồng"
     all_contracts: "Tất cả hợp đồng"
+    customer: "Quản lý khách hàng"
   nav:
     dashboard: "Trang chủ"
     sign_out: "Đăng xuất"
@@ -14,7 +15,15 @@ vi:
     back_to_reset_password: "Quay lại đặt lại mật khẩu"
   button:
     submit: "Gửi"
-  invalid_email: "Email không hợp lệ"
+  subtitle:
+    customer:
+      index: "Danh sách khách hàng"
+  placeholders:
+    search: "Tìm kiếm"
+    search_customers: "Tìm kiếm mã HĐ, Tên KH..."
   errors:
     messages:
       invalid: "không hợp lệ"
+  
+  invalid_email: "Email không hợp lệ"
+  

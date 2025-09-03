@@ -49,7 +49,13 @@ class Components::Sidebar < Components::Base
                   end
                 end
               end
-              # ...existing code for other sidebar items...
+
+              li do
+                Link(href: customers_path, variant: :sidebar) do
+                  Remix::UserLine(class: "w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
+                  span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { I18n.t("sidebar.customer") }
+                end
+              end
             end
             # ...existing code for sidebar bottom menu and other sections...
           end

@@ -77,6 +77,9 @@ GEM
       uri (>= 0.13.1)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    annotaterb (4.19.0)
+      activerecord (>= 6.0.0)
+      activesupport (>= 6.0.0)
     argon2 (2.3.2)
       ffi (~> 1.15)
       ffi-compiler (~> 1.0)
@@ -93,6 +96,8 @@ GEM
       msgpack (~> 1.2)
     brakeman (7.1.0)
       racc
+    breadcrumbs_on_rails (4.1.0)
+      railties (>= 5.0)
     builder (3.3.0)
     capybara (3.40.0)
       addressable
@@ -500,8 +505,10 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-ksuid (~> 1.0)
+  annotaterb (~> 4.18)
   bootsnap
   brakeman
+  breadcrumbs_on_rails
   capybara
   clearance (~> 2.10)
   cssbundling-rails

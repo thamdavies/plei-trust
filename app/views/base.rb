@@ -10,7 +10,7 @@ class Views::Base < Components::Base
   include Components
   include PhlexIcons
 
-  PageInfo = Data.define(:title)
+  PageInfo = Data.define(:title, :subtitle, :header, :breadcrumbs)
 
   def around_template
     render template_layout.new(page_info) do
@@ -28,7 +28,10 @@ class Views::Base < Components::Base
 
   def page_info
     PageInfo.new(
-      title: page_title
+      title: page_title,
+      breadcrumbs: defined?(breadcrumbs) ? breadcrumbs : [],
+      subtitle: defined?(subtitle) ? subtitle : nil,
+      header: defined?(header) ? header : nil
     )
   end
 end

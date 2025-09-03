@@ -14,4 +14,6 @@ Rails.application.routes.draw do
 
   # override clearance/passwords#create
   post "passwords" => "passwords#create", as: :passwords
+
+  resources :customers
 end
