@@ -282,7 +282,7 @@ GEM
     pg (1.6.1-x86_64-linux-musl)
     phlex (2.3.1)
       zeitwerk (~> 2.7)
-    phlex-icons (2.35.0)
+    phlex-icons (2.37.0)
       phlex (>= 1.11)
     phlex-rails (2.3.1)
       phlex (~> 2.3.0)
@@ -512,7 +512,7 @@ DEPENDENCIES
   kamal
   letter_opener_web (~> 3.0)
   pg (~> 1.1)
-  phlex-icons (~> 2.35)
+  phlex-icons (~> 2.37)
   phlex-rails (~> 2.3)
   propshaft
   pry-rails (~> 0.3.11)
