@@ -30,7 +30,7 @@ class Components::Layout < Components::Base
           div(class: "fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90", data_app_target: "sidebarBackdrop")
           div(id: "main-content", class: "relative w-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-800") do
             main do
-              div(class: "p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700") do
+              div(class: "p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700") do
                 div(class: "w-full mb-1") do
                   div(class: "mb-4") do
                     nav(class: "flex mb-5") do
@@ -55,8 +55,8 @@ class Components::Layout < Components::Base
                     end
                   end
 
-                  div(class: "sm:flex") do
-                    @page_info.header
+                  div(class: "sm:flex justify-between") do
+                    render(FilterForm.new(@page_info.filter_form))
                   end
                 end
               end

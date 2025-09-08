@@ -3,7 +3,6 @@ class CustomersController < ApplicationController
 
   def index
     @customers = Customer.all
-
-    render(Views::Customers::Index)
+    render(Views::Customers::Index.new(customers: @customers))
   end
 end
