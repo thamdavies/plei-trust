@@ -69,7 +69,7 @@ class Views::Customers::Index < Views::Base
             end
           end
           DialogFooter do
-            Button(variant: :outline, data: { action: 'click->ruby-ui--dialog#dismiss' }) { I18n.t("button.close") }
+            Button(variant: :outline, data: { action: "click->ruby-ui--dialog#dismiss" }) { I18n.t("button.close") }
             Button(type: "submit") { I18n.t("button.save") }
           end
         end
@@ -91,13 +91,13 @@ class Views::Customers::Index < Views::Base
         end
         TableBody do
           TableRow do
-            TableCell(class: 'font-medium') { "Tham" }
-            TableCell(class: 'font-medium') { "Làng Toak, Kon Chiêng, Mang Yang, Gia Lai" }
-            TableCell(class: 'font-medium') { "0355627748" }
-            TableCell(class: 'font-medium') { "231101119" }
-            TableCell(class: 'font-medium') { "26/06/2023" }
-            TableCell(class: 'font-medium') { Badge(variant: :success) { 'Hoạt động' } }
-            TableCell(class: 'font-medium') do
+            TableCell(class: "font-medium") { "Tham" }
+            TableCell(class: "font-medium") { "Làng Toak, Kon Chiêng, Mang Yang, Gia Lai" }
+            TableCell(class: "font-medium") { "0355627748" }
+            TableCell(class: "font-medium") { "231101119" }
+            TableCell(class: "font-medium") { "26/06/2023" }
+            TableCell(class: "font-medium") { Badge(variant: :success) { "Hoạt động" } }
+            TableCell(class: "font-medium") do
               div(class: "flex space-x-2") do
                 a(href: "#", class: "") do
                   Remix::EditBoxLine(class: "w-5 h-5")
