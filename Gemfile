@@ -85,3 +85,6 @@ gem "reform-rails"
 gem "dry-validation"
 
 gem "letter_opener_web", "~> 3.0"
+
+# A Ruby gem for generating annotated documentation for Ruby code.
+gem "annotaterb", "~> 4.18"

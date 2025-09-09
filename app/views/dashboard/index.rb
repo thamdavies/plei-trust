@@ -1,7 +1,8 @@
 class Views::Dashboard::Index < Views::Base
-  def page_title = "Dashboard"
+  def page_title = I18n.t("sidebar.dashboard")
 
   def view_template
-    h1 { "Dashboard" }
   end
+
+  def subtitle = I18n.t("sidebar.dashboard")
 end

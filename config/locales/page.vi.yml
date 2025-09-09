@@ -1,0 +1,6 @@
+vi:
+  page:
+    customer_management:
+      index: "Quản lý khách hàng"
+      new: "Tạo khách hàng mới"
+      edit: "Chỉnh sửa khách hàng"

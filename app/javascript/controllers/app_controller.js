@@ -18,4 +18,11 @@ export default class extends Controller {
 		this.toggleSidebarMobileHamburgerTarget.classList.toggle('hidden');
 		this.toggleSidebarMobileCloseTarget.classList.toggle('hidden');
 	}
+
+	triggerDialog(event) {
+		event.preventDefault();
+		const dialogId = event.currentTarget.dataset.appDialogTarget;
+		const dialog = document.getElementById(dialogId);
+		dialog.click();
+	}
 }
