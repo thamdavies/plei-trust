@@ -8,7 +8,6 @@ class Components::FilterForm < Components::Base
     when :customer
       customer_filter_form
     else
-      raise "Unknown filter form: #{@filter_form}"
     end
   end
 

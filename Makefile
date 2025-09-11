@@ -5,7 +5,7 @@ watch:
 	foreman start -f Procfile.dev
 
 dev:
-	bin/rails server
+	bin/rails server -p 2325 -b '0.0.0.0'
 
 db:
 	docker compose up -d

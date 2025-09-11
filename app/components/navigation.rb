@@ -71,18 +71,18 @@ class Components::Navigation < Components::Base
             #       # ...app items...
             #     end
             #   end
-            ThemeToggle do |toggle|
-              SetLightMode do
-                Button(variant: :faded_icon, icon: true) do
-                  Remix::MoonFill(class: "w-5 h-5")
-                end
-              end
-              SetDarkMode do
-                Button(variant: :faded_icon, icon: true) do
-                  Remix::SunLine(class: "w-5 h-5")
-                end
-              end
-            end
+            # ThemeToggle do |toggle|
+            #   SetLightMode do
+            #     Button(variant: :faded_icon, icon: true) do
+            #       Remix::MoonFill(class: "w-5 h-5")
+            #     end
+            #   end
+            #   SetDarkMode do
+            #     Button(variant: :faded_icon, icon: true) do
+            #       Remix::SunLine(class: "w-5 h-5")
+            #     end
+            #   end
+            # end
 
             div(class: "flex items-center ml-3") do
               div do
