@@ -1,0 +1,9 @@
+<% if @form.present? %>
+  <%= turbo_stream.update "customer_form" do %>
+    <%= render Views::Customers::Form.new(form: @form, url: customers_path, method: :post) %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.update "toast-notification" do %>
+    <%= render "shared/toast" %>
+  <% end %>
+<% end %>

@@ -7,11 +7,20 @@ import { application } from "./application"
 import AppController from "./app_controller"
 application.register("app", AppController)
 
-import { InputValidator } from "stimulus-inline-input-validations"
-application.register("input-validator", InputValidator)
+import ResourceController from "./resource_controller"
+application.register("resource", ResourceController)
+
+import Notification from '@stimulus-components/notification';
+application.register('notification', Notification);
 
 import RubyUi__AccordionController from "./ruby_ui/accordion_controller"
 application.register("ruby-ui--accordion", RubyUi__AccordionController)
+
+import RubyUi__CalendarController from "./ruby_ui/calendar_controller"
+application.register("ruby-ui--calendar", RubyUi__CalendarController)
+
+import RubyUi__CalendarInputController from "./ruby_ui/calendar_input_controller"
+application.register("ruby-ui--calendar-input", RubyUi__CalendarInputController)
 
 import RubyUi__ComboboxController from "./ruby_ui/combobox_controller"
 application.register("ruby-ui--combobox", RubyUi__ComboboxController)
@@ -21,6 +30,12 @@ application.register("ruby-ui--dialog", RubyUi__DialogController)
 
 import RubyUi__FormFieldController from "./ruby_ui/form_field_controller"
 application.register("ruby-ui--form-field", RubyUi__FormFieldController)
+
+import RubyUi__MaskedInputController from "./ruby_ui/masked_input_controller"
+application.register("ruby-ui--masked-input", RubyUi__MaskedInputController)
+
+import RubyUi__PopoverController from "./ruby_ui/popover_controller"
+application.register("ruby-ui--popover", RubyUi__PopoverController)
 
 import RubyUi__SelectController from "./ruby_ui/select_controller"
 application.register("ruby-ui--select", RubyUi__SelectController)

@@ -8,6 +8,7 @@ class Components::Base < Phlex::HTML
   include Phlex::Rails::Helpers::LinkTo
   include Phlex::Rails::Helpers::ContentFor
   include Phlex::Rails::Helpers::TextField
+  include Phlex::Rails::Helpers::TurboFrameTag
 
   include PhlexIcons
   include RubyUI

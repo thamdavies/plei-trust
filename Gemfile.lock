@@ -96,6 +96,8 @@ GEM
       msgpack (~> 1.2)
     brakeman (7.1.0)
       racc
+    breadcrumbs_on_rails (4.1.0)
+      railties (>= 5.0)
     builder (3.3.0)
     capybara (3.40.0)
       addressable
@@ -291,6 +293,7 @@ GEM
       phlex (~> 2.3.0)
       railties (>= 7.1, < 9)
       zeitwerk (~> 2.7)
+    phonelib (0.10.11)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -350,6 +353,10 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.3.0)
+    ransack (4.3.0)
+      activerecord (>= 6.1.5)
+      activesupport (>= 6.1.5)
+      i18n
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
@@ -506,6 +513,7 @@ DEPENDENCIES
   annotaterb (~> 4.18)
   bootsnap
   brakeman
+  breadcrumbs_on_rails (~> 4.1)
   capybara
   clearance (~> 2.10)
   cssbundling-rails
@@ -518,10 +526,12 @@ DEPENDENCIES
   pg (~> 1.6)
   phlex-icons (~> 2.37)
   phlex-rails (~> 2.3)
+  phonelib (~> 0.10.11)
   propshaft
   pry-rails (~> 0.3.11)
   puma (>= 5.0)
   rails (~> 8.0.2, >= 8.0.2.1)
+  ransack (~> 4.3)
   redis (>= 5.4.1)
   reform (>= 2.3.3)
   reform-rails

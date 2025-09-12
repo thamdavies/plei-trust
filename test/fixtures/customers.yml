@@ -8,7 +8,7 @@
 #  address                  :string
 #  customer_code            :string
 #  full_name                :string
-#  national_id_issued_at    :date
+#  national_id_issued_date  :date
 #  national_id_issued_place :string
 #  phone                    :string
 #  status                   :string

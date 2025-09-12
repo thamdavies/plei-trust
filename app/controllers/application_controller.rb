@@ -4,4 +4,8 @@ class ApplicationController < ActionController::Base
   # allow_browser versions: :modern
 
   before_action :require_login
+
+  def current_branch
+    @current_branch ||= current_user.branch
+  end
 end
