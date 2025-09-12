@@ -182,7 +182,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_30_170543) do
     t.string "full_name"
     t.string "phone"
     t.string "national_id"
-    t.date "national_id_issued_at"
+    t.date "national_id_issued_date"
     t.string "national_id_issued_place"
     t.string "address"
     t.string "created_by_id", null: false

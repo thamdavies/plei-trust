@@ -88,3 +88,9 @@ gem "letter_opener_web", "~> 3.0"
 
 # A Ruby gem for generating annotated documentation for Ruby code.
 gem "annotaterb", "~> 4.18"
+
+gem "breadcrumbs_on_rails", "~> 4.1"
+
+gem "phonelib", "~> 0.10.11"
+
+gem "ransack", "~> 4.3"

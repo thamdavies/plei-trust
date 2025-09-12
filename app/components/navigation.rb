@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 class Components::Navigation < Components::Base
-  def initialize(user_name: "Dai Nam", user_email: "dai.nam@pleitrust.com", user_avatar: "https://pleitrust.com/docs/images/people/profile-picture-5.jpg")
-    @user_name = user_name
-    @user_email = user_email
-    @user_avatar = user_avatar
+  def initialize(current_user:)
+    @current_user = current_user
   end
 
   def view_template
@@ -88,16 +86,15 @@ class Components::Navigation < Components::Base
               div do
                 button(type: "button", class: "flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600", id: "user-menu-button-2", aria_expanded: "false", data_dropdown_toggle: "dropdown-2") do
                   span(class: "sr-only") { "Open user menu" }
-                  img(class: "w-8 h-8 rounded-full", src: "https://flowbite.com/docs/images/people/profile-picture-5.jpg", alt: "user photo")
+                  img(class: "w-8 h-8 rounded-full", src: @current_user.avatar, alt: "user photo")
                 end
               end
               div(class: "z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600 hidden", id: "dropdown-2", aria_hidden: "true", data_popper_placement: "bottom", style: "position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(1461px, 61px, 0px);") do
                 div(class: "px-4 py-3", role: "none") do
-                  p(class: "text-sm text-gray-900 dark:text-white", role: "none") { "Plei Trust" }
-                  p(class: "text-sm font-medium text-gray-900 truncate dark:text-gray-300", role: "none") { "user@pleitrust.com" }
+                  p(class: "text-sm text-gray-900 dark:text-white", role: "none") { @current_user.full_name }
+                  p(class: "text-sm font-medium text-gray-900 truncate dark:text-gray-300", role: "none") { @current_user.email }
                 end
                 ul(class: "py-1", role: "none") do
-                  li { a(href: root_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white", role: "menuitem") { I18n.t("nav.dashboard") } }
                   li { button_to I18n.t("nav.sign_out"), sign_out_path, method: :delete, class: "w-full block px-4 py-2 text-left cursor-pointer text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" }
                 end
               end

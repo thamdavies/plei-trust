@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <title><%= yield(:title) %> | DNM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload", preload: true, as: "style" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-800" data-controller="app">
+    <%= render Components::Navigation.new(current_user:) %>
+    <%= turbo_frame_tag "toast-notification" do %>
+      <%= render "shared/toast" %>
+    <% end %>
+    <div class="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900">
+      <%= render Components::Sidebar.new %>
+      <div class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90" data-app-target="sidebarBackdrop"></div>
+      <div id="main-content" class="relative w-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-800">
+        <main>
+          <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+            <div class="w-full mb-1">
+              <div class="mb-4">
+                <%= render "shared/breadcrumbs" %>
+                <h1 class="text-xl font-semibold text-gray-900 sm:text-xl dark:text-white">
+                  <%= yield(:subtitle) %>
+                </h1>
+              </div>
+              <%= yield(:page_header_actions) %>
+            </div>
+          </div>
+          <%= yield %>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

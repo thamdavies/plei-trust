@@ -15,7 +15,7 @@ vi:
     back_to_reset_password: "Quay lại đặt lại mật khẩu"
   button:
     submit: "Gửi"
-    new: "Tạo mới"
+    new: "Thêm mới"
     close: "Đóng"
     save: "Lưu"
   subtitle:

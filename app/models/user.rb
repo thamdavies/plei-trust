@@ -27,6 +27,9 @@
 #
 class User < ApplicationRecord
   include Clearance::User
+  include User::Reader
+
+  belongs_to :branch
 
   validates :email, presence: true, email: true
   validates :password, presence: true, length: { minimum: 6 }, unless: :skip_password_validation?

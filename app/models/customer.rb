@@ -6,7 +6,7 @@
 #  address                  :string
 #  customer_code            :string
 #  full_name                :string
-#  national_id_issued_at    :date
+#  national_id_issued_date  :date
 #  national_id_issued_place :string
 #  phone                    :string
 #  status                   :string
@@ -25,4 +25,15 @@
 #  fk_rails_...  (created_by_id => users.id)
 #
 class Customer < ApplicationRecord
+  enum :status, { active: "active", inactive: "inactive" }, default: "active"
+
+  class << self
+    def ransackable_attributes(auth_object = nil)
+      [ "full_name", "national_id", "phone", "status" ]
+    end
+
+    def ransackable_associations(auth_object = nil)
+      []
+    end
+  end
 end

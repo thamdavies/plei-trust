@@ -1,12 +1,12 @@
 # Seed data for branches in Gia Lai and Da Nang
 
-# Find provinces
-gia_lai_province = Province.find_by(code_name: "gia_lai")
-da_nang_province = Province.find_by(code_name: "da_nang")
-
 if Province.count == 0
   ActiveRecord::Base.connection.execute(File.read(Rails.root.join("db", "fixtures", "ImportData_vn_units.sql")))
 end
+
+# Find provinces
+gia_lai_province = Province.find_by(code_name: "gia_lai")
+da_nang_province = Province.find_by(code_name: "da_nang")
 
 unless gia_lai_province
   puts "Province 'Gia Lai' not found. Please check provinces data."
