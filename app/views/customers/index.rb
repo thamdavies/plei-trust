@@ -14,7 +14,7 @@ class Views::Customers::Index < Views::Base
             TableHead { "Khách hàng" }
             TableHead { "Địa chỉ" }
             TableHead { "Điện thoại" }
-            TableHead { "CMND" }
+            TableHead { "CCCD" }
             TableHead { "Ngày tạo" }
             TableHead { "Tình trạng" }
             TableHead { "Chức năng" }
@@ -37,9 +37,15 @@ class Views::Customers::Index < Views::Base
               end
               TableCell(class: "font-medium") do
                 div(class: "flex space-x-2") do
-                  a(href: "#", class: "") do
-                    Remix::EditBoxLine(class: "w-5 h-5")
-                  end
+                  Remix::EditBoxLine(
+                    class: "w-5 h-5 cursor-pointer",
+                    data: {
+                      action: "click->resource#triggerDialog",
+                      controller: "resource",
+                      resource_path_value: edit_customer_path(customer),
+                      resource_dialogbutton_value: "customer-dialog-trigger"
+                    },
+                  )
                   a(href: "#", class: "") do
                     Remix::FileTextLine(class: "w-5 h-5")
                   end

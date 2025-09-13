@@ -19,6 +19,12 @@ class CustomersController < ApplicationController
     end
   end
 
+  def edit
+    run(Customer::Operations::Update::Present) do |result|
+      @form = result["contract.default"]
+    end
+  end
+
   def create
     ctx = Customer::Operations::Create.call(params: permit_params.to_h)
     if ctx.success?
@@ -30,6 +36,13 @@ class CustomersController < ApplicationController
   end
 
   def update
+    ctx = Customer::Operations::Update.call(params: permit_params.to_h)
+    if ctx.success?
+      flash[:notice] = "Khách hàng đã được cập nhật"
+      redirect_to customers_path
+    else
+      @form = ctx[:"contract.default"]
+    end
   end
 
   private
@@ -38,6 +51,7 @@ class CustomersController < ApplicationController
     params
       .require(:form)
       .permit(
+        :id,
         :full_name,
         :phone,
         :national_id,

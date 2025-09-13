@@ -33,12 +33,12 @@ class Views::Customers::Form < Views::Base
         end
 
         FormField do
-          FormFieldLabel { "Số CMND" }
-          div(class: "grid w-full items-center gap-1.5") do
+          FormFieldLabel { "Số CCCD" }
+          div(class: "grid w-full items-center gap-1.5 mb-0") do
             MaskedInput(
               data: { maska: "#" * 30 },
               class: "w-full",
-              placeholder: "Nhập số CMND",
+              placeholder: "Nhập số CCCD",
               name: "form[national_id]",
               value: form.national_id
             )
@@ -56,13 +56,13 @@ class Views::Customers::Form < Views::Base
         FormField do
           FormFieldLabel { "Nơi cấp" }
           Input(placeholder: "Nhập nơi cấp", name: "form[national_id_issued_place]", value: form.national_id_issued_place)
-          FormFieldError()
+          FormFieldError() { @form.errors[:national_id_issued_place].first }
         end
 
         FormField do
           FormFieldLabel { "Địa chỉ" }
           Input(placeholder: "Nhập địa chỉ", name: "form[address]", value: form.address)
-          FormFieldError()
+          FormFieldError() { @form.errors[:address].first }
         end
 
         FormField do
@@ -78,7 +78,7 @@ class Views::Customers::Form < Views::Base
               FormFieldLabel(for: "form-inactive", class: "cursor-pointer") { "Đã khoá" }
             end
           end
-          FormFieldError()
+          FormFieldError() { @form.errors[:status].first }
         end
       end
       DialogFooter do
