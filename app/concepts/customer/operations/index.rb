@@ -7,7 +7,7 @@ module Customer::Operations
     step :sort
 
     def model(ctx, params:, **)
-      ctx[:model] = Customer.all
+      ctx[:model] = Customer.order(id: :desc)
     end
 
     def filter(ctx, params:, model:, **)

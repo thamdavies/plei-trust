@@ -10,8 +10,11 @@ application.register("app", AppController)
 import ResourceController from "./resource_controller"
 application.register("resource", ResourceController)
 
-import Notification from '@stimulus-components/notification';
-application.register('notification', Notification);
+import Notification from '@stimulus-components/notification'
+application.register('notification', Notification)
+
+import AutoSubmit from '@stimulus-components/auto-submit'
+application.register('auto-submit', AutoSubmit)
 
 import RubyUi__AccordionController from "./ruby_ui/accordion_controller"
 application.register("ruby-ui--accordion", RubyUi__AccordionController)

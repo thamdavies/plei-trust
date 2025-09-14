@@ -42,7 +42,7 @@ class Views::Customers::Index < Views::Base
                     data: {
                       action: "click->resource#triggerDialog",
                       controller: "resource",
-                      resource_path_value: edit_customer_path(customer),
+                      resource_path_value: edit_customer_path(customer.id),
                       resource_dialogbutton_value: "customer-dialog-trigger"
                     },
                   )

@@ -27,6 +27,10 @@
 class Customer < ApplicationRecord
   include AutoCodeGenerator
 
+  acts_as_tenant
+
+  belongs_to :creator, class_name: User.name, foreign_key: :created_by_id, optional: true
+
   auto_code_config(prefix: "C", field: :customer_code)
 
   enum :status, { active: "active", inactive: "inactive" }, default: "active"
