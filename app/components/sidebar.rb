@@ -24,7 +24,7 @@ class Components::Sidebar < Components::Base
                 # end
               end
               li do
-                Link(href: "/", variant: :sidebar) do
+                Link(href: "/", variant: :sidebar, class: view_context.active_link_class(root_path)) do
                   Remix::HomeLine(class: "w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
                   span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { I18n.t("sidebar.dashboard") }
                 end
@@ -51,7 +51,7 @@ class Components::Sidebar < Components::Base
               end
 
               li do
-                Link(href: customers_path, variant: :sidebar) do
+                Link(href: customers_path, variant: :sidebar, class: view_context.active_link_class(customers_path)) do
                   Remix::UserLine(class: "w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
                   span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { I18n.t("sidebar.customer") }
                 end
