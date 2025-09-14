@@ -71,7 +71,7 @@ module AutoCodeGenerator
   end
 
   def execute_atomic_increment(redis_key)
-    redis = Redis.current
+    redis = PleiTrust.redis
 
     # Lua script đảm bảo atomic operation
     lua_script = <<~LUA
@@ -102,7 +102,7 @@ module AutoCodeGenerator
   def sync_with_database(redis_key)
     # Sử dụng Redis SET NX để tránh multiple sync
     sync_lock_key = "#{redis_key}_sync"
-    redis = Redis.current
+    redis = PleiTrust.redis
 
     # Thử set lock với expiry 30 giây
     if redis.set(sync_lock_key, "1", nx: true, ex: 30)
