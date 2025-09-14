@@ -15,13 +15,13 @@ class CustomersController < ApplicationController
 
   def new
     run(Customer::Operations::Create::Present) do |result|
-      @form = result["contract.default"]
+      @form = result[:"contract.default"]
     end
   end
 
   def edit
     run(Customer::Operations::Update::Present) do |result|
-      @form = result["contract.default"]
+      @form = result[:"contract.default"]
     end
   end
 
@@ -36,7 +36,7 @@ class CustomersController < ApplicationController
   end
 
   def update
-    ctx = Customer::Operations::Update.call(params: permit_params.to_h)
+    ctx = Customer::Operations::Update.call(params: update_params.to_h)
     if ctx.success?
       flash[:notice] = "Khách hàng đã được cập nhật"
       redirect_to customers_path
@@ -51,7 +51,6 @@ class CustomersController < ApplicationController
     params
       .require(:form)
       .permit(
-        :id,
         :full_name,
         :phone,
         :national_id,
@@ -63,5 +62,9 @@ class CustomersController < ApplicationController
         created_by_id: current_user.id,
         branch_id: current_user.branch_id
       )
+  end
+
+  def update_params
+    permit_params.merge(id: params[:id])
   end
 end
