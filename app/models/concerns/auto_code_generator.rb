@@ -33,7 +33,7 @@ module AutoCodeGenerator
     def reset_auto_code_counter!
       redis = PleiTrust.redis
       last_code = self.maximum(auto_code_field)
-      
+
       if last_code.present?
         last_number = extract_number_from_auto_code(last_code)
         redis.set(auto_code_redis_key, last_number)
@@ -58,26 +58,26 @@ module AutoCodeGenerator
 
   def generate_auto_code
     redis_key = self.class.auto_code_redis_key
-    
+
     # Sử dụng Redis Lua script để đảm bảo atomicity
     counter = execute_atomic_increment(redis_key)
-    
+
     if counter.nil?
       # Fallback nếu Redis fail
       counter = generate_from_database_with_lock
     end
-    
+
     format_auto_code(counter)
   end
 
   def execute_atomic_increment(redis_key)
     redis = Redis.current
-    
+
     # Lua script đảm bảo atomic operation
     lua_script = <<~LUA
       local key = KEYS[1]
       local current = redis.call('GET', key)
-      
+
       if current then
         return redis.call('INCR', key)
       else
@@ -85,9 +85,9 @@ module AutoCodeGenerator
         return nil
       end
     LUA
-    
-    result = redis.eval(lua_script, keys: [redis_key])
-    
+
+    result = redis.eval(lua_script, keys: [ redis_key ])
+
     # Nếu nil, cần sync với DB
     if result.nil?
       sync_with_database(redis_key)
@@ -103,19 +103,19 @@ module AutoCodeGenerator
     # Sử dụng Redis SET NX để tránh multiple sync
     sync_lock_key = "#{redis_key}_sync"
     redis = Redis.current
-    
+
     # Thử set lock với expiry 30 giây
     if redis.set(sync_lock_key, "1", nx: true, ex: 30)
       begin
         field_name = self.class.auto_code_field
         last_code = self.class.maximum(field_name)
-        
+
         next_number = if last_code.present?
                        self.class.extract_number_from_auto_code(last_code) + 1
-                     else
+        else
                        1
-                     end
-        
+        end
+
         redis.set(redis_key, next_number)
         redis.incr(redis_key)
       ensure
@@ -133,7 +133,7 @@ module AutoCodeGenerator
     self.class.transaction do
       field_name = self.class.auto_code_field
       last_record = self.class.lock.order(:created_at).last
-      
+
       if last_record.nil?
         1
       else
