@@ -7,7 +7,7 @@ class CustomersController < ApplicationController
     add_breadcrumb "Danh sách", :customers_path
 
     run(Customer::Operations::Index, current_user:, current_branch:) do |result|
-      @customers = result[:model]
+      @pagy, @customers = pagy(result[:model])
       create_ctx = Customer::Operations::Create::Present.call
       @form = create_ctx[:"contract.default"]
     end
@@ -15,7 +15,13 @@ class CustomersController < ApplicationController
 
   def new
     run(Customer::Operations::Create::Present) do |result|
-      @form = result["contract.default"]
+      @form = result[:"contract.default"]
+    end
+  end
+
+  def edit
+    run(Customer::Operations::Update::Present) do |result|
+      @form = result[:"contract.default"]
     end
   end
 
@@ -30,6 +36,13 @@ class CustomersController < ApplicationController
   end
 
   def update
+    ctx = Customer::Operations::Update.call(params: update_params.to_h)
+    if ctx.success?
+      flash[:notice] = "Khách hàng đã được cập nhật"
+      redirect_to customers_path
+    else
+      @form = ctx[:"contract.default"]
+    end
   end
 
   private
@@ -49,5 +62,9 @@ class CustomersController < ApplicationController
         created_by_id: current_user.id,
         branch_id: current_user.branch_id
       )
+  end
+
+  def update_params
+    permit_params.merge(id: params[:id])
   end
 end

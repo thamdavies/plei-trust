@@ -373,6 +373,11 @@
     estree-walker "^2.0.2"
     picomatch "^4.0.2"
 
+"@stimulus-components/auto-submit@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@stimulus-components/auto-submit/-/auto-submit-6.0.0.tgz#5649e2cca24834ff0d62b4ef1944393a8b0f5dfe"
+  integrity sha512-GBwjjnNuDZey9kdJinTGyrkIMCNVnPrTQvqihC0pBiwieIMfZIp+TT7Giee0Z0DS+pX6WdJweIeo8xEYD/VZJg==
+
 "@stimulus-components/notification@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@stimulus-components/notification/-/notification-3.0.0.tgz#f67ec72bb0601ec33f597494def72e6ca93dd4a5"

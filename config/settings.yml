@@ -1,0 +1,2 @@
+cache:
+  current_tenant: "tenant::user::%{user_id}"

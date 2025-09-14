@@ -2,6 +2,7 @@
 
 module Customer::Contracts
   class Create < ApplicationContract
+    property :id
     property :full_name
     property :national_id
     property :phone
@@ -17,7 +18,12 @@ module Customer::Contracts
         required(:full_name).filled
         required(:created_by_id).filled
         required(:branch_id).filled
-        optional(:phone)
+        optional(:phone).value(max_size?: 50)
+        optional(:national_id).value(max_size?: 50)
+        optional(:national_id_issued_date)
+        optional(:national_id_issued_place).value(max_size?: 255)
+        optional(:address).value(max_size?: 255)
+        optional(:status).value(included_in?: Customer.statuses.keys)
       end
 
       rule(:phone) do

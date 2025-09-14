@@ -1,12 +1,10 @@
 class Views::Customers::Form < Views::Base
   def initialize(form:, url: nil, method: :post)
     @form = form
-    @url = url
-    @method = method
   end
 
   def view_template
-    Form(url: @url, method: @method) do
+    Form(action: form_url, method: form_method) do
       Input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
       DialogHeader do
         DialogTitle { form.model.new_record? ? "Thêm khách hàng mới" : "Chỉnh sửa khách hàng" }
@@ -15,7 +13,7 @@ class Views::Customers::Form < Views::Base
         FormField do
           FormFieldLabel { "Tên khách hàng" }
           Input(placeholder: "Nhập tên khách hàng", name: "form[full_name]", value: form.full_name)
-          FormFieldError() { @form.errors[:full_name].first }
+          FormFieldError() { form.errors[:full_name].first }
         end
 
         FormField do
@@ -29,26 +27,26 @@ class Views::Customers::Form < Views::Base
               value: form.phone
             )
           end
-          FormFieldError() { @form.errors[:phone].first }
+          FormFieldError() { form.errors[:phone].first }
         end
 
         FormField do
-          FormFieldLabel { "Số CMND" }
-          div(class: "grid w-full items-center gap-1.5") do
+          FormFieldLabel { "Số CCCD" }
+          div(class: "grid w-full items-center gap-1.5 mb-0") do
             MaskedInput(
               data: { maska: "#" * 30 },
               class: "w-full",
-              placeholder: "Nhập số CMND",
+              placeholder: "Nhập số CCCD",
               name: "form[national_id]",
               value: form.national_id
             )
           end
-          FormFieldError() { @form.errors[:national_id].first }
+          FormFieldError() { form.errors[:national_id].first }
         end
 
         render Components::Fields::DateField.new(
           name: "form[national_id_issued_date]",
-          label: "Ngày cấp", id: "issue_date", error: @form.errors[:national_id_issued_date].first,
+          label: "Ngày cấp", id: "issue_date", error: form.errors[:national_id_issued_date].first,
           name: "form[national_id_issued_date]",
           value: form.national_id_issued_date
         )
@@ -56,13 +54,13 @@ class Views::Customers::Form < Views::Base
         FormField do
           FormFieldLabel { "Nơi cấp" }
           Input(placeholder: "Nhập nơi cấp", name: "form[national_id_issued_place]", value: form.national_id_issued_place)
-          FormFieldError()
+          FormFieldError() { form.errors[:national_id_issued_place].first }
         end
 
         FormField do
           FormFieldLabel { "Địa chỉ" }
           Input(placeholder: "Nhập địa chỉ", name: "form[address]", value: form.address)
-          FormFieldError()
+          FormFieldError() { form.errors[:address].first }
         end
 
         FormField do
@@ -78,7 +76,7 @@ class Views::Customers::Form < Views::Base
               FormFieldLabel(for: "form-inactive", class: "cursor-pointer") { "Đã khoá" }
             end
           end
-          FormFieldError()
+          FormFieldError() { form.errors[:status].first }
         end
       end
       DialogFooter do
@@ -91,4 +89,16 @@ class Views::Customers::Form < Views::Base
   private
 
   attr_reader :form
+
+  def form_url
+    if form.model.new_record?
+      customers_path
+    else
+      customer_path(form.model)
+    end
+  end
+
+  def form_method
+    form.model.new_record? ? :post : :patch
+  end
 end

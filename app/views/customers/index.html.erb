@@ -7,3 +7,9 @@
 <% end %>
 
 <%= render Views::Customers::Index.new(customers: @customers, form: @form) %>
+
+<% if @pagy.pages > 1 %>
+  <div class="flex justify-center py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <%== pagy_nav(@pagy) %>
+  </div>
+<% end %>

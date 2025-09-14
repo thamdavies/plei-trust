@@ -6,4 +6,8 @@ module User::Reader
 
     "https://ui-avatars.com/api/?name=User&background=random&size=128&color=fff"
   end
+
+  def tenant_cache_key
+    Settings.cache.current_tenant % { user_id: id }
+  end
 end
