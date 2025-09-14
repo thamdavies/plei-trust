@@ -19,7 +19,7 @@ module Customer::Contracts
         required(:created_by_id).filled
         required(:branch_id).filled
         optional(:phone).value(max_size?: 50)
-        optional(:national_id).value(max_size?: 30)
+        optional(:national_id).value(max_size?: 50)
         optional(:national_id_issued_date)
         optional(:national_id_issued_place).value(max_size?: 255)
         optional(:address).value(max_size?: 255)

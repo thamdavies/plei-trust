@@ -10,7 +10,7 @@ class Views::Customers::Modal < Views::Base
       end
       DialogContent(size: :sm) do
         turbo_frame_tag "customer_form" do
-          render Views::Customers::Form.new(form:, url: customers_path, method: :post)
+          render Views::Customers::Form.new(form:)
         end
       end
     end
