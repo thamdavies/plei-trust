@@ -13,8 +13,7 @@ class CreateContracts < ActiveRecord::Migration[8.0]
       t.string :asset_name
 
       # Loại hợp đồng và số tiền
-      t.references :service, null: false, foreign_key: true, type: :string
-      t.string :service_type
+      t.references :contract_type, null: false, foreign_key: true, type: :string
       t.decimal :loan_amount, precision: 15, scale: 2
 
       # Cấu hình lãi suất

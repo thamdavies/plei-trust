@@ -1,0 +1,14 @@
+<%= content_for :title, "Cấu hình hàng hóa" %>
+<%= content_for :subtitle, "Danh sách hàng hóa" %>
+
+<%= content_for :page_header_actions do %>
+  <%= render Views::AssetSettings::FilterForm.new %>
+<% end %>
+
+<%= render Views::AssetSettings::Index.new %>
+
+<% if @pagy.pages > 1 %>
+  <div class="flex justify-center py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <%== pagy_nav(@pagy) %>
+  </div>
+<% end %>

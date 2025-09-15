@@ -22,4 +22,13 @@
 #  updated_at                  :datetime         not null
 #
 class AssetSetting < ApplicationRecord
+  class << self
+    def ransackable_attributes(auth_object = nil)
+      [ "asset_code", "asset_name", "status" ]
+    end
+
+    def ransackable_associations(auth_object = nil)
+      []
+    end
+  end
 end

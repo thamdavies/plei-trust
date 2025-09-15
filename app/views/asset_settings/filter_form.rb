@@ -1,13 +1,9 @@
-class Views::Customers::FilterForm < Views::Base
-  def initialize(filter_form)
-    @filter_form = filter_form
-  end
-
+class Views::AssetSettings::FilterForm < Views::Base
   def view_template
     div(class: "flex justify-between w-full") do
       div(class: "w-full") do
         div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700") do
-          Form(action: customers_path, method: "GET", class: "sm:pr-3 space-y-6", data: { controller: "auto-submit" }) do |f|
+          Form(action: asset_settings_path, method: "GET", class: "sm:pr-3 space-y-6", data: { controller: "auto-submit" }) do |f|
             div(class: "flex items-center gap-4") do
               Remix::MenuSearchLine(class: "w-6 h-6")
               div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700") do
@@ -46,9 +42,9 @@ class Views::Customers::FilterForm < Views::Base
               end
               FormField(class: "relative w-48 mt-1 sm:w-64 xl:w-96") do
                 SearchInput(
-                  name: "q[phone_or_full_name_or_national_id_cont]",
-                  placeholder: I18n.t("placeholders.search_customers"),
-                  value: view_context.params.dig(:q, :phone_or_full_name_or_national_id_cont)
+                  name: "q[asset_code_or_asset_name_cont]",
+                  placeholder: "Tìm kiếm tên, mã hàng hóa...",
+                  value: view_context.params.dig(:q, :asset_code_or_asset_name_cont)
                 )
               end
 

@@ -12,34 +12,33 @@
 #  loan_amount                 :decimal(15, 2)
 #  notes                       :text
 #  payment_frequency_days      :integer
-#  service_type                :string
 #  status                      :string           default("pending")
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #  asset_setting_id            :string
 #  branch_id                   :string           not null
 #  cashier_id                  :string           not null
+#  contract_type_id            :string           not null
 #  created_by_id               :string           not null
 #  customer_id                 :string           not null
-#  service_id                  :string           not null
 #
 # Indexes
 #
 #  index_contracts_on_asset_setting_id  (asset_setting_id)
 #  index_contracts_on_branch_id         (branch_id)
 #  index_contracts_on_cashier_id        (cashier_id)
+#  index_contracts_on_contract_type_id  (contract_type_id)
 #  index_contracts_on_created_by_id     (created_by_id)
 #  index_contracts_on_customer_id       (customer_id)
-#  index_contracts_on_service_id        (service_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (asset_setting_id => asset_settings.id)
 #  fk_rails_...  (branch_id => branches.id)
 #  fk_rails_...  (cashier_id => users.id)
+#  fk_rails_...  (contract_type_id => contract_types.id)
 #  fk_rails_...  (created_by_id => users.id)
 #  fk_rails_...  (customer_id => customers.id)
-#  fk_rails_...  (service_id => services.id)
 #
 class Contract < ApplicationRecord
 end

@@ -56,6 +56,31 @@ class Components::Sidebar < Components::Base
                   span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { I18n.t("sidebar.customer") }
                 end
               end
+
+              li do
+                Button(
+                  variant: :sidebar,
+                  arial_controls: "dropdown-layouts",
+                  data_collapse_toggle: "dropdown-branches",
+                  aria_expanded: "false") do
+                  Remix::Store3Line(class: "flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
+                  span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Quản lý chi nhánh" }
+                  Remix::ArrowDownSLine(class: "w-6 h-6")
+                end
+
+                ul(id: "dropdown-branches", class: "py-2 space-y-2 hidden") do
+                  li do
+                    Link(href: "/", variant: :sidebar_item) do
+                      span(class: "text-left whitespace-nowrap") { "Danh sách chi nhánh" }
+                    end
+                  end
+                  li do
+                    Link(href: asset_settings_path, variant: :sidebar_item) do
+                      span(class: "text-left whitespace-nowrap") { "Cấu hình hàng hóa" }
+                    end
+                  end
+                end
+              end
             end
             # ...existing code for sidebar bottom menu and other sections...
           end

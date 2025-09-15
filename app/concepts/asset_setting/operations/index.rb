@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-module Customer::Operations
+module AssetSetting::Operations
   class Index < ApplicationOperation
     step :model
     step :filter
     step :sort
 
     def model(ctx, params:, **)
-      ctx[:model] = Customer.order(id: :desc)
+      ctx[:model] = AssetSetting.order(id: :desc)
     end
 
     def filter(ctx, params:, model:, **)
