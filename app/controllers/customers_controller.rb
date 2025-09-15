@@ -1,6 +1,4 @@
 class CustomersController < ApplicationController
-  before_action :require_login
-
   add_breadcrumb "Khách hàng", :customers_path
 
   def index
