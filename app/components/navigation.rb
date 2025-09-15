@@ -23,16 +23,25 @@ class Components::Navigation < Components::Base
               image_tag("logo.png", class: "h-8 mr-3", alt: "PleiTrust Logo")
               # span(class: "self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white") { "Money" }
             end
-            div(class: "ml-8 w-56 flex items-center justify-center") do
+
+            Form(action: current_tenant_path, method: "PATCH",
+              class: "ml-8 w-56 flex items-center justify-center", data: { controller: "auto-submit" }) do
+              Input(type: "hidden", name: "authenticity_token", value: view_context.form_authenticity_token)
               Remix::Store2Line(class: "w-6 h-6")
               Select do
-                SelectInput(value: "Gemons", id: "select-a-branch")
+                SelectInput(name: "branch_id", value: view_context.current_branch.id.to_s, id: "select-a-branch")
                 SelectTrigger(variant: :ghost) do
-                  SelectValue(placeholder: "Select a branch", id: "select-a-branch") { "Gemons" }
+                  SelectValue(placeholder: view_context.current_branch.name, id: "select-a-branch")
                 end
                 SelectContent(outlet_id: "select-a-branch") do
-                  SelectItem(value: "gemons") { "Gemons" }
-                  SelectItem(value: "dnm") { "Đại Nam Money" }
+                  Branch.all.select(:id, :name).each do |branch|
+                    SelectItem(
+                      value: branch.id.to_s,
+                      class: "cursor-pointer",
+                      data: { action: "click->auto-submit#submit" }) do
+                      branch.name
+                    end
+                  end
                 end
               end
             end
