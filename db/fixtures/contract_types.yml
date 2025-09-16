@@ -1,0 +1,13 @@
+contract_types:
+  - name: "Cầm đồ"
+    code: "pawn"
+    description: "Dịch vụ cầm đồ, thế chấp tài sản"
+  - name: "Tín Chấp"
+    code: "credit"
+    description: "Cho vay tín chấp không thế chấp"
+  - name: "Trả Góp"
+    code: "installment"
+    description: "Dịch vụ cho vay trả góp"
+  - name: "Vốn"
+    code: "capital"
+    description: "Cho vay vốn kinh doanh"

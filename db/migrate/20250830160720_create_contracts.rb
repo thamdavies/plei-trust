@@ -1,20 +1,18 @@
 class CreateContracts < ActiveRecord::Migration[8.0]
   def change
-    create_table :contracts, id: false do |t|
-      t.ksuid :id, primary_key: true
+    create_table :contracts, id: :uuid, default: 'uuidv7()' do |t|
       t.string :code
-      t.references :customer, null: false, foreign_key: true, type: :string
-      t.references :branch, null: false, foreign_key: true, type: :string
-      t.references :cashier, null: false, foreign_key: { to_table: :users }, type: :string
-      t.references :created_by, null: false, foreign_key: { to_table: :users }, type: :string
+      t.references :customer, null: false, foreign_key: true, type: :uuid
+      t.references :branch, null: false, foreign_key: true, type: :uuid
+      t.references :cashier, null: false, foreign_key: { to_table: :users }, type: :uuid
+      t.references :created_by, null: false, foreign_key: { to_table: :users }, type: :uuid
 
       # Thông tin tài sản
-      t.references :asset_setting, null: true, foreign_key: true, type: :string
+      t.references :asset_setting, null: true, foreign_key: true, type: :uuid
       t.string :asset_name
 
       # Loại hợp đồng và số tiền
-      t.references :service, null: false, foreign_key: true, type: :string
-      t.string :service_type
+      t.references :contract_type, null: false, foreign_key: true, type: :uuid
       t.decimal :loan_amount, precision: 15, scale: 2
 
       # Cấu hình lãi suất

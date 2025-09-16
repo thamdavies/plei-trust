@@ -1,15 +1,16 @@
 @import "flowbite/src/themes/default";
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "../../../node_modules/slim-select/dist/slimselect.css";
 
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
 @plugin "flowbite/plugin";
 
-@import "tw-animate-css";
-
 @custom-variant dark (&:is(.dark *));
 
 @source "../../../node_modules/flowbite";
+
 
 :root {
   --background: oklch(1 0 0);

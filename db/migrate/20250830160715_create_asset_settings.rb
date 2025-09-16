@@ -1,7 +1,6 @@
 class CreateAssetSettings < ActiveRecord::Migration[8.0]
   def change
-    create_table :asset_settings, id: false do |t|
-      t.ksuid :id, primary_key: true
+    create_table :asset_settings, id: :uuid, default: 'uuidv7()' do |t|
       t.string :asset_code
       t.string :asset_name
       t.string :status, default: "active"

@@ -9,6 +9,7 @@ class Views::Customers::Index < Views::Base
 
     div(class: "p-2 bg-white") do
       Table do
+        TableCaption { "Danh sách khách hàng sẽ được hiển thị ở đây" } if @customers.empty?
         TableHeader do
           TableRow do
             TableHead { "Khách hàng" }

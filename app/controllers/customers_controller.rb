@@ -6,8 +6,8 @@ class CustomersController < ApplicationController
 
     run(Customer::Operations::Index, current_user:, current_branch:) do |result|
       @pagy, @customers = pagy(result[:model])
-      create_ctx = Customer::Operations::Create::Present.call
-      @form = create_ctx[:"contract.default"]
+      ctx = Customer::Operations::Create::Present.call
+      @form = ctx[:"contract.default"]
     end
   end
 

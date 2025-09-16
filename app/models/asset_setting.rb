@@ -2,7 +2,7 @@
 #
 # Table name: asset_settings
 #
-#  id                          :string(27)       not null, primary key
+#  id                          :uuid             not null, primary key
 #  asset_appraisal_fee         :float
 #  asset_code                  :string
 #  asset_name                  :string
@@ -22,4 +22,19 @@
 #  updated_at                  :datetime         not null
 #
 class AssetSetting < ApplicationRecord
+  has_many :asset_setting_categories, dependent: :destroy
+
+  def str_id
+    id.to_s
+  end
+
+  class << self
+    def ransackable_attributes(auth_object = nil)
+      [ "asset_code", "asset_name", "status" ]
+    end
+
+    def ransackable_associations(auth_object = nil)
+      []
+    end
+  end
 end

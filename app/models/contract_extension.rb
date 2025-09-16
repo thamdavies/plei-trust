@@ -2,7 +2,7 @@
 #
 # Table name: contract_extensions
 #
-#  id             :string(27)       not null, primary key
+#  id             :uuid             not null, primary key
 #  content        :text
 #  from           :date
 #  notes          :text
@@ -10,7 +10,7 @@
 #  to             :date
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  contract_id    :string           not null
+#  contract_id    :uuid             not null
 #
 # Indexes
 #

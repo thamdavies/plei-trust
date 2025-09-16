@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Customer::Operations
-  class Index < Trailblazer::Operation
+  class Index < ApplicationOperation
     step :model
     step :filter
     step :sort

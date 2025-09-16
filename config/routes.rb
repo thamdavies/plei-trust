@@ -16,5 +16,6 @@ Rails.application.routes.draw do
   post "passwords" => "passwords#create", as: :passwords
 
   resources :customers
+  resources :asset_settings
   resource :current_tenant, only: [ :update ], controller: "current_tenant"
 end

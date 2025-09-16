@@ -9,7 +9,7 @@ class Views::Customers::FilterForm < Views::Base
         div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700") do
           Form(action: customers_path, method: "GET", class: "sm:pr-3 space-y-6", data: { controller: "auto-submit" }) do |f|
             div(class: "flex items-center gap-4") do
-              Remix::UserSearchLine(class: "w-6 h-6")
+              Remix::MenuSearchLine(class: "w-6 h-6")
               div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700") do
                 div(class: "flex items-center space-x-2 ml-3") do
                   RadioButton(
@@ -52,7 +52,7 @@ class Views::Customers::FilterForm < Views::Base
                 )
               end
 
-              Button(type: "submit", class: "") { "Tìm kiếm" }
+              Button(type: "submit") { "Tìm kiếm" }
             end
           end
         end

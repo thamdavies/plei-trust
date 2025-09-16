@@ -1,8 +1,7 @@
 class CreateContractInterestPayments < ActiveRecord::Migration[8.0]
   def change
-    create_table :contract_interest_payments, id: false do |t|
-      t.ksuid :id, primary_key: true
-      t.references :contract, null: false, foreign_key: true, type: :string
+    create_table :contract_interest_payments, id: :uuid, default: 'uuidv7()' do |t|
+      t.references :contract, null: false, foreign_key: true, type: :uuid
       t.date :from
       t.date :to
       t.integer :number_of_days
@@ -12,7 +11,7 @@ class CreateContractInterestPayments < ActiveRecord::Migration[8.0]
       t.decimal :total_paid, precision: 15, scale: 2
       t.string :payment_status, default: 'unpaid'
       t.text :notes
-      t.references :processed_by, null: false, foreign_key: { to_table: :users }, type: :string
+      t.references :processed_by, null: false, foreign_key: { to_table: :users }, type: :uuid
       t.string :status
 
       t.timestamps

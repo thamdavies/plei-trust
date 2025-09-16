@@ -2,7 +2,7 @@
 #
 # Table name: customers
 #
-#  id                       :string(27)       not null, primary key
+#  id                       :uuid             not null, primary key
 #  address                  :string
 #  customer_code            :string
 #  full_name                :string
@@ -12,16 +12,18 @@
 #  status                   :string
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
-#  branch_id                :string
-#  created_by_id            :string           not null
+#  branch_id                :uuid             not null
+#  created_by_id            :uuid             not null
 #  national_id              :string
 #
 # Indexes
 #
+#  index_customers_on_branch_id      (branch_id)
 #  index_customers_on_created_by_id  (created_by_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (branch_id => branches.id)
 #  fk_rails_...  (created_by_id => users.id)
 #
 require "test_helper"
