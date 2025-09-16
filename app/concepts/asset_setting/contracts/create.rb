@@ -25,7 +25,7 @@ module AssetSetting::Contracts
 
     # Others
     property :status, default: "active"
-    property :asset_setting_categories, default: []
+    collection :asset_setting_categories, default: []
 
     # Nested properties cho asset_setting_attributes
     collection :asset_setting_attributes, populate_if_empty: AssetSettingAttribute do
@@ -33,17 +33,10 @@ module AssetSetting::Contracts
       property :attribute_name
       property :_destroy
 
-      validates :attribute_name, presence: true
-
-      # Custom validation để skip khi _destroy = true
-      validate :attribute_name_present_unless_destroyed
-
-      private
-
-      def attribute_name_present_unless_destroyed
-        return if _destroy == "1" || _destroy == true
-
-        errors.add(:attribute_name, "can't be blank") if attribute_name.blank?
+      validation contract: DryContract do
+        params do
+          required(:attribute_name).filled(:string)
+        end
       end
     end
 
@@ -51,6 +44,7 @@ module AssetSetting::Contracts
       params do
         required(:asset_name).filled(:string)
         required(:asset_code).filled(:string)
+        required(:asset_setting_categories).filled(:array)
         optional(:status).maybe(:string, included_in?: %w[active inactive])
       end
     end

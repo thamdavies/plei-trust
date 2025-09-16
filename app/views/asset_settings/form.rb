@@ -4,7 +4,7 @@ class Views::AssetSettings::Form < Views::Base
   end
 
   def view_template
-    div(class: "bg-white") do
+    div(class: "bg-white", data: { controller: "page--asset-setting" }) do
       div(class: "w-full p-4 space-y-8 sm:p-4 bg-white dark:bg-gray-800") do
         view_context.simple_form_for(@form, as: :form, url: form_url, html: {
           data: {
@@ -18,19 +18,14 @@ class Views::AssetSettings::Form < Views::Base
           end
           FormField(class: "max-w-xl") do
             FormFieldLabel { "Lĩnh vực" }
-            select(
-              name: "form[asset_setting_categories]",
-              id: "select-contract-type",
-              multiple: true,
-              placeholder: "Chọn 1 hoặc nhiều lĩnh vực",
-              data: { controller: "slim-select",
-                'slim-select-target': "select",
-                'slim-select-selected-value': form.asset_setting_categories.pluck(:id)
-              }) do
-              ContractType.with_assets.select(:id, :name).each do |contract_type|
-                option(value: contract_type.id, selected: false) { contract_type.name }
-              end
-            end
+            render(
+              partial(
+                "shared/form_select",
+                form:, f:,
+                field_name: :asset_setting_categories,
+                collection: ContractType.with_assets.select(:id, :name),
+              )
+            )
             FormFieldError() { form.errors[:asset_setting_categories].first }
           end
 
@@ -77,7 +72,8 @@ class Views::AssetSettings::Form < Views::Base
                 placeholder: "Chọn hình thức lãi",
                 data: { controller: "slim-select",
                   'slim-select-target': "select",
-                  'slim-select-selected-value': form.interest_calculation_method
+                  'slim-select-selected-value': form.interest_calculation_method,
+                  action: "change->page--asset-setting#handleInterestMethodChange"
                 }) do
                 InterestCalculationMethod.all.each do |interest_method|
                   option(value: interest_method.code, selected: interest_method.code == form.interest_calculation_method) { interest_method.name }
@@ -119,7 +115,10 @@ class Views::AssetSettings::Form < Views::Base
                 class: "pr-10",
                 data: { controller: "number-input" }
               )
-              span(class: "absolute text-sm inset-y-0 right-0 flex items-center pr-3 text-gray-500") { "%/tháng" }
+              span(
+                class: "absolute text-sm inset-y-0 right-0 flex items-center pr-3 text-gray-500",
+                data: { "page--asset-setting_target": "interestUnit" }
+              ) { "%/tháng" }
             end
 
             FormFieldError() { form.errors[:default_interest_rate].first }
@@ -139,7 +138,10 @@ class Views::AssetSettings::Form < Views::Base
 
               FormFieldError() { form.errors[:interest_period].first }
             end
-            span(class: "text-sm text-gray-500 mt-5") { "(VD: 1 tháng đóng lãi 1 lần thì điền số 1)" }
+            span(
+              class: "text-sm text-gray-500 mt-5",
+              data: { "page--asset-setting_target": "interestPeriodUnit" }
+            ) { "(VD: 1 tháng đóng lãi 1 lần thì điền số 1)" }
           end
 
           FormField(class: "max-w-xl") do
@@ -240,9 +242,14 @@ class Views::AssetSettings::Form < Views::Base
   end
 
   def render_attribute_form_item(attribute_fields)
+    model = if attribute_fields.object.is_a?(Reform::Form)
+              attribute_fields.object.model
+    else
+              attribute_fields.object
+    end
     div(
       class: "nested-form-wrapper bg-white",
-      data: { new_record: "#{attribute_fields.object.new_record?}" }
+      data: { new_record: "#{model.new_record?}" }
     ) do
       div(class: "flex gap-2 items-center max-w-xl") do
         FormField(class: "flex-1") do
@@ -250,10 +257,10 @@ class Views::AssetSettings::Form < Views::Base
           Input(
             placeholder: "Nhập tên thuộc tính",
             name: attribute_fields.object_name + "[attribute_name]",
-            value: attribute_fields.object.attribute_name,
+            value: model.attribute_name,
             class: "flex-1"
           )
-          FormFieldError() { attribute_fields.object.errors[:attribute_name].first }
+          FormFieldError() { model.errors[:attribute_name].first }
         end
 
         # Remove button
