@@ -25,12 +25,26 @@ module AssetSetting::Contracts
 
     # Others
     property :status, default: "active"
-    property :asset_setting_categories, default: []
+    collection :asset_setting_categories, default: []
+
+    # Nested properties cho asset_setting_attributes
+    collection :asset_setting_attributes, populate_if_empty: AssetSettingAttribute do
+      property :id
+      property :attribute_name
+      property :_destroy
+
+      validation contract: DryContract do
+        params do
+          required(:attribute_name).filled(:string)
+        end
+      end
+    end
 
     validation contract: DryContract do
       params do
         required(:asset_name).filled(:string)
         required(:asset_code).filled(:string)
+        required(:asset_setting_categories).filled(:array)
         optional(:status).maybe(:string, included_in?: %w[active inactive])
       end
     end

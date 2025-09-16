@@ -12,3 +12,4 @@ vi:
       lteq?: "nhỏ hơn hoặc bằng %{num}"
       decimal?: "phải là số thập phân"
       int?: "phải là số nguyên"
+      str?: "phải là chuỗi ký tự"

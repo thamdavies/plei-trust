@@ -1,0 +1,16 @@
+<%= f.input(field_name,
+  as: :select,
+  collection:,
+  multiple: true,
+  include_blank: false,
+  label: false,
+  input_html: {
+    placeholder: "Có thể chọn 1 hoặc nhiều",
+    data: {
+      controller: 'slim-select',
+      'slim-select-target': 'select',
+      'slim-select-selected-value': form.send(field_name),
+      action: defined?(action) ? action : nil,
+    }
+  }
+) %>
