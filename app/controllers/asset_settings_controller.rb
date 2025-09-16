@@ -12,6 +12,7 @@ class AssetSettingsController < ApplicationController
     add_breadcrumb "Thêm mới", :new_asset_setting_path
     run(AssetSetting::Operations::Create::Present) do |result|
       @form = result[:"contract.default"]
+      @form.interest_calculation_method = Settings.default_interest_calculation_method
     end
   end
 
