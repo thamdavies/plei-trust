@@ -23,6 +23,15 @@
 #
 class AssetSetting < ApplicationRecord
   has_many :asset_setting_categories, dependent: :destroy
+  has_many :asset_setting_attributes, dependent: :destroy
+
+  accepts_nested_attributes_for :asset_setting_categories,
+                                allow_destroy: true,
+                                reject_if: :all_blank
+
+  accepts_nested_attributes_for :asset_setting_attributes,
+                                allow_destroy: true,
+                                reject_if: :all_blank
 
   def str_id
     id.to_s

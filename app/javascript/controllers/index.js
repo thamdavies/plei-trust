@@ -13,6 +13,12 @@ application.register("resource", ResourceController)
 import NumberInputController from "./number_input_controller"
 application.register("number-input", NumberInputController)
 
+import SlimSelectController from "./slim_select_controller"
+application.register("slim-select", SlimSelectController)
+
+import RailsNestedForm from '@stimulus-components/rails-nested-form'
+application.register("nested-form", RailsNestedForm)
+
 import RubyUi__AccordionController from "./ruby_ui/accordion_controller"
 application.register("ruby-ui--accordion", RubyUi__AccordionController)
 
@@ -48,6 +54,3 @@ application.register("ruby-ui--select-item", RubyUi__SelectItemController)
 
 import RubyUi__ThemeToggleController from "./ruby_ui/theme_toggle_controller"
 application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
-
-import SlimSelectController from "./slim_select_controller"
-application.register("slim-select", SlimSelectController)
