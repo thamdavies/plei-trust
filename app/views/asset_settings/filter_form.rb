@@ -4,7 +4,7 @@ class Views::AssetSettings::FilterForm < Views::Base
       div(class: "w-full") do
         div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700") do
           Form(action: asset_settings_path, method: "GET", class: "sm:pr-3 space-y-6", data: { controller: "auto-submit" }) do |f|
-            div(class: "flex items-center gap-4") do
+            div(class: "flex items-center gap-4 mb-1") do
               Remix::MenuSearchLine(class: "w-6 h-6")
               div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700") do
                 div(class: "flex items-center space-x-2 ml-3") do
@@ -50,13 +50,38 @@ class Views::AssetSettings::FilterForm < Views::Base
 
               Button(type: "submit") { "Tìm kiếm" }
             end
+
+            div(class: "flex items-center gap-4") do
+              Remix::ServiceLine(class: "w-6 h-6")
+              Select(class: "w-48") do
+                SelectInput(name: "q[contract_type_id_eq]", value: "", id: "select-contract-type")
+                SelectTrigger(variant: :ghost) do
+                  SelectValue(placeholder: "Tất cả lĩnh vực", id: "select-contract-type")
+                end
+                SelectContent(outlet_id: "select-contract-type") do
+                  SelectItem(
+                    value: "",
+                    class: "cursor-pointer",
+                    data: { action: "click->auto-submit#submit" }) do
+                    "Tất cả lĩnh vực"
+                  end
+                  ContractType.all.select(:id, :name).each do |contract_type|
+                    SelectItem(
+                      value: contract_type.id.to_s,
+                      class: "cursor-pointer",
+                      data: { action: "click->auto-submit#submit" }) do
+                      contract_type.name
+                    end
+                  end
+                end
+              end
+            end
           end
         end
       end
 
-      div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700",
-        data: { controller: "resource", resource_path_value: new_customer_path, resource_dialogbutton_value: "customer-dialog-trigger" }) do
-        Button(data: { action: "click->resource#triggerDialog" }) { I18n.t("button.new") }
+      div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700") do
+        Link(href: new_asset_setting_path, variant: :primary) { "Thêm mới" }
       end
     end
   end

@@ -2,7 +2,7 @@
 #
 # Table name: branches
 #
-#  id             :string(27)       not null, primary key
+#  id             :uuid             not null, primary key
 #  address        :string
 #  invest_amount  :decimal(12, 2)
 #  name           :string

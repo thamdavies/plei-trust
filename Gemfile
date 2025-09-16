@@ -72,8 +72,6 @@ gem "pry-rails", "~> 0.3.11"
 
 gem "phlex-icons", "~> 2.38"
 
-gem "activerecord-ksuid", "~> 1.0"
-
 gem "clearance", "~> 2.10"
 
 gem "simple_form", "~> 5.3"

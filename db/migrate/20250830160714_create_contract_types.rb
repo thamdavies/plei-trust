@@ -1,7 +1,6 @@
 class CreateContractTypes < ActiveRecord::Migration[8.0]
   def change
-    create_table :contract_types, id: false do |t|
-      t.ksuid :id, primary_key: true
+    create_table :contract_types, id: :uuid, default: 'uuidv7()' do |t|
       t.string :code
       t.string :name
       t.string :description

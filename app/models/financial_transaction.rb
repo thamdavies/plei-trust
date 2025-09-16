@@ -2,7 +2,7 @@
 #
 # Table name: financial_transactions
 #
-#  id                  :string(27)       not null, primary key
+#  id                  :uuid             not null, primary key
 #  amount              :decimal(15, 2)   not null
 #  description         :string
 #  reference_number    :string
@@ -10,9 +10,9 @@
 #  transaction_number  :string           not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  contract_id         :string           not null
-#  created_by_id       :string           not null
-#  transaction_type_id :string           not null
+#  contract_id         :uuid             not null
+#  created_by_id       :uuid             not null
+#  transaction_type_id :uuid             not null
 #
 # Indexes
 #

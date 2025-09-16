@@ -2,7 +2,7 @@
 #
 # Table name: contract_interest_payments
 #
-#  id              :string(27)       not null, primary key
+#  id              :uuid             not null, primary key
 #  amount          :decimal(15, 2)
 #  from            :date
 #  notes           :text
@@ -15,8 +15,8 @@
 #  total_paid      :decimal(15, 2)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  contract_id     :string           not null
-#  processed_by_id :string           not null
+#  contract_id     :uuid             not null
+#  processed_by_id :uuid             not null
 #
 # Indexes
 #

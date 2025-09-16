@@ -16,6 +16,9 @@ application.register('notification', Notification)
 import AutoSubmit from '@stimulus-components/auto-submit'
 application.register('auto-submit', AutoSubmit)
 
+import SlimSelect from "./slim_select_controller"
+application.register('slim-select', SlimSelect)
+
 import RubyUi__AccordionController from "./ruby_ui/accordion_controller"
 application.register("ruby-ui--accordion", RubyUi__AccordionController)
 

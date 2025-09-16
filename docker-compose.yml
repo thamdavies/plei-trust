@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:17
+    image: postgres:18rc1
     container_name: plei-trust-db
     ports:
       - "5432:5432"

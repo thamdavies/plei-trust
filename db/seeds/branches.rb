@@ -1,4 +1,5 @@
 # Seed data for branches in Gia Lai and Da Nang
+ActiveRecord::Base.connection.execute("TRUNCATE TABLE \"#{Branch.table_name}\" RESTART IDENTITY CASCADE")
 
 if Province.count == 0
   ActiveRecord::Base.connection.execute(File.read(Rails.root.join("db", "fixtures", "ImportData_vn_units.sql")))

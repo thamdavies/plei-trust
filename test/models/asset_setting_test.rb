@@ -2,7 +2,7 @@
 #
 # Table name: asset_settings
 #
-#  id                          :string(27)       not null, primary key
+#  id                          :uuid             not null, primary key
 #  asset_appraisal_fee         :float
 #  asset_code                  :string
 #  asset_name                  :string

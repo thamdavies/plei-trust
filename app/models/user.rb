@@ -2,7 +2,7 @@
 #
 # Table name: users
 #
-#  id                 :string(27)       not null, primary key
+#  id                 :uuid             not null, primary key
 #  confirmation_token :string(128)
 #  email              :string           not null
 #  encrypted_password :string(128)      not null
@@ -12,7 +12,7 @@
 #  status             :string           default("active")
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  branch_id          :string           not null
+#  branch_id          :uuid             not null
 #
 # Indexes
 #

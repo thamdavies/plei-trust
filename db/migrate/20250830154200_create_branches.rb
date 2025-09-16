@@ -1,7 +1,6 @@
 class CreateBranches < ActiveRecord::Migration[8.0]
   def change
-    create_table :branches, id: false do |t|
-      t.ksuid :id, primary_key: true
+    create_table :branches, id: :uuid, default: 'uuidv7()' do |t|
       t.string :name
       t.integer :province_id
       t.integer :ward_id

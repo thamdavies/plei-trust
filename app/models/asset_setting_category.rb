@@ -2,11 +2,11 @@
 #
 # Table name: asset_setting_categories
 #
-#  id               :string(27)       not null, primary key
+#  id               :uuid             not null, primary key
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  asset_setting_id :string           not null
-#  contract_type_id :string           not null
+#  asset_setting_id :uuid             not null
+#  contract_type_id :uuid             not null
 #
 # Indexes
 #

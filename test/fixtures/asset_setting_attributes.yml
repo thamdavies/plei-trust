@@ -4,11 +4,11 @@
 #
 # Table name: asset_setting_attributes
 #
-#  id               :string(27)       not null, primary key
+#  id               :uuid             not null, primary key
 #  attribute_name   :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  asset_setting_id :string           not null
+#  asset_setting_id :uuid             not null
 #
 # Indexes
 #

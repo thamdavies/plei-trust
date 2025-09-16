@@ -4,7 +4,7 @@
 #
 # Table name: contracts
 #
-#  id                          :string(27)       not null, primary key
+#  id                          :uuid             not null, primary key
 #  asset_name                  :string
 #  code                        :string
 #  contract_date               :date
@@ -17,12 +17,12 @@
 #  status                      :string           default("pending")
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
-#  asset_setting_id            :string
-#  branch_id                   :string           not null
-#  cashier_id                  :string           not null
-#  contract_type_id            :string           not null
-#  created_by_id               :string           not null
-#  customer_id                 :string           not null
+#  asset_setting_id            :uuid
+#  branch_id                   :uuid             not null
+#  cashier_id                  :uuid             not null
+#  contract_type_id            :uuid             not null
+#  created_by_id               :uuid             not null
+#  customer_id                 :uuid             not null
 #
 # Indexes
 #

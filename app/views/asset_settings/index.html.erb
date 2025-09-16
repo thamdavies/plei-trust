@@ -5,7 +5,7 @@
   <%= render Views::AssetSettings::FilterForm.new %>
 <% end %>
 
-<%= render Views::AssetSettings::Index.new %>
+<%= render Views::AssetSettings::Index.new(asset_settings: @asset_settings) %>
 
 <% if @pagy.pages > 1 %>
   <div class="flex justify-center py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">

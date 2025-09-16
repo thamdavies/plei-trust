@@ -2,7 +2,7 @@
 #
 # Table name: contract_types
 #
-#  id          :string(27)       not null, primary key
+#  id          :uuid             not null, primary key
 #  code        :string
 #  description :string
 #  name        :string
@@ -10,4 +10,7 @@
 #  updated_at  :datetime         not null
 #
 class ContractType < ApplicationRecord
+  enum :code, { pawn: "pawn", credit: "credit", installment: "installment", capital: "capital" }
+
+  scope :with_assets, -> { where(code: %i[pawn credit]) }
 end
