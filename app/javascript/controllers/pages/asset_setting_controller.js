@@ -19,13 +19,13 @@ export default class extends Controller {
       } else {
         alertController.show('Không thể lấy thông tin hình thức lãi', 'alert');
       }
-    } catch (error) {
+    } catch {
       alert('Đã có lỗi xảy ra, vui lòng thử lại sau!');
     }
   }
 
   setInterestMethodDetails(data) {
-    this.interestUnitTarget.textContent = data.attributes.unit;
+    this.interestUnitTarget.textContent = data.attributes.percent_unit;
     this.interestPeriodUnitTarget.textContent = data.attributes.note;
   }
 }

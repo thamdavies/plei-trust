@@ -1,7 +1,8 @@
 class Views::Customers::Index < Views::Base
-  def initialize(customers:, form: Customer.new)
+  def initialize(customers:, form: Customer.new, pagy: nil)
     @customers = customers
     @form = form
+    @pagy = pagy
   end
 
   def view_template
@@ -12,6 +13,7 @@ class Views::Customers::Index < Views::Base
         TableCaption { "Danh sách khách hàng sẽ được hiển thị ở đây" } if @customers.empty?
         TableHeader do
           TableRow do
+            TableHead { "STT" }
             TableHead { "Khách hàng" }
             TableHead { "Địa chỉ" }
             TableHead { "Điện thoại" }
@@ -22,13 +24,14 @@ class Views::Customers::Index < Views::Base
           end
         end
         TableBody do
-          @customers.each do |customer|
+          @customers.each_with_index do |customer, index|
             TableRow do
+              TableCell(class: "font-medium") { @pagy.offset + index + 1 }
               TableCell(class: "font-medium") { customer.full_name }
               TableCell(class: "font-medium") { customer.address }
               TableCell(class: "font-medium") { customer.phone }
               TableCell(class: "font-medium") { customer.national_id }
-              TableCell(class: "font-medium") { customer.created_at.to_date.to_fs(:date_vn) }
+              TableCell(class: "font-medium") { customer.fm_created_date }
               TableCell(class: "font-medium") do
                 if customer.status == "active"
                   Badge(variant: :success) { "Hoạt động" }

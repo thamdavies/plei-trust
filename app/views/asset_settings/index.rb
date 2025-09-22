@@ -1,6 +1,7 @@
 class Views::AssetSettings::Index < Views::Base
-  def initialize(asset_settings:)
+  def initialize(asset_settings:, pagy: nil)
     @asset_settings = asset_settings
+    @pagy = pagy
   end
 
   def view_template
@@ -23,12 +24,13 @@ class Views::AssetSettings::Index < Views::Base
         TableBody do
           @asset_settings.each_with_index do |asset_setting, index|
             TableRow do
-              TableCell(class: "font-medium") { index + 1 }
-              TableCell(class: "font-medium") { asset_setting.contract_types.map(&:name).join(", ") }
+              TableCell(class: "font-medium") { @pagy.offset + index + 1 }
+              TableCell(class: "font-medium") { asset_setting.fm_contract_types }
               TableCell(class: "font-medium") { asset_setting.asset_name }
               TableCell(class: "font-medium") { asset_setting.asset_code }
               TableCell(class: "font-medium") { asset_setting.default_loan_amount_formatted }
-              TableCell(class: "font-medium") { asset_setting.default_interest_rate }
+              TableCell(class: "font-medium") { asset_setting.fm_interest_rate }
+              TableCell(class: "font-medium") { asset_setting.fm_interest_period }
               TableCell(class: "font-medium") do
                 if asset_setting.status == "active"
                   Badge(variant: :success) { "Hoạt động" }
