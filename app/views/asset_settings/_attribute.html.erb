@@ -1,0 +1,25 @@
+<% model = f.object.is_a?(Reform::Form) ? f.object.model : f.object %>
+<div class="nested-form-wrapper" data-new-record="<%= model.new_record? %>">
+  <div class="flex gap-2 items-center max-w-xl">
+    <div class="flex-1">
+      <%= render RubyUI::FormFieldLabel.new { "Thuộc tính" } %>
+      <%= render RubyUI::Input.new(
+          placeholder: "Nhập tên thuộc tính",
+          name: f.object_name.to_s + "[attribute_name]",
+          value: f.object.attribute_name,
+          class: "flex-1"
+        )
+      %>
+      <%= render RubyUI::FormFieldError.new() { f.object.errors[:attribute_name].first } %>
+    </div>
+    <%= render(RubyUI::Button.new(
+      type: "button",
+      variant: "ghost",
+      size: "sm",
+      class: "mt-5 text-red-600 hover:bg-red-50 hover:text-red-800 py-3 cursor-pointer",
+      data: { action: "nested-form#remove" } )) { PhlexIcons::Remix::CloseLine(class: "w-4 h-4") }
+    %>
+
+    <%= f.hidden_field :_destroy %>
+  </div>
+</div>

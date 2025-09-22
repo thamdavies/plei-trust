@@ -19,4 +19,6 @@
 #  fk_rails_...  (contract_type_id => contract_types.id)
 #
 class AssetSettingCategory < ApplicationRecord
+  belongs_to :asset_setting
+  belongs_to :contract_type
 end

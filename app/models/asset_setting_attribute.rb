@@ -17,5 +17,5 @@
 #  fk_rails_...  (asset_setting_id => asset_settings.id)
 #
 class AssetSettingAttribute < ApplicationRecord
-  belongs_to :asset_setting
+  belongs_to :asset_setting, optional: true
 end

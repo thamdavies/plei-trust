@@ -24,11 +24,11 @@ class Views::AssetSettings::Index < Views::Base
           @asset_settings.each_with_index do |asset_setting, index|
             TableRow do
               TableCell(class: "font-medium") { index + 1 }
-              TableCell(class: "font-medium") { asset_setting.contract_type.name }
+              TableCell(class: "font-medium") { asset_setting.contract_types.map(&:name).join(", ") }
               TableCell(class: "font-medium") { asset_setting.asset_name }
               TableCell(class: "font-medium") { asset_setting.asset_code }
-              TableCell(class: "font-medium") { asset_setting.deposit_amount }
-              TableCell(class: "font-medium") { asset_setting.interest_rate }
+              TableCell(class: "font-medium") { asset_setting.default_loan_amount_formatted }
+              TableCell(class: "font-medium") { asset_setting.default_interest_rate }
               TableCell(class: "font-medium") do
                 if asset_setting.status == "active"
                   Badge(variant: :success) { "Hoạt động" }
@@ -38,15 +38,9 @@ class Views::AssetSettings::Index < Views::Base
               end
               TableCell(class: "font-medium") do
                 div(class: "flex space-x-2") do
-                  Remix::EditBoxLine(
-                    class: "w-5 h-5 cursor-pointer",
-                    data: {
-                      action: "click->resource#triggerDialog",
-                      controller: "resource",
-                      resource_path_value: edit_asset_setting_path(asset_setting.id),
-                      resource_dialogbutton_value: "asset-setting-dialog-trigger"
-                    },
-                  )
+                  a(href: edit_asset_setting_path(asset_setting.id), class: "") do
+                    Remix::EditBoxLine(class: "w-5 h-5")
+                  end
                   a(href: "#", class: "") do
                     Remix::FileTextLine(class: "w-5 h-5")
                   end

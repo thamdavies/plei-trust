@@ -1,2 +1,25 @@
 cache:
   current_tenant: "tenant::user::%{user_id}"
+default_interest_calculation_method: "monthly_interest"
+interest_calculation_methods:
+  - name: "Lãi ngày (%/ngày)"
+    code: "daily_interest"
+    note: "(VD: 1 ngày đóng lãi 1 lần thì điền số 1)"
+    unit: "%/ngày"
+    categories:
+      - "pawn"
+      - "credit"
+  - name: "Lãi tuần (%/tuần)"
+    code: "weekly_interest"
+    note: "(VD: 1 tuần đóng lãi 1 lần thì điền số 1)"
+    unit: "%/tuần"
+    categories:
+      - "pawn"
+      - "credit"
+  - name: "Lãi tháng (%/tháng)"
+    code: "monthly_interest"
+    note: "(VD: 1 tháng đóng lãi 1 lần thì điền số 1)"
+    unit: "%/tháng"
+    categories:
+      - "pawn"
+      - "credit"

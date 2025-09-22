@@ -1,5 +1,5 @@
 <%= content_for :title, "Cấu hình hàng hóa" %>
-<%= content_for :subtitle, "Thêm mới hàng hóa" %>
+<%= content_for :subtitle, "Cập nhật hàng hóa" %>
 
 <%= turbo_frame_tag "asset_setting_form" do %>
   <%= render Views::AssetSettings::Form.new(form: @form) %>

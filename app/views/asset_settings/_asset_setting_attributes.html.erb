@@ -1,0 +1,12 @@
+<template data-nested-form-target="template">
+  <%= f.fields_for :asset_setting_attributes, AssetSettingAttribute.new, child_index: 'NEW_RECORD' do |ff| %>
+    <%= render "asset_settings/attribute", f: ff, form: %>
+  <% end %>
+</template>
+
+<%= f.fields_for :asset_setting_attributes do |ff| %>
+  <%= render "asset_settings/attribute", f: ff, form: %>
+<% end %>
+
+<!-- Inserted elements will be injected before that target. -->
+<div data-nested-form-target="target"></div>

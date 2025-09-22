@@ -10,14 +10,17 @@ application.register("app", AppController)
 import ResourceController from "./resource_controller"
 application.register("resource", ResourceController)
 
-import Notification from '@stimulus-components/notification'
-application.register('notification', Notification)
+import NumberInputController from "./number_input_controller"
+application.register("number-input", NumberInputController)
 
-import AutoSubmit from '@stimulus-components/auto-submit'
-application.register('auto-submit', AutoSubmit)
+import SlimSelectController from "./slim_select_controller"
+application.register("slim-select", SlimSelectController)
 
-import SlimSelect from "./slim_select_controller"
-application.register('slim-select', SlimSelect)
+import RailsNestedForm from '@stimulus-components/rails-nested-form'
+application.register("nested-form", RailsNestedForm)
+
+import Notification from "@stimulus-components/notification"
+application.register("notification", Notification)
 
 import RubyUi__AccordionController from "./ruby_ui/accordion_controller"
 application.register("ruby-ui--accordion", RubyUi__AccordionController)
@@ -27,6 +30,9 @@ application.register("ruby-ui--calendar", RubyUi__CalendarController)
 
 import RubyUi__CalendarInputController from "./ruby_ui/calendar_input_controller"
 application.register("ruby-ui--calendar-input", RubyUi__CalendarInputController)
+
+import RubyUi__CheckboxGroupController from "./ruby_ui/checkbox_group_controller"
+application.register("ruby-ui--checkbox-group", RubyUi__CheckboxGroupController)
 
 import RubyUi__ComboboxController from "./ruby_ui/combobox_controller"
 application.register("ruby-ui--combobox", RubyUi__ComboboxController)
@@ -51,3 +57,7 @@ application.register("ruby-ui--select-item", RubyUi__SelectItemController)
 
 import RubyUi__ThemeToggleController from "./ruby_ui/theme_toggle_controller"
 application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
+
+// Page controller
+import AssetSettingController from "./pages/asset_setting_controller"
+application.register("page--asset-setting", AssetSettingController)

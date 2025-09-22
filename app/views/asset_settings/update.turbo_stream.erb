@@ -1,0 +1,9 @@
+<% if @form.present? %>
+  <%= turbo_stream.update "asset_setting_form" do %>
+    <%= render Views::AssetSettings::Form.new(form: @form) %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.update "toast-notification" do %>
+    <%= render "shared/toast" %>
+  <% end %>
+<% end %>
