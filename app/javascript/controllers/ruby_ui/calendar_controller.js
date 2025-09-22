@@ -47,7 +47,7 @@ export default class extends Controller {
     this.selectedDateValue = e.currentTarget.dataset.day;
   }
 
-  selectedDateValueChanged(value, prevValue) {
+  selectedDateValueChanged() {
     // update the viewDateValue to the first day of month of the selected date (This will trigger updateCalendar() function)
     const newViewDate = new Date(this.selectedDateValue);
     newViewDate.setDate(2); // set the day to the 2nd (to avoid issues with months with different number of days and timezones)
@@ -63,7 +63,7 @@ export default class extends Controller {
     });
   }
 
-  viewDateValueChanged(value, prevValue) {
+  viewDateValueChanged() {
     this.updateCalendar();
   }
 

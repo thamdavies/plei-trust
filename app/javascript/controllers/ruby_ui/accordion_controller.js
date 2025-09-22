@@ -37,7 +37,7 @@ export default class extends Controller {
   }
 
   // Handle changes in the 'open' value
-  openValueChanged(isOpen, wasOpen) {
+  openValueChanged(isOpen) {    
     if (isOpen) {
       this.open();
     } else {

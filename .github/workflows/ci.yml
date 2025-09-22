@@ -34,8 +34,21 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Lint code for consistent style
+      - name: Lint ruby code for consistent style
         run: bin/rubocop -f github
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 24.4.1
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Lint JS code for consistent style
+        run: yarn lint
+
 
   # test:
   #   runs-on: ubuntu-latest

@@ -19,7 +19,7 @@ export default class extends Controller {
       } else {
         alertController.show('Không thể lấy thông tin hình thức lãi', 'alert');
       }
-    } catch (error) {
+    } catch {
       alert('Đã có lỗi xảy ra, vui lòng thử lại sau!');
     }
   }
