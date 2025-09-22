@@ -27,6 +27,7 @@ vi:
   errors:
     messages:
       invalid: "không hợp lệ"
+      record_invalid: "Xác thực thất bại: %{errors}"
   
   invalid_email: "Email không hợp lệ"
   

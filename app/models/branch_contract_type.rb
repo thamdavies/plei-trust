@@ -19,4 +19,6 @@
 #  fk_rails_...  (contract_type_id => contract_types.id)
 #
 class BranchContractType < ApplicationRecord
+  belongs_to :branch
+  belongs_to :contract_type
 end

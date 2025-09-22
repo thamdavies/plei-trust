@@ -15,4 +15,7 @@
 #  ward_id        :integer
 #
 class Branch < ApplicationRecord
+  has_many :branch_contract_types, dependent: :destroy
+  has_many :contract_types, through: :branch_contract_types, source: :contract_type
+  has_many :asset_settings, dependent: :destroy
 end

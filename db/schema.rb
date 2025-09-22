@@ -59,6 +59,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
   end
 
   create_table "asset_settings", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.uuid "branch_id", null: false
     t.string "asset_code"
     t.string "asset_name"
     t.string "status", default: "active"
@@ -76,6 +77,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.float "early_termination_fee"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_asset_settings_on_branch_id"
   end
 
   create_table "branch_contract_types", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
@@ -290,6 +292,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
   add_foreign_key "asset_setting_categories", "contract_types"
   add_foreign_key "asset_setting_values", "asset_setting_attributes"
   add_foreign_key "asset_setting_values", "contracts"
+  add_foreign_key "asset_settings", "branches"
   add_foreign_key "branch_contract_types", "branches"
   add_foreign_key "branch_contract_types", "contract_types"
   add_foreign_key "contract_amount_changes", "contracts"

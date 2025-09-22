@@ -13,4 +13,7 @@ load Rails.root.join('db', 'seeds', 'branch_contract_types.rb')
 # Load users seed
 load Rails.root.join('db', 'seeds', 'users.rb')
 
+# Load asset settings seed
+load Rails.root.join('db', 'seeds', 'asset_settings.rb')
+
 puts "✅ Database seeding completed!"

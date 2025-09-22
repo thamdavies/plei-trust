@@ -20,6 +20,15 @@
 #  status                      :string           default("active")
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
+#  branch_id                   :uuid             not null
+#
+# Indexes
+#
+#  index_asset_settings_on_branch_id  (branch_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (branch_id => branches.id)
 #
 require "test_helper"
 

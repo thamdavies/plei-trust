@@ -13,7 +13,7 @@ class AssetSettingsController < ApplicationController
     run(AssetSetting::Operations::Create::Present) do |result|
       @form = result[:"contract.default"]
       @form.interest_calculation_method = Settings.default_interest_calculation_method
-      @form.asset_setting_categories = ContractType.all.map { |ct| AssetSettingCategory.new(contract_type_id: ct.id) }
+      @form.asset_setting_categories = current_branch.contract_types.all.map { |ct| AssetSettingCategory.new(contract_type_id: ct.id) }
     end
   end
 
@@ -72,7 +72,7 @@ class AssetSettingsController < ApplicationController
         :attribute_name,
         :_destroy
       ]
-    )
+    ).merge(branch_id: current_branch.id)
   end
 
   def update_params
