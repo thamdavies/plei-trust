@@ -47,10 +47,6 @@ class AssetSetting < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  def str_id
-    id.to_s
-  end
-
   class << self
     def ransackable_attributes(auth_object = nil)
       [ "asset_code", "asset_name", "status" ]

@@ -13,6 +13,7 @@ class AssetSettingsController < ApplicationController
     run(AssetSetting::Operations::Create::Present) do |result|
       @form = result[:"contract.default"]
       @form.interest_calculation_method = Settings.default_interest_calculation_method
+      @form.asset_setting_categories = ContractType.all.map { |ct| AssetSettingCategory.new(contract_type_id: ct.id) }
     end
   end
 
@@ -32,7 +33,6 @@ class AssetSettingsController < ApplicationController
     run(AssetSetting::Operations::Update::Present) do |result|
       @form = result[:"contract.default"]
       @form.default_loan_amount = @form.default_loan_amount.to_i * 1000
-      p @form.asset_setting_attributes
     end
   end
 

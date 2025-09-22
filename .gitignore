@@ -7,6 +7,9 @@
 # Ignore all environment files.
 /.env*
 
+# Ignore .idea files (from RubyMine).
+/.idea/*
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*

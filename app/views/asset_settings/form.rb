@@ -193,7 +193,7 @@ class Views::AssetSettings::Form < Views::Base
             h2(class: "text-md mb-2 font-medium text-gray-900 dark:text-white") { "Cấu hình thuộc tính hàng hóa" }
           end
 
-          render partial("asset_settings/asset_setting_attributes", f:)
+          render partial("asset_settings/asset_setting_attributes", f:, form:)
 
           div(class: "mt-4") do
             Button(

@@ -14,8 +14,27 @@ module AssetSetting::Operations
       end
     end
 
-    step Subprocess(Present)
-    step Contract::Validate()
-    step Contract::Persist()
+    step Wrap(AppTransaction) {
+      step Subprocess(Present)
+      step Contract::Validate()
+      step :handle_nested_destroy
+      step Contract::Persist()
+    }
+
+    def handle_nested_destroy(ctx, model:, params:, **)
+      attributes_params = params[:asset_setting_attributes_attributes]
+
+      if attributes_params.present?
+        attributes_params.each do |index, attr_params|
+          if attr_params["_destroy"] == "1" && attr_params["id"].present?
+            # Find and destroy the attribute
+            attribute = model.asset_setting_attributes.find_by(id: attr_params["id"])
+            attribute.destroy if attribute
+          end
+        end
+      end
+
+      true
+    end
   end
 end

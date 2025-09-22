@@ -14,8 +14,10 @@ module AssetSetting::Operations
       end
     end
 
-    step Subprocess(Present)
-    step Contract::Validate()
-    step Contract::Persist()
+    step Wrap(AppTransaction) {
+      step Subprocess(Present)
+      step Contract::Validate()
+      step Contract::Persist()
+    }
   end
 end
