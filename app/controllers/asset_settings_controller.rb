@@ -23,18 +23,34 @@ class AssetSettingsController < ApplicationController
       redirect_to(asset_settings_path)
     else
       @form = ctx[:"contract.default"]
-      render(:new)
     end
   end
 
   def edit
     add_breadcrumb "Chỉnh sửa", :edit_asset_setting_path
+
+    run(AssetSetting::Operations::Update::Present) do |result|
+      @form = result[:"contract.default"]
+      @form.default_loan_amount = @form.default_loan_amount.to_i * 1000
+      p @form.asset_setting_attributes
+    end
+  end
+
+  def update
+    ctx = AssetSetting::Operations::Update.call(params: update_params.to_h)
+    if ctx.success?
+      flash[:notice] = "Cập nhật hàng hóa thành công"
+      redirect_to(asset_settings_path)
+    else
+      @form = ctx[:"contract.default"]
+    end
   end
 
   private
 
   def permit_params
     params.require(:form).permit(
+      :id,
       :asset_name,
       :asset_code,
       :asset_appraisal_fee,
@@ -50,12 +66,16 @@ class AssetSettingsController < ApplicationController
       :interest_calculation_method,
       :collect_interest_in_advance,
       :status,
-      asset_setting_categories: [],
+      asset_setting_categories: [ :contract_type_id ],
       asset_setting_attributes_attributes: [
         :id,
         :attribute_name,
         :_destroy
       ]
     )
+  end
+
+  def update_params
+    permit_params.merge(id: params[:id])
   end
 end

@@ -15,7 +15,9 @@ module AssetSetting::Contracts
     property :management_fee
 
     # Default values and terms
-    property :default_loan_amount
+    property :default_loan_amount, populator: ->(options) {
+      self.default_loan_amount = self.input_params["default_loan_amount"].remove_dot if self.input_params["default_loan_amount"].present?
+    }
     property :default_loan_duration_days
     property :default_interest_rate
     property :liquidation_after_days
@@ -24,14 +26,23 @@ module AssetSetting::Contracts
     property :collect_interest_in_advance
 
     # Others
+    collection :asset_setting_categories, populate_if_empty: AssetSettingCategory do
+      property :contract_type_id
+
+      validation contract: DryContract do
+        params do
+          required(:contract_type_id).filled(:string)
+        end
+      end
+    end
+
     property :status, default: "active"
-    collection :asset_setting_categories, default: []
 
     # Nested properties cho asset_setting_attributes
     collection :asset_setting_attributes, populate_if_empty: AssetSettingAttribute do
       property :id
       property :attribute_name
-      property :_destroy
+      property :_destroy, virtual: true
 
       validation contract: DryContract do
         params do
@@ -41,11 +52,36 @@ module AssetSetting::Contracts
     end
 
     validation contract: DryContract do
+      option :form
+
       params do
         required(:asset_name).filled(:string)
         required(:asset_code).filled(:string)
-        required(:asset_setting_categories).filled(:array)
-        optional(:status).maybe(:string, included_in?: %w[active inactive])
+        required(:interest_calculation_method).filled(:string)
+        required(:default_loan_amount).filled(:string)
+        required(:default_interest_rate).filled(:string)
+        required(:interest_period).filled(:string)
+        required(:liquidation_after_days).filled(:string)
+        required(:default_loan_duration_days).filled(:string)
+        optional(:status).value(:string, included_in?: %w[active inactive])
+      end
+
+      rule(:default_loan_amount) do
+        if value && (value.to_d / 1000) > 100_000_000
+          key.failure("không được vượt quá 100 tỷ đồng")
+        end
+      end
+
+      rule(:asset_code) do
+        if value.present?
+          exclude_id = form.model.id
+          query = AssetSetting.where(asset_code: value)
+          query = query.where.not(id: exclude_id) if exclude_id
+
+          if query.exists?
+            key.failure("đã tồn tại")
+          end
+        end
       end
     end
   end

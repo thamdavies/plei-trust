@@ -9,7 +9,16 @@ vi:
       min_size?: "tối thiểu %{num} ký tự"
       max_size?: "tối đa %{num} ký tự"
       gt?: "lớn hơn %{num}"
+      gteq?: "lớn hơn hoặc bằng %{num}"
+      lt?: "nhỏ hơn %{num}"
       lteq?: "nhỏ hơn hoặc bằng %{num}"
       decimal?: "phải là số thập phân"
       int?: "phải là số nguyên"
       str?: "phải là chuỗi ký tự"
+      array?: "phải là mảng"
+      float?: "phải là số thực"
+      bool?: "phải là giá trị đúng/sai"
+      included_in?: "phải nằm trong danh sách cho phép"
+      rules:
+        asset_setting_categories:
+          min_size?: "phải chọn ít nhất %{num} lĩnh vực"

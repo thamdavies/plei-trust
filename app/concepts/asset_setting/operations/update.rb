@@ -1,7 +1,7 @@
 module AssetSetting::Operations
-  class Create < ApplicationOperation
+  class Update < ApplicationOperation
     class Present < ApplicationOperation
-      step Model(AssetSetting, :new)
+      step Model(AssetSetting, :find)
       step :preprocess_params
       step Contract::Build(constant: AssetSetting::Contracts::Create)
 

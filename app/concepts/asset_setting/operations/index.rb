@@ -7,7 +7,7 @@ module AssetSetting::Operations
     step :sort
 
     def model(ctx, params:, **)
-      ctx[:model] = AssetSetting.order(id: :desc)
+      ctx[:model] = AssetSetting.includes(:contract_types).order(id: :desc)
     end
 
     def filter(ctx, params:, model:, **)

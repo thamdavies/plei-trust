@@ -18,15 +18,22 @@ class Views::AssetSettings::Form < Views::Base
           end
           FormField(class: "max-w-xl") do
             FormFieldLabel { "Lĩnh vực" }
-            render(
-              partial(
-                "shared/form_select",
-                form:, f:,
-                field_name: :asset_setting_categories,
-                collection: ContractType.with_assets.select(:id, :name),
-              )
-            )
-            FormFieldError() { form.errors[:asset_setting_categories].first }
+            select(
+              name: "form[asset_setting_categories][][contract_type_id]",
+              id: "select-asset-categories",
+              multiple: true,
+              placeholder: "Chọn lĩnh vực",
+              data: {
+                controller: "slim-select",
+                'slim-select-target': "select",
+                'slim-select-selected-value': form.asset_setting_categories.map(&:contract_type_id).join(",")
+              }) do
+              ContractType.with_assets.select(:id, :name).all.each do |category|
+                option(value: category.id, selected: form.asset_setting_categories.map(&:contract_type_id).include?(category.id)) { category.name }
+              end
+            end
+
+            FormFieldError() { form.errors[:"asset_setting_categories.contract_type_id"].first }
           end
 
           FormField(class: "max-w-xl") do
@@ -83,7 +90,7 @@ class Views::AssetSettings::Form < Views::Base
             end
 
             div(class: "flex items-center space-x-3 mt-4") do
-              Checkbox(id: "collect_interest_in_advance", name: "form[collect_interest_in_advance]", checked: form.collect_interest_in_advance)
+              Checkbox(id: "collect_interest_in_advance", name: "form[collect_interest_in_advance]", checked: form.collect_interest_in_advance, value: "true")
               label(for: "collect_interest_in_advance", class: "text-sm cursor-pointer font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70") { "Thu lãi trước" }
             end
           end
@@ -95,13 +102,15 @@ class Views::AssetSettings::Form < Views::Base
                 data: { maska_number_locale: "vi", maska_number_unsigned: true },
                 placeholder: "Nhập số tiền cầm",
                 name: "form[default_loan_amount]",
-                value: form.default_loan_amount,
+                value: form.default_loan_amount.to_i,
                 class: "pr-10"
               )
               span(class: "absolute text-sm inset-y-0 right-0 flex items-center pr-3 text-gray-500") { "VNĐ" }
             end
 
-            FormFieldError() { form.errors[:default_loan_amount].first }
+            p(class: "text-sm font-medium text-destructive") do
+              form.errors[:default_loan_amount].first
+            end
           end
 
           FormField(class: "max-w-xl") do
@@ -113,6 +122,7 @@ class Views::AssetSettings::Form < Views::Base
                 name: "form[default_interest_rate]",
                 value: form.default_interest_rate,
                 class: "pr-10",
+                validate: false,
                 data: { controller: "number-input" }
               )
               span(
@@ -127,14 +137,14 @@ class Views::AssetSettings::Form < Views::Base
           div(class: "flex gap-4 items-center") do
             FormField(class: "w-xl") do
               FormFieldLabel { "Kỳ lãi" }
-              Input(
-                type: "number",
-                placeholder: "Nhập kỳ lãi",
-                name: "form[interest_period]",
-                value: form.interest_period,
-                class: "pr-10",
-                data: { controller: "number-input" }
-              )
+                Input(
+                  type: "number",
+                  placeholder: "Nhập kỳ lãi",
+                  name: "form[interest_period]",
+                  value: form.interest_period,
+                  class: "pr-10",
+                  data: { controller: "number-input" }
+                )
 
               FormFieldError() { form.errors[:interest_period].first }
             end
@@ -183,7 +193,18 @@ class Views::AssetSettings::Form < Views::Base
             h2(class: "text-md mb-2 font-medium text-gray-900 dark:text-white") { "Cấu hình thuộc tính hàng hóa" }
           end
 
-          render_nested_attributes_section(f)
+          render partial("asset_settings/asset_setting_attributes", f:)
+
+          div(class: "mt-4") do
+            Button(
+              type: "button",
+              variant: "outline",
+              data: { action: "nested-form#add" }
+            ) do
+              Remix::AddLine(class: "w-4 h-4 mr-2")
+              span { "Thêm thuộc tính" }
+            end
+          end
 
           Button(type: "submit", class: "mt-6") do
             span { form.model.new_record? ? "Tạo hàng hóa" : "Cập nhật hàng hóa" }
@@ -208,74 +229,5 @@ class Views::AssetSettings::Form < Views::Base
 
   def form_method
     form.model.new_record? ? "post" : "patch"
-  end
-
-  def render_nested_attributes_section(f)
-    # Template cho nested items (PHẢI đặt bên ngoài wrapper)
-    tag(:template, data: { nested_form_target: "template" }) do
-      view_context.capture do
-        f.simple_fields_for :asset_setting_attributes, AssetSettingAttribute.new, child_index: "NEW_RECORD" do |attribute_fields|
-          render_attribute_form_item(attribute_fields)
-        end
-      end
-    end
-
-    # Render existing nested items
-    f.simple_fields_for :asset_setting_attributes do |attribute_fields|
-      render_attribute_form_item(attribute_fields)
-    end
-
-    # Target element - new items sẽ được insert trước element này
-    div(data: { nested_form_target: "target" })
-
-    # Button thêm item mới (PHẢI đặt bên ngoài wrapper)
-    div(class: "mt-4") do
-      Button(
-        type: "button",
-        variant: "outline",
-        data: { action: "nested-form#add" }
-      ) do
-        Remix::AddLine(class: "w-4 h-4 mr-2")
-        span { "Thêm thuộc tính" }
-      end
-    end
-  end
-
-  def render_attribute_form_item(attribute_fields)
-    model = if attribute_fields.object.is_a?(Reform::Form)
-              attribute_fields.object.model
-    else
-              attribute_fields.object
-    end
-    div(
-      class: "nested-form-wrapper bg-white",
-      data: { new_record: "#{model.new_record?}" }
-    ) do
-      div(class: "flex gap-2 items-center max-w-xl") do
-        FormField(class: "flex-1") do
-          FormFieldLabel { "Thuộc tính" }
-          Input(
-            placeholder: "Nhập tên thuộc tính",
-            name: attribute_fields.object_name + "[attribute_name]",
-            value: model.attribute_name,
-            class: "flex-1"
-          )
-          FormFieldError() { model.errors[:attribute_name].first }
-        end
-
-        # Remove button
-        Button(
-          type: "button",
-          variant: "ghost",
-          size: "sm",
-          class: "mt-5 text-red-600 hover:bg-red-50 hover:text-red-800 py-3 cursor-pointer",
-          data: { action: "nested-form#remove" }
-        ) do
-          Remix::CloseLine(class: "w-4 h-4")
-        end
-      end
-
-      attribute_fields.hidden_field(:_destroy)
-    end
   end
 end
