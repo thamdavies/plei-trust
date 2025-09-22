@@ -5,7 +5,8 @@ class CustomersController < ApplicationController
     add_breadcrumb "Danh sách", :customers_path
 
     run(Customer::Operations::Index, current_user:, current_branch:) do |result|
-      @pagy, @customers = pagy(result[:model])
+      @pagy, customers = pagy(result[:model])
+      @customers = customers.decorate
       ctx = Customer::Operations::Create::Present.call
       @form = ctx[:"contract.default"]
     end

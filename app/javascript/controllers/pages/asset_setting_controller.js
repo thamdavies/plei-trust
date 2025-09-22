@@ -25,7 +25,7 @@ export default class extends Controller {
   }
 
   setInterestMethodDetails(data) {
-    this.interestUnitTarget.textContent = data.attributes.unit;
+    this.interestUnitTarget.textContent = data.attributes.percent_unit;
     this.interestPeriodUnitTarget.textContent = data.attributes.note;
   }
 }

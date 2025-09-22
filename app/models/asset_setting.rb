@@ -32,6 +32,7 @@
 #
 class AssetSetting < ApplicationRecord
   include LargeNumberFields
+  include AssetSetting::Reader
 
   acts_as_tenant(:branch)
 

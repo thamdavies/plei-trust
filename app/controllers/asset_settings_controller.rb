@@ -4,7 +4,8 @@ class AssetSettingsController < ApplicationController
   def index
     add_breadcrumb "Danh sách", :asset_settings_path
     run(AssetSetting::Operations::Index) do |result|
-      @pagy, @asset_settings = pagy(result[:model])
+      @pagy, asset_settings = pagy(result[:model])
+      @asset_settings = asset_settings.decorate
     end
   end
 

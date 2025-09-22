@@ -6,7 +6,7 @@
   <%= render Views::Customers::FilterForm.new({}) %>
 <% end %>
 
-<%= render Views::Customers::Index.new(customers: @customers, form: @form) %>
+<%= render Views::Customers::Index.new(customers: @customers, form: @form, pagy: @pagy) %>
 
 <% if @pagy.pages > 1 %>
   <div class="flex justify-center py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
