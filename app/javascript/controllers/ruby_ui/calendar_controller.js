@@ -22,7 +22,7 @@ export default class extends Controller {
     },
     format: {
       type: String,
-      default: "yyyy-MM-dd", // Default format
+      default: "dd/MM/yyyy", // Default format
     },
   };
   static outlets = ["ruby-ui--calendar-input"];

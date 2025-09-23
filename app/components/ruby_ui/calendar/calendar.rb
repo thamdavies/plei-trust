@@ -2,7 +2,7 @@
 
 module RubyUI
   class Calendar < Base
-    def initialize(selected_date: nil, input_id: nil, date_format: "yyyy-MM-dd", **attrs)
+    def initialize(selected_date: nil, input_id: nil, date_format: "dd/MM/yyyy", **attrs)
       @selected_date = selected_date
       @input_id = input_id
       @date_format = date_format
