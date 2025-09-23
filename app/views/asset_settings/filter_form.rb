@@ -54,7 +54,7 @@ class Views::AssetSettings::FilterForm < Views::Base
             div(class: "flex items-center gap-4") do
               Remix::ServiceLine(class: "w-6 h-6")
               Select(class: "w-48") do
-                SelectInput(name: "q[asset_setting_categories_contract_type_id_eq]", value: "", id: "select-contract-type")
+                SelectInput(name: "q[asset_setting_categories_contract_type_id_eq]", value: view_context.params.dig(:q, :asset_setting_categories_contract_type_id_eq), id: "select-contract-type")
                 SelectTrigger(variant: :ghost) do
                   SelectValue(
                     placeholder: view_context.select_options_for_contract_types.find { |item| item.id == view_context.params.dig(:q, :asset_setting_categories_contract_type_id_eq) }&.name || "Tất cả lĩnh vực",
