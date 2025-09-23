@@ -54,22 +54,31 @@ class Views::AssetSettings::FilterForm < Views::Base
             div(class: "flex items-center gap-4") do
               Remix::ServiceLine(class: "w-6 h-6")
               Select(class: "w-48") do
-                SelectInput(name: "q[contract_type_id_eq]", value: "", id: "select-contract-type")
+                SelectInput(name: "q[asset_setting_categories_contract_type_id_eq]", value: view_context.params.dig(:q, :asset_setting_categories_contract_type_id_eq), id: "select-contract-type")
                 SelectTrigger(variant: :ghost) do
-                  SelectValue(placeholder: "Tất cả lĩnh vực", id: "select-contract-type")
+                  SelectValue(
+                    placeholder: view_context.select_options_for_contract_types.find { |item| item.id == view_context.params.dig(:q, :asset_setting_categories_contract_type_id_eq) }&.name || "Tất cả lĩnh vực",
+                    id: "select-contract-type"
+                  )
                 end
                 SelectContent(outlet_id: "select-contract-type") do
                   SelectItem(
                     value: "",
                     class: "cursor-pointer",
-                    data: { action: "click->auto-submit#submit" }) do
+                    data: {
+                      action: "click->auto-submit#submit",
+                      ruby_ui__select_item_selected_value: view_context.params.dig(:q, :asset_setting_categories_contract_type_id_eq)
+                    }) do
                     "Tất cả lĩnh vực"
                   end
-                  ContractType.all.select(:id, :name).each do |contract_type|
+                  view_context.select_options_for_contract_types.each do |contract_type|
                     SelectItem(
-                      value: contract_type.id.to_s,
+                      value: contract_type.id,
                       class: "cursor-pointer",
-                      data: { action: "click->auto-submit#submit" }) do
+                      data: {
+                        action: "click->auto-submit#submit",
+                        ruby_ui__select_item_selected_value: view_context.params.dig(:q, :asset_setting_categories_contract_type_id_eq)
+                      }) do
                       contract_type.name
                     end
                   end

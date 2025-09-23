@@ -38,7 +38,10 @@ class Components::Navigation < Components::Base
                     SelectItem(
                       value: branch.id.to_s,
                       class: "cursor-pointer",
-                      data: { action: "click->auto-submit#submit" }) do
+                      data: {
+                        action: "click->auto-submit#submit",
+                        ruby_ui__select_item_selected_value: view_context.current_branch.id.to_s
+                      }) do
                       branch.name
                     end
                   end

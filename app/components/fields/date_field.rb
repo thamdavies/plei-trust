@@ -18,6 +18,7 @@ class Components::Fields::DateField < Components::Base
                 name: @name,
                 class: "rounded-md border shadow", id: @id,
                 placeholder: "Chọn ngày",
+                autocomplete: "off",
                 value: @value.present? ? @value.to_date.to_fs(:date_vn) : "",
                 data_controller: "ruby-ui--calendar-input",
                 pattern: "\\d{2}/\\d{2}/\\d{4}", data_pattern_mismatch: "ngày không hợp lệ"
@@ -25,7 +26,7 @@ class Components::Fields::DateField < Components::Base
             end
           end
           PopoverContent do
-            Calendar(input_id: "##{@id}", date_format: "dd/MM/yyyy")
+            Calendar(input_id: "##{@id}")
           end
         end
       end

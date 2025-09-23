@@ -21,4 +21,14 @@
 class AssetSettingCategory < ApplicationRecord
   belongs_to :asset_setting
   belongs_to :contract_type
+
+  class << self
+    def ransackable_attributes(auth_object = nil)
+      [ "contract_type_id" ]
+    end
+
+    def ransackable_associations(auth_object = nil)
+     []
+    end
+  end
 end

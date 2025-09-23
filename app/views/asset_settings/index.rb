@@ -7,7 +7,7 @@ class Views::AssetSettings::Index < Views::Base
   def view_template
     div(class: "p-2 bg-white") do
       Table do
-        TableCaption { "Danh sách hàng hóa sẽ được hiển thị ở đây" } if @asset_settings.empty?
+        TableCaption(class: "mb-3") { "Danh sách hàng hóa sẽ được hiển thị ở đây" } if @asset_settings.empty?
         TableHeader do
           TableRow do
             TableHead { "STT" }
@@ -31,13 +31,7 @@ class Views::AssetSettings::Index < Views::Base
               TableCell(class: "font-medium") { asset_setting.default_loan_amount_formatted }
               TableCell(class: "font-medium") { asset_setting.fm_interest_rate }
               TableCell(class: "font-medium") { asset_setting.fm_interest_period }
-              TableCell(class: "font-medium") do
-                if asset_setting.status == "active"
-                  Badge(variant: :success) { "Hoạt động" }
-                else
-                  Badge(variant: :destructive) { "Đã khoá" }
-                end
-              end
+              TableCell(class: "font-medium") { asset_setting.status_badge }
               TableCell(class: "font-medium") do
                 div(class: "flex space-x-2") do
                   a(href: edit_asset_setting_path(asset_setting.id), class: "") do

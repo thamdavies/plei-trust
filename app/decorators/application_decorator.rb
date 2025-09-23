@@ -13,4 +13,12 @@ class ApplicationDecorator < Draper::Decorator
   def fm_created_time
     created_at.to_fs(:date_time_vn)
   end
+
+  def status_badge
+    if status == "active"
+      RubyUI::Badge(variant: :success) { "Hoạt động" }
+    else
+      RubyUI::Badge(variant: :destructive) { "Đã khoá" }
+    end
+  end
 end

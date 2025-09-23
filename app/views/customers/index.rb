@@ -10,7 +10,7 @@ class Views::Customers::Index < Views::Base
 
     div(class: "p-2 bg-white") do
       Table do
-        TableCaption { "Danh sách khách hàng sẽ được hiển thị ở đây" } if @customers.empty?
+        TableCaption(class: "mb-3") { "Danh sách khách hàng sẽ được hiển thị ở đây" } if @customers.empty?
         TableHeader do
           TableRow do
             TableHead { "STT" }
@@ -32,13 +32,7 @@ class Views::Customers::Index < Views::Base
               TableCell(class: "font-medium") { customer.phone }
               TableCell(class: "font-medium") { customer.national_id }
               TableCell(class: "font-medium") { customer.fm_created_date }
-              TableCell(class: "font-medium") do
-                if customer.status == "active"
-                  Badge(variant: :success) { "Hoạt động" }
-                else
-                  Badge(variant: :destructive) { "Đã khoá" }
-                end
-              end
+              TableCell(class: "font-medium") { customer.status_badge }
               TableCell(class: "font-medium") do
                 div(class: "flex space-x-2") do
                   Remix::EditBoxLine(
