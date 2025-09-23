@@ -66,7 +66,7 @@ class AssetSetting < ApplicationRecord
     end
 
     def ransackable_associations(auth_object = nil)
-      []
+     [ "asset_setting_categories" ]
     end
   end
 end

@@ -7,7 +7,7 @@ class Views::AssetSettings::Index < Views::Base
   def view_template
     div(class: "p-2 bg-white") do
       Table do
-        TableCaption { "Danh sách hàng hóa sẽ được hiển thị ở đây" } if @asset_settings.empty?
+        TableCaption(class: "mb-3") { "Danh sách hàng hóa sẽ được hiển thị ở đây" } if @asset_settings.empty?
         TableHeader do
           TableRow do
             TableHead { "STT" }
