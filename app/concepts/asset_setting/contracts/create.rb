@@ -70,6 +70,10 @@ module AssetSetting::Contracts
         if value && (value.to_d / 1000) > 100_000_000
           key.failure("không được vượt quá 100 tỷ đồng")
         end
+
+        if value.present? && (value.to_d / 1000) < 1
+          key.failure("phải lớn hơn hoặc bằng 1.000")
+        end
       end
 
       rule(:asset_code) do

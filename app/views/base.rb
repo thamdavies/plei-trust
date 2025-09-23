@@ -5,4 +5,8 @@ class Views::Base < Components::Base
   def form_authenticity_token
     view_context.form_authenticity_token
   end
+
+  def form_method
+    form.model.new_record? ? :post : :patch
+  end
 end

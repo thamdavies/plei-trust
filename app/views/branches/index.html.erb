@@ -1,0 +1,15 @@
+<%= turbo_page_requires_reload %>
+<%= content_for :title, "Quản lý chi nhánh" %>
+<%= content_for :subtitle, "Danh sách chi nhánh" %>
+
+<%= content_for :page_header_actions do %>
+  <%= render Views::Branches::FilterForm.new({}) %>
+<% end %>
+
+<%= render Views::Branches::Index.new(branches: @branches, form: @form, pagy: @pagy) %>
+
+<% if @pagy.pages > 1 %>
+  <div class="flex justify-center py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <%== pagy_nav(@pagy) %>
+  </div>
+<% end %>

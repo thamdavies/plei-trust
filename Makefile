@@ -9,3 +9,8 @@ dev:
 
 db:
 	docker compose up -d
+
+db-reset:
+	docker compose down -v
+	docker compose up -d
+	bin/rails db:create db:migrate db:seed

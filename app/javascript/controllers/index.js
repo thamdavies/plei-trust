@@ -4,30 +4,18 @@
 
 import { application } from "./application"
 
-// App controllers
 import AppController from "./app_controller"
 application.register("app", AppController)
-
-import ResourceController from "./resource_controller"
-application.register("resource", ResourceController)
 
 import NumberInputController from "./number_input_controller"
 application.register("number-input", NumberInputController)
 
-import SlimSelectController from "./slim_select_controller"
-application.register("slim-select", SlimSelectController)
+import Pages__AssetSettingController from "./pages/asset_setting_controller"
+application.register("pages--asset-setting", Pages__AssetSettingController)
 
-// 3rd party controllers
-import RailsNestedForm from '@stimulus-components/rails-nested-form'
-application.register("nested-form", RailsNestedForm)
+import ResourceController from "./resource_controller"
+application.register("resource", ResourceController)
 
-import Notification from "@stimulus-components/notification"
-application.register("notification", Notification)
-
-import AutoSubmit from "@stimulus-components/auto-submit"
-application.register("auto-submit", AutoSubmit)
-
-// Ruby UI controllers
 import RubyUi__AccordionController from "./ruby_ui/accordion_controller"
 application.register("ruby-ui--accordion", RubyUi__AccordionController)
 
@@ -64,6 +52,8 @@ application.register("ruby-ui--select-item", RubyUi__SelectItemController)
 import RubyUi__ThemeToggleController from "./ruby_ui/theme_toggle_controller"
 application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
 
-// Page controllers
-import AssetSettingController from "./pages/asset_setting_controller"
-application.register("page--asset-setting", AssetSettingController)
+import RubyUi__TooltipController from "./ruby_ui/tooltip_controller"
+application.register("ruby-ui--tooltip", RubyUi__TooltipController)
+
+import SlimSelectController from "./slim_select_controller"
+application.register("slim-select", SlimSelectController)

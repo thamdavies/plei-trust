@@ -47,7 +47,6 @@ class Views::Customers::Form < Views::Base
         render Components::Fields::DateField.new(
           name: "form[national_id_issued_date]",
           label: "Ngày cấp", id: "issue_date", error: form.errors[:national_id_issued_date].first,
-          name: "form[national_id_issued_date]",
           value: form.national_id_issued_date
         )
 
@@ -96,9 +95,5 @@ class Views::Customers::Form < Views::Base
     else
       customer_path(form.model)
     end
-  end
-
-  def form_method
-    form.model.new_record? ? :post : :patch
   end
 end

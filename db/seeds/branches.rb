@@ -31,10 +31,10 @@ branches_gia_lai = [
     name: "Chi nhánh Pleiku",
     province_id: gia_lai_province.id,
     ward_id: pleiku_wards.first&.id,
-    address: "123 Đường Lê Duẩn, Thành phố Pleiku, Gia Lai",
+    address: "123 Đường Lê Duẩn",
     phone: "0269.3123.456",
     representative: "Nguyễn Văn An",
-    invest_amount: 5_000_000_000.00,
+    invest_amount: 3_000_000_000.00,
     status: "active"
   }
 ]
@@ -47,10 +47,10 @@ branches_da_nang = [
     name: "Chi nhánh Hải Châu",
     province_id: da_nang_province.id,
     ward_id: da_nang_wards.first&.id,
-    address: "123 Đường Trần Phú, Quận Hải Châu, Đà Nẵng",
+    address: "123 Đường Trần Phú",
     phone: "0236.3111.222",
     representative: "Phạm Văn Dũng",
-    invest_amount: 8_000_000_000.00,
+    invest_amount: 5_000_000_000.00,
     status: "active"
   }
 ]

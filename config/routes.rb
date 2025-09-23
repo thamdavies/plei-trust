@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   resources :customers
   resources :asset_settings
+  resources :branches
   resources :interest_calculation_methods, only: [ :show ]
   resources :alerts, only: [ :create ]
   resource :current_tenant, only: [ :update ], controller: "current_tenant"
