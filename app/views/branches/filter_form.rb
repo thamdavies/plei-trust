@@ -1,4 +1,4 @@
-class Views::Customers::FilterForm < Views::Base
+class Views::Branches::FilterForm < Views::Base
   def initialize(filter_form)
     @filter_form = filter_form
   end
@@ -7,7 +7,7 @@ class Views::Customers::FilterForm < Views::Base
     div(class: "flex justify-between w-full") do
       div(class: "w-full") do
         div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700") do
-          Form(action: customers_path, method: "GET", class: "sm:pr-3 space-y-6", data: { controller: "auto-submit" }) do |f|
+          Form(action: branches_path, method: "GET", class: "sm:pr-3 space-y-6", data: { controller: "auto-submit" }) do |f|
             div(class: "flex items-center gap-4") do
               Remix::MenuSearchLine(class: "w-6 h-6")
               div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700") do
@@ -46,9 +46,9 @@ class Views::Customers::FilterForm < Views::Base
               end
               FormField(class: "relative w-48 mt-1 sm:w-64 xl:w-96") do
                 SearchInput(
-                  name: "q[phone_or_full_name_or_national_id_cont]",
-                  placeholder: I18n.t("placeholders.search_customers"),
-                  value: view_context.params.dig(:q, :phone_or_full_name_or_national_id_cont)
+                  name: "q[phone_or_name_or_representative_cont]",
+                  placeholder: "Tìm kiếm tên chi nhánh, số điện thoại...",
+                  value: view_context.params.dig(:q, :phone_or_name_or_representative_cont)
                 )
               end
 
@@ -59,7 +59,7 @@ class Views::Customers::FilterForm < Views::Base
       end
 
       div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700",
-        data: { controller: "resource", resource_path_value: new_customer_path, resource_dialogbutton_value: "customer-dialog-trigger" }) do
+        data: { controller: "resource", resource_path_value: new_branch_path, resource_dialogbutton_value: "branch-dialog-trigger" }) do
         Button(class: "cursor-pointer", data: { action: "click->resource#triggerDialog" }) { I18n.t("button.new") }
       end
     end

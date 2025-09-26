@@ -64,6 +64,12 @@ application.register("ruby-ui--select-item", RubyUi__SelectItemController)
 import RubyUi__ThemeToggleController from "./ruby_ui/theme_toggle_controller"
 application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
 
+import RubyUi__TooltipController from "./ruby_ui/tooltip_controller"
+application.register("ruby-ui--tooltip", RubyUi__TooltipController)
+
 // Page controllers
 import AssetSettingController from "./pages/asset_setting_controller"
 application.register("page--asset-setting", AssetSettingController)
+
+import BranchController from "./pages/branch_controller"
+application.register("page--branch", BranchController)

@@ -16,7 +16,7 @@ module AssetSetting::Contracts
 
     # Default values and terms
     property :default_loan_amount, populator: ->(options) {
-      self.default_loan_amount = self.input_params["default_loan_amount"].remove_dot if self.input_params["default_loan_amount"].present?
+      self.default_loan_amount = self.input_params["default_loan_amount"].remove_dots if self.input_params["default_loan_amount"].present?
     }
     property :default_loan_duration_days
     property :default_interest_rate
@@ -69,6 +69,10 @@ module AssetSetting::Contracts
       rule(:default_loan_amount) do
         if value && (value.to_d / 1000) > 100_000_000
           key.failure("không được vượt quá 100 tỷ đồng")
+        end
+
+        if value.present? && (value.to_d / 1000) < 1
+          key.failure("phải lớn hơn hoặc bằng 1.000")
         end
       end
 

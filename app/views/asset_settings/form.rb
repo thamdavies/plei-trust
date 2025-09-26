@@ -226,8 +226,4 @@ class Views::AssetSettings::Form < Views::Base
   def form_url
     form.model.new_record? ? asset_settings_path : asset_setting_path(form.model)
   end
-
-  def form_method
-    form.model.new_record? ? "post" : "patch"
-  end
 end

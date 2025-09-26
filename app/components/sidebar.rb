@@ -70,7 +70,7 @@ class Components::Sidebar < Components::Base
 
                 ul(id: "dropdown-branches", class: "py-2 space-y-2 #{view_context.active_paths_class([ asset_settings_path ])}") do
                   li do
-                    Link(href: "/", variant: :sidebar_item) do
+                    Link(href: branches_path, variant: :sidebar_item, class: view_context.active_link_class(branches_path, active: [ [ "branches" ], [ "edit", "new", "index" ] ])) do
                       span(class: "text-left whitespace-nowrap") { "Danh sách chi nhánh" }
                     end
                   end

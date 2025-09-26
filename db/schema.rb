@@ -91,8 +91,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
 
   create_table "branches", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.string "name"
-    t.integer "province_id"
-    t.integer "ward_id"
+    t.string "province_id"
+    t.string "ward_id"
     t.string "address"
     t.string "phone"
     t.string "representative"
@@ -100,6 +100,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.string "status", default: "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["province_id"], name: "index_branches_on_province_id"
+    t.index ["ward_id"], name: "index_branches_on_ward_id"
   end
 
   create_table "contract_amount_changes", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
@@ -295,6 +297,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
   add_foreign_key "asset_settings", "branches"
   add_foreign_key "branch_contract_types", "branches"
   add_foreign_key "branch_contract_types", "contract_types"
+  add_foreign_key "branches", "provinces", primary_key: "code"
+  add_foreign_key "branches", "wards", primary_key: "code"
   add_foreign_key "contract_amount_changes", "contracts"
   add_foreign_key "contract_amount_changes", "users", column: "processed_by_id"
   add_foreign_key "contract_extensions", "contracts"
