@@ -26,7 +26,7 @@ module LargeNumberFields
 
         if new_value.is_a?(String)
           # Nếu là string từ form, clean và chia
-          clean_value = new_value.to_s.remove_dot.to_d
+          clean_value = new_value.remove_dots.to_d
           super(clean_value / divisor)
         else
           # Nếu là số từ code, chia luôn

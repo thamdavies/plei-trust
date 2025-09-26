@@ -16,7 +16,7 @@ module AssetSetting::Contracts
 
     # Default values and terms
     property :default_loan_amount, populator: ->(options) {
-      self.default_loan_amount = self.input_params["default_loan_amount"].remove_dot if self.input_params["default_loan_amount"].present?
+      self.default_loan_amount = self.input_params["default_loan_amount"].remove_dots if self.input_params["default_loan_amount"].present?
     }
     property :default_loan_duration_days
     property :default_interest_rate

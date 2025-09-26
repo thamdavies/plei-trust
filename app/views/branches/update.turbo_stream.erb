@@ -1,6 +1,6 @@
 <% if @form.present? %>
   <%= turbo_stream.update "branch_form" do %>
-    <%= render Views::Branches::Form.new(form: @form) %>
+    <%= render Views::Branches::Form.new(form: @form, wards: @wards) %>
   <% end %>
 <% else %>
   <%= turbo_stream.update "toast-notification" do %>

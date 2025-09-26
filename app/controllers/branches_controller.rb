@@ -18,13 +18,6 @@ class BranchesController < ApplicationController
     end
   end
 
-  def edit
-    run(Branch::Operations::Update::Present) do |result|
-      @form = result[:"contract.default"]
-      @form.invest_amount = @form.invest_amount.to_i * 1000
-    end
-  end
-
   def create
     ctx = Branch::Operations::Create.call(params: permit_params.to_h)
     if ctx.success?
@@ -32,6 +25,15 @@ class BranchesController < ApplicationController
       redirect_to branches_path
     else
       @form = ctx[:"contract.default"]
+      @wards = Ward.select(:code, :name).where(province_code: @form.province_id)
+    end
+  end
+
+  def edit
+    run(Branch::Operations::Update::Present) do |result|
+      @form = result[:"contract.default"]
+      @form.invest_amount = @form.invest_amount.to_i * 1000
+      @wards = Ward.select(:code, :name).where(province_code: @form.province_id)
     end
   end
 
@@ -42,6 +44,7 @@ class BranchesController < ApplicationController
       redirect_to branches_path
     else
       @form = ctx[:"contract.default"]
+      @wards = Ward.select(:code, :name).where(province_code: @form.province_id)
     end
   end
 

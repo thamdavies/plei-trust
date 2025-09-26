@@ -1,6 +1,7 @@
 class Views::Branches::Form < Views::Base
-  def initialize(form:, url: nil, method: :post)
+  def initialize(form:, wards: [])
     @form = form
+    @wards = wards
   end
 
   def view_template
@@ -44,7 +45,15 @@ class Views::Branches::Form < Views::Base
                 ComboboxListGroup(label: "Danh sách tỉnh thành") do
                   Province.all.each do |province|
                     ComboboxItem do
-                      ComboboxRadio(name: "form[province_id]", value: province.code, checked: province.code == form.province_id)
+                      ComboboxRadio(
+                        name: "form[province_id]",
+                        value: province.code,
+                        checked: province.code == form.province_id,
+                        data: {
+                          controller: "page--branch",
+                          action: "change->page--branch#fetchWards"
+                        }
+                      )
                       span { province.name }
                     end
                   end
@@ -57,26 +66,7 @@ class Views::Branches::Form < Views::Base
 
         div class: "max-w-xl" do
           FormFieldLabel { "Quận/Huyện" }
-          Combobox do
-            ComboboxTrigger placeholder: "Chọn quận huyện"
-
-            ComboboxPopover do
-              ComboboxSearchInput(placeholder: "Chọn quận huyện hoặc nhập tên")
-
-              ComboboxList do
-                ComboboxEmptyState { "Không tìm thấy" }
-
-                ComboboxListGroup(label: "Danh sách quận huyện") do
-                  Ward.limit(10).each do |ward|
-                    ComboboxItem do
-                      ComboboxRadio(name: "form[ward_id]", value: ward.code, checked: ward.code == form.ward_id)
-                      span { ward.name }
-                    end
-                  end
-                end
-              end
-            end
-          end
+          render Views::Branches::Wards.new(wards: @wards || [], current_ward_id: form.ward_id)
           FormFieldError() { form.errors[:ward_id].first }
         end
 
@@ -135,7 +125,7 @@ class Views::Branches::Form < Views::Base
 
   private
 
-  attr_reader :form
+  attr_reader :form, :wards
 
   def form_url
     form.model.new_record? ? branches_path : branch_path(form.model)

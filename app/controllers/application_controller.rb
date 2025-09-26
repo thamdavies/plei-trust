@@ -21,6 +21,12 @@ class ApplicationController < ActionController::Base
       current_user.branch
     end
 
+    if @current_branch.inactive?
+      sign_out
+      redirect_to sign_in_path, alert: "Chi nhánh hiện tại đã bị vô hiệu hóa. Vui lòng liên hệ quản trị viên để biết thêm chi tiết."
+      return
+    end
+
     set_current_tenant(@current_branch)
   end
 

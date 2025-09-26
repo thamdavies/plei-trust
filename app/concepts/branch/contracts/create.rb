@@ -2,7 +2,6 @@
 
 module Branch::Contracts
   class Create < ApplicationContract
-    property :id
     property :name
     property :phone
     property :province_id, default: ""
@@ -10,11 +9,13 @@ module Branch::Contracts
     property :representative
     property :address
     property :invest_amount, populator: ->(options) {
-      self.invest_amount = self.input_params["invest_amount"].remove_dot if self.input_params["invest_amount"].present?
+      self.invest_amount = self.input_params["invest_amount"].remove_dots if self.input_params["invest_amount"].present?
     }
     property :status, default: "active"
 
     validation contract: DryContract do
+      option :form
+
       params do
         required(:name).value(:filled?, max_size?: 255)
         required(:phone).value(:filled?, max_size?: 50)
@@ -25,6 +26,14 @@ module Branch::Contracts
 
         optional(:representative).value(max_size?: 255)
         optional(:address).value(max_size?: 255)
+      end
+
+      rule(:ward_id) do
+        if value.present? && form.province_id.present?
+          unless Ward.where(code: value, province_code: form.province_id).exists?
+            key.failure("không hợp lệ")
+          end
+        end
       end
 
       rule(:phone) do

@@ -1,0 +1,3 @@
+<%= turbo_stream.update "ward_list" do %>
+  <%= render Views::Branches::Wards.new(wards: @wards, current_ward_id: nil) %>
+<% end %>

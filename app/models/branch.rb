@@ -53,6 +53,6 @@ class Branch < ApplicationRecord
   private
 
   def format_phone
-    self.phone = phone.remove_dot.gsub(" ", "") if phone.present?
+    self.phone = phone.remove_dots_and_spaces if phone.present?
   end
 end
