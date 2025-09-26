@@ -91,7 +91,7 @@ gem "breadcrumbs_on_rails", "~> 4.1"
 
 gem "phonelib", "~> 0.10.12"
 
-gem "ransack", "~> 4.3"
+gem "ransack", "~> 4.4"
 
 gem "acts_as_tenant", "~> 1.0"
 
