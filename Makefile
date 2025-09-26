@@ -1,5 +1,6 @@
 lint:
 	bundle exec rubocop $(ARGS)
+	yarn lint
 
 watch:
 	foreman start -f Procfile.dev
