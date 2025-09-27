@@ -28,6 +28,7 @@
 class User < ApplicationRecord
   include Clearance::User
   include User::Reader
+  include User::Writer
 
   belongs_to :branch
 

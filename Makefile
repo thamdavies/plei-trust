@@ -14,4 +14,5 @@ db:
 db-reset:
 	docker compose down -v
 	docker compose up -d
+	rm -rf db/schema.rb
 	bin/rails db:create db:migrate db:seed

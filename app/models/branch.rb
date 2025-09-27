@@ -32,9 +32,12 @@ class Branch < ApplicationRecord
   belongs_to :province, optional: true, foreign_key: :province_id, primary_key: :code
   belongs_to :ward, optional: true, foreign_key: :ward_id, primary_key: :code
 
+  has_one :seed_capital_customer, -> { where(is_seed_capital: true) }, class_name: Customer.name, foreign_key: :branch_id, primary_key: :id
+
   has_many :branch_contract_types, dependent: :destroy
   has_many :contract_types, through: :branch_contract_types, source: :contract_type
   has_many :asset_settings, dependent: :destroy
+  has_many :customers, dependent: :destroy
 
   enum :status, { active: "active", inactive: "inactive" }
 
