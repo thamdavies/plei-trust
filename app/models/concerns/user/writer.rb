@@ -1,8 +1,8 @@
 module User::Writer
   extend ActiveSupport::Concern
 
-  def create_seed_capital_account(branch:)
-    return if branch.seed_capital_account.present?
+  def create_seed_capital_customer(branch:)
+    return branch.seed_capital_customer if branch.seed_capital_customer.present?
 
     Customer.create!(
       full_name: "Vốn khởi tạo",

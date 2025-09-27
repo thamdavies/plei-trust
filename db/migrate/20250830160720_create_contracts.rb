@@ -23,7 +23,6 @@ class CreateContracts < ActiveRecord::Migration[8.0]
       t.integer :contract_term_days
       t.integer :payment_frequency_days
 
-      # Ngày quan trọng
       t.date :contract_date
 
       # Trạng thái và cài đặt

@@ -41,4 +41,16 @@
 #  fk_rails_...  (customer_id => customers.id)
 #
 class Contract < ApplicationRecord
+  include AutoCodeGenerator
+
+  acts_as_tenant(:branch)
+
+  belongs_to :customer
+  belongs_to :branch
+  belongs_to :contract_type
+  belongs_to :asset_setting, optional: true
+  belongs_to :cashier, class_name: User.name, foreign_key: :cashier_id
+  belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id
+
+  auto_code_config(prefix: "HD", field: :code)
 end

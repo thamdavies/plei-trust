@@ -19,7 +19,7 @@ class BranchesController < ApplicationController
   end
 
   def create
-    ctx = Branch::Operations::Create.call(params: permit_params.to_h)
+    ctx = Branch::Operations::Create.call(params: permit_params.to_h, current_user:)
     if ctx.success?
       flash[:notice] = "Chi nhánh đã được thêm"
       redirect_to branches_path
@@ -38,7 +38,7 @@ class BranchesController < ApplicationController
   end
 
   def update
-    ctx = Branch::Operations::Update.call(params: update_params.to_h)
+    ctx = Branch::Operations::Update.call(params: update_params.to_h, current_user:)
     if ctx.success?
       flash[:notice] = "Chi nhánh đã được cập nhật"
       redirect_to branches_path
