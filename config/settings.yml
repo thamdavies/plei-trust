@@ -10,7 +10,6 @@ interest_calculation_methods:
     categories:
       - "pawn"
       - "credit"
-      - "capital"
   - name: "Lãi tuần (%/tuần)"
     code: "weekly_interest"
     note: "(VD: 1 tuần đóng lãi 1 lần thì điền số 1)"
@@ -19,7 +18,6 @@ interest_calculation_methods:
     categories:
       - "pawn"
       - "credit"
-      - "capital"
   - name: "Lãi tháng (%/tháng)"
     code: "monthly_interest"
     note: "(VD: 1 tháng đóng lãi 1 lần thì điền số 1)"
@@ -28,7 +26,6 @@ interest_calculation_methods:
     categories:
       - "pawn"
       - "credit"
-      - "capital"
   - name: "Vốn đầu tư (không lãi)"
     code: "investment_capital"
     categories:

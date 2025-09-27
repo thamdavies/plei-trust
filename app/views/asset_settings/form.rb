@@ -82,7 +82,7 @@ class Views::AssetSettings::Form < Views::Base
                   'slim-select-selected-value': form.interest_calculation_method,
                   action: "change->page--asset-setting#handleInterestMethodChange"
                 }) do
-                InterestCalculationMethod.all.each do |interest_method|
+                view_context.select_options_for_interest_types(exclude: "capital").each do |interest_method|
                   option(value: interest_method.code, selected: interest_method.code == form.interest_calculation_method) { interest_method.name }
                 end
               end
