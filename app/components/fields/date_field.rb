@@ -1,14 +1,16 @@
 class Components::Fields::DateField < Components::Base
-  def initialize(label:, value: nil, name: "form[:date_field]", id: "date_field", error: nil)
+  def initialize(label:, value: nil, name: "form[:date_field]", id: "date_field", error: nil, **opts)
     @label = label
     @name = name
     @id = id
     @error = error
     @value = value
+    @placeholder = opts[:placeholder]
+    @wrapper_class = opts[:wrapper_class] || ""
   end
 
   def view_template
-    FormField do
+    FormField(class: @wrapper_class) do
       FormFieldLabel { @label }
       div(class: "space-y-4 mb-0 w-full") do
         Popover(options: { trigger: "click" }) do
@@ -17,7 +19,7 @@ class Components::Fields::DateField < Components::Base
               Input(
                 name: @name,
                 class: "rounded-md border shadow", id: @id,
-                placeholder: "Chọn ngày",
+                placeholder: @placeholder || "dd/mm/yyyy",
                 autocomplete: "off",
                 value: @value.present? ? @value.to_date.to_fs(:date_vn) : "",
                 data_controller: "ruby-ui--calendar-input",

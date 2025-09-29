@@ -18,6 +18,7 @@ class CreateContracts < ActiveRecord::Migration[8.0]
       # Cấu hình lãi suất
       t.string :interest_calculation_method
       t.decimal :interest_rate, precision: 8, scale: 5
+      t.boolean :collect_interest_in_advance, default: false
 
       # Điều khoản thời hạn
       t.integer :contract_term_days

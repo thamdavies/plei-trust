@@ -183,6 +183,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.decimal "loan_amount", precision: 15, scale: 2
     t.string "interest_calculation_method"
     t.decimal "interest_rate", precision: 8, scale: 5
+    t.boolean "collect_interest_in_advance", default: false
     t.integer "contract_term_days"
     t.integer "payment_frequency_days"
     t.date "contract_date"

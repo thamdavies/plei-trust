@@ -8,6 +8,6 @@ contract_types:
   - name: "Trả Góp"
     code: "installment"
     description: "Dịch vụ cho vay trả góp"
-  - name: "Vốn"
+  - name: "Vốn đầu tư"
     code: "capital"
     description: "Cho vay vốn kinh doanh"

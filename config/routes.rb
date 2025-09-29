@@ -24,4 +24,14 @@ Rails.application.routes.draw do
 
   resources :alerts, only: [ :create ]
   resource :current_tenant, only: [ :update ], controller: "current_tenant"
+
+  # For contracts management
+  namespace :contracts do
+    resources :capitals
+  end
+
+  # For automplete search
+  namespace :autocomplete do
+    resources :customers, only: [ :index ]
+  end
 end

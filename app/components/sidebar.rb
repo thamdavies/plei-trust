@@ -81,6 +81,13 @@ class Components::Sidebar < Components::Base
                   end
                 end
               end
+
+              li do
+                Link(href: contracts_capitals_path, variant: :sidebar, class: view_context.active_link_class(contracts_capitals_path)) do
+                  Remix::Wallet2Line(class: "w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
+                  span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Quản lý nguồn vốn" }
+                end
+              end
             end
             # ...existing code for sidebar bottom menu and other sections...
           end

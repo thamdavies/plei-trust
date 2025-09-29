@@ -5,6 +5,7 @@
 #  id                          :uuid             not null, primary key
 #  asset_name                  :string
 #  code                        :string
+#  collect_interest_in_advance :boolean          default(FALSE)
 #  contract_date               :date
 #  contract_term_days          :integer
 #  interest_calculation_method :string
@@ -42,6 +43,7 @@
 #
 class Contract < ApplicationRecord
   include AutoCodeGenerator
+  include LargeNumberFields
 
   acts_as_tenant(:branch)
 
@@ -53,4 +55,25 @@ class Contract < ApplicationRecord
   belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id
 
   auto_code_config(prefix: "HD", field: :code)
+  large_number_field :loan_amount
+
+  scope :capital_contracts, -> { where(contract_type: { code: :capital }) }
+
+  accepts_nested_attributes_for :customer,
+                                allow_destroy: false,
+                                reject_if: :all_blank
+
+  ransacker :created_at do
+    Arel.sql("contracts.created_at::date")
+  end
+
+  class << self
+    def ransackable_attributes(auth_object = nil)
+      %w[created_at]
+    end
+
+    def ransackable_associations(auth_object = nil)
+      %w[ customer ]
+    end
+  end
 end
