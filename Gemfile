@@ -104,3 +104,5 @@ gem "active_link_to", "~> 1.0"
 gem "active_hash", "~> 4.0"
 
 gem "draper", "~> 4.0"
+
+gem "jsonapi-serializer", "~> 2.2"

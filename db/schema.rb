@@ -183,6 +183,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.decimal "loan_amount", precision: 15, scale: 2
     t.string "interest_calculation_method"
     t.decimal "interest_rate", precision: 8, scale: 5
+    t.boolean "collect_interest_in_advance", default: false
     t.integer "contract_term_days"
     t.integer "payment_frequency_days"
     t.date "contract_date"
@@ -199,8 +200,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
   end
 
   create_table "customers", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.string "customer_code"
-    t.string "full_name"
+    t.string "customer_code", null: false
+    t.string "full_name", null: false
     t.string "phone"
     t.string "national_id"
     t.date "national_id_issued_date"
@@ -208,6 +209,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.string "address"
     t.uuid "created_by_id", null: false
     t.uuid "branch_id", null: false
+    t.boolean "is_seed_capital", default: false
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

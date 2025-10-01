@@ -26,3 +26,7 @@ interest_calculation_methods:
     categories:
       - "pawn"
       - "credit"
+  - name: "Vốn đầu tư (không lãi)"
+    code: "investment_capital"
+    categories:
+      - "capital"

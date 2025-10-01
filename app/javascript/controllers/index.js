@@ -27,6 +27,10 @@ application.register("notification", Notification)
 import AutoSubmit from "@stimulus-components/auto-submit"
 application.register("auto-submit", AutoSubmit)
 
+import { Autocomplete } from "stimulus-autocomplete"
+// import Autocomplete from "./autocomplete_controller"
+application.register("autocomplete", Autocomplete)
+
 // Ruby UI controllers
 import RubyUi__AccordionController from "./ruby_ui/accordion_controller"
 application.register("ruby-ui--accordion", RubyUi__AccordionController)
@@ -73,3 +77,10 @@ application.register("page--asset-setting", AssetSettingController)
 
 import BranchController from "./pages/branch_controller"
 application.register("page--branch", BranchController)
+
+// Shared controllers
+import ContractController from "./shared/contract_controller"
+application.register("shared--contract", ContractController)
+
+import CustomerController from "./shared/customer_controller"
+application.register("shared--customer", CustomerController)

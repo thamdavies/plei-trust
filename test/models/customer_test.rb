@@ -4,8 +4,9 @@
 #
 #  id                       :uuid             not null, primary key
 #  address                  :string
-#  customer_code            :string
-#  full_name                :string
+#  customer_code            :string           not null
+#  full_name                :string           not null
+#  is_seed_capital          :boolean          default(FALSE)
 #  national_id_issued_date  :date
 #  national_id_issued_place :string
 #  phone                    :string

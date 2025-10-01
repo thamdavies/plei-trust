@@ -1,0 +1,58 @@
+class Views::Contracts::Capitals::Index < Views::Base
+  def initialize(collection:, form:, pagy: nil)
+    @collection = collection
+    @form = form
+    @pagy = pagy
+  end
+
+  def view_template
+    render Views::Contracts::Capitals::Modal.new(form: @form)
+
+    div(class: "p-2 bg-white") do
+      Table do
+        TableCaption(class: "mb-3") { "Danh sách hợp đồng sẽ được hiển thị ở đây" } if @collection.empty?
+        TableHeader do
+          TableRow do
+            TableHead { "STT" }
+            TableHead { "Khách hàng" }
+            TableHead { "Số tiền" }
+            TableHead { "Ngày góp" }
+            TableHead { "Loại vốn" }
+            TableHead { "Lãi suất" }
+            TableHead { "Lãi đã trả" }
+            TableHead { "Ghi chú" }
+            TableHead { "Ngày phải đóng lãi" }
+            TableHead { "Tình trạng" }
+            TableHead { "Chức năng" }
+          end
+        end
+        TableBody do
+          @collection.each_with_index do |contract, index|
+            TableRow do
+              TableCell(class: "font-medium") { @pagy.offset + index + 1 }
+              TableCell(class: "font-medium") { contract.customer_name }
+              TableCell(class: "font-medium") { contract.loan_amount_formatted }
+              TableCell(class: "font-medium") { contract.fm_contract_date }
+              TableCell(class: "font-medium") { contract.contract_type_name }
+              TableCell(class: "font-medium") { contract.fm_interest_rate }
+              TableCell(class: "font-medium") { 0 }
+              TableCell(class: "font-medium") { contract.notes }
+              TableCell(class: "font-medium") { "" }
+              TableCell(class: "font-medium") { "" }
+              TableCell(class: "font-medium") do
+                div(class: "flex space-x-2") do
+                  a(href: "", class: "") do
+                    Remix::EditBoxLine(class: "w-5 h-5")
+                  end
+                  a(href: "#", class: "") do
+                    Remix::BarChartBoxLine(class: "w-5 h-5")
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end

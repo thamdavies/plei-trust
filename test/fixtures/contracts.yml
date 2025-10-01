@@ -7,6 +7,7 @@
 #  id                          :uuid             not null, primary key
 #  asset_name                  :string
 #  code                        :string
+#  collect_interest_in_advance :boolean          default(FALSE)
 #  contract_date               :date
 #  contract_term_days          :integer
 #  interest_calculation_method :string

@@ -18,6 +18,12 @@ module RubyExtensions
       def remove_spaces
         to_s.strip.gsub(/\s+/, "")
       end
+
+      def to_date_vn
+        to_date.to_fs(:date_vn) if present?
+      rescue StandardError
+        nil
+      end
     end
   end
 end

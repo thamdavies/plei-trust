@@ -1,0 +1,17 @@
+<li class="list-group-item item group relative cursor-pointer select-none rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed" role="option" data-autocomplete-value="<%= customer.id %>" data-autocomplete-label="<%= customer.full_name %>">
+  <div class="flex space-x-1">
+    <%= render PhlexIcons::Remix::UserLine.new(class: "w-5 h-5 mr-2") %> <%= customer.full_name %>
+  </div>
+  <div class="flex gap-4 mt-2">
+    <% if customer.phone.present? %>
+      <div class="flex text-sm text-gray-500 dark:text-gray-400">
+        <%= render PhlexIcons::Remix::PhoneLine.new(class: "w-4 h-4 mr-2") %> <%= customer.phone %>
+      </div>
+    <% end %>
+    <% if customer.national_id.present? %>
+      <div class="flex text-sm text-gray-500 dark:text-gray-400">
+        <%= render PhlexIcons::Remix::IdCardLine.new(class: "w-4 h-4 mr-2") %> <%= customer.national_id %>
+      </div>
+    <% end %>
+  </div>
+</li>
