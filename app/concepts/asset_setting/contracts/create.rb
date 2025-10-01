@@ -72,7 +72,7 @@ module AssetSetting::Contracts
         end
 
         if value.present? && (value.to_d / 1000) < 1
-          key.failure("phải lớn hơn hoặc bằng 1.000")
+          key.failure("phải lớn hơn hoặc bằng 1.000 đồng")
         end
       end
 

@@ -27,8 +27,8 @@ application.register("notification", Notification)
 import AutoSubmit from "@stimulus-components/auto-submit"
 application.register("auto-submit", AutoSubmit)
 
-// import { Autocomplete } from "stimulus-autocomplete"
-import Autocomplete from "./autocomplete_controller"
+import { Autocomplete } from "stimulus-autocomplete"
+// import Autocomplete from "./autocomplete_controller"
 application.register("autocomplete", Autocomplete)
 
 // Ruby UI controllers

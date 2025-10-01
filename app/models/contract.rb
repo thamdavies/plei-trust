@@ -47,12 +47,12 @@ class Contract < ApplicationRecord
 
   acts_as_tenant(:branch)
 
-  belongs_to :customer
-  belongs_to :branch
-  belongs_to :contract_type
+  belongs_to :customer, optional: true
+  belongs_to :branch, optional: true
+  belongs_to :contract_type, optional: true
   belongs_to :asset_setting, optional: true
-  belongs_to :cashier, class_name: User.name, foreign_key: :cashier_id
-  belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id
+  belongs_to :cashier, class_name: User.name, foreign_key: :cashier_id, optional: true
+  belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id, optional: true
 
   auto_code_config(prefix: "HD", field: :code)
   large_number_field :loan_amount

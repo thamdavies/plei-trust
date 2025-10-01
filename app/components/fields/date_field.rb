@@ -7,6 +7,7 @@ class Components::Fields::DateField < Components::Base
     @value = value
     @placeholder = opts[:placeholder]
     @wrapper_class = opts[:wrapper_class] || ""
+    @data_attrs = opts[:data] || {}
   end
 
   def view_template
@@ -23,7 +24,8 @@ class Components::Fields::DateField < Components::Base
                 autocomplete: "off",
                 value: @value.present? ? @value.to_date.to_fs(:date_vn) : "",
                 data_controller: "ruby-ui--calendar-input",
-                pattern: "\\d{2}/\\d{2}/\\d{4}", data_pattern_mismatch: "ngày không hợp lệ"
+                pattern: "\\d{2}/\\d{2}/\\d{4}", data_pattern_mismatch: "ngày không hợp lệ",
+                **@data_attrs,
               )
             end
           end

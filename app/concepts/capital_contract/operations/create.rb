@@ -9,6 +9,8 @@ module CapitalContract::Operations
 
     step Subprocess(Present)
     step Contract::Validate()
-    step Contract::Persist()
+    step Wrap(AppTransaction) {
+      step Contract::Persist()
+    }
   end
 end

@@ -33,6 +33,7 @@ class Customer < ApplicationRecord
   acts_as_tenant(:branch)
 
   belongs_to :creator, class_name: User.name, foreign_key: :created_by_id, optional: true
+  belongs_to :contract, optional: true
 
   auto_code_config(prefix: "KH", field: :customer_code)
 

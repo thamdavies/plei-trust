@@ -32,6 +32,6 @@ Rails.application.routes.draw do
 
   # For automplete search
   namespace :autocomplete do
-    resources :customers, only: [ :index ]
+    resources :customers, only: [ :index, :show ]
   end
 end

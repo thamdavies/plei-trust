@@ -15,6 +15,14 @@ class Autocomplete::CustomersController < ApplicationController
     end
   end
 
+  def show
+    run(Customer::Operations::Show, id: params[:id]) do |result|
+      @customer = result[:model]
+    end
+
+    render json: CustomerSerializer.new(@customer).serializable_hash
+  end
+
   private
 
   def build_ransack_query
