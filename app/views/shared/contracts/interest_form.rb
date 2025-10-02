@@ -55,7 +55,7 @@ class Views::Shared::Contracts::InterestForm < Views::Base
       end
 
       FormField(class: "max-w-sm") do
-        FormFieldLabel { "Số ngày vay" }
+        FormFieldLabel { "Thời gian vay" }
         Input(
           type: "number",
           data: {

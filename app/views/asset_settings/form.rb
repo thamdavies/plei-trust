@@ -82,7 +82,7 @@ class Views::AssetSettings::Form < Views::Base
                   'slim-select-selected-value': form.interest_calculation_method,
                   action: "change->page--asset-setting#handleInterestMethodChange"
                 }) do
-                view_context.select_options_for_interest_types(exclude: "capital").each do |interest_method|
+                view_context.select_options_for_interest_types(contract_type: "pawn").each do |interest_method|
                   option(value: interest_method.code, selected: interest_method.code == form.interest_calculation_method) { interest_method.name }
                 end
               end
@@ -155,10 +155,10 @@ class Views::AssetSettings::Form < Views::Base
           end
 
           FormField(class: "max-w-xl") do
-            FormFieldLabel { "Số ngày cầm" }
+            FormFieldLabel { "Thời gian cầm" }
             Input(
               type: "number",
-              data: { controller: "number-input" },
+              data: { controller: "number-input", "page--asset-setting_target": "contractTermDaysInput" },
               placeholder: "Nhập số ngày cầm",
               name: "form[default_loan_duration_days]",
               value: form.default_loan_duration_days,

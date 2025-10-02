@@ -3,11 +3,11 @@ module SelectHelper
     @select_options_for_contract_types ||= ContractType.all.select(:id, :name)
   end
 
-  def select_options_for_interest_types(exclude: nil)
+  def select_options_for_interest_types(contract_type: nil)
     @select_options_for_interest_types ||= begin
       types = InterestCalculationMethod.all
-      if exclude.present?
-        types = types.reject { |type| type.categories.include?(exclude) }
+      if contract_type.present?
+        types = types.select { |type| type.categories.include?(contract_type) }
       end
 
       types
