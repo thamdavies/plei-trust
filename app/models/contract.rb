@@ -13,7 +13,7 @@
 #  loan_amount                 :decimal(15, 2)
 #  notes                       :text
 #  payment_frequency_days      :integer
-#  status                      :string           default("pending")
+#  status                      :string           default("active")
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #  asset_setting_id            :uuid
