@@ -19,4 +19,7 @@
 #  provinces_administrative_unit_id_fkey  (administrative_unit_id => administrative_units.id)
 #
 class Province < ActiveRecord::Base
+  self.primary_key = :code
+
+  belongs_to :administrative_unit, optional: true
 end

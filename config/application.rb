@@ -32,5 +32,10 @@ module PleiTrust
       Clearance::SessionsController.layout "clearance"
       Clearance::UsersController.layout "clearance"
     end
+
+    config.generators do |g|
+      g.test_framework :rspec, fixture: true
+      g.fixture_replacement :factory_bot, dir: "spec/factories"
+    end
   end
 end

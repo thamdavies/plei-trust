@@ -54,6 +54,8 @@ class Contract < ApplicationRecord
   belongs_to :cashier, class_name: User.name, foreign_key: :cashier_id, optional: true
   belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id, optional: true
 
+  has_many :contract_interest_payments, dependent: :destroy
+
   auto_code_config(prefix: "HD", field: :code)
   large_number_field :loan_amount
 
