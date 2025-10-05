@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :administrative_unit do
-    id { rand(1..1000) }
+    id { Faker::Number.unique.number(digits: 3) }
     full_name { "MyString" }
     full_name_en { "MyString" }
     short_name { "MyString" }
@@ -9,7 +9,6 @@ FactoryBot.define do
     code_name_en { "MyString" }
 
     trait :municipality do
-      id { rand(1001..2000) }
       full_name { "Thành phố trực thuộc trung ương" }
       full_name_en { "Municipality" }
       short_name { "Thành phố" }
@@ -19,7 +18,6 @@ FactoryBot.define do
     end
 
     trait :province do
-      id { rand(2001..3000) }
       full_name { "Tỉnh" }
       full_name_en { "Province" }
       short_name { "Tỉnh" }
@@ -29,7 +27,6 @@ FactoryBot.define do
     end
 
     trait :ward do
-      id { rand(3001..4000) }
       full_name { "Phường" }
       full_name_en { "Ward" }
       short_name { "Phường" }
@@ -39,7 +36,6 @@ FactoryBot.define do
     end
 
     trait :commune do
-      id { rand(4001..5000) }
       full_name { "Xã" }
       full_name_en { "Commune" }
       short_name { "Xã" }
@@ -49,7 +45,6 @@ FactoryBot.define do
     end
 
     trait :special_administrative_region do
-      id { rand(5001..6000) }
       full_name { "Đặc khu tại hải đảo" }
       full_name_en { "Special administrative region" }
       short_name { "Đặc khu" }

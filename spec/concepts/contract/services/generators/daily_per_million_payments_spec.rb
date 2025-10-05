@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Contract::Services::Generators::DailyPerMillionPayments do
   let(:contract_type) { create(:contract_type, code: :capital) }
-  let(:contract) { create(:contract, contract_type:) }
+  let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-03".to_date) }
   let(:processed_by) { create(:user) }
   let(:service) { described_class.new(contract: contract, processed_by: processed_by) }
 
@@ -46,6 +46,7 @@ RSpec.describe Contract::Services::Generators::DailyPerMillionPayments do
         service.call
 
         expect(contract.contract_interest_payments.size).to eq(1)
+        expect(contract.contract_interest_payments.first.amount.to_f).to eq(1_250.0)
         expect(contract.contract_interest_payments.first.number_of_days).to eq(25)
         expect(contract.contract_interest_payments.first.from).to eq(contract.contract_date)
         expect(contract.contract_interest_payments.first.to).to eq(contract.contract_date + 24)
