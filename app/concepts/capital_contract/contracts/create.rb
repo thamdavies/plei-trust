@@ -12,7 +12,7 @@ module CapitalContract::Contracts
     }
     property :notes
     property :payment_frequency_days
-    property :status
+    property :status, default: "active"
     property :customer_id
     property :contract_type_id
     property :asset_setting_id

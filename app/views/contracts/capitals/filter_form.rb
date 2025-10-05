@@ -27,9 +27,9 @@ class Views::Contracts::Capitals::FilterForm < Views::Base
               end
               FormField(class: "relative w-32") do
                 Select do
-                  SelectInput(name: "form[status]", value: view_context.params.dig(:form, :status), id: "select-a-status")
+                  SelectInput(name: "q[status_eq]", value: view_context.params.dig(:q, :status_eq), id: "select-a-status")
                   SelectTrigger(variant: :ghost) do
-                    selected_status = view_context.select_options_for_capital_contract_statuses.find { |status| status.code == view_context.params.dig(:form, :status) }&.name || "Tất cả"
+                    selected_status = view_context.select_options_for_capital_contract_statuses.find { |status| status.code == view_context.params.dig(:q, :status_eq) }&.name || "Tất cả"
                     SelectValue(placeholder: selected_status, id: "select-a-status")
                   end
                   SelectContent(outlet_id: "select-a-status") do
@@ -49,9 +49,9 @@ class Views::Contracts::Capitals::FilterForm < Views::Base
               end
               FormField(class: "relative w-48 sm:w-64 xl:w-96") do
                 SearchInput(
-                  name: "q[customer_full_name_or_national_id_cont]",
+                  name: "q[customer_full_name_or_customer_national_id_cont]",
                   placeholder: "Tìm kiếm theo tên, CCCD người góp vốn",
-                  value: view_context.params.dig(:q, :customer_full_name_or_national_id_cont)
+                  value: view_context.params.dig(:q, :customer_full_name_or_customer_national_id_cont)
                 )
               end
 

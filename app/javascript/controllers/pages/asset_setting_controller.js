@@ -4,7 +4,7 @@ import { alertController } from "../../alert";
 
 // Connects to data-controller="page--asset-setting"
 export default class extends Controller {
-  static targets = ["interestUnit", "interestPeriodUnit"];
+  static targets = ["interestUnit", "interestPeriodUnit", "contractTermDaysInput"];
 
   async handleInterestMethodChange(event) {
     try {
@@ -26,6 +26,7 @@ export default class extends Controller {
 
   setInterestMethodDetails(data) {
     this.interestUnitTarget.textContent = data.attributes.percent_unit;
+    this.contractTermDaysInputTarget.placeholder = data.attributes.placeholder || "";
     this.interestPeriodUnitTarget.textContent = data.attributes.note;
   }
 }

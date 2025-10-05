@@ -22,7 +22,10 @@
 #  wards_province_code_fkey           (province_code => provinces.code)
 #
 class Ward < ApplicationRecord
-  belongs_to :district
-  belongs_to :province, foreign_key: :province_code, primary_key: :code
+  self.primary_key = :code
+
+  belongs_to :province, foreign_key: :province_code, primary_key: :code, optional: true
+  belongs_to :administrative_unit, optional: true
+
   has_many :branches
 end

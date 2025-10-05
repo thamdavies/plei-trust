@@ -13,7 +13,7 @@
 #  loan_amount                 :decimal(15, 2)
 #  notes                       :text
 #  payment_frequency_days      :integer
-#  status                      :string           default("pending")
+#  status                      :string           default("active")
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #  asset_setting_id            :uuid
@@ -53,6 +53,8 @@ class Contract < ApplicationRecord
   belongs_to :asset_setting, optional: true
   belongs_to :cashier, class_name: User.name, foreign_key: :cashier_id, optional: true
   belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id, optional: true
+
+  has_many :contract_interest_payments, dependent: :destroy
 
   auto_code_config(prefix: "HD", field: :code)
   large_number_field :loan_amount

@@ -29,4 +29,11 @@
 #  fk_rails_...  (processed_by_id => users.id)
 #
 class ContractInterestPayment < ApplicationRecord
+  include LargeNumberFields
+
+  belongs_to :contract
+
+  enum :payment_status, { unpaid: "unpaid", paid: "paid", partial: "partial" }
+
+  large_number_field :amount
 end

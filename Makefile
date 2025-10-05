@@ -11,6 +11,9 @@ dev:
 db:
 	docker compose up -d
 
+test:
+	bundle exec rspec
+
 db-reset:
 	docker compose down -v
 	docker compose up -d

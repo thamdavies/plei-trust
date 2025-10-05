@@ -37,9 +37,11 @@ export default class extends Controller {
     }
   }
 
-  setInterestMethodDetails(data) {
+  setInterestMethodDetails(data) {    
     this.interestUnitTarget.textContent = data.attributes.percent_unit;
     this.interestPeriodUnitTarget.textContent = data.attributes.note;
+    this.interestRateInputTarget.placeholder = data.attributes.placeholder || "";
+    this.contractTermDaysInputTarget.placeholder = data.attributes.placeholder || "";
     this.handleInterestWrapperVisibility(data);
   }
 

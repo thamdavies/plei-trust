@@ -1,0 +1,2 @@
+class AdministrativeUnit < ApplicationRecord
+end
