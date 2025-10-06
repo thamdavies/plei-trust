@@ -5,7 +5,7 @@
 #  id             :uuid             not null, primary key
 #  content        :text
 #  from           :date
-#  notes          :text
+#  note           :text
 #  number_of_days :integer
 #  to             :date
 #  created_at     :datetime         not null

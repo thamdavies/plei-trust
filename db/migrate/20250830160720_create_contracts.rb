@@ -21,14 +21,14 @@ class CreateContracts < ActiveRecord::Migration[8.0]
       t.boolean :collect_interest_in_advance, default: false
 
       # Điều khoản thời hạn
-      t.integer :contract_term_days
+      t.integer :contract_term
       t.integer :interest_period
 
       t.date :contract_date
 
       # Trạng thái và cài đặt
       t.string :status, default: 'pending'
-      t.text :notes
+      t.text :note
 
       t.timestamps
     end

@@ -46,7 +46,7 @@ RSpec.describe Contract::Services::Generators::WeeklyPercentPayments do
 
     context 'when contract term is not evenly divisible by payment frequency' do
       before do
-        allow(contract).to receive(:contract_term_days).and_return(5)
+        allow(contract).to receive(:contract_term).and_return(5)
       end
 
       it 'handles partial final payment period correctly' do
@@ -67,7 +67,7 @@ RSpec.describe Contract::Services::Generators::WeeklyPercentPayments do
     end
 
     context 'with different interest rate' do
-      let(:contract) { create(:contract, :weekly_percent, contract_type:, contract_date: "2025-10-06".to_date, interest_rate: 5, contract_term_days: 4) }
+      let(:contract) { create(:contract, :weekly_percent, contract_type:, contract_date: "2025-10-06".to_date, interest_rate: 5, contract_term: 4) }
 
       it 'calculates payments with different interest rate' do
         service.call

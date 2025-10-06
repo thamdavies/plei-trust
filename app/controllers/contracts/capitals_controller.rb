@@ -39,8 +39,8 @@ class Contracts::CapitalsController < ApplicationController
       :interest_calculation_method,
       :interest_rate,
       :interest_period,
-      :contract_term_days,
-      :notes,
+      :contract_term,
+      :note,
       :collect_interest_in_advance,
       customer: [
         :id,

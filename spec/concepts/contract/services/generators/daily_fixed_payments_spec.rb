@@ -39,7 +39,7 @@ RSpec.describe Contract::Services::Generators::DailyFixedPayments do
 
     context 'when contract term is not evenly divisible by payment frequency' do
       before do
-        allow(contract).to receive(:contract_term_days).and_return(25)
+        allow(contract).to receive(:contract_term).and_return(25)
       end
 
       it 'handles partial final payment period correctly' do

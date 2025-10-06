@@ -63,12 +63,12 @@ class Views::Shared::Contracts::InterestForm < Views::Base
             "shared--contract_target": "contractTermDaysInput"
           },
           placeholder: "Nhập số ngày vay",
-          name: "form[contract_term_days]",
-          value: form.contract_term_days,
+          name: "form[contract_term]",
+          value: form.contract_term,
           class: "pr-10"
         )
 
-        FormFieldError() { form.errors[:contract_term_days].first }
+        FormFieldError() { form.errors[:contract_term].first }
       end
     end
   end

@@ -60,7 +60,7 @@ class AssetSettingsController < ApplicationController
       :early_termination_fee,
       :management_fee,
       :default_loan_amount,
-      :default_loan_duration_days,
+      :default_contract_term,
       :default_interest_rate,
       :liquidation_after_days,
       :interest_period,

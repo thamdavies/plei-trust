@@ -7,12 +7,12 @@
 #  code                        :string
 #  collect_interest_in_advance :boolean          default(FALSE)
 #  contract_date               :date
-#  contract_term_days          :integer
+#  contract_term               :integer
 #  interest_calculation_method :string
 #  interest_period             :integer
 #  interest_rate               :decimal(8, 5)
 #  loan_amount                 :decimal(15, 2)
-#  notes                       :text
+#  note                        :text
 #  status                      :string           default("pending")
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
@@ -47,11 +47,11 @@ FactoryBot.define do
     code { "CTR-001" }
     collect_interest_in_advance { false }
     contract_date { Date.current }
-    contract_term_days { 60 }
+    contract_term { 60 }
     interest_calculation_method { "daily_per_million" }
     interest_rate { 10 }
     loan_amount { 5_000_000.00 }
-    notes { "This is a sample contract." }
+    note { "This is a sample contract." }
     interest_period { 30 }
     status { "active" }
 
@@ -65,7 +65,7 @@ FactoryBot.define do
       interest_calculation_method { "weekly_percent" }
       interest_period { 4 }
       interest_rate { 1 }
-      contract_term_days { 12 }
+      contract_term { 12 }
     end
   end
 end

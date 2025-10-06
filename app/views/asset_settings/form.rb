@@ -160,12 +160,12 @@ class Views::AssetSettings::Form < Views::Base
               type: "number",
               data: { controller: "number-input", "page--asset-setting_target": "contractTermDaysInput" },
               placeholder: "Nhập số ngày cầm",
-              name: "form[default_loan_duration_days]",
-              value: form.default_loan_duration_days,
+              name: "form[default_contract_term]",
+              value: form.default_contract_term,
               class: "pr-10"
             )
 
-            FormFieldError() { form.errors[:default_loan_duration_days].first }
+            FormFieldError() { form.errors[:default_contract_term].first }
           end
 
           FormField(class: "max-w-xl") do

@@ -3,14 +3,14 @@ module CapitalContract::Contracts
     property :asset_name
     property :code
     property :contract_date
-    property :contract_term_days
+    property :contract_term
     property :interest_calculation_method
     property :collect_interest_in_advance, default: false
     property :interest_rate
     property :loan_amount, populator: ->(options) {
       self.loan_amount = self.input_params["loan_amount"].remove_dots if self.input_params["loan_amount"].present?
     }
-    property :notes
+    property :note
     property :interest_period
     property :status, default: "active"
     property :customer_id
@@ -28,7 +28,7 @@ module CapitalContract::Contracts
         required(:interest_calculation_method).filled
         required(:loan_amount).filled
         optional(:interest_rate).maybe(:string)
-        optional(:contract_term_days).maybe(:string)
+        optional(:contract_term).maybe(:string)
       end
 
       rule(:loan_amount) do
@@ -45,7 +45,7 @@ module CapitalContract::Contracts
         unless value == "investment_capital"
           key(:interest_rate).failure("không được để trống") if form.interest_rate.blank?
           key(:interest_period).failure("không được để trống") if form.interest_period.blank?
-          key(:contract_term_days).failure("không được để trống") if form.contract_term_days.blank?
+          key(:contract_term).failure("không được để trống") if form.contract_term.blank?
         end
       end
     end

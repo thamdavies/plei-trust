@@ -11,13 +11,13 @@ module CapitalContract::Operations
     step Contract::Validate()
     step Wrap(AppTransaction) {
       step Contract::Persist()
-      # step :create_contract_interest_payments
+      step :create_contract_interest_payments
     }
 
-    def create_contract_interest_payments(ctx, form:, **)
-      service = Contract::Services::CreateContractInterestPayment.new(
-        contract: form.model,
-        processed_by: form.model.created_by
+    def create_contract_interest_payments(ctx, model:, **)
+      service = ::Contract::Services::CreateContractInterestPayment.new(
+        contract: model,
+        processed_by: model.created_by
       )
       service.call
       true

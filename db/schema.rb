@@ -67,7 +67,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.decimal "default_loan_amount", precision: 12, scale: 2
     t.float "default_interest_rate"
     t.integer "interest_period"
-    t.integer "default_loan_duration_days"
+    t.integer "default_contract_term"
     t.integer "liquidation_after_days"
     t.boolean "collect_interest_in_advance", default: false
     t.decimal "contract_initiation_fee", precision: 12, scale: 2
@@ -109,7 +109,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.date "action_date"
     t.string "type"
     t.decimal "amount", precision: 15, scale: 2
-    t.text "notes"
+    t.text "note"
     t.uuid "processed_by_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -123,7 +123,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.date "to"
     t.integer "number_of_days"
     t.text "content"
-    t.text "notes"
+    t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["contract_id"], name: "index_contract_extensions_on_contract_id"
@@ -139,7 +139,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.decimal "total_amount", precision: 15, scale: 2
     t.decimal "total_paid", precision: 15, scale: 2
     t.string "payment_status", default: "unpaid"
-    t.text "notes"
+    t.text "note"
     t.uuid "processed_by_id", null: false
     t.string "status"
     t.datetime "created_at", null: false
@@ -184,11 +184,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.string "interest_calculation_method"
     t.decimal "interest_rate", precision: 8, scale: 5
     t.boolean "collect_interest_in_advance", default: false
-    t.integer "contract_term_days"
+    t.integer "contract_term"
     t.integer "interest_period"
     t.date "contract_date"
     t.string "status", default: "pending"
-    t.text "notes"
+    t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["asset_setting_id"], name: "index_contracts_on_asset_setting_id"

@@ -25,7 +25,7 @@ module Branch::Operations
         asset_name: "Vốn khởi tạo",
         code: SecureRandom.hex(4).upcase,
         contract_date: Date.current,
-        contract_term_days: 0,
+        contract_term: 0,
         interest_calculation_method: "investment_capital",
         interest_rate: 0.0,
         loan_amount: model.invest_amount,

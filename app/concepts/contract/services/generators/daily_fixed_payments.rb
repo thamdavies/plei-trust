@@ -6,12 +6,21 @@ module Contract::Services::Generators
     end
 
     def call
+      insert_data
+      print_data
+    end
+
+    private
+
+    attr_reader :contract, :processed_by
+
+    def insert_data
       payment_data = []
       start_date = contract.contract_date
-      contract_term_days = contract.contract_term_days
-      end_date = start_date + contract_term_days - 1
+      contract_term = contract.contract_term
+      end_date = start_date + contract_term - 1
       interest_period = contract.interest_period
-      payment_cycle = (contract_term_days / interest_period.to_f).ceil
+      payment_cycle = (contract_term / interest_period.to_f).ceil
       current_date = start_date
 
       1.upto(payment_cycle) do
@@ -34,9 +43,5 @@ module Contract::Services::Generators
 
       create_payments(payment_data)
     end
-
-    private
-
-    attr_reader :contract, :processed_by
   end
 end

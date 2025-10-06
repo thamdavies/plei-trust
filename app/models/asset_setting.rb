@@ -9,9 +9,9 @@
 #  asset_rental_fee            :float
 #  collect_interest_in_advance :boolean          default(FALSE)
 #  contract_initiation_fee     :decimal(12, 2)
+#  default_contract_term       :integer
 #  default_interest_rate       :float
 #  default_loan_amount         :decimal(12, 2)
-#  default_loan_duration_days  :integer
 #  early_termination_fee       :float
 #  interest_calculation_method :string           default("monthly")
 #  interest_period             :integer
