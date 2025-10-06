@@ -26,8 +26,8 @@ module Contract::Services::Generators
         payment_start_date = current_date
         payment_end_date = [ current_date + interest_period_in_days - 1, end_date ].min
         number_of_days = (payment_end_date - payment_start_date).to_i + 1
-        number_of_weeks = (number_of_days / 7.0).ceil
-        amount = contract.interest_rate * number_of_weeks  # Fixed amount per week
+        number_of_weeks = number_of_days / 7.0
+        amount = contract.interest_rate * number_of_weeks  # Proportional amount for actual days
         total_amount = amount
 
         payment_data << build_payment_attrs(
