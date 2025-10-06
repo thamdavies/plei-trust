@@ -28,6 +28,8 @@ module Contract::Services::Generators
         remaining_periods = [ interest_period, total_periods - ((cycle - 1) * interest_period) ].min
         payment_end_date = current_date + (remaining_periods.months)
 
+        # Calculate the number of days in the payment period for informational purposes only.
+        # This does NOT affect the fixed monthly payment amount.
         number_of_days = (payment_end_date - payment_start_date).to_i + 1
 
         amount = contract.loan_amount * (contract.interest_rate / 100.0)
