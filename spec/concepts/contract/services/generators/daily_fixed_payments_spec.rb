@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Contract::Services::Generators::DailyFixedPayments do
   let(:contract_type) { create(:contract_type, code: :capital) }
-  let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-03".to_date, interest_rate: 10) }
+  let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-03".to_date, interest_rate: 10, interest_calculation_method: InterestCalculationMethod.config[:code][:daily_fixed]) }
   let(:processed_by) { create(:user) }
   let(:service) { described_class.new(contract: contract, processed_by: processed_by) }
 
@@ -18,8 +18,6 @@ RSpec.describe Contract::Services::Generators::DailyFixedPayments do
       first_payment = contract.contract_interest_payments.order(:from).first
       second_payment = contract.contract_interest_payments.order(:from).second
 
-      # Formula: rate_k_per_day * 1_000 * days
-      # 10 * 1_000 * 30 = 300_000
       expect(first_payment.amount.to_f).to eq(300_000.0)
       expect(second_payment.amount.to_f).to eq(300_000.0)
     end

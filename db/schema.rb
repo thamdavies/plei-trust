@@ -185,7 +185,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.decimal "interest_rate", precision: 8, scale: 5
     t.boolean "collect_interest_in_advance", default: false
     t.integer "contract_term_days"
-    t.integer "payment_frequency_days"
+    t.integer "interest_period"
     t.date "contract_date"
     t.string "status", default: "pending"
     t.text "notes"

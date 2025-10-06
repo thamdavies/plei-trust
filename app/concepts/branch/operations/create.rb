@@ -29,7 +29,7 @@ module Branch::Operations
         interest_calculation_method: "investment_capital",
         interest_rate: 0.0,
         loan_amount: model.invest_amount,
-        payment_frequency_days: 0,
+        interest_period: 0,
         status: "active",
         branch: model,
         cashier: current_user,

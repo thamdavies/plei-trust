@@ -11,7 +11,7 @@ module CapitalContract::Contracts
       self.loan_amount = self.input_params["loan_amount"].remove_dots if self.input_params["loan_amount"].present?
     }
     property :notes
-    property :payment_frequency_days
+    property :interest_period
     property :status, default: "active"
     property :customer_id
     property :contract_type_id
@@ -44,7 +44,7 @@ module CapitalContract::Contracts
       rule(:interest_calculation_method) do
         unless value == "investment_capital"
           key(:interest_rate).failure("không được để trống") if form.interest_rate.blank?
-          key(:payment_frequency_days).failure("không được để trống") if form.payment_frequency_days.blank?
+          key(:interest_period).failure("không được để trống") if form.interest_period.blank?
           key(:contract_term_days).failure("không được để trống") if form.contract_term_days.blank?
         end
       end

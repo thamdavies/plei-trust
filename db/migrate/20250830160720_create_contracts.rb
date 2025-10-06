@@ -22,7 +22,7 @@ class CreateContracts < ActiveRecord::Migration[8.0]
 
       # Điều khoản thời hạn
       t.integer :contract_term_days
-      t.integer :payment_frequency_days
+      t.integer :interest_period
 
       t.date :contract_date
 
