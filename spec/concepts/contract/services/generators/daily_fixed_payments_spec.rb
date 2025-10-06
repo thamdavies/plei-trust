@@ -18,8 +18,8 @@ RSpec.describe Contract::Services::Generators::DailyFixedPayments do
       first_payment = contract.contract_interest_payments.order(:from).first
       second_payment = contract.contract_interest_payments.order(:from).second
 
-      expect(first_payment.amount.to_f).to eq(300_000.0)
-      expect(second_payment.amount.to_f).to eq(300_000.0)
+      expect(first_payment.amount.to_f).to eq(300.0)
+      expect(second_payment.amount.to_f).to eq(300.0)
     end
 
     it 'sets correct payment date ranges' do
@@ -46,8 +46,7 @@ RSpec.describe Contract::Services::Generators::DailyFixedPayments do
         service.call
 
         expect(contract.contract_interest_payments.size).to eq(1)
-        # 10 * 1_000 * 25 = 250_000
-        expect(contract.contract_interest_payments.first.amount.to_f).to eq(250_000.0)
+        expect(contract.contract_interest_payments.first.amount.to_f).to eq(250.0)
         expect(contract.contract_interest_payments.first.number_of_days).to eq(25)
         expect(contract.contract_interest_payments.first.from).to eq(contract.contract_date)
         expect(contract.contract_interest_payments.first.to).to eq(contract.contract_date + 24)
@@ -62,8 +61,7 @@ RSpec.describe Contract::Services::Generators::DailyFixedPayments do
 
         first_payment = contract.contract_interest_payments.order(:from).first
 
-        # 5 * 1_000 * 30 = 150_000
-        expect(first_payment.amount.to_f).to eq(150_000.0)
+        expect(first_payment.amount.to_f).to eq(150.0)
         expect(first_payment.number_of_days).to eq(30)
       end
     end

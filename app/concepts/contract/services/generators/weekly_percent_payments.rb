@@ -7,7 +7,6 @@ module Contract::Services::Generators
 
     def call
       insert_data
-      print_data
     end
 
     private
@@ -35,7 +34,7 @@ module Contract::Services::Generators
         payment_data << build_payment_attrs(
           from: payment_start_date,
           to: payment_end_date,
-          amount: amount.to_f,
+          amount: amount,
           number_of_days: number_of_days,
           total_amount: total_amount
         )
