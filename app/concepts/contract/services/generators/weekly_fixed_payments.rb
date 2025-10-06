@@ -1,5 +1,5 @@
 module Contract::Services::Generators
-  class DailyPerMillionPayments < Base
+  class WeeklyFixedPayments < Base
     def initialize(contract:, processed_by:)
       @contract = contract
       @processed_by = processed_by
@@ -16,18 +16,18 @@ module Contract::Services::Generators
     def insert_data
       payment_data = []
       start_date = contract.contract_date
-      contract_term = contract.contract_term
+      contract_term = contract.contract_term * 7  # Convert weeks to days
       end_date = start_date + contract_term - 1
-      interest_period = contract.interest_period
-      loan_amount = contract.loan_amount
-      payment_cycle = (contract_term / interest_period.to_f).ceil
+      interest_period_in_days = contract.interest_period * 7  # Convert weeks to days
+      payment_cycle = (contract_term / interest_period_in_days.to_f).ceil
       current_date = start_date
 
       1.upto(payment_cycle) do
         payment_start_date = current_date
-        payment_end_date = [ current_date + interest_period - 1, end_date ].min
+        payment_end_date = [ current_date + interest_period_in_days - 1, end_date ].min
         number_of_days = (payment_end_date - payment_start_date).to_i + 1
-        amount = ((loan_amount / 1_000_000.to_f) * contract.interest_rate * 1_000) * number_of_days
+        number_of_weeks = number_of_days / 7.0
+        amount = contract.interest_rate * number_of_weeks  # Proportional amount for actual days
         total_amount = amount
 
         payment_data << build_payment_attrs(

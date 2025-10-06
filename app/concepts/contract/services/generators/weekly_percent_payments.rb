@@ -7,7 +7,6 @@ module Contract::Services::Generators
 
     def call
       insert_data
-      print_data
     end
 
     private
@@ -29,13 +28,13 @@ module Contract::Services::Generators
         payment_start_date = current_date
         payment_end_date = [ current_date + interest_period_in_days - 1, end_date ].min
         number_of_days = (payment_end_date - payment_start_date).to_i + 1
-        amount = loan_amount * (contract.interest_rate / 100) * (number_of_days / 7.0)
+        amount = loan_amount * (contract.interest_rate / 100.0) * (number_of_days / 7.0)
         total_amount = amount
 
         payment_data << build_payment_attrs(
           from: payment_start_date,
           to: payment_end_date,
-          amount: amount.to_f,
+          amount: amount,
           number_of_days: number_of_days,
           total_amount: total_amount
         )

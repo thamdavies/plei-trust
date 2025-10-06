@@ -40,13 +40,13 @@ class Views::Shared::Contracts::Tabs::PayInterest < Views::Base
             TableHeader do
               TableRow do
                 TableHead { "STT" }
-                TableHead { "Ngày" }
+                TableHead(class: "text-center") { "Ngày" }
                 TableHead { "Số ngày" }
                 TableHead { "Tiền lãi" }
                 TableHead { "Tiền khác" }
                 TableHead { "Tổng lãi" }
                 TableHead { "Tiền khách trả" }
-                TableHead { "Hành động" }
+                TableHead { "Chức năng" }
               end
             end
             TableBody do
