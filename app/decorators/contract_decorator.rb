@@ -1,6 +1,8 @@
 class ContractDecorator < ApplicationDecorator
   delegate_all
 
+  decorates_association :contract_interest_payments
+
   def customer_name
     customer.full_name
   end

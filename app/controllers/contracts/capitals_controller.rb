@@ -29,6 +29,12 @@ class Contracts::CapitalsController < ApplicationController
     end
   end
 
+  def show
+    run(CapitalContract::Operations::Show, id: params[:id]) do |result|
+      @contract = result[:model].decorate
+    end
+  end
+
   private
 
   def permit_params
