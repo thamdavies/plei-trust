@@ -5,7 +5,7 @@
 #  id              :uuid             not null, primary key
 #  action_date     :date
 #  amount          :decimal(15, 2)
-#  notes           :text
+#  note            :text
 #  type            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

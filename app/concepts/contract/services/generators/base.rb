@@ -21,5 +21,13 @@ module Contract::Services::Generators
       ContractInterestPayment.where(contract_id: contract.id).delete_all
       ContractInterestPayment.insert_all!(payment_data)
     end
+
+    # For debugging purposes
+    def print_data
+      contract.contract_interest_payments.each do |data|
+        puts "From: #{data.from}, To: #{data.to}, Amount: #{data.amount_formatted}, Days: #{data.number_of_days}, Total: #{data.total_amount}"
+        puts "-----------------------------------"
+      end
+    end
   end
 end

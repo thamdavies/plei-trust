@@ -6,7 +6,7 @@ class CreateContractExtensions < ActiveRecord::Migration[8.0]
       t.date :to
       t.integer :number_of_days
       t.text :content
-      t.text :notes
+      t.text :note
 
       t.timestamps
     end

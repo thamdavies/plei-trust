@@ -37,8 +37,8 @@ class Views::Shared::Contracts::InterestForm < Views::Base
             Input(
               type: "number",
               placeholder: "Nhập kỳ lãi",
-              name: "form[payment_frequency_days]",
-              value: form.payment_frequency_days,
+              name: "form[interest_period]",
+              value: form.interest_period,
               class: "pr-10",
               data: {
                 controller: "number-input",
@@ -46,7 +46,7 @@ class Views::Shared::Contracts::InterestForm < Views::Base
               }
             )
 
-          FormFieldError() { form.errors[:payment_frequency_days].first }
+          FormFieldError() { form.errors[:interest_period].first }
         end
         span(
           class: "text-sm text-gray-500 mt-5",
@@ -63,12 +63,12 @@ class Views::Shared::Contracts::InterestForm < Views::Base
             "shared--contract_target": "contractTermDaysInput"
           },
           placeholder: "Nhập số ngày vay",
-          name: "form[contract_term_days]",
-          value: form.contract_term_days,
+          name: "form[contract_term]",
+          value: form.contract_term,
           class: "pr-10"
         )
 
-        FormFieldError() { form.errors[:contract_term_days].first }
+        FormFieldError() { form.errors[:contract_term].first }
       end
     end
   end

@@ -29,6 +29,12 @@ class Contracts::CapitalsController < ApplicationController
     end
   end
 
+  def show
+    run(CapitalContract::Operations::Show, id: params[:id]) do |result|
+      @contract = result[:model].decorate
+    end
+  end
+
   private
 
   def permit_params
@@ -38,9 +44,9 @@ class Contracts::CapitalsController < ApplicationController
       :contract_date,
       :interest_calculation_method,
       :interest_rate,
-      :payment_frequency_days,
-      :contract_term_days,
-      :notes,
+      :interest_period,
+      :contract_term,
+      :note,
       :collect_interest_in_advance,
       customer: [
         :id,

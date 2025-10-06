@@ -9,7 +9,7 @@ class CreateAssetSettings < ActiveRecord::Migration[8.0]
       t.decimal :default_loan_amount, precision: 12, scale: 2
       t.float :default_interest_rate
       t.integer :interest_period
-      t.integer :default_loan_duration_days
+      t.integer :default_contract_term
       t.integer :liquidation_after_days
       t.boolean :collect_interest_in_advance, default: false
       t.decimal :contract_initiation_fee, precision: 12, scale: 2

@@ -61,7 +61,7 @@ class Views::Shared::Contracts::Form < Views::Base
       div(class: "grid w-full max-w-sm items-center gap-1.5") do
         FormField do
           FormFieldLabel(for: "textarea") { "Ghi chú" }
-          Textarea(placeholder: "Nhập ghi chú", id: "textarea", name: "form[notes]", value: form.notes)
+          Textarea(placeholder: "Nhập ghi chú", id: "textarea", name: "form[note]", value: form.note)
           FormFieldError()
         end
       end

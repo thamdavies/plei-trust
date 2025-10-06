@@ -7,6 +7,7 @@ class Views::Contracts::Capitals::Index < Views::Base
 
   def view_template
     render Views::Contracts::Capitals::Modal.new(form: @form)
+    render Views::Shared::Contracts::ShowModal.new(contract: nil)
 
     div(class: "p-2 bg-white") do
       Table do
@@ -36,7 +37,7 @@ class Views::Contracts::Capitals::Index < Views::Base
               TableCell(class: "font-medium") { contract.contract_type_name }
               TableCell(class: "font-medium") { contract.fm_interest_rate }
               TableCell(class: "font-medium") { "" }
-              TableCell(class: "font-medium") { contract.notes }
+              TableCell(class: "font-medium") { contract.note }
               TableCell(class: "font-medium") { "" }
               TableCell(class: "font-medium") { contract.contract_status_badge }
               TableCell(class: "font-medium") do
@@ -44,9 +45,15 @@ class Views::Contracts::Capitals::Index < Views::Base
                   a(href: "", class: "") do
                     Remix::EditBoxLine(class: "w-5 h-5")
                   end
-                  a(href: "#", class: "") do
-                    Remix::BarChartBoxLine(class: "w-5 h-5")
-                  end
+                  Remix::BarChartBoxLine(
+                    class: "w-5 h-5 cursor-pointer",
+                    data: {
+                      action: "click->resource#triggerDialog",
+                      controller: "resource",
+                      resource_path_value: contracts_capital_path(contract.id),
+                      resource_dialogbutton_value: "contract-modal-dialog-trigger"
+                    }
+                  )
                 end
               end
             end

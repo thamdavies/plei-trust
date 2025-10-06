@@ -4,34 +4,24 @@
 
 import { application } from "./application"
 
-// App controllers
 import AppController from "./app_controller"
 application.register("app", AppController)
 
-import ResourceController from "./resource_controller"
-application.register("resource", ResourceController)
+import AutocompleteController from "./autocomplete_controller"
+application.register("autocomplete", AutocompleteController)
 
 import NumberInputController from "./number_input_controller"
 application.register("number-input", NumberInputController)
 
-import SlimSelectController from "./slim_select_controller"
-application.register("slim-select", SlimSelectController)
+import Pages__AssetSettingController from "./pages/asset_setting_controller"
+application.register("pages--asset-setting", Pages__AssetSettingController)
 
-// 3rd party controllers
-import RailsNestedForm from '@stimulus-components/rails-nested-form'
-application.register("nested-form", RailsNestedForm)
+import Pages__BranchController from "./pages/branch_controller"
+application.register("pages--branch", Pages__BranchController)
 
-import Notification from "@stimulus-components/notification"
-application.register("notification", Notification)
+import ResourceController from "./resource_controller"
+application.register("resource", ResourceController)
 
-import AutoSubmit from "@stimulus-components/auto-submit"
-application.register("auto-submit", AutoSubmit)
-
-import { Autocomplete } from "stimulus-autocomplete"
-// import Autocomplete from "./autocomplete_controller"
-application.register("autocomplete", Autocomplete)
-
-// Ruby UI controllers
 import RubyUi__AccordionController from "./ruby_ui/accordion_controller"
 application.register("ruby-ui--accordion", RubyUi__AccordionController)
 
@@ -43,6 +33,9 @@ application.register("ruby-ui--calendar-input", RubyUi__CalendarInputController)
 
 import RubyUi__CheckboxGroupController from "./ruby_ui/checkbox_group_controller"
 application.register("ruby-ui--checkbox-group", RubyUi__CheckboxGroupController)
+
+import RubyUi__CollapsibleController from "./ruby_ui/collapsible_controller"
+application.register("ruby-ui--collapsible", RubyUi__CollapsibleController)
 
 import RubyUi__ComboboxController from "./ruby_ui/combobox_controller"
 application.register("ruby-ui--combobox", RubyUi__ComboboxController)
@@ -65,22 +58,20 @@ application.register("ruby-ui--select", RubyUi__SelectController)
 import RubyUi__SelectItemController from "./ruby_ui/select_item_controller"
 application.register("ruby-ui--select-item", RubyUi__SelectItemController)
 
+import RubyUi__TabsController from "./ruby_ui/tabs_controller"
+application.register("ruby-ui--tabs", RubyUi__TabsController)
+
 import RubyUi__ThemeToggleController from "./ruby_ui/theme_toggle_controller"
 application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
 
 import RubyUi__TooltipController from "./ruby_ui/tooltip_controller"
 application.register("ruby-ui--tooltip", RubyUi__TooltipController)
 
-// Page controllers
-import AssetSettingController from "./pages/asset_setting_controller"
-application.register("page--asset-setting", AssetSettingController)
+import Shared__ContractController from "./shared/contract_controller"
+application.register("shared--contract", Shared__ContractController)
 
-import BranchController from "./pages/branch_controller"
-application.register("page--branch", BranchController)
+import Shared__CustomerController from "./shared/customer_controller"
+application.register("shared--customer", Shared__CustomerController)
 
-// Shared controllers
-import ContractController from "./shared/contract_controller"
-application.register("shared--contract", ContractController)
-
-import CustomerController from "./shared/customer_controller"
-application.register("shared--customer", CustomerController)
+import SlimSelectController from "./slim_select_controller"
+application.register("slim-select", SlimSelectController)

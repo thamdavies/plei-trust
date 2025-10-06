@@ -8,17 +8,17 @@ module Contract::Services
     def call
       case @contract.interest_calculation_method
       when InterestCalculationMethod.config[:code][:daily_per_million]
-        Contract::Services::Generators::DailyPerMillionPayments.new(contract:, processed_by:).call
+        Generators::DailyPerMillionPayments.new(contract:, processed_by:).call
       when InterestCalculationMethod.config[:code][:daily_fixed]
-        # generate_daily_fixed_payments
+        Generators::DailyFixedPayments.new(contract:, processed_by:).call
       when InterestCalculationMethod.config[:code][:weekly_percent]
-        # generate_weekly_percent_payments
-      when InterestCalculationMethod.config[:code][:weekly_fixed]
-        # generate_weekly_fixed_payments
-      when InterestCalculationMethod.config[:code][:monthly_30]
-        # generate_monthly_30_payments
-      when InterestCalculationMethod.config[:code][:monthly_calendar]
-        # generate_monthly_calendar_payments
+        Generators::WeeklyPercentPayments.new(contract:, processed_by:).call
+        # when InterestCalculationMethod.config[:code][:weekly_fixed]
+        #   Generators::WeeklyFixedPayments.new(contract:, processed_by:).call
+        # when InterestCalculationMethod.config[:code][:monthly_30]
+        #   Generators::Monthly30Payments.new(contract:, processed_by:).call
+        # when InterestCalculationMethod.config[:code][:monthly_calendar]
+        #   Generators::MonthlyCalendarPayments.new(contract:, processed_by:).call
       end
     end
 

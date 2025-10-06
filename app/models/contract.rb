@@ -7,13 +7,13 @@
 #  code                        :string
 #  collect_interest_in_advance :boolean          default(FALSE)
 #  contract_date               :date
-#  contract_term_days          :integer
+#  contract_term               :integer
 #  interest_calculation_method :string
+#  interest_period             :integer
 #  interest_rate               :decimal(8, 5)
 #  loan_amount                 :decimal(15, 2)
-#  notes                       :text
-#  payment_frequency_days      :integer
-#  status                      :string           default("active")
+#  note                        :text
+#  status                      :string           default("pending")
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #  asset_setting_id            :uuid

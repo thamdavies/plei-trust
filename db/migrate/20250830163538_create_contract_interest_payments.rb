@@ -10,9 +10,7 @@ class CreateContractInterestPayments < ActiveRecord::Migration[8.0]
       t.decimal :total_amount, precision: 15, scale: 2
       t.decimal :total_paid, precision: 15, scale: 2
       t.string :payment_status, default: 'unpaid'
-      t.text :notes
-      t.references :processed_by, null: false, foreign_key: { to_table: :users }, type: :uuid
-      t.string :status
+      t.text :note
 
       t.timestamps
     end

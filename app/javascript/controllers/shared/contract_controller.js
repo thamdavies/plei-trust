@@ -23,7 +23,7 @@ export default class extends Controller {
     try {
       const selectedValue = event.target.value;
       const request = new FetchRequest('get', `/interest_calculation_methods/${selectedValue}`, {
-        responseKind: 'turbo_stream',
+        responseKind: 'turbo-stream',
       });
       const { response } = await request.perform();
       if (response.ok) {
@@ -40,7 +40,6 @@ export default class extends Controller {
   setInterestMethodDetails(data) {    
     this.interestUnitTarget.textContent = data.attributes.percent_unit;
     this.interestPeriodUnitTarget.textContent = data.attributes.note;
-    this.interestRateInputTarget.placeholder = data.attributes.placeholder || "";
     this.contractTermDaysInputTarget.placeholder = data.attributes.placeholder || "";
     this.handleInterestWrapperVisibility(data);
   }

@@ -18,7 +18,7 @@ module AssetSetting::Contracts
     property :default_loan_amount, populator: ->(options) {
       self.default_loan_amount = self.input_params["default_loan_amount"].remove_dots if self.input_params["default_loan_amount"].present?
     }
-    property :default_loan_duration_days
+    property :default_contract_term
     property :default_interest_rate
     property :liquidation_after_days
     property :interest_period
@@ -62,7 +62,7 @@ module AssetSetting::Contracts
         required(:default_interest_rate).filled(:string)
         required(:interest_period).filled(:string)
         required(:liquidation_after_days).filled(:string)
-        required(:default_loan_duration_days).filled(:string)
+        required(:default_contract_term).filled(:string)
         optional(:status).value(:string, included_in?: %w[active inactive])
       end
 

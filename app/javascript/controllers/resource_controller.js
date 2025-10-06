@@ -23,7 +23,7 @@ export default class extends Controller {
     if (!this.pathValue) return;
 
     const request = new FetchRequest('get', this.pathValue, {
-      responseKind: 'turbo_stream',
+      responseKind: 'turbo-stream',
     });
     await request.perform();
   }

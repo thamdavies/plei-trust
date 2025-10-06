@@ -21,7 +21,7 @@ ActiveRecord::Base.transaction do
         default_loan_amount: asset_data['default_loan_amount'],
         default_interest_rate: asset_data['default_interest_rate'],
         interest_period: asset_data['interest_period'],
-        default_loan_duration_days: asset_data['default_loan_duration_days'],
+        default_contract_term: asset_data['default_contract_term'],
         liquidation_after_days: 15,
       )
 

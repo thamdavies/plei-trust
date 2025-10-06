@@ -8,7 +8,7 @@ export default class extends Controller {
     try {
       const selectedValue = event.target.value;
       const request = new FetchRequest('get', `/wards?province_code=${selectedValue}`, {
-        responseKind: 'turbo_stream',
+        responseKind: 'turbo-stream',
       });
       const { response } = await request.perform();
       if (!response.ok) {

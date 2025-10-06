@@ -11,7 +11,7 @@ asset_settings:
     interest_period: 1
     default_interest_rate: 1.5
     default_loan_amount: 5000000
-    default_loan_duration_days: 30
+    default_contract_term: 30
     asset_setting_attributes:
       - attribute_name: "Biển số"
       - attribute_name: "Số khung"
@@ -29,7 +29,7 @@ asset_settings:
     interest_period: 1
     default_interest_rate: 2.0
     default_loan_amount: 20000000
-    default_loan_duration_days: 30
+    default_contract_term: 30
     asset_setting_attributes:
       - attribute_name: "Biển số"
       - attribute_name: "Số khung"
@@ -47,7 +47,7 @@ asset_settings:
     interest_period: 1
     default_interest_rate: 1.0
     default_loan_amount: 1000000
-    default_loan_duration_days: 30
+    default_contract_term: 30
     asset_setting_attributes:
       - attribute_name: "Trọng lượng"
       - attribute_name: "Hàm lượng"
@@ -64,7 +64,7 @@ asset_settings:
     interest_period: 1
     default_interest_rate: 1.2
     default_loan_amount: 3000000
-    default_loan_duration_days: 30
+    default_contract_term: 30
     asset_setting_attributes:
       - attribute_name: "Thương hiệu"
       - attribute_name: "Model"
@@ -82,7 +82,7 @@ asset_settings:
     interest_period: 1
     default_interest_rate: 1.3
     default_loan_amount: 2000000
-    default_loan_duration_days: 30
+    default_contract_term: 30
     asset_setting_attributes:
       - attribute_name: "Hãng"
       - attribute_name: "Model"
@@ -102,7 +102,7 @@ asset_settings:
     interest_period: 1
     default_interest_rate: 1.4
     default_loan_amount: 4000000
-    default_loan_duration_days: 30
+    default_contract_term: 30
     asset_setting_attributes:
       - attribute_name: "Hãng"
       - attribute_name: "Model"
