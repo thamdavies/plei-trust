@@ -10,7 +10,7 @@ module Contract::Services
       when InterestCalculationMethod.config[:code][:daily_per_million]
         Contract::Services::Generators::DailyPerMillionPayments.new(contract:, processed_by:).call
       when InterestCalculationMethod.config[:code][:daily_fixed]
-        # generate_daily_fixed_payments
+        Contract::Services::Generators::DailyFixedPayments.new(contract:, processed_by:).call
       when InterestCalculationMethod.config[:code][:weekly_percent]
         # generate_weekly_percent_payments
       when InterestCalculationMethod.config[:code][:weekly_fixed]
