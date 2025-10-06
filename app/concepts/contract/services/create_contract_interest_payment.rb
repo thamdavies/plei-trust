@@ -15,10 +15,10 @@ module Contract::Services
         Generators::WeeklyPercentPayments.new(contract:, processed_by:).call
       when InterestCalculationMethod.config[:code][:weekly_fixed]
         Generators::WeeklyFixedPayments.new(contract:, processed_by:).call
-        # when InterestCalculationMethod.config[:code][:monthly_30]
-        #   Generators::Monthly30Payments.new(contract:, processed_by:).call
-        # when InterestCalculationMethod.config[:code][:monthly_calendar]
-        #   Generators::MonthlyCalendarPayments.new(contract:, processed_by:).call
+      when InterestCalculationMethod.config[:code][:monthly_30]
+        Generators::Monthly30Payments.new(contract:, processed_by:).call
+      when InterestCalculationMethod.config[:code][:monthly_calendar]
+        Generators::MonthlyCalendarPayments.new(contract:, processed_by:).call
       end
     end
 

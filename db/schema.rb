@@ -140,12 +140,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.decimal "total_paid", precision: 15, scale: 2
     t.string "payment_status", default: "unpaid"
     t.text "note"
-    t.uuid "processed_by_id", null: false
-    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["contract_id"], name: "index_contract_interest_payments_on_contract_id"
-    t.index ["processed_by_id"], name: "index_contract_interest_payments_on_processed_by_id"
   end
 
   create_table "contract_terminations", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
@@ -305,7 +302,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
   add_foreign_key "contract_amount_changes", "users", column: "processed_by_id"
   add_foreign_key "contract_extensions", "contracts"
   add_foreign_key "contract_interest_payments", "contracts"
-  add_foreign_key "contract_interest_payments", "users", column: "processed_by_id"
   add_foreign_key "contract_terminations", "contracts"
   add_foreign_key "contract_terminations", "users", column: "processed_by_id"
   add_foreign_key "contracts", "asset_settings"
