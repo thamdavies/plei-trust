@@ -14,7 +14,7 @@ class ContractDecorator < ApplicationDecorator
   def contract_type_name
     return contract_type&.name if interest_rate.blank? || interest_rate.zero?
 
-    "Cho vay"
+    "Đi vay"
   end
 
   def fm_interest_rate

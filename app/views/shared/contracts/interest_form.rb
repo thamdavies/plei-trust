@@ -25,7 +25,7 @@ class Views::Shared::Contracts::InterestForm < Views::Base
           span(
             class: "absolute text-sm inset-y-0 right-0 flex items-center pr-3 text-gray-500",
             data: { "shared--contract_target": "interestUnit" }
-          ) { "%/tháng" }
+          ) { form.interest_calculation_method_obj.percent_unit }
         end
 
         FormFieldError() { form.errors[:interest_rate].first }
@@ -34,6 +34,7 @@ class Views::Shared::Contracts::InterestForm < Views::Base
       div(class: "flex gap-4 items-center") do
         FormField(class: "w-sm") do
           FormFieldLabel { "Kỳ lãi" }
+          div(class: "relative") do
             Input(
               type: "number",
               placeholder: "Nhập kỳ lãi",
@@ -46,27 +47,40 @@ class Views::Shared::Contracts::InterestForm < Views::Base
               }
             )
 
+            span(
+              class: "absolute text-sm inset-y-0 right-0 flex items-center pr-3 text-gray-500",
+              data: { "shared--contract_target": "interestPeriodUnit" }
+            ) { form.interest_calculation_method_obj.unit }
+          end
+
           FormFieldError() { form.errors[:interest_period].first }
         end
         span(
           class: "text-sm text-gray-500 mt-5",
-          data: { "shared--contract_target": "interestPeriodUnit" }
-        ) { "(VD: 1 tháng đóng lãi 1 lần thì điền số 1)" }
+          data: { "shared--contract_target": "interestPeriodNote" }
+        ) { form.interest_calculation_method_obj.note }
       end
 
       FormField(class: "max-w-sm") do
         FormFieldLabel { "Thời gian vay" }
-        Input(
-          type: "number",
-          data: {
-            controller: "number-input",
-            "shared--contract_target": "contractTermDaysInput"
-          },
-          placeholder: "Nhập số ngày vay",
-          name: "form[contract_term]",
-          value: form.contract_term,
-          class: "pr-10"
-        )
+        div(class: "relative") do
+          Input(
+            type: "number",
+            data: {
+              controller: "number-input",
+              "shared--contract_target": "contractTermDaysInput"
+            },
+            placeholder: "Nhập số ngày vay",
+            name: "form[contract_term]",
+            value: form.contract_term,
+            class: "pr-10"
+          )
+
+          span(
+            class: "absolute text-sm inset-y-0 right-0 flex items-center pr-3 text-gray-500",
+            data: { "shared--contract_target": "contractTermUnit" }
+          ) { form.interest_calculation_method_obj.unit }
+        end
 
         FormFieldError() { form.errors[:contract_term].first }
       end
