@@ -6,6 +6,7 @@ class Views::Shared::Contracts::Show < Views::Base
   def view_template
     Text(size: "5", weight: "bold") { "Chi tiết hợp đồng" }
     Separator(class: "my-4")
+    render Views::Shared::Contracts::ContractInfo.new(contract:)
     Tabs(default_value: "pay_interest", class: "w-full") do
       TabsList do
         TabsTrigger(value: "pay_interest") { "Trả tiền lãi" }

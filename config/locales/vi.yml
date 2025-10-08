@@ -30,4 +30,14 @@ vi:
       record_invalid: "Xác thực thất bại: %{errors}"
   
   invalid_email: "Email không hợp lệ"
+  contract_state:
+    default: &default
+      on_time: "Đúng hẹn"
+      overdue: "Quá hạn"
+      interest_late: "Trễ lãi"
+      closed: "Đã tất toán"
+      due_date: "Đến hạn đóng lãi"
+      pay_today: "Hôm nay đóng tiền"
+    capital:
+      <<: *default
   

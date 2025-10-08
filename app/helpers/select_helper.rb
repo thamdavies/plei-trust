@@ -14,8 +14,8 @@ module SelectHelper
     end
   end
 
-  def select_options_for_capital_contract_statuses
-    @select_options_for_capital_contract_statuses ||= [
+  def select_options_for_contract_statuses
+    @select_options_for_contract_statuses ||= [
       OpenStruct.new(code: "", name: "Tất cả"),
       OpenStruct.new(code: "on_time", name: "Đúng hẹn"),
       OpenStruct.new(code: "overdue", name: "Quá hạn"),

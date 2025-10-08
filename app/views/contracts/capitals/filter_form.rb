@@ -29,11 +29,11 @@ class Views::Contracts::Capitals::FilterForm < Views::Base
                 Select do
                   SelectInput(name: "q[status_eq]", value: view_context.params.dig(:q, :status_eq), id: "select-a-status")
                   SelectTrigger(variant: :ghost) do
-                    selected_status = view_context.select_options_for_capital_contract_statuses.find { |status| status.code == view_context.params.dig(:q, :status_eq) }&.name || "Tất cả"
+                    selected_status = view_context.select_options_for_contract_statuses.find { |status| status.code == view_context.params.dig(:q, :status_eq) }&.name || "Tất cả"
                     SelectValue(placeholder: selected_status, id: "select-a-status")
                   end
                   SelectContent(outlet_id: "select-a-status") do
-                    view_context.select_options_for_capital_contract_statuses.each do |status|
+                    view_context.select_options_for_contract_statuses.each do |status|
                       SelectItem(
                         value: status.code,
                         class: "cursor-pointer",

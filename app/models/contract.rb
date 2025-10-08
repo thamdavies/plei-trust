@@ -61,6 +61,8 @@ class Contract < ApplicationRecord
   auto_code_config(prefix: "HD", field: :code)
   large_number_field :loan_amount
 
+  enum :status, { active: "active", closed: "closed" }
+
   scope :capital_contracts, -> { where(contract_type: { code: :capital }) }
 
   accepts_nested_attributes_for :customer,
