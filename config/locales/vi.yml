@@ -37,7 +37,7 @@ vi:
       interest_late: "Trễ lãi"
       closed: "Đã tất toán"
       due_date: "Đến hạn đóng lãi"
-      pay_today: "Hôm nay đóng tiền"
+      pay_today: "Hôm nay đóng lãi"
     capital:
       <<: *default
   
