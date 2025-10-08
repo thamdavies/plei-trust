@@ -40,12 +40,13 @@ class Contracts::CapitalsController < ApplicationController
   end
 
   def update
-    ctx = CapitalContract::Operations::Update.call(params: permit_params.to_h, id: params[:id], current_user:, current_branch:)
+    ctx = CapitalContract::Operations::Update.call(params: update_params.to_h, current_user:, current_branch:)
     if ctx.success?
       flash[:notice] = "Cập nhật hợp đồng nguồn vốn thành công"
       redirect_to(contracts_capitals_path)
     else
-      @contract = ctx[:"contract.default"].decorate
+      @form = ctx[:"contract.default"]
+      @form.prepopulate!(customer:)
     end
   end
 
@@ -98,6 +99,10 @@ class Contracts::CapitalsController < ApplicationController
     )
 
     form_params
+  end
+
+  def update_params
+    permit_params.merge(id: params[:id])
   end
 
   def contract_type

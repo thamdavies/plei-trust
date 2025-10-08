@@ -69,6 +69,10 @@ class Contract < ApplicationRecord
     Arel.sql("contracts.created_at::date")
   end
 
+  def can_edit_contract?
+    contract_interest_payments.paid.zero?
+  end
+
   class << self
     def ransackable_attributes(auth_object = nil)
       %w[created_at]
