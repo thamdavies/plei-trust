@@ -4,7 +4,16 @@ module CapitalContract::Operations
   class Update < ApplicationOperation
     class Present < ApplicationOperation
       step Model(::Contract, :find)
+      step :preprocess_params
       step Contract::Build(constant: CapitalContract::Contracts::Create)
+
+      def preprocess_params(ctx, params:, **)
+        if params[:collect_interest_in_advance].blank?
+          params[:collect_interest_in_advance] = false
+        end
+
+        true
+      end
     end
 
     step Subprocess(Present)
@@ -17,7 +26,6 @@ module CapitalContract::Operations
     private
 
     def create_contract_interest_payments(ctx, model:, **)
-
       service = ::Contract::Services::CreateContractInterestPayment.new(
         contract: model,
         processed_by: model.created_by

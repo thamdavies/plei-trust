@@ -38,7 +38,7 @@ class Views::Contracts::Capitals::Index < Views::Base
               TableCell(class: "font-medium") { contract.fm_interest_rate }
               TableCell(class: "font-medium") { "" }
               TableCell(class: "font-medium") { contract.note }
-              TableCell(class: "font-medium") { "" }
+              TableCell(class: "font-medium") { contract.fm_due_date }
               TableCell(class: "font-medium") { contract.contract_status_badge }
               TableCell(class: "font-medium") do
                 div(class: "flex space-x-2") do

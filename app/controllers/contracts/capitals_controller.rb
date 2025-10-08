@@ -36,6 +36,7 @@ class Contracts::CapitalsController < ApplicationController
       @form.loan_amount = @form.loan_amount.to_f * 1000
       @form.interest_rate = @form.interest_rate.to_i
       @form.interest_calculation_method_obj = interest_calculation_method_obj
+      @form.can_edit_contract = @form.model.can_edit_contract?
     end
   end
 
@@ -46,6 +47,7 @@ class Contracts::CapitalsController < ApplicationController
       redirect_to(contracts_capitals_path)
     else
       @form = ctx[:"contract.default"]
+      @form.can_edit_contract = @form.model.can_edit_contract?
       @form.prepopulate!(customer:)
     end
   end

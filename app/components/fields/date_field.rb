@@ -6,6 +6,7 @@ class Components::Fields::DateField < Components::Base
     @error = error
     @value = value
     @placeholder = opts[:placeholder]
+    @readonly = opts[:readonly] || false
     @wrapper_class = opts[:wrapper_class] || ""
     @data_attrs = opts[:data] || {}
   end
@@ -22,6 +23,7 @@ class Components::Fields::DateField < Components::Base
                 class: "rounded-md border shadow", id: @id,
                 placeholder: @placeholder || "dd/mm/yyyy",
                 autocomplete: "off",
+                readonly: @readonly,
                 value: @value.present? ? @value.to_date.to_fs(:date_vn) : "",
                 data_controller: "ruby-ui--calendar-input",
                 pattern: "\\d{2}/\\d{2}/\\d{4}", data_pattern_mismatch: "ngày không hợp lệ",
@@ -30,7 +32,7 @@ class Components::Fields::DateField < Components::Base
             end
           end
           PopoverContent do
-            Calendar(input_id: "##{@id}")
+            Calendar(input_id: "##{@id}") unless @readonly
           end
         end
       end

@@ -44,6 +44,7 @@
 class Contract < ApplicationRecord
   include AutoCodeGenerator
   include LargeNumberFields
+  include Contract::Reader
 
   acts_as_tenant(:branch)
 
@@ -55,6 +56,7 @@ class Contract < ApplicationRecord
   belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id, optional: true
 
   has_many :contract_interest_payments, dependent: :destroy
+  has_many :unpaid_interest_payments, -> { where(payment_status: :unpaid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
 
   auto_code_config(prefix: "HD", field: :code)
   large_number_field :loan_amount
@@ -67,10 +69,6 @@ class Contract < ApplicationRecord
 
   ransacker :created_at do
     Arel.sql("contracts.created_at::date")
-  end
-
-  def can_edit_contract?
-    contract_interest_payments.paid.zero?
   end
 
   class << self

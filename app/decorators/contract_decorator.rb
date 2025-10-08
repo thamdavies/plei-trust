@@ -30,21 +30,22 @@ class ContractDecorator < ApplicationDecorator
     end
   end
 
-  # ngày phải đóng lãi
-  # nếu đóng lãi trước thì = ngày ký hợp đồng
-  # nếu đóng lãi sau thì = ngày ký hợp đồng + kỳ hạn đóng lãi
-  # đối với hợp đồng vốn thì không có kỳ hạn đóng lãi nên sẽ để trống
+  # Returns the formatted due date for the next interest payment
+  #
+  # @return [String] The due date formatted in Vietnamese date format, or empty string if no interest applies
+  #
+  # The method determines the due date based on the interest collection method:
+  # - If interest is collected in advance, returns the 'from' date of the first unpaid payment
+  # - If interest is collected in arrears, returns the 'to' date of the first unpaid payment
+  # - Returns empty string if the contract has no interest
   def fm_due_date
-    return "" if interest_calculation_method == "capital_investment"
+    return "" if no_interest?
 
+    schedule = unpaid_interest_payments.first.presence || contract_interest_payments.order(:from).last
     if collect_interest_in_advance
-      contract_date&.to_fs(:date_vn)
+      schedule.from.to_fs(:date_vn)
     else
-      ""
+      schedule.to.to_fs(:date_vn)
     end
-  end
-
-  def interest_calculation_method_obj
-    InterestCalculationMethod.find_by(code: interest_calculation_method)
   end
 end
