@@ -76,5 +76,8 @@ application.register("shared--customer", Shared__CustomerController)
 import Shared__ContractDetailController from "./shared/contract_detail_controller"
 application.register("shared--contract-detail", Shared__ContractDetailController)
 
+import Shared__CustomInterestPaymentController from "./shared/custom_interest_payment_controller"
+application.register("shared--custom-interest-payment", Shared__CustomInterestPaymentController)
+
 import SlimSelectController from "./slim_select_controller"
 application.register("slim-select", SlimSelectController)

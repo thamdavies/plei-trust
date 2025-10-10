@@ -7,12 +7,6 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
 
   def view_template
     div(data: { controller: "shared--custom-interest-payment" }) do
-      # Alert(variant: :warning) do
-      #   Remix::Information2Line(class: "h-6 w-6 flex-shrink-0 text-yellow-400")
-      #   AlertTitle { "Chức năng đang phát triển" }
-      #   AlertDescription { "Chức năng này sẽ được hoàn thiện ở các phiên bản sau. Xin cảm ơn!!!" }
-      # end
-      #
       Form(action: form_url, method: "#") do
         Input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
 
@@ -23,7 +17,7 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
           label_classes: "w-sm",
           label: "Lãi từ ngày", id: "from_date", error: form.errors[:from_date].first,
           value: form.from_date,
-          data: { "shared--contract-detail_target": "fromDateInput" }
+          data: { "shared--custom-interest-payment_target": "fromDateInput" }
         )
 
         div(class: "flex gap-4 items-center") do
@@ -33,12 +27,12 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
             label_classes: "w-sm",
             label: "Đến ngày", id: "to_date", error: form.errors[:to_date].first,
             value: form.to_date,
-            data: { "shared--contract-detail_target": "toDateInput" }
+            data: { "shared--custom-interest-payment_target": "toDateInput" }
           )
 
           p(class: "text-sm mt-0") do
             span { "Ngày đóng lãi tiếp theo: " }
-            span(class: "font-medium", data: { "shared--contract-detail_target": "nextInterestDate" }) do
+            span(class: "font-medium", data: { "shared--custom-interest-payment_target": "nextInterestDate" }) do
               form.next_interest_date.present? ? form.next_interest_date.to_date.to_fs(:date_vn) : "N/A"
             end
           end
@@ -56,7 +50,7 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
                 class: "pr-10",
                 data: {
                   controller: "number-input",
-                  "shared--contract-detail_target": "daysCountInput"
+                  "shared--custom-interest-payment_target": "daysCountInput"
                 }
               )
 
@@ -70,10 +64,10 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
         div(class: "flex gap-4 items-center") do
           FormField(class: "space-y-2 max-w-md flex items-center gap-2") do
             FormFieldLabel(class: "w-sm") { "Tiền lãi" }
-            span(class: "w-full text-sm text-green-500", data: { "shared--contract-detail_target": "interestAmount" }) { "300.000 VNĐ" }
+            span(class: "w-full text-sm text-green-500", data: { "shared--custom-interest-payment_target": "interestAmount" }) { "300.000 VNĐ" }
             input(
               type: "hidden", name: "form[interest_amount]", value: form.interest_amount,
-              data: { "shared--contract-detail_target": "interestAmountInput" }
+              data: { "shared--custom-interest-payment_target": "interestAmountInput" }
             )
           end
         end
@@ -100,10 +94,10 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
         div(class: "flex gap-4 items-center") do
           FormField(class: "space-y-2 max-w-md flex items-center gap-2") do
             FormFieldLabel(class: "w-sm") { "Tổng tiền lãi" }
-            span(class: "w-full text-sm text-red-500", data: { "shared--contract-detail_target": "totalInterestAmount" }) { "300.000 VNĐ" }
+            span(class: "w-full text-sm text-red-500", data: { "shared--custom-interest-payment_target": "totalInterestAmount" }) { "300.000 VNĐ" }
             input(
               type: "hidden", name: "form[total_interest_amount]", value: form.total_interest_amount,
-              data: { "shared--contract-detail_target": "totalInterestAmountInput" }
+              data: { "shared--custom-interest-payment_target": "totalInterestAmountInput" }
             )
           end
         end
@@ -128,8 +122,11 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
         end
 
         div(class: "mt-4 w-md flex justify-end space-x-2") do
-          # Đóng collapse khi bấm hủy
-          Button(variant: :outline, data: { action: "click->ruby-ui--collapsible#close" }) { "Hủy" }
+          # Đóng collapse khi bấm hủy, đồng thời reset form về giá trị ban đầu
+          Button(variant: :outline,
+            data: {
+              action: "ruby-ui--collapsible#close shared--custom-interest-payment#resetForm"
+            }) { "Hủy" }
           Button(type: "submit") { "Đóng lãi" }
         end
       end

@@ -7,4 +7,8 @@ export default class extends Controller {
   connect() {
     console.log("Custom interest payment controller connected");
   }
+
+  resetForm() {
+    console.log("Resetting form");
+  }
 }
