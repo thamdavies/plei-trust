@@ -122,7 +122,6 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
         end
 
         div(class: "mt-4 w-md flex justify-end space-x-2") do
-          # Đóng collapse khi bấm hủy, đồng thời reset form về giá trị ban đầu
           Button(variant: :outline,
             data: {
               action: "ruby-ui--collapsible#close shared--custom-interest-payment#resetForm"
