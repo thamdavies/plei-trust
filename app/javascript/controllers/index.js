@@ -73,5 +73,8 @@ application.register("shared--contract", Shared__ContractController)
 import Shared__CustomerController from "./shared/customer_controller"
 application.register("shared--customer", Shared__CustomerController)
 
+import Shared__ContractDetailController from "./shared/contract_detail_controller"
+application.register("shared--contract-detail", Shared__ContractDetailController)
+
 import SlimSelectController from "./slim_select_controller"
 application.register("slim-select", SlimSelectController)

@@ -1,6 +1,6 @@
 <% if @form.present? %>
-  <%= turbo_stream.update "capital_form" do %>
-    <%= render Views::Contracts::Capitals::Form.new(form: @form) %>
+  <%= turbo_stream.update "pay_by_day_form" do %>
+    <%= render Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm.new(form: @form) %>
   <% end %>
 <% else %>
   <%= turbo_stream.update "toast-notification" do %>

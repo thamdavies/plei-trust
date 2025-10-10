@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   # For contracts management
   namespace :contracts do
     resources :capitals
+    resources :interest_payments, only: [ :update ]
   end
 
   # For automplete search

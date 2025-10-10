@@ -12,7 +12,7 @@ class Views::Shared::Contracts::Tabs::PayInterest < Views::Base
               CollapsibleTrigger do
                 div(class: "flex items-center space-x-2 cursor-pointer") do
                   Remix::ExpandUpDownLine(class: "h-4 w-4")
-                  span(class: "text-sm font-semibold") { "Chức năng đóng lãi tùy biến theo ngày" }
+                  Text(size: "3", class: "font-semibold") { "Chức năng đóng lãi tùy biến theo ngày" }
                 end
                 span(class: "sr-only") { "Toggle" }
               end
@@ -20,19 +20,17 @@ class Views::Shared::Contracts::Tabs::PayInterest < Views::Base
 
             CollapsibleContent do
               div(class: "space-y-2 my-2") do
-                div(class: "rounded-md border px-4 py-2 font-mono text-sm shadow-sm") do
-                  "phlex-ruby/phlex-rails"
-                end
-                div(class: "rounded-md border px-4 py-2 font-mono text-sm shadow-sm") do
-                  "ruby-ui/ruby_ui"
+                turbo_frame_tag "pay_by_day_form" do
+                  render Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm.new(contract:)
                 end
               end
+              Separator(class: "my-4")
             end
           end
 
           div(class: "flex gap-2 items-center") do
             Remix::ListCheck3(class: "h-4 w-4")
-            Text(size: "2", class: "text-md font-semibold") { "Lịch sử đóng tiền lãi" }
+            Text(size: "3", class: "font-semibold") { "Lịch sử đóng tiền lãi" }
           end
 
           Table do
@@ -74,7 +72,13 @@ class Views::Shared::Contracts::Tabs::PayInterest < Views::Base
                     div(class: "flex items-center space-x-3") do
                       Tooltip do
                         TooltipTrigger do
-                          Checkbox(id: "paid_#{item.id}", class: "cursor-pointer", checked: item.paid?)
+                          Checkbox(
+                            id: item.id, class: "cursor-pointer", checked: item.paid?,
+                            data: {
+                              action: "click->shared--contract-detail#togglePaid",
+                              "shared--contract-detail_target": "paymentCheckbox"
+                            }
+                          )
                         end
                         TooltipContent do
                           Text(size: :sm) { "Thanh toán" }

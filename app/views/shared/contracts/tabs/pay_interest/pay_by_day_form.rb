@@ -1,0 +1,183 @@
+class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
+  def initialize(contract:)
+    @contract = contract
+    ctx = CustomInterestPayment::Operations::Update::Present.call(params: form_params.to_h)
+    @form = ctx[:"contract.default"]
+  end
+
+  def view_template
+    div(data: { controller: "shared--custom-interest-payment" }) do
+      # Alert(variant: :warning) do
+      #   Remix::Information2Line(class: "h-6 w-6 flex-shrink-0 text-yellow-400")
+      #   AlertTitle { "Chức năng đang phát triển" }
+      #   AlertDescription { "Chức năng này sẽ được hoàn thiện ở các phiên bản sau. Xin cảm ơn!!!" }
+      # end
+      #
+      Form(action: form_url, method: "#") do
+        Input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
+
+        render Components::Fields::DateField.new(
+          name: "form[from_date]",
+          wrapper_class: "max-w-md flex items-center gap-2",
+          readonly: true,
+          label_classes: "w-sm",
+          label: "Lãi từ ngày", id: "from_date", error: form.errors[:from_date].first,
+          value: form.from_date,
+          data: { "shared--contract-detail_target": "fromDateInput" }
+        )
+
+        div(class: "flex gap-4 items-center") do
+          render Components::Fields::DateField.new(
+            name: "form[to_date]",
+            wrapper_class: "max-w-md flex items-center gap-2",
+            label_classes: "w-sm",
+            label: "Đến ngày", id: "to_date", error: form.errors[:to_date].first,
+            value: form.to_date,
+            data: { "shared--contract-detail_target": "toDateInput" }
+          )
+
+          p(class: "text-sm mt-0") do
+            span { "Ngày đóng lãi tiếp theo: " }
+            span(class: "font-medium", data: { "shared--contract-detail_target": "nextInterestDate" }) do
+              form.next_interest_date.present? ? form.next_interest_date.to_date.to_fs(:date_vn) : "N/A"
+            end
+          end
+        end
+
+        div(class: "flex gap-4 items-center") do
+          FormField(class: "space-y-2 max-w-md flex items-center gap-2") do
+            FormFieldLabel(class: "w-sm") { "Số ngày" }
+            div(class: "relative space-y-4 mb-0 w-full") do
+              Input(
+                type: "number",
+                placeholder: "Nhập số ngày",
+                name: "form[days_count]",
+                value: form.days_count,
+                class: "pr-10",
+                data: {
+                  controller: "number-input",
+                  "shared--contract-detail_target": "daysCountInput"
+                }
+              )
+
+              span(class: "absolute text-sm inset-y-0 right-0 flex items-center pr-3 text-gray-500") { "ngày" }
+            end
+
+            FormFieldError() { form.errors[:days_count].first }
+          end
+        end
+
+        div(class: "flex gap-4 items-center") do
+          FormField(class: "space-y-2 max-w-md flex items-center gap-2") do
+            FormFieldLabel(class: "w-sm") { "Tiền lãi" }
+            span(class: "w-full text-sm text-green-500", data: { "shared--contract-detail_target": "interestAmount" }) { "300.000 VNĐ" }
+            input(
+              type: "hidden", name: "form[interest_amount]", value: form.interest_amount,
+              data: { "shared--contract-detail_target": "interestAmountInput" }
+            )
+          end
+        end
+
+        div(class: "flex gap-4 items-center") do
+          FormField(class: "space-y-2 max-w-md flex items-center gap-2") do
+            FormFieldLabel(class: "w-sm") { "Tiền khác" }
+            div(class: "relative space-y-4 mb-0 w-full") do
+              MaskedInput(
+                data: { maska_number_locale: "vi", maska_number_unsigned: true },
+                placeholder: "Nhập số tiền khác",
+                name: "form[other_amount]",
+                value: form.other_amount.to_i,
+                class: "pr-10"
+              )
+
+              span(class: "absolute text-sm inset-y-0 right-0 flex items-center pr-3 text-gray-500") { "VNĐ" }
+            end
+
+            FormFieldError() { form.errors[:other_amount].first }
+          end
+        end
+
+        div(class: "flex gap-4 items-center") do
+          FormField(class: "space-y-2 max-w-md flex items-center gap-2") do
+            FormFieldLabel(class: "w-sm") { "Tổng tiền lãi" }
+            span(class: "w-full text-sm text-red-500", data: { "shared--contract-detail_target": "totalInterestAmount" }) { "300.000 VNĐ" }
+            input(
+              type: "hidden", name: "form[total_interest_amount]", value: form.total_interest_amount,
+              data: { "shared--contract-detail_target": "totalInterestAmountInput" }
+            )
+          end
+        end
+
+        div(class: "flex gap-4 items-center") do
+          FormField(class: "space-y-2 max-w-md flex items-center gap-2") do
+            FormFieldLabel(class: "w-sm") { "Tiền khách đưa" }
+            div(class: "relative space-y-4 mb-0 w-full") do
+              MaskedInput(
+                data: { maska_number_locale: "vi", maska_number_unsigned: true },
+                placeholder: "Nhập số tiền khách đưa",
+                name: "form[customer_payment_amount]",
+                value: form.customer_payment_amount.to_i,
+                class: "pr-10"
+              )
+
+              span(class: "absolute text-sm inset-y-0 right-0 flex items-center pr-3 text-gray-500") { "VNĐ" }
+            end
+
+            FormFieldError() { form.errors[:customer_payment_amount].first }
+          end
+        end
+
+        div(class: "mt-4 w-md flex justify-end space-x-2") do
+          # Đóng collapse khi bấm hủy
+          Button(variant: :outline, data: { action: "click->ruby-ui--collapsible#close" }) { "Hủy" }
+          Button(type: "submit") { "Đóng lãi" }
+        end
+      end
+    end
+  end
+
+  private
+
+  attr_reader :contract, :form
+
+  def create_default_form
+    # Tạo một đối tượng form mặc định
+    OpenStruct.new(
+      from_date: Date.current,
+      to_date: Date.current,
+      days_count: 1,
+      interest_amount: 0,
+      other_amount: 0,
+      total_interest_amount: 0,
+      customer_payment_amount: 0
+    )
+  end
+
+  def form_url
+    "#"
+  end
+
+  def form_params
+    params = ActionController::Parameters.new(
+      form: {
+        from_date: Date.current,
+        to_date: Date.current,
+        days_count: 1,
+        interest_amount: 0,
+        other_amount: 0,
+        total_interest_amount: 0,
+        customer_payment_amount: 0
+      }
+    )
+
+    params.require(:form).permit(
+      :from_date,
+      :to_date,
+      :days_count,
+      :interest_amount,
+      :other_amount,
+      :total_interest_amount,
+      :customer_payment_amount
+    )
+  end
+end

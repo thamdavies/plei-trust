@@ -8,31 +8,47 @@ class Components::Fields::DateField < Components::Base
     @placeholder = opts[:placeholder]
     @readonly = opts[:readonly] || false
     @wrapper_class = opts[:wrapper_class] || ""
+    @label_classes = opts[:label_classes] || ""
     @data_attrs = opts[:data] || {}
   end
 
   def view_template
     FormField(class: @wrapper_class) do
-      FormFieldLabel { @label }
+      FormFieldLabel(class: @label_classes) { @label }
       div(class: "space-y-4 mb-0 w-full") do
-        Popover(options: { trigger: "click" }) do
-          PopoverTrigger(class: "w-full") do
-            div(class: "grid w-full items-center gap-1.5") do
-              Input(
-                name: @name,
-                class: "rounded-md border shadow", id: @id,
-                placeholder: @placeholder || "dd/mm/yyyy",
-                autocomplete: "off",
-                readonly: @readonly,
-                value: @value.present? ? @value.to_date.to_fs(:date_vn) : "",
-                data_controller: "ruby-ui--calendar-input",
-                pattern: "\\d{2}/\\d{2}/\\d{4}", data_pattern_mismatch: "ngày không hợp lệ",
-                **@data_attrs,
-              )
+        if @readonly
+          Input(
+            name: @name,
+            class: "rounded-md border shadow", id: @id,
+            placeholder: @placeholder || "dd/mm/yyyy",
+            autocomplete: "off",
+            readonly: @readonly,
+            value: @value.present? ? @value.to_date.to_fs(:date_vn) : "",
+            data_controller: "ruby-ui--calendar-input",
+            pattern: "\\d{2}/\\d{2}/\\d{4}", data_pattern_mismatch: "ngày không hợp lệ",
+            **@data_attrs,
+          )
+        else
+          Popover(options: { trigger: "click" }) do
+            PopoverTrigger(class: "w-full") do
+              div(class: "grid w-full items-center gap-1.5") do
+                Input(
+                  name: @name,
+                  class: "rounded-md border shadow", id: @id,
+                  placeholder: @placeholder || "dd/mm/yyyy",
+                  autocomplete: "off",
+                  readonly: @readonly,
+                  value: @value.present? ? @value.to_date.to_fs(:date_vn) : "",
+                  data_controller: "ruby-ui--calendar-input",
+                  pattern: "\\d{2}/\\d{2}/\\d{4}", data_pattern_mismatch: "ngày không hợp lệ",
+                  **@data_attrs,
+                )
+              end
             end
-          end
-          PopoverContent do
-            Calendar(input_id: "##{@id}") unless @readonly
+
+            PopoverContent do
+              Calendar(input_id: "##{@id}")
+            end
           end
         end
       end
