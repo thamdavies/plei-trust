@@ -26,10 +26,7 @@ module CapitalContract::Operations
     private
 
     def create_contract_interest_payments(ctx, model:, **)
-      service = ::Contract::Services::CreateContractInterestPayment.new(
-        contract: model,
-        processed_by: model.created_by
-      )
+      service = ::Contract::Services::CreateContractInterestPayment.new(contract: model)
       service.call
       true
     end

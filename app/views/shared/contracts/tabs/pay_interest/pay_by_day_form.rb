@@ -1,13 +1,13 @@
 class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
   def initialize(contract:)
     @contract = contract
-    ctx = CustomInterestPayment::Operations::Update::Present.call(params: form_params.to_h)
+    ctx = CustomInterestPayment::Operations::Create::Present.call(params: form_params.to_h)
     @form = ctx[:"contract.default"]
   end
 
   def view_template
     div(data: { controller: "shared--custom-interest-payment" }) do
-      Form(action: form_url, method: "#") do
+      Form(action: form_url, method: "POST") do
         Input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
 
         render Components::Fields::DateField.new(
@@ -17,7 +17,7 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
           label_classes: "w-sm",
           label: "Lãi từ ngày", id: "from_date", error: form.errors[:from_date].first,
           value: form.from_date,
-          data: { "shared--custom-interest-payment_target": "fromDateInput" }
+          data: { "data-shared--custom-interest-payment_target": "fromDateInput" }
         )
 
         div(class: "flex gap-4 items-center") do
@@ -27,7 +27,12 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
             label_classes: "w-sm",
             label: "Đến ngày", id: "to_date", error: form.errors[:to_date].first,
             value: form.to_date,
-            data: { "shared--custom-interest-payment_target": "toDateInput" }
+            listen_change: true,
+            data: {
+              "data-shared--custom-interest-payment_target": "toDateInput",
+              "data-contract-id": contract.id
+            },
+            input_actions: "change->shared--custom-interest-payment#calculateInterestByDays blur->shared--custom-interest-payment#setToValidDate"
           )
 
           p(class: "text-sm mt-0") do
@@ -39,25 +44,34 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
         end
 
         div(class: "flex gap-4 items-center") do
-          FormField(class: "space-y-2 max-w-md flex items-center gap-2") do
-            FormFieldLabel(class: "w-sm") { "Số ngày" }
-            div(class: "relative space-y-4 mb-0 w-full") do
-              Input(
-                type: "number",
-                placeholder: "Nhập số ngày",
-                name: "form[days_count]",
-                value: form.days_count,
-                class: "pr-10",
-                data: {
-                  controller: "number-input",
-                  "shared--custom-interest-payment_target": "daysCountInput"
-                }
-              )
+          FormField(class: "space-y-2") do
+            div(class: "max-w-md flex items-center gap-2") do
+              FormFieldLabel(class: "w-sm") { "Số ngày" }
+              div(class: "relative space-y-4 mb-0 w-full") do
+                Input(
+                  type: "number",
+                  placeholder: "Nhập số ngày",
+                  name: "form[days_count]",
+                  value: form.days_count,
+                  class: "pr-10",
+                  min: "1",
+                  data: {
+                    controller: "number-input",
+                    "contract-id": contract.id,
+                    range_underflow: "Số ngày phải lớn hơn hoặc bằng 1",
+                    "shared--custom-interest-payment_target": "daysCountInput",
+                    action: "input->shared--custom-interest-payment#setToDateValue change->shared--custom-interest-payment#calculateInterestByDays"
+                  }
+                )
 
-              span(class: "absolute text-sm inset-y-0 right-0 flex items-center pr-3 text-gray-500") { "ngày" }
+                span(class: "absolute text-sm inset-y-0 right-0 flex items-center pr-3 text-gray-500") { "ngày" }
+              end
             end
 
-            FormFieldError() { form.errors[:days_count].first }
+            div(class: "max-w-md flex items-center gap-2 justify-end") do
+              span { "" }
+              FormFieldError(class: "max-w-md mb-2") { form.errors[:days_count].first }
+            end
           end
         end
 
@@ -77,7 +91,11 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
             FormFieldLabel(class: "w-sm") { "Tiền khác" }
             div(class: "relative space-y-4 mb-0 w-full") do
               MaskedInput(
-                data: { maska_number_locale: "vi", maska_number_unsigned: true },
+                data: {
+                  maska_number_locale: "vi",
+                  "shared--custom-interest-payment_target": "otherAmountInput",
+                  action: "input->shared--custom-interest-payment#recalculateTotalInterest"
+                },
                 placeholder: "Nhập số tiền khác",
                 name: "form[other_amount]",
                 value: form.other_amount.to_i,
@@ -107,7 +125,11 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
             FormFieldLabel(class: "w-sm") { "Tiền khách đưa" }
             div(class: "relative space-y-4 mb-0 w-full") do
               MaskedInput(
-                data: { maska_number_locale: "vi", maska_number_unsigned: true },
+                data: {
+                  maska_number_locale: "vi",
+                  maska_number_unsigned: true,
+                  "shared--custom-interest-payment_target": "customerPaymentAmountInput"
+                },
                 placeholder: "Nhập số tiền khách đưa",
                 name: "form[customer_payment_amount]",
                 value: form.customer_payment_amount.to_i,
@@ -136,29 +158,15 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
 
   attr_reader :contract, :form
 
-  def create_default_form
-    # Tạo một đối tượng form mặc định
-    OpenStruct.new(
-      from_date: Date.current,
-      to_date: Date.current,
-      days_count: 1,
-      interest_amount: 0,
-      other_amount: 0,
-      total_interest_amount: 0,
-      customer_payment_amount: 0
-    )
-  end
-
   def form_url
-    "#"
+    contracts_custom_interest_payments_path(contract)
   end
 
   def form_params
     params = ActionController::Parameters.new(
       form: {
-        from_date: Date.current,
-        to_date: Date.current,
-        days_count: 1,
+        from_date: contract.nearest_unpaid_interest_payment&.from.presence || contract.contract_date,
+        to_date: contract.nearest_unpaid_interest_payment&.from.presence || contract.contract_date,
         interest_amount: 0,
         other_amount: 0,
         total_interest_amount: 0,
@@ -175,5 +183,13 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
       :total_interest_amount,
       :customer_payment_amount
     )
+  end
+
+  def unpaid_interest_payments
+    @unpaid_interest_payments ||= contract.contract_interest_payments.unpaid.order(:from)
+  end
+
+  def paid_interest_payments
+    @paid_interest_payments ||= contract.contract_interest_payments.paid.order(:from)
   end
 end

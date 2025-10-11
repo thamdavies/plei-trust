@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   namespace :contracts do
     resources :capitals
     resources :interest_payments, only: [ :update ]
+    resources :custom_interest_payments, only: [ :create, :show ]
   end
 
   # For automplete search

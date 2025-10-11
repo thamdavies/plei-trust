@@ -10,6 +10,8 @@ class Components::Fields::DateField < Components::Base
     @wrapper_class = opts[:wrapper_class] || ""
     @label_classes = opts[:label_classes] || ""
     @data_attrs = opts[:data] || {}
+    @input_actions = opts[:input_actions] || ""
+    @listen_change = opts[:listen_change] || false
   end
 
   def view_template
@@ -25,6 +27,7 @@ class Components::Fields::DateField < Components::Base
             readonly: @readonly,
             value: @value.present? ? @value.to_date.to_fs(:date_vn) : "",
             data_controller: "ruby-ui--calendar-input",
+            input_actions: @input_actions,
             pattern: "\\d{2}/\\d{2}/\\d{4}", data_pattern_mismatch: "ngày không hợp lệ",
             **@data_attrs,
           )
@@ -37,9 +40,9 @@ class Components::Fields::DateField < Components::Base
                   class: "rounded-md border shadow", id: @id,
                   placeholder: @placeholder || "dd/mm/yyyy",
                   autocomplete: "off",
-                  readonly: @readonly,
                   value: @value.present? ? @value.to_date.to_fs(:date_vn) : "",
                   data_controller: "ruby-ui--calendar-input",
+                  input_actions: @input_actions,
                   pattern: "\\d{2}/\\d{2}/\\d{4}", data_pattern_mismatch: "ngày không hợp lệ",
                   **@data_attrs,
                 )
@@ -47,7 +50,11 @@ class Components::Fields::DateField < Components::Base
             end
 
             PopoverContent do
-              Calendar(input_id: "##{@id}")
+              if @value.present?
+                Calendar(input_id: "##{@id}", selected_date: @value.present? ? @value.to_date : "", listen_change: @listen_change)
+              else
+                Calendar(input_id: "##{@id}", listen_change: @listen_change)
+              end
             end
           end
         end

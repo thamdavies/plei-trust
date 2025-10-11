@@ -23,7 +23,8 @@ class Views::Shared::Contracts::Tabs::PayInterest < Views::Base
                 turbo_frame_tag "pay_by_day_form" do
                   render Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm.new(contract:)
                 end
-              end
+              end unless contract.no_interest?
+              div(class: "text-sm text-muted-foreground") { "Hợp đồng không có lãi suất không hỗ trợ chức năng này" } if contract.no_interest?
               Separator(class: "my-4")
             end
           end

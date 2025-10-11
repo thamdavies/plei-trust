@@ -12,7 +12,7 @@ export default class extends Controller {
     try {
       const { id } = event.target;
       const request = new FetchRequest('patch', '/contracts/interest_payments', {
-        responseKind: 'turbo_stream',
+        responseKind: 'turbo-stream',
         body: JSON.stringify({ id }),
       });
 

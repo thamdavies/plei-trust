@@ -41,6 +41,24 @@ module Contract::Reader
     nearest_unpaid_interest_payment.to.to_fs(:date_vn)
   end
 
+  def interest_in_cash(days_count: 0)
+    return 0 if days_count.zero? || no_interest?
+
+    case interest_calculation_method
+    when InterestCalculationMethod.config[:code][:daily_per_million], InterestCalculationMethod.config[:code][:daily_fixed]
+      (contract_interest_payments.sum(:amount) / contract_term.to_f) * days_count
+    when InterestCalculationMethod.config[:code][:weekly_percent], InterestCalculationMethod.config[:code][:weekly_fixed]
+      num_of_weeks = (days_count / 7.0).ceil
+      contract_interest_payments.sum(:amount) / contract_term.to_f * num_of_weeks
+    when InterestCalculationMethod.config[:code][:monthly_30], InterestCalculationMethod.config[:code][:monthly_calendar]
+      num_of_days = 30 * contract_term.to_f
+      (contract_interest_payments.sum(:amount) / num_of_days).to_f * days_count
+    else
+      Rails.logger.warn("Unknown interest calculation method: #{interest_calculation_method}")
+      0
+    end.to_f.round(3)
+  end
+
   # Loại vốn
   def capital_type
     return contract_type.name if interest_rate.blank? || interest_rate.zero?

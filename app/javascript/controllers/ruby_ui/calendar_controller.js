@@ -24,6 +24,7 @@ export default class extends Controller {
       type: String,
       default: "dd/MM/yyyy", // Default format
     },
+    listenChange: { type: Boolean, default: false },
   };
   static outlets = ["ruby-ui--calendar-input"];
 
@@ -60,6 +61,10 @@ export default class extends Controller {
     this.rubyUiCalendarInputOutlets.forEach((outlet) => {
       const formattedDate = this.formatDate(this.selectedDate());
       outlet.setValue(formattedDate);
+
+      if (this.listenChangeValue) {
+        outlet.element.dispatchEvent(new Event("change", { bubbles: true }));
+      }
     });
   }
 

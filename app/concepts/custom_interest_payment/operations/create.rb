@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 module CustomInterestPayment::Operations
-  class Update < ApplicationOperation
+  class Create < ApplicationOperation
     class Present < ApplicationOperation
       step Model(::CustomInterestPayment, :new)
-      step Contract::Build(constant: CustomInterestPayment::Contracts::Update)
+      step Contract::Build(constant: CustomInterestPayment::Contracts::Create)
       step :set_defaults
+
       def set_defaults(ctx, params:, model:, **)
         model.assign_attributes(ctx[:params])
         form = ctx["contract.default"]

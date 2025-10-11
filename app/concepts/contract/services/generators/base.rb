@@ -1,5 +1,18 @@
 module Contract::Services::Generators
   class Base
+    attr_reader :interest_per_day
+
+    # Initialize with contract
+    # @param contract [Contract] The contract for which interest payments are being generated
+    # @return [void]
+    def initialize(contract:)
+      @contract = contract
+    end
+
+    private
+
+    attr_reader :contract
+
     def build_payment_attrs(from:, to:, amount:, number_of_days:, total_amount:)
       {
         contract_id: contract.id,
