@@ -1,8 +1,8 @@
 module CustomInterestPayment::Contracts
   class Create < ApplicationContract
-    property :from_date # Lãi từ ngày
-    property :to_date # Đến ngày
-    property :days_count # Số ngày
+    property :from_date
+    property :to_date
+    property :days_count
 
     property :interest_amount, default: 0, populator: ->(options) {
       self.interest_amount = self.input_params["interest_amount"].remove_dots if self.input_params["interest_amount"].present?
@@ -17,9 +17,9 @@ module CustomInterestPayment::Contracts
       self.customer_payment_amount = self.input_params["customer_payment_amount"].remove_dots if self.input_params["customer_payment_amount"].present?
     }
 
-    # Virtual properties for calculation
-    property :next_interest_date, virtual: true # Ngày đóng lãi tiếp theo
-    property :daily_interest_rate, virtual: true # Lãi suất theo ngày
+    property :next_interest_date, virtual: true
+    property :daily_interest_rate, virtual: true
+    property :note
 
     validation contract: DryContract do
       option :form

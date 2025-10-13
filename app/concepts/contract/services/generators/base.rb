@@ -30,7 +30,7 @@ module Contract::Services::Generators
       return [] if payment_data.empty?
 
       # Ensure idempotency by removing existing payments for this contract
-      ContractInterestPayment.where(contract_id: contract.id).delete_all
+      ContractInterestPayment.where(contract_id: contract.id, custom_payment: false).delete_all
       ContractInterestPayment.insert_all!(payment_data)
     end
 

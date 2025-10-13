@@ -18,7 +18,7 @@ module Contract::Services
       return if contract.no_interest?
 
       number_of_days = (to_date - from_date).to_i + 1
-      total_amount = contract.interest_in_cash(days_count: number_of_days) * 1_000
+      total_amount = contract.interest_in_days(days_count: number_of_days) * 1_000
       other_amount = 0
       total_interest_amount = total_amount + other_amount
 

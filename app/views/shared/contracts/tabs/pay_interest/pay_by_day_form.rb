@@ -6,9 +6,12 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
   end
 
   def view_template
+    return disable_custom_interest_payment if Contract.config[:disable_custom_interest_payment]
+
     div(data: { controller: "shared--custom-interest-payment" }) do
       Form(action: form_url, method: "POST") do
         Input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
+        Input(type: "hidden", name: "form[contract_id]", value: contract.id)
 
         render Components::Fields::DateField.new(
           name: "form[from_date]",
@@ -143,6 +146,12 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
           end
         end
 
+        FormField(class: "space-y-2 max-w-md flex items-center gap-4") do
+          FormFieldLabel(class: "w-sm") { "Ghi chú" }
+          Textarea(name: "form[note]", class: "w-full", rows: 3, placeholder: "Nhập ghi chú nếu có") { form.note }
+          FormFieldError() { form.errors[:note].first }
+        end
+
         div(class: "mt-4 w-md flex justify-end space-x-2") do
           Button(variant: :outline,
             data: {
@@ -158,6 +167,12 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
 
   attr_reader :contract, :form
 
+  def disable_custom_interest_payment
+    Alert(variant: :warning) do
+      AlertDescription { "Chưa hỗ trợ chức năng đóng lãi tuỳ biến theo ngày" }
+    end
+  end
+
   def form_url
     contracts_custom_interest_payments_path(contract)
   end
@@ -165,8 +180,8 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
   def form_params
     params = ActionController::Parameters.new(
       form: {
-        from_date: contract.nearest_unpaid_interest_payment&.from.presence || contract.contract_date,
-        to_date: contract.nearest_unpaid_interest_payment&.from.presence || contract.contract_date,
+        from_date: from_date,
+        to_date: to_date,
         interest_amount: 0,
         other_amount: 0,
         total_interest_amount: 0,
@@ -183,6 +198,18 @@ class Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm < Views::Base
       :total_interest_amount,
       :customer_payment_amount
     )
+  end
+
+  def from_date
+    @from_date ||= (contract.nearest_unpaid_interest_payment&.from || contract.contract_date)
+  end
+
+  def to_date
+    if from_date < Date.current
+      Date.current
+    else
+      from_date
+    end
   end
 
   def unpaid_interest_payments

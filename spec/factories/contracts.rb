@@ -13,7 +13,7 @@
 #  interest_rate               :decimal(8, 5)
 #  loan_amount                 :decimal(15, 2)
 #  note                        :text
-#  status                      :string           default("pending")
+#  status                      :string           default("active")
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #  asset_setting_id            :uuid

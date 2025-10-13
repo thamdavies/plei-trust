@@ -41,18 +41,24 @@ module Contract::Reader
     nearest_unpaid_interest_payment.to.to_fs(:date_vn)
   end
 
-  def interest_in_cash(days_count: 0)
+  def interest_in_days(days_count: 0)
     return 0 if days_count.zero? || no_interest?
 
     case interest_calculation_method
-    when InterestCalculationMethod.config[:code][:daily_per_million], InterestCalculationMethod.config[:code][:daily_fixed]
-      (contract_interest_payments.sum(:amount) / contract_term.to_f) * days_count
-    when InterestCalculationMethod.config[:code][:weekly_percent], InterestCalculationMethod.config[:code][:weekly_fixed]
+    when InterestCalculationMethod.config[:code][:daily_per_million]
+      interest_per_day = (loan_amount / 1_000_000.0) * interest_rate * 1_000
+      interest_per_day * days_count
+    when InterestCalculationMethod.config[:code][:daily_fixed]
+      days_count * interest_rate
+    when InterestCalculationMethod.config[:code][:weekly_percent]
       num_of_weeks = (days_count / 7.0).ceil
-      contract_interest_payments.sum(:amount) / contract_term.to_f * num_of_weeks
+      interest_per_week = loan_amount * (interest_rate / 100.0)
+      num_of_weeks * interest_per_week
+    when InterestCalculationMethod.config[:code][:weekly_fixed]
+      num_of_weeks = (days_count / 7.0).ceil
+      num_of_weeks * interest_rate
     when InterestCalculationMethod.config[:code][:monthly_30], InterestCalculationMethod.config[:code][:monthly_calendar]
-      num_of_days = 30 * contract_term.to_f
-      (contract_interest_payments.sum(:amount) / num_of_days).to_f * days_count
+      ((loan_amount * (interest_rate / 100.0)) / 30) * days_count
     else
       Rails.logger.warn("Unknown interest calculation method: #{interest_calculation_method}")
       0

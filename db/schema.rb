@@ -133,6 +133,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.uuid "contract_id", null: false
     t.date "from"
     t.date "to"
+    t.boolean "custom_payment", default: false
     t.integer "number_of_days"
     t.decimal "amount", precision: 15, scale: 2
     t.decimal "other_amount", precision: 15, scale: 2
@@ -184,7 +185,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
     t.integer "contract_term"
     t.integer "interest_period"
     t.date "contract_date"
-    t.string "status", default: "pending"
+    t.string "status", default: "active"
     t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -88,11 +88,11 @@ export default class extends Controller {
     this.nextInterestDateTarget.textContent = data.next_interest_date;
     this.daysCountInputTarget.value = data.days_count;
     this.interestAmountTarget.textContent = data.interest_amount;
-    this.interestAmountInputTarget.value = data.interest_amount;
-    this.otherAmountInputTarget.value = data.other_amount;
+    this.interestAmountInputTarget.value = data.interest_amount.replace(' VNĐ', ''); // remove VNĐ
+    this.otherAmountInputTarget.value = data.other_amount.replace(' VNĐ', ''); // remove VNĐ
     this.totalInterestAmountTarget.textContent = data.total_interest_amount;
-    this.totalInterestAmountInputTarget.value = data.total_interest_amount;
-    this.customerPaymentAmountInputTarget.value = data.customer_payment_amount;
+    this.totalInterestAmountInputTarget.value = data.total_interest_amount.replace(' VNĐ', ''); // remove VNĐ
+    this.customerPaymentAmountInputTarget.value = data.customer_payment_amount.replace(' VNĐ', ''); // remove VNĐ
   }
 
   // Private methods
