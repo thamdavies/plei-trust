@@ -53,8 +53,8 @@ class Views::Shared::Contracts::ContractInfo < Views::Base
             TableCell(class: "font-medium") { contract.fm_paid_interest }
           end
           TableRow do
-            TableCell(class: "font-medium") { "Nợ cũ KH: 0 VNĐ" }
-            TableCell(class: "font-medium") { "Nợ cũ HĐ: 0 VNĐ" }
+            TableCell(class: "font-medium") { "Nợ cũ KH: " + customer.fm_old_debt_amount }
+            TableCell(class: "font-medium") { "Nợ cũ HĐ: " + contract.fm_old_debt_amount }
           end
           TableRow do
             TableCell(class: "font-medium") { "Trạng thái" }

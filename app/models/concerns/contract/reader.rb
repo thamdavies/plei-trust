@@ -18,7 +18,7 @@ module Contract::Reader
   end
 
   def total_paid_interest
-    (contract_interest_payments.paid.sum(:total_amount) * 1_000).to_i
+    (contract_interest_payments.paid.sum(:total_paid) * 1_000).to_i
   end
 
   def first_interest_payment
@@ -38,7 +38,7 @@ module Contract::Reader
   end
 
   def nearest_due_date
-    nearest_unpaid_interest_payment.to.to_fs(:date_vn)
+    (nearest_unpaid_interest_payment || nearest_paid_interest_payment).to.to_fs(:date_vn)
   end
 
   def interest_in_days(days_count: 0)
@@ -93,5 +93,9 @@ module Contract::Reader
     end
 
     [ inner_text, color ]
+  end
+
+  def fm_old_debt_amount
+    paid_interest_payments.map(&:old_debt_amount).sum.to_f.to_currency
   end
 end

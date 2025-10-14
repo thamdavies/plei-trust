@@ -27,6 +27,7 @@
 #
 class ContractInterestPayment < ApplicationRecord
   include LargeNumberFields
+  include ContractInterestPayment::Reader
 
   belongs_to :contract
 

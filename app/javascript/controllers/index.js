@@ -81,3 +81,6 @@ application.register("shared--custom-interest-payment", Shared__CustomInterestPa
 
 import SlimSelectController from "./slim_select_controller"
 application.register("slim-select", SlimSelectController)
+
+import Notification from '@stimulus-components/notification'
+application.register("notification", Notification)

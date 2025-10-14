@@ -29,6 +29,7 @@
 #
 class Customer < ApplicationRecord
   include AutoCodeGenerator
+  include Customer::Reader
 
   acts_as_tenant(:branch)
 
