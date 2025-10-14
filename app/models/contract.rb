@@ -63,6 +63,8 @@ class Contract < ApplicationRecord
   has_many :contract_interest_payments, dependent: :destroy
   has_many :unpaid_interest_payments, -> { where(payment_status: :unpaid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
   has_many :paid_interest_payments, -> { where(payment_status: :paid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
+  has_many :financial_transactions, dependent: :destroy
+  has_many :principal_payments, -> { where(transaction_type: TransactionType.principal_payment).order(transaction_date: :desc) }, class_name: FinancialTransaction.name, foreign_key: :contract_id, dependent: :destroy
 
   auto_code_config(prefix: "HD", field: :code)
   large_number_field :loan_amount

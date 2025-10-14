@@ -44,6 +44,7 @@ module AutoCodeGenerator
 
     def extract_number_from_auto_code(code)
       return 0 if code.blank?
+
       # Remove prefix and convert to integer
       code[auto_code_prefix.length..].to_i
     end
