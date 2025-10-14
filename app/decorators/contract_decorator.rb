@@ -2,6 +2,7 @@ class ContractDecorator < ApplicationDecorator
   delegate_all
 
   decorates_association :contract_interest_payments
+  decorates_association :customer
 
   def customer_name
     customer.full_name
@@ -11,40 +12,58 @@ class ContractDecorator < ApplicationDecorator
     contract_date&.to_fs(:date_vn)
   end
 
-  def contract_type_name
-    return contract_type&.name if interest_rate.blank? || interest_rate.zero?
-
-    "Cho vay"
-  end
-
   def fm_interest_rate
     "#{interest_rate}#{interest_calculation_method_obj&.percent_unit}"
   end
 
-  def contract_status_badge
-    case status
-    when "active"
-      RubyUI::Badge(variant: :success) { "Đang đầu tư" }
-    when "closed"
-      RubyUI::Badge(variant: :secondary) { "Đã đóng" }
-    end
+  def fm_contract_term
+    return "" if contract_term.blank?
+
+    record = contract_interest_payments.order(:from)
+    "#{record.first.from.to_fs(:date_vn)} - #{record.last.to.to_fs(:date_vn)}"
   end
 
-  # ngày phải đóng lãi
-  # nếu đóng lãi trước thì = ngày ký hợp đồng
-  # nếu đóng lãi sau thì = ngày ký hợp đồng + kỳ hạn đóng lãi
-  # đối với hợp đồng vốn thì không có kỳ hạn đóng lãi nên sẽ để trống
+  def fm_total_interest
+    ActionController::Base.helpers.number_with_delimiter(
+      total_interest,
+      delimiter: ".",
+      separator: ",",
+      precision: 0,
+      strip_insignificant_zeros: true
+    ) + " VNĐ"
+  end
+
+  def fm_paid_interest
+    ActionController::Base.helpers.number_with_delimiter(
+      total_paid_interest,
+      delimiter: ".",
+      separator: ",",
+      precision: 0,
+      strip_insignificant_zeros: true
+    ) + " VNĐ"
+  end
+
+  def status_badge
+    text, variant = state
+    RubyUI::Badge(variant:) { text }
+  end
+
+  # Returns the formatted due date for the next interest payment
+  #
+  # @return [String] The due date formatted in Vietnamese date format, or empty string if no interest applies
+  #
+  # The method determines the due date based on the interest collection method:
+  # - If interest is collected in advance, returns the 'from' date of the first unpaid payment
+  # - If interest is collected in arrears, returns the 'to' date of the first unpaid payment
+  # - Returns empty string if the contract has no interest
   def fm_due_date
-    return "" if interest_calculation_method == "capital_investment"
+    return "" if no_interest?
 
+    schedule = unpaid_interest_payments.first.presence || contract_interest_payments.order(:from).last
     if collect_interest_in_advance
-      contract_date&.to_fs(:date_vn)
+      schedule.from.to_fs(:date_vn)
     else
-      ""
+      schedule.to.to_fs(:date_vn)
     end
-  end
-
-  def interest_calculation_method_obj
-    InterestCalculationMethod.find_by(code: interest_calculation_method)
   end
 end

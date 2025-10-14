@@ -57,6 +57,13 @@ module LargeNumberFields
         )
       end
 
+      define_method "#{field_name}_currency" do
+        value = send("#{field_name}_formatted")
+        return "" unless value
+
+        "#{value} VNĐ"
+      end
+
       # Helper để lấy raw value đã chia (như lưu trong DB)
       define_method "#{field_name}_raw" do
         self[field_name]

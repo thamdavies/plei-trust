@@ -4,7 +4,7 @@ RSpec.describe Contract::Services::Generators::Monthly30Payments do
   let(:contract_type) { create(:contract_type, code: :capital) }
   let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-02".to_date, loan_amount: 20_000_000, interest_rate: 0.5, contract_term: 3, interest_period: 1, interest_calculation_method: InterestCalculationMethod.config[:code][:monthly_30]) }
   let(:processed_by) { create(:user) }
-  let(:service) { described_class.new(contract: contract, processed_by: processed_by) }
+  let(:service) { described_class.new(contract: contract) }
 
   describe '#call' do
     it 'generates correct number of payment cycles' do
@@ -118,7 +118,6 @@ RSpec.describe Contract::Services::Generators::Monthly30Payments do
   describe '#initialize' do
     it 'sets contract and processed_by attributes' do
       expect(service.instance_variable_get(:@contract)).to eq(contract)
-      expect(service.instance_variable_get(:@processed_by)).to eq(processed_by)
     end
   end
 end

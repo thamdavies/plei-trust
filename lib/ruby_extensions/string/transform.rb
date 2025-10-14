@@ -24,6 +24,12 @@ module RubyExtensions
       rescue StandardError
         nil
       end
+
+      def parse_date_vn
+        Date.strptime(self, "%d/%m/%Y") if present?
+      rescue StandardError
+        nil
+      end
     end
   end
 end

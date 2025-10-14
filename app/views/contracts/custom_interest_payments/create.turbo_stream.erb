@@ -1,0 +1,9 @@
+<%= turbo_stream.update "contract_show_modal" do %>
+  <%= render Views::Shared::Contracts::Show.new(contract: @contract) %>
+<% end %>
+
+<% if @form.blank? %>
+  <%= turbo_stream.update "toast-notification" do %>
+    <%= render "shared/toast" %>
+  <% end %>
+<% end %>

@@ -21,6 +21,7 @@ class Views::Shared::Customers::Form < Views::Base
               placeholder: "Nhập tên KH",
               name: "form[customer][full_name]",
               value: form.customer&.full_name,
+              readonly: form.customer_id.present?,
               data: {
                 "disable-autocomplete": "true",
                 autocomplete_target: "input",

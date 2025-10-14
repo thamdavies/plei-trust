@@ -13,7 +13,7 @@
 #  interest_rate               :decimal(8, 5)
 #  loan_amount                 :decimal(15, 2)
 #  note                        :text
-#  status                      :string           default("pending")
+#  status                      :string           default("active")
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #  asset_setting_id            :uuid
@@ -44,6 +44,12 @@
 class Contract < ApplicationRecord
   include AutoCodeGenerator
   include LargeNumberFields
+  include Contract::Reader
+  include Contract::Writer
+
+  class_attribute :config, default: {
+    disable_custom_interest_payment: true
+  }
 
   acts_as_tenant(:branch)
 
@@ -55,9 +61,13 @@ class Contract < ApplicationRecord
   belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id, optional: true
 
   has_many :contract_interest_payments, dependent: :destroy
+  has_many :unpaid_interest_payments, -> { where(payment_status: :unpaid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
+  has_many :paid_interest_payments, -> { where(payment_status: :paid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
 
   auto_code_config(prefix: "HD", field: :code)
   large_number_field :loan_amount
+
+  enum :status, { active: "active", closed: "closed" }
 
   scope :capital_contracts, -> { where(contract_type: { code: :capital }) }
 

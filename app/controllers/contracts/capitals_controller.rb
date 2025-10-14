@@ -9,13 +9,14 @@ class Contracts::CapitalsController < ApplicationController
       @contracts = contracts.decorate
       ctx = CapitalContract::Operations::Create::Present.call
       @form = ctx[:"contract.default"]
+      @form.interest_calculation_method_obj = interest_calculation_method_obj
     end
   end
 
   def new
     ctx = CapitalContract::Operations::Create::Present.call
     @form = ctx[:"contract.default"]
-    @form.interest_calculation_method = "investment_capital"
+    @form.interest_calculation_method_obj = interest_calculation_method_obj
   end
 
   def create
@@ -26,6 +27,29 @@ class Contracts::CapitalsController < ApplicationController
     else
       @form = ctx[:"contract.default"]
       @form.prepopulate!(customer:)
+      @form.interest_calculation_method_obj = interest_calculation_method_obj
+    end
+  end
+
+  def edit
+    run(CapitalContract::Operations::Update::Present) do |result|
+      @form = result[:"contract.default"]
+      @form.loan_amount = @form.loan_amount.to_f * 1000
+      @form.interest_rate = @form.interest_rate.to_i
+      @form.interest_calculation_method_obj = interest_calculation_method_obj
+      @form.can_edit_contract = @form.model.can_edit_contract?
+    end
+  end
+
+  def update
+    ctx = CapitalContract::Operations::Update.call(params: update_params.to_h, current_user:, current_branch:)
+    if ctx.success?
+      flash[:notice] = "Cập nhật hợp đồng nguồn vốn thành công"
+      redirect_to(contracts_capitals_path)
+    else
+      @form = ctx[:"contract.default"]
+      @form.prepopulate!(customer:)
+      @form.can_edit_contract = @form.model.can_edit_contract?
     end
   end
 
@@ -80,11 +104,19 @@ class Contracts::CapitalsController < ApplicationController
     form_params
   end
 
+  def update_params
+    permit_params.merge(id: params[:id])
+  end
+
   def contract_type
     @contract_type ||= ContractType.find_by(code: "capital")
   end
 
   def customer
     @customer ||= Customer.find_by(id: permit_params[:customer_id]).presence || Customer.new
+  end
+
+  def interest_calculation_method_obj
+    @interest_calculation_method_obj ||= InterestCalculationMethod.find_by(code: @form.interest_calculation_method)
   end
 end

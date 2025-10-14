@@ -9,9 +9,7 @@ class Views::Shared::Contracts::ShowModal < Views::Base
         Button { "Hidden Trigger" }
       end
       DialogContent(size: :xl) do
-        turbo_frame_tag "contract_show_modal" do
-          render Views::Shared::Contracts::Show.new(contract: @contract)
-        end
+        turbo_frame_tag "contract_show_modal" do; end
       end
     end
   end

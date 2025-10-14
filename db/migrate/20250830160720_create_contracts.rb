@@ -27,7 +27,7 @@ class CreateContracts < ActiveRecord::Migration[8.0]
       t.date :contract_date
 
       # Trạng thái và cài đặt
-      t.string :status, default: 'pending'
+      t.string :status, default: 'active'
       t.text :note
 
       t.timestamps

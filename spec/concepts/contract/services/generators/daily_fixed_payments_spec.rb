@@ -4,7 +4,7 @@ RSpec.describe Contract::Services::Generators::DailyFixedPayments do
   let(:contract_type) { create(:contract_type, code: :capital) }
   let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-03".to_date, interest_rate: 10, interest_calculation_method: InterestCalculationMethod.config[:code][:daily_fixed]) }
   let(:processed_by) { create(:user) }
-  let(:service) { described_class.new(contract: contract, processed_by: processed_by) }
+  let(:service) { described_class.new(contract: contract) }
 
   describe '#call' do
     it 'generates correct number of payment cycles' do
@@ -70,7 +70,6 @@ RSpec.describe Contract::Services::Generators::DailyFixedPayments do
   describe '#initialize' do
     it 'sets contract and processed_by attributes' do
       expect(service.instance_variable_get(:@contract)).to eq(contract)
-      expect(service.instance_variable_get(:@processed_by)).to eq(processed_by)
     end
   end
 end

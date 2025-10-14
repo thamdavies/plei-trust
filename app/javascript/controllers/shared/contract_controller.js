@@ -5,12 +5,14 @@ import { alertController } from "../../alert";
 // Connects to data-controller="shared--contract"
 export default class extends Controller {
   static targets = [
+    "interestPeriodNote",
     "interestPeriodUnit",
     "interestUnit",
     "interestFieldsWrapper",
     "interestMethodSelect",
     "interestRateInput",
     "interestPeriodInput",
+    "contractTermUnit",
     "contractTermDaysInput"
   ]
 
@@ -29,6 +31,7 @@ export default class extends Controller {
       if (response.ok) {
         const data = await response.json();
         this.setInterestMethodDetails(data);
+        this.handleInterestWrapperVisibility(data);
       } else {
         alertController.show('Không thể lấy thông tin hình thức lãi', 'alert');
       }
@@ -39,9 +42,10 @@ export default class extends Controller {
 
   setInterestMethodDetails(data) {    
     this.interestUnitTarget.textContent = data.attributes.percent_unit;
-    this.interestPeriodUnitTarget.textContent = data.attributes.note;
+    this.interestPeriodUnitTarget.textContent = data.attributes.unit;
+    this.contractTermUnitTarget.textContent = data.attributes.unit;
+    this.interestPeriodNoteTarget.textContent = data.attributes.note;
     this.contractTermDaysInputTarget.placeholder = data.attributes.placeholder || "";
-    this.handleInterestWrapperVisibility(data);
   }
 
   handleInterestWrapperVisibility(data) {

@@ -1,12 +1,14 @@
 module CapitalContract::Contracts
   class Create < ApplicationContract
+    property :id
     property :asset_name
     property :code
     property :contract_date
     property :contract_term
-    property :interest_calculation_method
+    property :interest_calculation_method, default: "investment_capital"
     property :collect_interest_in_advance, default: false
     property :interest_rate
+    property :can_edit_contract, virtual: true, default: true
     property :loan_amount, populator: ->(options) {
       self.loan_amount = self.input_params["loan_amount"].remove_dots if self.input_params["loan_amount"].present?
     }
@@ -19,6 +21,8 @@ module CapitalContract::Contracts
     property :branch_id
     property :cashier_id
     property :created_by_id
+
+    property :interest_calculation_method_obj, virtual: true, prepopulator: ->(options) { self.interest_calculation_method_obj = options[:interest_calculation_method_obj] }
 
     validation contract: DryContract do
       option :form

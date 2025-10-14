@@ -12,7 +12,7 @@ class Views::Shared::Contracts::Tabs::PayInterest < Views::Base
               CollapsibleTrigger do
                 div(class: "flex items-center space-x-2 cursor-pointer") do
                   Remix::ExpandUpDownLine(class: "h-4 w-4")
-                  span(class: "text-sm font-semibold") { "Chức năng đóng lãi tùy biến theo ngày" }
+                  Text(size: "3", class: "font-semibold") { "Chức năng đóng lãi tùy biến theo ngày" }
                 end
                 span(class: "sr-only") { "Toggle" }
               end
@@ -20,19 +20,18 @@ class Views::Shared::Contracts::Tabs::PayInterest < Views::Base
 
             CollapsibleContent do
               div(class: "space-y-2 my-2") do
-                div(class: "rounded-md border px-4 py-2 font-mono text-sm shadow-sm") do
-                  "phlex-ruby/phlex-rails"
+                turbo_frame_tag "pay_by_day_form" do
+                  render Views::Shared::Contracts::Tabs::PayInterest::PayByDayForm.new(contract:)
                 end
-                div(class: "rounded-md border px-4 py-2 font-mono text-sm shadow-sm") do
-                  "ruby-ui/ruby_ui"
-                end
-              end
+              end unless contract.no_interest?
+              div(class: "text-sm text-muted-foreground") { "Hợp đồng không có lãi suất không hỗ trợ chức năng này" } if contract.no_interest?
+              Separator(class: "my-4")
             end
           end
 
           div(class: "flex gap-2 items-center") do
             Remix::ListCheck3(class: "h-4 w-4")
-            Text(size: "2", class: "text-md font-semibold") { "Lịch sử đóng tiền lãi" }
+            Text(size: "3", class: "font-semibold") { "Lịch sử đóng tiền lãi" }
           end
 
           Table do
@@ -50,7 +49,7 @@ class Views::Shared::Contracts::Tabs::PayInterest < Views::Base
               end
             end
             TableBody do
-              contract.contract_interest_payments.each_with_index do |item, index|
+              contract.contract_interest_payments.order(:from).each_with_index do |item, index|
                 TableRow do
                   TableCell(class: "font-medium") { index + 1 }
                   TableCell { item.fm_dates }
@@ -63,7 +62,11 @@ class Views::Shared::Contracts::Tabs::PayInterest < Views::Base
                       span(class: "text-green-600 font-medium") { item.total_paid_formatted }
                     else
                       MaskedInput(
-                        data: { maska_number_locale: "vi", maska_number_unsigned: true },
+                        data: {
+                          maska_number_locale: "vi",
+                          maska_number_unsigned: true,
+                          "shared--contract-detail_target": "customerPaymentAmountInput"
+                        },
                         class: "w-24 border rounded px-2 py-1",
                         placeholder: item.total_amount_formatted,
                         value: item.total_amount.to_i * 1_000
@@ -74,7 +77,14 @@ class Views::Shared::Contracts::Tabs::PayInterest < Views::Base
                     div(class: "flex items-center space-x-3") do
                       Tooltip do
                         TooltipTrigger do
-                          Checkbox(id: "paid_#{item.id}", class: "cursor-pointer", checked: item.paid?)
+                          Checkbox(
+                            id: item.id, class: "cursor-pointer", checked: item.paid?,
+                            data: {
+                              action: "click->shared--contract-detail#togglePaid",
+                              "shared--contract-detail_target": "paymentCheckbox",
+                              contract_id: contract.id
+                            }
+                          )
                         end
                         TooltipContent do
                           Text(size: :sm) { "Thanh toán" }

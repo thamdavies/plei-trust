@@ -1,19 +1,16 @@
 module Contract::Services::Generators
   class WeeklyPercentPayments < Base
-    def initialize(contract:, processed_by:)
-      @contract = contract
-      @processed_by = processed_by
-    end
-
     def call
       insert_data
     end
 
+    def info
+      insert_data(save: false)
+    end
+
     private
 
-    attr_reader :contract, :processed_by
-
-    def insert_data
+    def insert_data(save: true)
       payment_data = []
       start_date = contract.contract_date
       contract_term = contract.contract_term * 7
@@ -42,7 +39,11 @@ module Contract::Services::Generators
         current_date = payment_end_date + 1
       end
 
-      create_payments(payment_data)
+      if save
+        create_payments(payment_data)
+      else
+        payment_data
+      end
     end
   end
 end
