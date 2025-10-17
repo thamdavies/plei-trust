@@ -3,6 +3,7 @@ class ContractDecorator < ApplicationDecorator
 
   decorates_association :contract_interest_payments
   decorates_association :customer
+  decorates_association :principal_payments
 
   def customer_name
     customer.full_name
