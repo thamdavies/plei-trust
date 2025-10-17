@@ -8,6 +8,7 @@ class Components::Fields::DateField < Components::Base
     @placeholder = opts[:placeholder]
     @readonly = opts[:readonly] || false
     @wrapper_style = opts[:wrapper_style] || ""
+    @wrapper_class = opts[:wrapper_class] || ""
     @label_classes = opts[:label_classes] || ""
     @data_attrs = opts[:data] || {}
     @input_actions = opts[:input_actions] || ""
@@ -25,7 +26,7 @@ class Components::Fields::DateField < Components::Base
   private
 
   def vertical_layout
-    FormField do
+    FormField(class: @wrapper_class) do
       FormFieldLabel(class: @label_classes) { @label }
       div(class: "space-y-4 mb-0 w-full") do
         if @readonly
