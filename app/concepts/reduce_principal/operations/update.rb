@@ -37,7 +37,7 @@ module ReducePrincipal::Operations
     }
 
     def save(ctx, model:, params:, **)
-      FinancialTransaction.create!(
+      tx = FinancialTransaction.create!(
         contract_id: model.contract_id,
         transaction_type: TransactionType.principal_payment,
         amount: model.prepayment_amount,
@@ -46,7 +46,7 @@ module ReducePrincipal::Operations
         created_by: ctx[:current_user]
       )
 
-      ctx[:contract].decrement!(:loan_amount, model.prepayment_amount.to_d)
+      ctx[:contract].decrement!(:loan_amount, tx.amount.to_d)
 
       true
     end

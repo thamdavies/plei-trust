@@ -42,15 +42,15 @@ module ReducePrincipal::Operations
     end
 
     def regenerate_interest_payments(ctx, model:, params:, **)
-      # contract = model.contract
-      # paid_interest_payment = ctx[:contract].paid_interest_payments.last
+      contract = model.contract
+      paid_interest_payment = ctx[:contract].paid_interest_payments.last
 
-      # if paid_interest_payment
-      #   unpaid_interest_payment = contract.unpaid_interest_payments.first
-      #   contract.contract_date = unpaid_interest_payment.from
-      # end
+      if paid_interest_payment
+        unpaid_interest_payment = contract.unpaid_interest_payments.first
+        contract.contract_date = unpaid_interest_payment.from
+      end
 
-      # ::Contract::Services::CreateContractInterestPayment.call(contract:)
+      ::Contract::Services::CreateContractInterestPayment.call(contract:)
 
       true
     end
