@@ -60,7 +60,8 @@ class Contract < ApplicationRecord
   belongs_to :cashier, class_name: User.name, foreign_key: :cashier_id, optional: true
   belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id, optional: true
 
-  has_many :contract_interest_payments, dependent: :destroy
+  has_many :contract_interest_payments, -> { order(:from) }, dependent: :destroy
+  has_many :interest_payments, -> { order(:from) }, dependent: :destroy, class_name: ContractInterestPayment.name
   has_many :unpaid_interest_payments, -> { where(payment_status: :unpaid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
   has_many :paid_interest_payments, -> { where(payment_status: :paid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
   has_many :financial_transactions, dependent: :destroy

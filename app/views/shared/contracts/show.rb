@@ -1,5 +1,5 @@
 class Views::Shared::Contracts::Show < Views::Base
-  def initialize(contract:, tab: :pay_interest)
+  def initialize(contract:, tab: "pay_interest")
     @contract = contract.presence || Contract.new.decorate
     @tab = tab
   end
@@ -9,6 +9,7 @@ class Views::Shared::Contracts::Show < Views::Base
       Text(size: "5", weight: "bold") { "Chi tiết hợp đồng" }
       Separator(class: "my-4")
       render Views::Shared::Contracts::ContractInfo.new(contract:)
+
       Tabs(default_value: tab, class: "w-full") do
         TabsList do
           TabsTrigger(value: "pay_interest") { "Trả tiền lãi" }

@@ -28,7 +28,7 @@ class Views::Shared::Contracts::Tabs::ReducePrincipal < Views::Base
               end
             end
             TableBody do
-              contract.principal_payments.each_with_index do |item, index|
+              contract.principal_payments.includes(:transaction_type).each_with_index do |item, index|
                 TableRow do
                   TableCell(class: "font-medium") { index + 1 }
                   TableCell(class: "text-center") { item.fm_transaction_date }

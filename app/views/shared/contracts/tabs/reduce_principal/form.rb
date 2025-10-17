@@ -17,13 +17,13 @@ class Views::Shared::Contracts::Tabs::ReducePrincipal::Form < Views::Base
 
         render Components::Fields::DateField.new(
           name: "form[prepayment_date]",
-          wrapper_class: "max-w-md flex items-center gap-2",
+          wrapper_style: :inline,
           label_classes: "w-sm",
           label: "Ngày trả trước gốc", id: "prepayment_date", error: form.errors[:prepayment_date].first,
           value: form.prepayment_date,
         )
 
-        div(class: "flex gap-4 items-center") do
+        div(class: "flex gap-4 items-center mt-2") do
           FormField(class: "space-y-2") do
             div(class: "max-w-md flex items-center gap-2") do
               FormFieldLabel(class: "w-sm") { "Số tiền gốc trả trước" }
