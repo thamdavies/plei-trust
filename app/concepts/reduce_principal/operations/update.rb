@@ -58,10 +58,10 @@ module ReducePrincipal::Operations
 
       if paid_interest_payment
         unpaid_interest_payment = contract.unpaid_interest_payments.first
-        contract.contract_date = unpaid_interest_payment.from
+        ::Contract::Services::CreateContractInterestPayment.call(contract:, start_date: unpaid_interest_payment.from)
+      else
+        ::Contract::Services::CreateContractInterestPayment.call(contract:)
       end
-
-      ::Contract::Services::CreateContractInterestPayment.call(contract:)
 
       true
     end
