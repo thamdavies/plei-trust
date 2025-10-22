@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Contract::Services::Generators::WeeklyFixedPayments do
   let(:contract_type) { create(:contract_type, code: :capital) }
-  let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-03".to_date, interest_rate: 10, contract_term: 4, interest_period: 2, interest_calculation_method: InterestCalculationMethod.config[:code][:weekly_fixed]) }
+  let(:contract) { create(:contract, :weekly_fixed, contract_type:, contract_date: "2025-10-03".to_date, interest_rate: 10, contract_term: 4, interest_period: 2, interest_calculation_method: InterestCalculationMethod.config[:code][:weekly_fixed]) }
   let(:processed_by) { create(:user) }
   let(:service) { described_class.new(contract: contract) }
 
@@ -86,7 +86,7 @@ RSpec.describe Contract::Services::Generators::WeeklyFixedPayments do
     end
 
     context 'with different interest rate' do
-      let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-03".to_date, interest_rate: 5, contract_term: 4, interest_period: 2) }
+      let(:contract) { create(:contract, :weekly_fixed, contract_type:, contract_date: "2025-10-03".to_date, interest_rate: 5, contract_term: 4, interest_period: 2) }
 
       it 'calculates payments with different interest rate' do
         service.call
