@@ -26,7 +26,7 @@ class Views::Contracts::Capitals::Form < Views::Base
       end
       DialogFooter do
         Button(variant: :outline, data: { action: "click->ruby-ui--dialog#dismiss" }) { I18n.t("button.close") }
-        Button(type: "submit") { I18n.t("button.save") }
+        Button(type: "submit", disabled: !form.can_edit_contract) { I18n.t("button.save") }
       end
     end
   end

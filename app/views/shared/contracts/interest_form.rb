@@ -17,6 +17,7 @@ class Views::Shared::Contracts::InterestForm < Views::Base
             value: form.interest_rate,
             class: "pr-10",
             validate: false,
+            step: "0.1",
             readonly: !form.can_edit_contract,
             data: {
               controller: "number-input",

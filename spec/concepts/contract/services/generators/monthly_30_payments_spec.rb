@@ -50,10 +50,10 @@ RSpec.describe Contract::Services::Generators::Monthly30Payments do
       it 'handles partial final payment period correctly' do
         service.call
 
-        expect(contract.contract_interest_payments.size).to eq(1)
+        expect(contract.contract_interest_payments.count).to eq(1)
 
-        payment = contract.contract_interest_payments.first
-        expect(payment.amount.to_f).to eq(100.0)
+        payment = contract.contract_interest_payments.reload.first
+        expect(payment.amount.to_f).to eq(200.0)
         expect(payment.number_of_days).to eq(60) # 2 months * 30 days
         expect(payment.from).to eq(contract.contract_date)
         expect(payment.to).to eq(contract.contract_date + 59)
@@ -61,7 +61,7 @@ RSpec.describe Contract::Services::Generators::Monthly30Payments do
     end
 
     context 'with different interest rate' do
-      let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-02".to_date, loan_amount: 20_000_000, interest_rate: 1.0, contract_term: 3, interest_period: 1) }
+      let(:contract) { create(:contract, :monthly_30, contract_type:, contract_date: "2025-10-02".to_date, loan_amount: 20_000_000, interest_rate: 1.0, contract_term: 3, interest_period: 1) }
 
       it 'calculates payments with different interest rate' do
         service.call
@@ -89,7 +89,7 @@ RSpec.describe Contract::Services::Generators::Monthly30Payments do
         payments = contract.contract_interest_payments.order(:from)
 
         payments.each do |payment|
-          expect(payment.amount.to_f).to eq(100.0)
+          expect(payment.amount.to_f).to eq(200.0) # 2 months * 100,000 per month
           expect(payment.number_of_days).to eq(60) # 2 months * 30 days
         end
       end

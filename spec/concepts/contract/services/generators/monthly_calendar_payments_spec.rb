@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Contract::Services::Generators::MonthlyCalendarPayments do
   let(:contract_type) { create(:contract_type, code: :capital) }
-  let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-02".to_date, loan_amount: 20_000_000, interest_rate: 0.5, contract_term: 3, interest_period: 1, interest_calculation_method: InterestCalculationMethod.config[:code][:monthly_calendar]) }
+  let(:contract) { create(:contract, :monthly_calendar, contract_type:, contract_date: "2025-10-02".to_date, loan_amount: 20_000_000, interest_rate: 0.5, contract_term: 3, interest_period: 1, interest_calculation_method: InterestCalculationMethod.config[:code][:monthly_calendar]) }
   let(:processed_by) { create(:user) }
   let(:service) { described_class.new(contract: contract) }
 
@@ -56,14 +56,14 @@ RSpec.describe Contract::Services::Generators::MonthlyCalendarPayments do
         expect(contract.contract_interest_payments.size).to eq(1)
 
         payment = contract.contract_interest_payments.first
-        expect(payment.amount.to_f).to eq(100.0) # Fixed amount regardless of period length
+        expect(payment.amount.to_f).to eq(200.0) # Fixed amount regardless of period length
         expect(payment.from).to eq(contract.contract_date)
         expect(payment.to).to eq(contract.contract_date + 2.months)
       end
     end
 
     context 'with different interest rate' do
-      let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-02".to_date, loan_amount: 20_000_000, interest_rate: 1.0, contract_term: 3, interest_period: 1) }
+      let(:contract) { create(:contract, :monthly_calendar, contract_type:, contract_date: "2025-10-02".to_date, loan_amount: 20_000_000, interest_rate: 1.0, contract_term: 3, interest_period: 1) }
 
       it 'calculates payments with different interest rate' do
         service.call
@@ -91,7 +91,7 @@ RSpec.describe Contract::Services::Generators::MonthlyCalendarPayments do
         payments = contract.contract_interest_payments.order(:from)
 
         payments.each do |payment|
-          expect(payment.amount.to_f).to eq(100.0)
+          expect(payment.amount.to_f).to eq(200.0)
         end
 
         # Each period should span 2 calendar months
@@ -107,7 +107,7 @@ RSpec.describe Contract::Services::Generators::MonthlyCalendarPayments do
     end
 
     context 'with leap year calculations' do
-      let(:contract) { create(:contract, contract_date: "2024-02-01".to_date, loan_amount: 20_000_000, interest_rate: 0.5, contract_term: 2, interest_period: 1) }
+      let(:contract) { create(:contract, :monthly_calendar, contract_date: "2024-02-01".to_date, loan_amount: 20_000_000, interest_rate: 0.5, contract_term: 2, interest_period: 1) }
 
       it 'handles leap year February correctly' do
         service.call

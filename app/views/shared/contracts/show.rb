@@ -1,6 +1,7 @@
 class Views::Shared::Contracts::Show < Views::Base
-  def initialize(contract:)
+  def initialize(contract:, tab: "pay_interest")
     @contract = contract.presence || Contract.new.decorate
+    @tab = tab
   end
 
   def view_template
@@ -8,7 +9,8 @@ class Views::Shared::Contracts::Show < Views::Base
       Text(size: "5", weight: "bold") { "Chi tiết hợp đồng" }
       Separator(class: "my-4")
       render Views::Shared::Contracts::ContractInfo.new(contract:)
-      Tabs(default_value: "pay_interest", class: "w-full") do
+
+      Tabs(default: tab, class: "w-full") do
         TabsList do
           TabsTrigger(value: "pay_interest") { "Trả tiền lãi" }
           TabsTrigger(value: "reduce_principal") { "Rút bớt gốc" }
@@ -30,5 +32,5 @@ class Views::Shared::Contracts::Show < Views::Base
 
   private
 
-  attr_reader :contract
+  attr_reader :contract, :tab
 end

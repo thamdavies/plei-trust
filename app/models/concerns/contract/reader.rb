@@ -65,6 +65,44 @@ module Contract::Reader
     end.to_f.round(3)
   end
 
+  def contract_term_in_days
+    case interest_calculation_method
+    when InterestCalculationMethod.config[:code][:daily_per_million], InterestCalculationMethod.config[:code][:daily_fixed]
+      contract_term
+    when InterestCalculationMethod.config[:code][:weekly_percent], InterestCalculationMethod.config[:code][:weekly_fixed]
+      contract_term * 7
+    when InterestCalculationMethod.config[:code][:monthly_30], InterestCalculationMethod.config[:code][:monthly_calendar]
+      contract_term * 30
+    end
+  end
+
+  def interest_period_in_days
+    case interest_calculation_method
+    when InterestCalculationMethod.config[:code][:daily_per_million], InterestCalculationMethod.config[:code][:daily_fixed]
+      interest_period
+    when InterestCalculationMethod.config[:code][:weekly_percent], InterestCalculationMethod.config[:code][:weekly_fixed]
+      interest_period * 7
+    when InterestCalculationMethod.config[:code][:monthly_30], InterestCalculationMethod.config[:code][:monthly_calendar]
+      interest_period * 30
+    end
+  end
+
+  def contract_end_date
+    if interest_calculation_method == InterestCalculationMethod.config[:code][:monthly_calendar]
+      # Nếu contract date là ngày 17 thì kỳ kết thúc hợp đồng sẽ là ngày 17 của tháng kết thúc
+      return calculate_period_end_date(contract_date, contract_term, contract_date.day)
+    end
+
+    contract_date + contract_term_in_days.days - 1.day
+  end
+
+  def calculate_period_end_date(start_date, months_to_add, contract_day)
+    tentative_end_date = start_date.advance(months: months_to_add)
+    last_day_of_month = tentative_end_date.end_of_month.day
+    day = [ contract_day, last_day_of_month ].min
+    tentative_end_date.change(day: day)
+  end
+
   # Loại vốn
   def capital_type
     return contract_type.name if interest_rate.blank? || interest_rate.zero?
