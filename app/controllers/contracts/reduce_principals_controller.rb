@@ -8,24 +8,27 @@ class Contracts::ReducePrincipalsController < ApplicationController
     end
 
     @contract = ctx[:contract].decorate
-    @tab = "reduce_principal"
   end
 
   def destroy
-    ctx = ReducePrincipal::Operations::Cancel.call(id: params[:id], current_user:)
+    ctx = ReducePrincipal::Operations::Cancel.call(params: cancel_params.to_h, current_user:)
     if ctx.success?
       flash.now[:notice] = ctx[:message]
     else
-      @form = ctx["contract.default"]
+      err_msg = ctx["contract.default"].errors.messages[:id].first || "Đã có lỗi xảy ra khi hủy rút bớt gốc"
+      flash.now[:alert] = err_msg
     end
 
     @contract = ctx[:contract].decorate
-    @tab = "reduce_principal"
   end
 
   private
 
   def permit_params
     params.require(:form).permit(:contract_id, :prepayment_date, :prepayment_amount, :note)
+  end
+
+  def cancel_params
+    params.require(:form).permit(:contract_id).merge(id: params[:id])
   end
 end

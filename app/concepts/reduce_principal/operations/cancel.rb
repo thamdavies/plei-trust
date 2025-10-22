@@ -5,30 +5,16 @@ module ReducePrincipal::Operations
       include ActiveModel::Attributes
       include ActiveModel::Validations
 
-      attr_accessor :prepayment_date, :prepayment_amount, :note, :contract_id
-    end
+      attr_accessor :id, :contract_id
 
-    class Present < ApplicationOperation
-      step Model(ReducePrincipal, :new)
-      step Contract::Build(constant: ::ReducePrincipal::Contracts::Update)
-      step :assign_attributes
-
-      def assign_attributes(ctx, model:, params:, **)
-        model.assign_attributes(params)
-
-        form = ctx["contract.default"]
-        form.prepayment_date = model.prepayment_date
-        form.prepayment_amount = model.prepayment_amount
-        form.note = model.note
-        form.contract_id = model.contract_id
-
-        ctx[:contract] = ::Contract.find(model.contract_id)
-
-        true
+      def contract
+        @contract ||= ::Contract.find(contract_id)
       end
     end
 
-    step Subprocess(Present)
+    step Model(ReducePrincipal, :new)
+    step Contract::Build(constant: ::ReducePrincipal::Contracts::Cancel)
+    step :assign_form_values
     step Contract::Validate()
     step Wrap(AppTransaction) {
       step :save
@@ -36,38 +22,41 @@ module ReducePrincipal::Operations
       step :notify
     }
 
-    def save(ctx, model:, params:, **)
-      FinancialTransaction.create!(
-        contract_id: model.contract_id,
-        transaction_type: TransactionType.principal_payment,
-        amount: model.prepayment_amount,
-        transaction_date: model.prepayment_date,
-        description: model.note,
-        created_by: ctx[:current_user]
-      )
+    def assign_form_values(ctx, params:, model:, **)
+      model.id = params[:id]
+      model.contract_id = params[:contract_id]
+      ctx[:contract] = model.contract
 
-      ctx[:contract].decrement!(:loan_amount, model.prepayment_amount.to_d)
+      true
+    end
+
+    def save(ctx, params:, model:, **)
+      contract = ctx[:contract]
+      financial_transaction = contract.financial_transactions.find(params[:id])
+      contract.increment!(:loan_amount, financial_transaction.amount.to_d)
+
+      ctx[:financial_transaction] = financial_transaction
+      financial_transaction.destroy!
 
       true
     end
 
     def regenerate_interest_payments(ctx, model:, params:, **)
-      contract = ctx[:contract]
-
-      paid_interest_payment = contract.paid_interest_payments.last
+      contract = model.contract
+      paid_interest_payment = ctx[:contract].paid_interest_payments.last
 
       if paid_interest_payment
         unpaid_interest_payment = contract.unpaid_interest_payments.first
-        contract.contract_date = unpaid_interest_payment.from
+        ::Contract::Services::CreateContractInterestPayment.call(contract:, start_date: unpaid_interest_payment.from)
+      else
+        ::Contract::Services::CreateContractInterestPayment.call(contract:)
       end
-
-      ::Contract::Services::CreateContractInterestPayment.call(contract:)
 
       true
     end
 
     def notify(ctx, model:, params:, **)
-      ctx[:message] = "Trả bớt gốc thành công!"
+      ctx[:message] = "Hủy trả bớt gốc thành công!"
       true
     end
   end

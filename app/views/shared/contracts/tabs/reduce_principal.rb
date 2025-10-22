@@ -39,7 +39,28 @@ class Views::Shared::Contracts::Tabs::ReducePrincipal < Views::Base
                     div(class: "flex items-center space-x-3") do
                       Tooltip do
                         TooltipTrigger do
-                          Remix::CloseLine(class: "h-5 w-5 cursor-pointer text-red-500")
+                          AlertDialog do
+                            AlertDialogTrigger do
+                              Remix::CloseLine(class: "h-5 w-5 cursor-pointer text-red-500")
+                            end
+                            AlertDialogContent do
+                              AlertDialogHeader do
+                                AlertDialogTitle { "Bạn có chắc chắn hủy thanh toán tiền gốc này không?" }
+                                AlertDialogDescription { "Bạn sẽ không thể khôi phục thanh toán này nữa!" }
+                              end
+                              AlertDialogFooter do
+                                AlertDialogAction(
+                                  data: {
+                                    controller: "shared--reduce-principal",
+                                    "shared--reduce-principal-cancel-url-value": contracts_reduce_principal_path(item),
+                                    "shared--reduce-principal-contract-id-value": contract.id,
+                                    action: "click->shared--reduce-principal#cancelReduction"
+                                  }
+                                ) { "Đồng ý huỷ" }
+                                AlertDialogCancel(id: "btn-cancel-reduction") { "Nghĩ lại" }
+                              end
+                            end
+                          end
                         end
                         TooltipContent do
                           Text(size: :sm) { "Huỷ" }

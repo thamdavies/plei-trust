@@ -10,7 +10,7 @@ class Views::Shared::Contracts::Show < Views::Base
       Separator(class: "my-4")
       render Views::Shared::Contracts::ContractInfo.new(contract:)
 
-      Tabs(default_value: tab, class: "w-full") do
+      Tabs(default: tab, class: "w-full") do
         TabsList do
           TabsTrigger(value: "pay_interest") { "Trả tiền lãi" }
           TabsTrigger(value: "reduce_principal") { "Rút bớt gốc" }

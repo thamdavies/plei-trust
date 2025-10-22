@@ -67,6 +67,9 @@ application.register("ruby-ui--theme-toggle", RubyUi__ThemeToggleController)
 import RubyUi__TooltipController from "./ruby_ui/tooltip_controller"
 application.register("ruby-ui--tooltip", RubyUi__TooltipController)
 
+import RubyUi__AlertDialogController from "./ruby_ui/alert_dialog_controller"
+application.register("ruby-ui--alert-dialog", RubyUi__AlertDialogController)
+
 import Shared__ContractController from "./shared/contract_controller"
 application.register("shared--contract", Shared__ContractController)
 
@@ -78,6 +81,9 @@ application.register("shared--contract-detail", Shared__ContractDetailController
 
 import Shared__CustomInterestPaymentController from "./shared/custom_interest_payment_controller"
 application.register("shared--custom-interest-payment", Shared__CustomInterestPaymentController)
+
+import Shared__ReducePrincipalController from "./shared/reduce_principal_controller"
+application.register("shared--reduce-principal", Shared__ReducePrincipalController)
 
 import SlimSelectController from "./slim_select_controller"
 application.register("slim-select", SlimSelectController)

@@ -21,7 +21,7 @@ class ContractDecorator < ApplicationDecorator
     return "" if contract_term.blank?
 
     record = contract_interest_payments.order(:from)
-    "#{record.first.from.to_fs(:date_vn)} - #{record.last.to.to_fs(:date_vn)}"
+    "#{record.first.from.to_fs(:date_vn)} - #{contract_end_date.to_fs(:date_vn)}"
   end
 
   def fm_total_interest
