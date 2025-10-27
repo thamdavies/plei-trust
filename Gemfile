@@ -83,7 +83,7 @@ gem "phlex-icons", "~> 2.41"
 
 gem "clearance", "~> 2.11"
 
-gem "simple_form", "~> 5.3"
+gem "simple_form", "~> 5.4"
 
 gem "trailblazer", ">= 2.1.0"
 gem "trailblazer-rails"
