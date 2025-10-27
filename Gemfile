@@ -79,7 +79,7 @@ gem "tailwind_merge", "~> 1.3"
 
 gem "pry-rails", "~> 0.3.11"
 
-gem "phlex-icons", "~> 2.41"
+gem "phlex-icons", "~> 2.42"
 
 gem "clearance", "~> 2.11"
 
