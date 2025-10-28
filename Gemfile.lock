@@ -322,7 +322,7 @@ GEM
       phlex (~> 2.3.0)
       railties (>= 7.1, < 9)
       zeitwerk (~> 2.7)
-    phonelib (0.10.12)
+    phonelib (0.10.13)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -585,7 +585,7 @@ DEPENDENCIES
   pg (~> 1.6)
   phlex-icons (~> 2.41)
   phlex-rails (~> 2.3)
-  phonelib (~> 0.10.12)
+  phonelib (~> 0.10.13)
   propshaft
   pry-rails (~> 0.3.11)
   puma (>= 5.0)
