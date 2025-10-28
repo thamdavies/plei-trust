@@ -27,4 +27,13 @@
 #  fk_rails_...  (transaction_type_id => transaction_types.id)
 #
 class FinancialTransaction < ApplicationRecord
+  include LargeNumberFields
+  include AutoCodeGenerator
+
+  auto_code_config(prefix: "TX", field: :transaction_number)
+  large_number_field :amount
+
+  belongs_to :contract
+  belongs_to :transaction_type
+  belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id, optional: true
 end

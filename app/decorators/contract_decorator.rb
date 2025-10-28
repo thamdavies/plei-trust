@@ -3,6 +3,7 @@ class ContractDecorator < ApplicationDecorator
 
   decorates_association :contract_interest_payments
   decorates_association :customer
+  decorates_association :principal_payments
 
   def customer_name
     customer.full_name
@@ -20,7 +21,7 @@ class ContractDecorator < ApplicationDecorator
     return "" if contract_term.blank?
 
     record = contract_interest_payments.order(:from)
-    "#{record.first.from.to_fs(:date_vn)} - #{record.last.to.to_fs(:date_vn)}"
+    "#{record.first.from.to_fs(:date_vn)} - #{contract_end_date.to_fs(:date_vn)}"
   end
 
   def fm_total_interest

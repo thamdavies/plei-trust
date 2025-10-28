@@ -61,11 +61,33 @@ FactoryBot.define do
     association :created_by, factory: :user
     association :customer
 
+    trait :daily_fixed do
+      interest_calculation_method { "daily_fixed" }
+    end
+
     trait :weekly_percent do
       interest_calculation_method { "weekly_percent" }
       interest_period { 4 }
       interest_rate { 1 }
       contract_term { 12 }
+    end
+
+    trait :monthly_30 do
+      interest_calculation_method { "monthly_30" }
+      interest_period { 1 }
+      interest_rate { 0.5 }
+      contract_term { 3 }
+    end
+
+    trait :monthly_calendar do
+      interest_calculation_method { "monthly_calendar" }
+      interest_period { 1 }
+      interest_rate { 0.5 }
+      contract_term { 3 }
+    end
+
+    trait :weekly_fixed do
+      interest_calculation_method { "weekly_fixed" }
     end
   end
 end

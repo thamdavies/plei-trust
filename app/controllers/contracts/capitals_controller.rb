@@ -35,7 +35,7 @@ class Contracts::CapitalsController < ApplicationController
     run(CapitalContract::Operations::Update::Present) do |result|
       @form = result[:"contract.default"]
       @form.loan_amount = @form.loan_amount.to_f * 1000
-      @form.interest_rate = @form.interest_rate.to_i
+      @form.interest_rate = @form.interest_rate.to_f
       @form.interest_calculation_method_obj = interest_calculation_method_obj
       @form.can_edit_contract = @form.model.can_edit_contract?
     end

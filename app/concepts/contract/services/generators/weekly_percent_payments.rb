@@ -11,38 +11,43 @@ module Contract::Services::Generators
     private
 
     def insert_data(save: true)
-      payment_data = []
-      start_date = contract.contract_date
-      contract_term = contract.contract_term * 7
-      end_date = start_date + contract_term - 1
-      interest_period_in_days = contract.interest_period * 7
-      loan_amount = contract.loan_amount
+      schedule = []
 
-      payment_cycle = (contract_term / interest_period_in_days.to_f).ceil
-      current_date = start_date
+      end_date = contract.contract_end_date
+      current_from = start_date
 
-      1.upto(payment_cycle) do
-        payment_start_date = current_date
-        payment_end_date = [ current_date + interest_period_in_days - 1, end_date ].min
-        number_of_days = (payment_end_date - payment_start_date).to_i + 1
-        amount = loan_amount * (contract.interest_rate / 100.0) * (number_of_days / 7.0)
-        total_amount = amount
+      while current_from <= end_date
+        current_to = current_from + (contract.interest_period_in_days - 1).days
 
-        payment_data << build_payment_attrs(
-          from: payment_start_date,
-          to: payment_end_date,
-          amount: amount,
-          number_of_days: number_of_days,
-          total_amount: total_amount
-        )
+        # Đảm bảo kỳ cuối không vượt quá ngày kết thúc hợp đồng
+        current_to = [ current_to, end_date ].min
 
-        current_date = payment_end_date + 1
+        # Tính số ngày thực tế của kỳ này
+        actual_days = (current_to - current_from + 1).to_i
+
+        # Tính lãi cho kỳ này
+        interest_amount = contract.interest_in_days(days_count: actual_days)
+
+        schedule << {
+          contract_id: contract.id,
+          from: current_from,
+          to: current_to,
+          number_of_days: actual_days,
+          amount: interest_amount,
+          total_amount: interest_amount
+        }
+
+        # Chuẩn bị cho kỳ tiếp theo
+        current_from = current_to + 1.day
+
+        # Tránh vòng lặp vô hạn
+        break if current_from > end_date
       end
 
       if save
-        create_payments(payment_data)
+        create_payments(schedule)
       else
-        payment_data
+        schedule
       end
     end
   end

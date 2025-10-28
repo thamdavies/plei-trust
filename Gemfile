@@ -79,7 +79,7 @@ gem "tailwind_merge", "~> 1.3"
 
 gem "pry-rails", "~> 0.3.11"
 
-gem "phlex-icons", "~> 2.39"
+gem "phlex-icons", "~> 2.41"
 
 gem "clearance", "~> 2.11"
 
@@ -94,7 +94,7 @@ gem "dry-validation"
 gem "letter_opener_web", "~> 3.0"
 
 # A Ruby gem for generating annotated documentation for Ruby code.
-gem "annotaterb", "~> 4.18"
+gem "annotaterb", "~> 4.20"
 
 gem "breadcrumbs_on_rails", "~> 4.1"
 

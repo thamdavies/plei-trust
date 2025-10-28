@@ -6,6 +6,7 @@ watch:
 	foreman start -f Procfile.dev
 
 dev:
+	rm -rf tmp/pids/server.pid || true
 	bin/rails server -p 2325 -b '0.0.0.0'
 
 db:

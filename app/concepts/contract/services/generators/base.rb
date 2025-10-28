@@ -5,13 +5,18 @@ module Contract::Services::Generators
     # Initialize with contract
     # @param contract [Contract] The contract for which interest payments are being generated
     # @return [void]
-    def initialize(contract:)
+    def initialize(contract:, start_date: nil)
       @contract = contract
+      @start_date = start_date || contract.contract_date
     end
 
     private
 
-    attr_reader :contract
+    attr_reader :contract, :start_date
+
+    def payment_cycle
+      (contract.contract_term / contract.interest_period.to_f).ceil
+    end
 
     def build_payment_attrs(from:, to:, amount:, number_of_days:, total_amount:)
       {
@@ -30,7 +35,7 @@ module Contract::Services::Generators
       return [] if payment_data.empty?
 
       # Ensure idempotency by removing existing payments for this contract
-      ContractInterestPayment.where(contract_id: contract.id, custom_payment: false).delete_all
+      ContractInterestPayment.where(contract_id: contract.id, custom_payment: false, payment_status: :unpaid).delete_all
       ContractInterestPayment.insert_all!(payment_data)
     end
 
