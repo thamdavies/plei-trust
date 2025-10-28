@@ -14,7 +14,7 @@ class Views::Shared::Contracts::Show < Views::Base
         TabsList do
           TabsTrigger(value: "pay_interest") { "Trả tiền lãi" }
           TabsTrigger(value: "reduce_principal") { "Rút bớt gốc" }
-          TabsTrigger(value: "borrow_more") { "Vay thêm" }
+          TabsTrigger(value: "additional_loan") { "Vay thêm" }
           TabsTrigger(value: "extend_term") { "Gia hạn" }
           TabsTrigger(value: "withdraw_principal") { "Rút vốn" }
           TabsTrigger(value: "transaction_history") { "Lịch sử" }
@@ -22,7 +22,7 @@ class Views::Shared::Contracts::Show < Views::Base
 
         render Views::Shared::Contracts::Tabs::PayInterest.new(contract:)
         render Views::Shared::Contracts::Tabs::ReducePrincipal.new(contract:)
-        render Views::Shared::Contracts::Tabs::BorrowMore.new(contract:)
+        render Views::Shared::Contracts::Tabs::AdditionalLoan.new(contract:)
         render Views::Shared::Contracts::Tabs::ExtendTerm.new(contract:)
         render Views::Shared::Contracts::Tabs::WithdrawPrincipal.new(contract:)
         render Views::Shared::Contracts::Tabs::TransactionHistory.new(contract:)

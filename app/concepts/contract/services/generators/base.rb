@@ -34,9 +34,31 @@ module Contract::Services::Generators
     def create_payments(payment_data)
       return [] if payment_data.empty?
 
-      # Ensure idempotency by removing existing payments for this contract
-      ContractInterestPayment.where(contract_id: contract.id, custom_payment: false, payment_status: :unpaid).delete_all
+      reset_prev_payments
+      reset_toward_payments
+
       ContractInterestPayment.insert_all!(payment_data)
+    end
+
+    def reset_prev_payments
+      remove_payments = ContractInterestPayment.where(contract_id: contract.id, custom_payment: false, payment_status: :unpaid)
+
+      if start_date.present?
+        remove_payments = remove_payments.where("#{ContractInterestPayment.table_name}.from <= ?", contract.contract_date)
+      end
+
+      remove_payments.delete_all if remove_payments.exists?
+    end
+
+    # Ensure idempotency by removing existing payments for this contract
+    def reset_toward_payments
+      remove_payments = ContractInterestPayment.where(contract_id: contract.id, custom_payment: false, payment_status: :unpaid)
+
+      if start_date.present?
+        remove_payments = remove_payments.where("#{ContractInterestPayment.table_name}.from >= ?", start_date)
+      end
+
+      remove_payments.delete_all if remove_payments.exists?
     end
 
     # For debugging purposes
