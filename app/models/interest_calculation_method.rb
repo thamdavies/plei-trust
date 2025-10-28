@@ -1,4 +1,6 @@
 class InterestCalculationMethod < ActiveHash::Base
+  self.data = YAML.load_file(Rails.root.join("db", "fixtures", "interest_calculation_methods.yml"))["interest_calculation_methods"].select { |item| item["is_active"] }
+
   class_attribute :config, default: {
     code: {
       daily_per_million: "daily_per_million",
@@ -10,5 +12,4 @@ class InterestCalculationMethod < ActiveHash::Base
       investment_capital: "investment_capital"
     }
   }
-  self.data = YAML.load_file(Rails.root.join("db", "fixtures", "interest_calculation_methods.yml"))["interest_calculation_methods"]
 end

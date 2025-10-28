@@ -5,6 +5,7 @@ interest_calculation_methods:
     percent_unit: "k/1 triệu"
     placeholder: "Nhập số ngày vay"
     unit: "ngày"
+    is_active: true
     categories:
       - "pawn"
       - "credit"
@@ -15,6 +16,7 @@ interest_calculation_methods:
     percent_unit: "k/1 ngày"
     placeholder: "Nhập số ngày vay"
     unit: "ngày"
+    is_active: true
     categories:
       - "pawn"
       - "credit"
@@ -25,6 +27,7 @@ interest_calculation_methods:
     percent_unit: "%/tuần"
     placeholder: "Nhập số tuần vay"
     unit: "tuần"
+    is_active: false
     categories:
       - "pawn"
       - "credit"
@@ -35,6 +38,7 @@ interest_calculation_methods:
     percent_unit: "k/1 tuần"
     placeholder: "Nhập số tuần vay"
     unit: "tuần"
+    is_active: false
     categories:
       - "pawn"
       - "credit"
@@ -45,6 +49,7 @@ interest_calculation_methods:
     percent_unit: "%/1 tháng"
     placeholder: "Nhập số tháng vay"
     unit: "tháng"
+    is_active: false
     categories:
       - "pawn"
       - "credit"
@@ -55,11 +60,13 @@ interest_calculation_methods:
     percent_unit: "%/1 tháng"
     placeholder: "Nhập số tháng vay"
     unit: "tháng"
+    is_active: false
     categories:
       - "pawn"
       - "credit"
       - "capital"
   - name: "Vốn đầu tư (không lãi)"
     code: "investment_capital"
+    is_active: true
     categories:
       - "capital"
