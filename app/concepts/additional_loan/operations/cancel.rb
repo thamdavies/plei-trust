@@ -1,6 +1,6 @@
-module ReducePrincipal::Operations
+module AdditionalLoan::Operations
   class Cancel < ApplicationOperation
-    class ReducePrincipal
+    class AdditionalLoan
       include ActiveModel::Model
       include ActiveModel::Attributes
       include ActiveModel::Validations
@@ -12,8 +12,8 @@ module ReducePrincipal::Operations
       end
     end
 
-    step Model(ReducePrincipal, :new)
-    step Contract::Build(constant: ::ReducePrincipal::Contracts::Cancel)
+    step Model(AdditionalLoan, :new)
+    step Contract::Build(constant: ::AdditionalLoan::Contracts::Cancel)
     step :assign_form_values
     step Contract::Validate()
     step Wrap(AppTransaction) {
@@ -54,7 +54,7 @@ module ReducePrincipal::Operations
     end
 
     def notify(ctx, model:, params:, **)
-      ctx[:message] = "Hủy trả bớt gốc thành công!"
+      ctx[:message] = "Hủy khoản vay thêm thành công!"
       true
     end
   end

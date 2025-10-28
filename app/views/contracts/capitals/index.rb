@@ -16,7 +16,7 @@ class Views::Contracts::Capitals::Index < Views::Base
           TableRow do
             TableHead { "STT" }
             TableHead { "Khách hàng" }
-            TableHead { "Số tiền" }
+            TableHead { "Số tiền (VNĐ)" }
             TableHead { "Ngày góp" }
             TableHead { "Loại vốn" }
             TableHead { "Lãi suất" }
@@ -32,7 +32,7 @@ class Views::Contracts::Capitals::Index < Views::Base
             TableRow do
               TableCell(class: "font-medium") { @pagy.offset + index + 1 }
               TableCell(class: "font-medium") { contract.customer_name }
-              TableCell(class: "font-medium") { contract.loan_amount_formatted }
+              TableCell(class: "font-medium") { contract.total_amount_formatted }
               TableCell(class: "font-medium") { contract.fm_contract_date }
               TableCell(class: "font-medium") { contract.capital_type }
               TableCell(class: "font-medium") { contract.fm_interest_rate }

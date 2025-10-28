@@ -85,6 +85,9 @@ application.register("shared--custom-interest-payment", Shared__CustomInterestPa
 import Shared__ReducePrincipalController from "./shared/reduce_principal_controller"
 application.register("shared--reduce-principal", Shared__ReducePrincipalController)
 
+import Shared__AdditionalLoanController from "./shared/additional_loan_controller"
+application.register("shared--additional-loan", Shared__AdditionalLoanController)
+
 import SlimSelectController from "./slim_select_controller"
 application.register("slim-select", SlimSelectController)
 

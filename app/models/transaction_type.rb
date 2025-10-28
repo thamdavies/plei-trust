@@ -11,7 +11,7 @@
 #  updated_at  :datetime         not null
 #
 class TransactionType < ApplicationRecord
-  # Transaction type codes
+  # Transaction type codes, run TransactionType.seed_default_types to create default types after adding new types
   INTEREST_PAYMENT = "interest_payment".freeze
   PRINCIPAL_PAYMENT = "principal_payment".freeze
   LOAN_DISBURSEMENT = "loan_disbursement".freeze
@@ -24,6 +24,8 @@ class TransactionType < ApplicationRecord
   REFUND = "refund".freeze
   OTHER_INCOME = "other_income".freeze
   OTHER_EXPENSE = "other_expense".freeze
+  ADDITIONAL_LOAN = "additional_loan".freeze
+  CONTRACT_EXTENSION = "contract_extension".freeze
 
   scope :income, -> { where(is_income: true) }
   scope :expense, -> { where(is_income: false) }
@@ -55,6 +57,14 @@ class TransactionType < ApplicationRecord
 
     def withdrawal
       find_by(code: WITHDRAWAL)
+    end
+
+    def additional_loan
+      find_by(code: ADDITIONAL_LOAN)
+    end
+
+    def contract_extension
+      find_by(code: CONTRACT_EXTENSION)
     end
 
     def seed_default_types
@@ -140,6 +150,18 @@ class TransactionType < ApplicationRecord
           name: "Chi phí khác",
           description: "Các khoản chi phí khác",
           is_income: false
+        },
+        {
+          code: ADDITIONAL_LOAN,
+          name: "Vay thêm",
+          description: "Giải ngân tiền vay thêm cho khách hàng",
+          is_income: false
+        },
+        {
+          code: CONTRACT_EXTENSION,
+          name: "Gia hạn hợp đồng",
+          description: "Phí gia hạn hợp đồng hoặc ghi nhận gia hạn",
+          is_income: true  # Có thể thu phí gia hạn
         }
       ]
     end

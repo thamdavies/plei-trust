@@ -29,7 +29,7 @@ class Views::Shared::Contracts::ContractInfo < Views::Base
           end
           TableRow do
             TableCell(class: "font-medium") { "Tiền đầu tư" }
-            TableCell(class: "font-medium") { contract.loan_amount_currency }
+            TableCell(class: "font-medium") { contract.total_amount_currency }
           end
           TableRow do
             TableCell(class: "font-medium") { "Lãi suất" }

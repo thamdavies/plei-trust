@@ -1,24 +1,24 @@
-module ReducePrincipal::Operations
+module AdditionalLoan::Operations
   class Update < ApplicationOperation
-    class ReducePrincipal
+    class AdditionalLoan
       include ActiveModel::Model
       include ActiveModel::Attributes
       include ActiveModel::Validations
 
-      attr_accessor :prepayment_date, :prepayment_amount, :note, :contract_id
+      attr_accessor :transaction_date, :transaction_amount, :note, :contract_id
     end
 
     class Present < ApplicationOperation
-      step Model(ReducePrincipal, :new)
-      step Contract::Build(constant: ::ReducePrincipal::Contracts::Update)
+      step Model(AdditionalLoan, :new)
+      step Contract::Build(constant: ::AdditionalLoan::Contracts::Update)
       step :assign_attributes
 
       def assign_attributes(ctx, model:, params:, **)
         model.assign_attributes(params)
 
         form = ctx["contract.default"]
-        form.prepayment_date = model.prepayment_date
-        form.prepayment_amount = model.prepayment_amount
+        form.transaction_date = model.transaction_date
+        form.transaction_amount = model.transaction_amount
         form.note = model.note
         form.contract_id = model.contract_id
 
@@ -39,9 +39,9 @@ module ReducePrincipal::Operations
     def save(ctx, model:, params:, **)
       FinancialTransaction.create!(
         contract_id: model.contract_id,
-        transaction_type: TransactionType.principal_payment,
-        amount: model.prepayment_amount,
-        transaction_date: model.prepayment_date,
+        transaction_type: TransactionType.additional_loan,
+        amount: model.transaction_amount,
+        transaction_date: model.transaction_date,
         description: model.note,
         created_by: ctx[:current_user]
       )
@@ -65,7 +65,7 @@ module ReducePrincipal::Operations
     end
 
     def notify(ctx, model:, params:, **)
-      ctx[:message] = "Trả bớt gốc thành công!"
+      ctx[:message] = "Vay thêm thành công!"
       true
     end
   end

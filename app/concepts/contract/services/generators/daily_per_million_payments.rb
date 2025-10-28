@@ -15,18 +15,34 @@ module Contract::Services::Generators
 
       end_date = contract.contract_end_date
       current_from = start_date
+      # Bắt đầu với số tiền gốc ban đầu - sử dụng total_amount thay vì loan_amount
+      accumulated_loan_amount = contract.loan_amount
+      additional_loans_sorted = contract.additional_loans.order(:transaction_date).to_a
 
       while current_from <= end_date
         current_to = current_from + (contract.interest_period_in_days - 1).days
-
-        # Đảm bảo kỳ cuối không vượt quá ngày kết thúc hợp đồng
         current_to = [ current_to, end_date ].min
 
-        # Tính số ngày thực tế của kỳ này
-        actual_days = (current_to - current_from + 1).to_i
+        # Lọc các khoản vay thêm CHỈ thuộc về kỳ này
+        period_additional_loans = additional_loans_sorted.filter_map do |al|
+          if al.transaction_date >= current_from && al.transaction_date <= current_to
+            { date: al.transaction_date.to_fs(:date_vn), change: al.amount }
+          else
+            nil
+          end
+        end
 
-        # Tính lãi cho kỳ này
-        interest_amount = contract.interest_in_days(days_count: actual_days)
+        interest_amount, current_principal = calculate_interest(
+          accumulated_loan_amount,
+          contract.interest_rate * 1_000,
+          current_from,
+          current_to,
+          period_additional_loans
+        )
+
+        accumulated_loan_amount = current_principal
+
+        actual_days = (current_to - current_from + 1).to_i
 
         schedule << {
           contract_id: contract.id,
@@ -37,10 +53,7 @@ module Contract::Services::Generators
           total_amount: interest_amount
         }
 
-        # Chuẩn bị cho kỳ tiếp theo
         current_from = current_to + 1.day
-
-        # Tránh vòng lặp vô hạn
         break if current_from > end_date
       end
 
