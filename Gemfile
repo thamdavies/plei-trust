@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.3"
+gem "rails", "~> 8.1.0"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use postgresql as the database for Active Record
@@ -79,11 +79,11 @@ gem "tailwind_merge", "~> 1.3"
 
 gem "pry-rails", "~> 0.3.11"
 
-gem "phlex-icons", "~> 2.41"
+gem "phlex-icons", "~> 2.42"
 
 gem "clearance", "~> 2.11"
 
-gem "simple_form", "~> 5.3"
+gem "simple_form", "~> 5.4"
 
 gem "trailblazer", ">= 2.1.0"
 gem "trailblazer-rails"

@@ -16,4 +16,7 @@ load Rails.root.join('db', 'seeds', 'users.rb')
 # Load asset settings seed
 load Rails.root.join('db', 'seeds', 'asset_settings.rb')
 
+# Seed default transaction types
+TransactionType.seed_default_types
+
 puts "✅ Database seeding completed!"

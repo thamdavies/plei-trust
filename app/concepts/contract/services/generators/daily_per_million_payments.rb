@@ -15,18 +15,43 @@ module Contract::Services::Generators
 
       end_date = contract.contract_end_date
       current_from = start_date
+      # Bắt đầu với số tiền gốc ban đầu - sử dụng total_amount thay vì loan_amount
+      accumulated_loan_amount = contract.loan_amount
+      additional_loans_sorted = contract.additional_loans
+      principal_payments = contract.principal_payments
 
       while current_from <= end_date
         current_to = current_from + (contract.interest_period_in_days - 1).days
-
-        # Đảm bảo kỳ cuối không vượt quá ngày kết thúc hợp đồng
         current_to = [ current_to, end_date ].min
 
-        # Tính số ngày thực tế của kỳ này
-        actual_days = (current_to - current_from + 1).to_i
+        # Lọc các khoản vay thêm CHỈ thuộc về kỳ này
+        period_additional_loans = additional_loans_sorted.filter_map do |al|
+          if al.transaction_date >= current_from && al.transaction_date <= current_to
+            { date: al.transaction_date.to_fs(:date_vn), change: al.amount, fee: 0 }
+          else
+            nil
+          end
+        end
 
-        # Tính lãi cho kỳ này
-        interest_amount = contract.interest_in_days(days_count: actual_days)
+        period_principal_payments = principal_payments.filter_map do |pp|
+          if pp.transaction_date >= current_from && pp.transaction_date <= current_to
+            { date: pp.transaction_date.to_fs(:date_vn), change: -pp.amount, fee: pp.amount * Contract.config[:principal_payment_fee_percent] }
+          else
+            nil
+          end
+        end
+
+        interest_amount, current_principal = calculate_interest(
+          accumulated_loan_amount,
+          contract.interest_rate * 1_000,
+          current_from,
+          current_to,
+          period_additional_loans + period_principal_payments
+        )
+
+        accumulated_loan_amount = current_principal
+
+        actual_days = (current_to - current_from + 1).to_i
 
         schedule << {
           contract_id: contract.id,
@@ -37,10 +62,7 @@ module Contract::Services::Generators
           total_amount: interest_amount
         }
 
-        # Chuẩn bị cho kỳ tiếp theo
         current_from = current_to + 1.day
-
-        # Tránh vòng lặp vô hạn
         break if current_from > end_date
       end
 
@@ -49,6 +71,94 @@ module Contract::Services::Generators
       else
         schedule
       end
+    end
+
+    def calculate_interest(initial_principal, interest_rate_per_million_per_day, start_date, end_date, transactions)
+      # Chuyển đổi tỷ lệ lãi suất (VD: 10k/1tr/ngày) thành tỷ lệ %/ngày
+      # 10,000 / 1,000,000 = 0.01 (1%)
+      daily_interest_rate_decimal = interest_rate_per_million_per_day.to_f / 1_000_000.0
+
+      current_principal = initial_principal
+      current_date = start_date
+      total_interest = 0
+
+      # Sắp xếp các giao dịch theo ngày để xử lý tuần tự
+      sorted_transactions = transactions.sort_by { |t| t[:date].parse_date_vn }
+
+      # Thêm một "giao dịch" cuối cùng là ngày kết thúc kỳ để đảm bảo tính hết lãi
+      last_transaction_date = end_date + 1 # Ngày sau ngày kết thúc kỳ
+      sorted_transactions << { date: last_transaction_date.to_fs(:date_vn), change: 0, fee: 0 }
+
+      # Lặp qua các giao dịch để tính lãi cho từng giai đoạn
+      sorted_transactions.each do |transaction|
+        transaction_date = transaction[:date].parse_date_vn
+
+        # Số ngày tính lãi cho giai đoạn này
+        # Lãi được tính đến HẾT ngày trước khi giao dịch (transaction_date) xảy ra
+        # hoặc đến HẾT ngày end_date
+        if transaction_date >= current_date
+          days_in_period = (transaction_date - current_date).to_i
+
+          # Tính lãi cho giai đoạn (Gốc hiện tại * Tỷ lệ lãi * Số ngày)
+          interest_in_period = current_principal * daily_interest_rate_decimal * days_in_period
+          interest_in_period += (transaction[:fee] || 0)
+          total_interest += interest_in_period
+
+          # Di chuyển đến ngày giao dịch
+          current_date = transaction_date
+        end
+
+        # Cập nhật tiền gốc sau giao dịch (chỉ khi chưa đạt đến ngày kết thúc kỳ)
+        if transaction_date <= end_date
+          current_principal += transaction[:change]
+        end
+      end
+
+      [ total_interest, current_principal ]
+    end
+
+    def calculate_subtraction_interest(initial_principal, interest_rate_per_million_per_day, start_date, end_date, transactions)
+      # Chuyển đổi tỷ lệ lãi suất (VD: 10k/1tr/ngày) thành tỷ lệ %/ngày
+      # 10,000 / 1,000,000 = 0.01 (1%)
+      daily_interest_rate_decimal = interest_rate_per_million_per_day.to_f / 1_000_000.0
+
+      current_principal = initial_principal
+      current_date = start_date
+      total_interest = 0
+
+      # Sắp xếp các giao dịch theo ngày để xử lý tuần tự
+      sorted_transactions = transactions.sort_by { |t| t[:date].parse_date_vn }
+
+      # Thêm một "giao dịch" cuối cùng là ngày kết thúc kỳ để đảm bảo tính hết lãi
+      last_transaction_date = end_date + 1 # Ngày sau ngày kết thúc kỳ
+      sorted_transactions << { date: last_transaction_date.to_fs(:date_vn), change: 0 }
+
+      # Lặp qua các giao dịch để tính lãi cho từng giai đoạn
+      sorted_transactions.each do |transaction|
+        transaction_date = transaction[:date].parse_date_vn
+
+        # Số ngày tính lãi cho giai đoạn này
+        # Lãi được tính đến HẾT ngày trước khi giao dịch (transaction_date) xảy ra
+        # hoặc đến HẾT ngày end_date
+        if transaction_date > current_date
+          days_in_period = (transaction_date - current_date).to_i
+
+          # Tính lãi cho giai đoạn (Gốc hiện tại * Tỷ lệ lãi * Số ngày)
+          interest_in_period = current_principal * daily_interest_rate_decimal * days_in_period
+          fee = transaction[:change] * Contract.config[:principal_payment_fee_percent]
+          total_interest += (interest_in_period + fee)
+
+          # Di chuyển đến ngày giao dịch
+          current_date = transaction_date
+        end
+
+        # Cập nhật tiền gốc sau giao dịch (chỉ khi chưa đạt đến ngày kết thúc kỳ)
+        if transaction_date <= end_date
+          current_principal -= transaction[:change]
+        end
+      end
+
+      [ total_interest, current_principal ]
     end
   end
 end

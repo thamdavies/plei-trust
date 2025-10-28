@@ -14,7 +14,7 @@ module CapitalContract::Operations
     end
 
     def sort(ctx, params:, model:, **)
-      ctx[:model] = model.order(id: :desc)
+      ctx[:model] = model.order(contract_date: :desc)
     end
   end
 end

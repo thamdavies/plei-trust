@@ -4,6 +4,11 @@ RSpec.describe Contract::Services::Generators::DailyPerMillionPayments do
   let(:contract_type) { create(:contract_type, code: :capital) }
   let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-03".to_date) }
   let(:processed_by) { create(:user) }
+  let(:transaction_type) { create(:transaction_type, :additional_loan) }
+  let(:additional_loan1) { create(:financial_transaction, transaction_type:, contract:, amount: 1_000_000, transaction_date: "2025-10-22".to_date) }
+  let(:additional_loan2) { create(:financial_transaction, transaction_type:, contract:, amount: 1_000_000, transaction_date: "2025-10-26".to_date) }
+  let(:additional_loan3) { create(:financial_transaction, transaction_type:, contract:, amount: 1_000_000, transaction_date: "2025-11-20".to_date) }
+  let(:additional_loan4) { create(:financial_transaction, transaction_type:, contract:, amount: 1_000_000, transaction_date: "2025-11-26".to_date) }
   let(:service) { described_class.new(contract: contract) }
 
   describe '#call' do
@@ -50,6 +55,76 @@ RSpec.describe Contract::Services::Generators::DailyPerMillionPayments do
         expect(contract.contract_interest_payments.first.number_of_days).to eq(25)
         expect(contract.contract_interest_payments.first.from).to eq(contract.contract_date)
         expect(contract.contract_interest_payments.first.to).to eq(contract.contract_date + 24)
+      end
+    end
+
+    context 'when there are additional loans during the contract period exists one in period' do
+      before do
+        allow(contract).to receive(:contract_term).and_return(120)
+        allow(contract).to receive(:contract_date).and_return("2025-10-18".to_date)
+
+        additional_loan1
+      end
+
+      it 'includes additional loans in payment calculations' do
+        service.call
+        first_payment = contract.interest_payments.first
+        expect(first_payment.amount.to_f).to eq(1_760.0)
+      end
+    end
+
+    context 'when there are additional loans during the contract period exists two in period' do
+      before do
+        allow(contract).to receive(:contract_term).and_return(120)
+        allow(contract).to receive(:contract_date).and_return("2025-10-18".to_date)
+
+        additional_loan1 && additional_loan2
+      end
+
+      it 'includes additional loans in payment calculations' do
+        service.call
+        first_payment = contract.interest_payments.first
+        second_payment = contract.interest_payments.second
+        expect(first_payment.amount.to_f).to eq(1_980.0)
+        expect(second_payment.amount.to_f).to eq(2_100.0)
+      end
+    end
+
+    context 'when there are additional loans during the contract period exists one in different periods' do
+      before do
+        allow(contract).to receive(:contract_term).and_return(120)
+        allow(contract).to receive(:contract_date).and_return("2025-10-18".to_date)
+
+        additional_loan1 && additional_loan2 && additional_loan3
+      end
+
+      it 'includes additional loans in payment calculations' do
+        service.call
+        first_payment = contract.interest_payments.first
+        second_payment = contract.interest_payments.second
+        third_payment = contract.interest_payments.third
+        expect(first_payment.amount.to_f).to eq(1_980.0)
+        expect(second_payment.amount.to_f).to eq(2_370.0)
+        expect(third_payment.amount.to_f).to eq(2_400.0)
+      end
+    end
+
+    context 'when there are additional loans during the contract period exists two in different periods' do
+      before do
+        allow(contract).to receive(:contract_term).and_return(120)
+        allow(contract).to receive(:contract_date).and_return("2025-10-18".to_date)
+
+        additional_loan1 && additional_loan2 && additional_loan3 && additional_loan4
+      end
+
+      it 'includes additional loans in payment calculations' do
+        service.call
+        first_payment = contract.interest_payments.first
+        second_payment = contract.interest_payments.second
+        third_payment = contract.interest_payments.third
+        expect(first_payment.amount.to_f).to eq(1_980.0)
+        expect(second_payment.amount.to_f).to eq(2_580.0)
+        expect(third_payment.amount.to_f).to eq(2_700.0)
       end
     end
   end
