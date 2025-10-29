@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     resources :custom_interest_payments, only: [ :create, :show ]
     resources :reduce_principals, only: [ :update, :destroy ]
     resources :additional_loans, only: [ :update, :destroy ]
+    resources :extend_terms, only: [ :update ]
   end
 
   # For automplete search

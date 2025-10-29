@@ -115,7 +115,8 @@ module Contract::Reader
       return calculate_period_end_date(contract_date, contract_term, contract_date.day)
     end
 
-    contract_date + contract_term_in_days.days - 1.day
+    extended_days = contract_extensions.sum(:number_of_days)
+    contract_date + (contract_term_in_days + extended_days).days - 1.day
   end
 
   def calculate_period_end_date(start_date, months_to_add, contract_day)
@@ -144,7 +145,7 @@ module Contract::Reader
       [ I18n.t("contract_state.#{contract_code}.due_date"), :yellow ]
     elsif last_unpaid_interest_payment && last_unpaid_interest_payment.to < Date.current
       [ I18n.t("contract_state.#{contract_code}.overdue"), :red ]
-    elsif contract_interest_payments.due_date_less_than(Date.current).present?
+    elsif interest_payments.unpaid.due_date_less_than(Date.current).present?
       [ I18n.t("contract_state.#{contract_code}.interest_late"), :rose ]
     elsif nearest_due_date && nearest_due_date == Date.current
       [ I18n.t("contract_state.#{contract_code}.pay_today"), :yellow ]

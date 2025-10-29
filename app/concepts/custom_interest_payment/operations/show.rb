@@ -6,7 +6,7 @@ module CustomInterestPayment::Operations
     step :calculate_custom_interest_payment
 
     def calculate_custom_interest_payment(ctx, params:, model:, **)
-      custom_interest_payment = ::Contract::Services::LoadCustomInterestPayment.new(
+      custom_interest_payment = ::Contract::Services::CustomInterestPaymentReader.new(
         contract: model,
         from_date: (params[:from_date].presence || Date.current.to_fs(:date_vn)).parse_date_vn,
         to_date: (params[:to_date].presence || Date.current.to_fs(:date_vn)).parse_date_vn

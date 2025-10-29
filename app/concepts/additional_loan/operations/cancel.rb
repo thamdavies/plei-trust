@@ -45,9 +45,9 @@ module AdditionalLoan::Operations
 
       if paid_interest_payment
         unpaid_interest_payment = contract.unpaid_interest_payments.first
-        ::Contract::Services::CreateContractInterestPayment.call(contract:, start_date: unpaid_interest_payment.from)
+        ::Contract::Services::ContractInterestPaymentGenerator.call(contract:, start_date: unpaid_interest_payment.from)
       else
-        ::Contract::Services::CreateContractInterestPayment.call(contract:)
+        ::Contract::Services::ContractInterestPaymentGenerator.call(contract:)
       end
 
       true

@@ -12,16 +12,16 @@ module AdditionalLoan::Contracts
       end
 
       rule(:id) do
-        # contract = ::Contract.find(form.contract_id)
-        # transaction = contract.financial_transactions.find(value)
-        # if transaction.transaction_type.code != TransactionType::ADDITIONAL_LOAN
-        #   key.failure("giao dịch không phải là rút bớt gốc")
-        # else
-        #   last_interest_payment = contract.paid_interest_payments.last
-        #   if last_interest_payment && transaction.transaction_date < last_interest_payment.to
-        #     key.failure("không thể hủy giao dịch rút bớt gốc trước kỳ lãi đã thanh toán cuối cùng")
-        #   end
-        # end
+        contract = ::Contract.find(form.contract_id)
+        transaction = contract.financial_transactions.find(value)
+        if transaction.transaction_type.code != TransactionType::ADDITIONAL_LOAN
+          key.failure("giao dịch không phải là vay thêm")
+        else
+          last_interest_payment = contract.paid_interest_payments.last
+          if last_interest_payment && transaction.transaction_date < last_interest_payment.to
+            key.failure("Giao dịch này không thể hủy vì ngày trả lãi cuối cùng lớn hơn ngày giao dịch này")
+          end
+        end
       end
     end
   end

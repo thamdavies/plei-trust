@@ -1,5 +1,5 @@
 module Contract::Services
-  class CreateContractInterestPayment < ApplicationService
+  class ContractInterestPaymentGenerator < ApplicationService
     def initialize(contract:, start_date: nil)
       @contract = contract
       @start_date = start_date
