@@ -19,7 +19,7 @@ module ReducePrincipal::Contracts
         else
           last_interest_payment = contract.paid_interest_payments.last
           if last_interest_payment && transaction.transaction_date < last_interest_payment.to
-            key.failure("không thể hủy giao dịch rút bớt gốc trước kỳ lãi đã thanh toán cuối cùng")
+            key.failure("Giao dịch này không thể hủy vì ngày trả lãi cuối cùng lớn hơn ngày giao dịch này")
           end
         end
       end

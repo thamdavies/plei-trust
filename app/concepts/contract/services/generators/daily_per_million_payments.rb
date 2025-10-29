@@ -14,6 +14,7 @@ module Contract::Services::Generators
       schedule = []
 
       end_date = contract.contract_end_date
+
       current_from = start_date
       # Bắt đầu với số tiền gốc ban đầu - sử dụng total_amount thay vì loan_amount
       accumulated_loan_amount = contract.loan_amount

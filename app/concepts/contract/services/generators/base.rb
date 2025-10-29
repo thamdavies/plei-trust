@@ -44,7 +44,7 @@ module Contract::Services::Generators
       remove_payments = ContractInterestPayment.where(contract_id: contract.id, custom_payment: false, payment_status: :unpaid)
 
       if start_date.present?
-        remove_payments = remove_payments.where("#{ContractInterestPayment.table_name}.from <= ?", contract.contract_date)
+        remove_payments = remove_payments.where("#{ContractInterestPayment.table_name}.from < ?", contract.contract_date)
       end
 
       remove_payments.delete_all if remove_payments.exists?
