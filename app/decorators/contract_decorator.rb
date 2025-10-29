@@ -3,7 +3,7 @@ class ContractDecorator < ApplicationDecorator
 
   decorates_association :contract_interest_payments
   decorates_association :customer
-  decorates_association :principal_payments
+  decorates_association :reduce_principals
   decorates_association :additional_loans
   decorates_association :contract_extensions
 

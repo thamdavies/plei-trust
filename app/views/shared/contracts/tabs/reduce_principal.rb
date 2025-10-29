@@ -16,7 +16,7 @@ class Views::Shared::Contracts::Tabs::ReducePrincipal < Views::Base
             h2(class: "text-md mb-2 font-medium text-gray-900 dark:text-white") { "Danh sách tiền gốc" }
           end
           Table(class: "mt-4") do
-            TableCaption { "Lịch sử rút gốc sẽ được hiển thị ở đây" } if contract.principal_payments.blank?
+            TableCaption { "Lịch sử rút gốc sẽ được hiển thị ở đây" } if contract.reduce_principals.blank?
             TableHeader do
               TableRow do
                 TableHead { "STT" }
@@ -28,7 +28,7 @@ class Views::Shared::Contracts::Tabs::ReducePrincipal < Views::Base
               end
             end
             TableBody do
-              contract.principal_payments.includes(:transaction_type).each_with_index do |item, index|
+              contract.reduce_principals.includes(:transaction_type).each_with_index do |item, index|
                 TableRow do
                   TableCell(class: "font-medium") { index + 1 }
                   TableCell(class: "text-center") { item.fm_transaction_date }

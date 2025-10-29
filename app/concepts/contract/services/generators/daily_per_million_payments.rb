@@ -18,15 +18,15 @@ module Contract::Services::Generators
       current_from = start_date
       # Bắt đầu với số tiền gốc ban đầu - sử dụng total_amount thay vì loan_amount
       accumulated_loan_amount = contract.loan_amount
-      additional_loans_sorted = contract.additional_loans
-      principal_payments = contract.principal_payments
+      additional_loans = contract.additional_loans
+      reduce_principals = contract.reduce_principals
 
       while current_from <= end_date
         current_to = current_from + (contract.interest_period_in_days - 1).days
         current_to = [ current_to, end_date ].min
 
         # Lọc các khoản vay thêm CHỈ thuộc về kỳ này
-        period_additional_loans = additional_loans_sorted.filter_map do |al|
+        period_additional_loans = additional_loans.filter_map do |al|
           if al.transaction_date >= current_from && al.transaction_date <= current_to
             { date: al.transaction_date.to_fs(:date_vn), change: al.amount, fee: 0 }
           else
@@ -34,7 +34,7 @@ module Contract::Services::Generators
           end
         end
 
-        period_principal_payments = principal_payments.filter_map do |pp|
+        period_reduce_principals = reduce_principals.filter_map do |pp|
           if pp.transaction_date >= current_from && pp.transaction_date <= current_to
             { date: pp.transaction_date.to_fs(:date_vn), change: -pp.amount, fee: pp.amount * Contract.config[:principal_payment_fee_percent] }
           else
@@ -47,7 +47,7 @@ module Contract::Services::Generators
           contract.interest_rate * 1_000,
           current_from,
           current_to,
-          period_additional_loans + period_principal_payments
+          period_additional_loans + period_reduce_principals
         )
 
         accumulated_loan_amount = current_principal

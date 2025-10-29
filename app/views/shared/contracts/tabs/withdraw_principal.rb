@@ -7,8 +7,9 @@ class Views::Shared::Contracts::Tabs::WithdrawPrincipal < Views::Base
     TabsContent(value: "withdraw_principal") do
       div(class: "rounded-lg border p-6 space-y-4 bg-background text-foreground") do
         div(class: "space-y-0") do
-          Text(size: "4", weight: "semibold") { "Rút vốn" }
-          Text(size: "2", class: "text-muted-foreground") { "Thông tin chi tiết về việc rút vốn." }
+          turbo_frame_tag "withdraw_principal_form" do
+            render Views::Shared::Contracts::Tabs::WithdrawPrincipal::Form.new(contract:)
+          end
         end
       end
     end

@@ -6,7 +6,7 @@ module Contract::Reader
   end
 
   def total_amount
-    loan_amount - (principal_payments.sum(:amount)) + (additional_loans.sum(:amount))
+    loan_amount - (reduce_principals.sum(:amount)) + (additional_loans.sum(:amount))
   end
 
   def total_amount_formatted

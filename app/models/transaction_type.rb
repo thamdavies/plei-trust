@@ -13,12 +13,12 @@
 class TransactionType < ApplicationRecord
   # Transaction type codes, run TransactionType.seed_default_types to create default types after adding new types
   INTEREST_PAYMENT = "interest_payment".freeze
-  PRINCIPAL_PAYMENT = "principal_payment".freeze
+  REDUCE_PRINCIPAL = "reduce_principal".freeze
   LOAN_DISBURSEMENT = "loan_disbursement".freeze
   FEE_PAYMENT = "fee_payment".freeze
   PENALTY_PAYMENT = "penalty_payment".freeze
   DEPOSIT = "deposit".freeze
-  WITHDRAWAL = "withdrawal".freeze
+  WITHDRAWAL_PRINCIPAL = "withdrawal_principal".freeze
   TRANSFER_IN = "transfer_in".freeze
   TRANSFER_OUT = "transfer_out".freeze
   REFUND = "refund".freeze
@@ -35,8 +35,8 @@ class TransactionType < ApplicationRecord
       find_by(code: INTEREST_PAYMENT)
     end
 
-    def principal_payment
-      find_by(code: PRINCIPAL_PAYMENT)
+    def reduce_principal
+      find_by(code: REDUCE_PRINCIPAL)
     end
 
     def loan_disbursement
@@ -55,8 +55,8 @@ class TransactionType < ApplicationRecord
       find_by(code: DEPOSIT)
     end
 
-    def withdrawal
-      find_by(code: WITHDRAWAL)
+    def withdrawal_principal
+      find_by(code: WITHDRAWAL_PRINCIPAL)
     end
 
     def additional_loan
@@ -86,7 +86,7 @@ class TransactionType < ApplicationRecord
           is_income: true
         },
         {
-          code: PRINCIPAL_PAYMENT,
+          code: REDUCE_PRINCIPAL,
           name: "Trả gốc",
           description: "Thu tiền gốc từ khách hàng",
           is_income: true
@@ -116,9 +116,9 @@ class TransactionType < ApplicationRecord
           is_income: true
         },
         {
-          code: WITHDRAWAL,
-          name: "Rút tiền",
-          description: "Rút tiền từ hệ thống",
+          code: WITHDRAWAL_PRINCIPAL,
+          name: "Rút vốn",
+          description: "Rút vốn khỏi hệ thống",
           is_income: false
         },
         {

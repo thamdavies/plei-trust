@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     resources :reduce_principals, only: [ :update, :destroy ]
     resources :additional_loans, only: [ :update, :destroy ]
     resources :extend_terms, only: [ :update ]
+    resources :withdrawal_principals, only: [ :update ]
   end
 
   # For automplete search
