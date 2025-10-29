@@ -1,5 +1,5 @@
 module Contract::Services
-  class LoadCustomInterestPayment < ApplicationService
+  class CustomInterestPaymentReader < ApplicationService
     def initialize(contract:, from_date:, to_date:)
       @contract = contract
       @from_date = from_date
@@ -23,7 +23,7 @@ module Contract::Services
       total_interest_amount = total_amount + other_amount
 
       contract.contract_date = to_date
-      payment_data = CreateContractInterestPayment.new(contract:).info
+      payment_data = ContractInterestPaymentGenerator.new(contract:).info
       next_interest_date = contract.collect_interest_in_advance ? payment_data.first[:from] : payment_data.first[:to]
 
       {

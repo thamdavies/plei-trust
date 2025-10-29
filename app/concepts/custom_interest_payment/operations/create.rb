@@ -71,7 +71,7 @@ module CustomInterestPayment::Operations
       contract.contract_date = model.to_date
       contract.recalculate_contract_date
 
-      ::Contract::Services::CreateContractInterestPayment.new(contract:).call
+      ::Contract::Services::ContractInterestPaymentGenerator.new(contract:).call
       true
     end
   end

@@ -27,8 +27,10 @@ module ExtendTerm::Operations
     }
 
     def save(ctx, model:, params:, **)
-      contract_extension = ContractExtension.new(
+      contract_extension = ContractExtension.create!(
         contract_id: model.contract_id,
+        from: Date.current,
+        to: Date.current,
         number_of_days: model.number_of_days.to_i,
         note: model.note,
         content: "Gia hạn"
@@ -51,17 +53,20 @@ module ExtendTerm::Operations
     # - Gia hạn thêm 30 ngày, Kỳ lãi cuối cùng từ 01/01/2024 đến 25/01/2024 (25 ngày) chưa được thanh toán, thì phải điền thêm 5 ngày vào kỳ lãi này, còn 25 ngày còn lại sẽ tạo kỳ lãi mới từ 31/01/2024
     def regenerate_interest_payments(contract:)
       last_interest_payment = contract.interest_payments.last
+      from_date = last_interest_payment.from
 
       if last_interest_payment.paid? || last_interest_payment.number_of_days == 30
         start_date = last_interest_payment.to + 1.day
+        from_date = start_date
       else
         last_interest_payment.destroy!
-        start_date = last_interest_payment.from
+        start_date = last_interest_payment.to
+        from_date = start_date + 1.day
       end
 
-      ::Contract::Services::CreateContractInterestPayment.call(contract:, start_date:)
+      ::Contract::Services::ContractInterestPaymentGenerator.call(contract:, start_date:)
 
-      start_date
+      from_date
     end
 
     def notify(ctx, model:, params:, **)

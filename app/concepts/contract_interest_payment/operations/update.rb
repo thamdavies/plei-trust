@@ -16,7 +16,7 @@ module ContractInterestPayment::Operations
     def save(ctx, model:, params:, **)
       if model.paid?
         model.destroy!
-        ::Contract::Services::CreateContractInterestPayment.call(contract: model.contract, start_date: model.from)
+        ::Contract::Services::ContractInterestPaymentGenerator.call(contract: model.contract, start_date: model.from)
         ctx[:message] = "Đã huỷ đóng lãi"
       else
         model.payment_status = ContractInterestPayment.payment_statuses[:paid]

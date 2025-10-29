@@ -9,6 +9,6 @@ module Contract::Writer
 
   def reset_interest_payments!
     contract_interest_payments.delete_all
-    Contract::Services::CreateContractInterestPayment.new(contract: self).call
+    Contract::Services::ContractInterestPaymentGenerator.new(contract: self).call
   end
 end
