@@ -10,9 +10,18 @@ class Contracts::WithdrawPrincipalsController < ApplicationController
     @contract = ctx[:contract].decorate
   end
 
+  def show
+    ctx = WithdrawPrincipal::Operations::Show.call(params: show_params.to_h, current_user:)
+    render json: ctx[:withdraw_principal]
+  end
+
   private
 
   def permit_params
     params.require(:form).permit(:contract_id, :transaction_date, :withdrawal_amount, :note)
+  end
+
+  def show_params
+    params.permit(:transaction_date, :id).merge(contract_id: params[:id])
   end
 end
