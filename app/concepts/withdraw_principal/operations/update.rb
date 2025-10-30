@@ -5,7 +5,7 @@ module WithdrawPrincipal::Operations
       include ActiveModel::Attributes
       include ActiveModel::Validations
 
-      attr_accessor :transaction_date, :withdrawal_amount, :note, :contract_id
+      attr_accessor :transaction_date, :withdrawal_amount, :other_amount, :note, :contract_id
     end
 
     class Present < ApplicationOperation

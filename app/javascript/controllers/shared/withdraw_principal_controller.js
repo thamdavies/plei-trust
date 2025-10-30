@@ -19,8 +19,10 @@ export default class extends Controller {
   async calculateInterestByDays() {
     try {
       const contractId = document.getElementById("withdraw_principal_contract_id").value;
+      let url = "/contracts/withdraw_principals/" + contractId + "?transaction_date=" + this.transactionDateInputTarget.value;
+      url += "&other_amount=" + this.otherAmountInputTarget.value;
 
-      const request = new FetchRequest('GET', "/contracts/withdraw_principals/" + contractId + "?transaction_date=" + this.transactionDateInputTarget.value, {
+      const request = new FetchRequest('GET', url, {
         responseKind: 'json',
       });
 
@@ -31,7 +33,7 @@ export default class extends Controller {
         this.oldDebtTextTarget.textContent = data.old_debt_amount;
         this.interestAmountTextTarget.textContent = `${data.interest_amount} (${data.days_count} ngày)`;
         this.otherAmountInputTarget.value = data.other_amount.replace(' VNĐ', '');
-        this.totalAmountTextTarget.textContent = data.total_interest_amount;
+        this.totalAmountTextTarget.textContent = data.total_amount;
         console.log(data);
       } else {
         throw new Error('Something went wrong');

@@ -18,10 +18,10 @@ class Contracts::WithdrawPrincipalsController < ApplicationController
   private
 
   def permit_params
-    params.require(:form).permit(:contract_id, :transaction_date, :withdrawal_amount, :note)
+    params.require(:form).permit(:contract_id, :transaction_date, :withdrawal_amount, :other_amount, :note)
   end
 
   def show_params
-    params.permit(:transaction_date, :id).merge(contract_id: params[:id])
+    params.permit(:transaction_date, :other_amount, :id).merge(contract_id: params[:id])
   end
 end

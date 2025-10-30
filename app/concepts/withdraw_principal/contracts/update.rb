@@ -7,6 +7,10 @@ module WithdrawPrincipal::Contracts
     property :withdrawal_amount, default: 0, populator: ->(options) {
       self.withdrawal_amount = self.input_params["withdrawal_amount"].remove_dots.to_f if self.input_params["withdrawal_amount"].present?
     }
+    property :other_amount, default: 0, populator: ->(options) {
+      self.other_amount = self.input_params["other_amount"].remove_dots.to_f if self.input_params["other_amount"].present?
+    }
+
     property :note
 
     validation contract: DryContract do
@@ -14,11 +18,8 @@ module WithdrawPrincipal::Contracts
 
       params do
         required(:transaction_date).filled
-        required(:prepayment_amount).filled(:float?, gt?: 0)
+        required(:withdrawal_amount).filled(:float?, gt?: 0)
       end
-
-      # rule(:transaction_date) do
-      # end
     end
   end
 end

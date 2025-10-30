@@ -79,11 +79,12 @@ class Views::Shared::Contracts::Tabs::WithdrawPrincipal::Form < Views::Base
                   data: {
                     maska_number_locale: "vi",
                     maska_number_unsigned: true,
-                    "shared--withdraw-principal-target": "otherAmountInput"
+                    "shared--withdraw-principal-target": "otherAmountInput",
+                    action: "change->shared--withdraw-principal#calculateInterestByDays"
                   },
                   placeholder: "0",
-                  name: "form[withdrawal_amount]",
-                  value: form.withdrawal_amount.to_i,
+                  name: "form[other_amount]",
+                  value: form.other_amount.to_i,
                   class: "pr-10 mb-0"
                 )
 
