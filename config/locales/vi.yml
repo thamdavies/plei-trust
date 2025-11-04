@@ -30,12 +30,16 @@ vi:
       record_invalid: "Xác thực thất bại: %{errors}"
   
   invalid_email: "Email không hợp lệ"
+  pundit:
+   default: 'Bạn không thể thực hiện hành động này.'
+   contract_policy:
+     update?: 'Bạn không thể thao tác trên hợp đồng đã kết thúc!'
   contract_state:
     default: &default
       on_time: "Đúng hẹn"
       overdue: "Quá hạn"
       interest_late: "Trễ lãi"
-      closed: "Đã tất toán"
+      closed: "Đã kết thúc"
       due_date: "Đến hạn đóng lãi"
       pay_today: "Hôm nay đóng lãi"
     capital:

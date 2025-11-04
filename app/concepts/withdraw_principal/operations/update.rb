@@ -1,0 +1,77 @@
+module WithdrawPrincipal::Operations
+  class Update < ApplicationOperation
+    class WithdrawPrincipal
+      include ActiveModel::Model
+      include ActiveModel::Attributes
+      include ActiveModel::Validations
+
+      attr_accessor :start_date, :transaction_date, :withdrawal_amount, :other_amount, :note, :contract_id
+    end
+
+    class Present < ApplicationOperation
+      step Model(WithdrawPrincipal, :new)
+      step Contract::Build(constant: ::WithdrawPrincipal::Contracts::Update)
+      step :assign_attributes
+
+      def assign_attributes(ctx, model:, params:, **)
+        model.assign_attributes(params)
+        ctx[:contract] = ::Contract.find(model.contract_id)
+        start_date = ContractInterestPayment.unpaid.where(contract_id: model.contract_id).order(:from).first&.from
+        model.start_date = start_date || Date.current
+
+        reader = ::Contract::Services::CustomInterestPaymentReader.new(
+          contract: ctx[:contract],
+          from_date: model.start_date,
+          to_date: model.transaction_date.parse_date_vn,
+          old_debt_amount: ctx[:contract].customer.old_debt_amount,
+          other_amount: model.other_amount&.remove_dots.to_f
+        )
+
+        ctx[:withdraw_principal] = reader.call
+
+        form = ctx["contract.default"]
+        form.start_date = model.start_date
+        form.transaction_date = model.transaction_date
+
+        true
+      end
+    end
+
+    step Subprocess(Present)
+    step Contract::Validate()
+    step Wrap(AppTransaction) {
+      step :save
+      step :regenerate_interest_payments
+      step :notify
+    }
+
+    def save(ctx, model:, params:, **)
+      withdraw_principal = ctx[:withdraw_principal]
+      ctx[:record] = FinancialTransaction.create!(
+        contract_id: model.contract_id,
+        transaction_type: TransactionType.withdrawal_principal,
+        amount: withdraw_principal[:total_amount_raw],
+        transaction_date: model.transaction_date.parse_date_vn,
+        description: model.note,
+        created_by: ctx[:current_user]
+      )
+
+      true
+    end
+
+    def regenerate_interest_payments(ctx, model:, params:, **)
+      contract = ctx[:contract]
+      generator = ::Contract::Services::ContractInterestPaymentGenerator.new(contract:, start_date: model.start_date)
+      generator.call
+      contract.update_columns(status: "closed")
+
+      true
+    end
+
+    def notify(ctx, model:, params:, **)
+      ctx[:message] = "Rút gốc thành công"
+
+      true
+    end
+  end
+end

@@ -3,16 +3,16 @@
 # Table name: contract_interest_payments
 #
 #  id             :uuid             not null, primary key
-#  amount         :decimal(15, 2)
+#  amount         :decimal(15, 2)   default(0.0)
 #  custom_payment :boolean          default(FALSE)
 #  from           :date
 #  note           :text
 #  number_of_days :integer
-#  other_amount   :decimal(15, 2)
+#  other_amount   :decimal(15, 2)   default(0.0)
 #  payment_status :string           default("unpaid")
 #  to             :date
-#  total_amount   :decimal(15, 2)
-#  total_paid     :decimal(15, 2)
+#  total_amount   :decimal(15, 2)   default(0.0)
+#  total_paid     :decimal(15, 2)   default(0.0)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  contract_id    :uuid             not null

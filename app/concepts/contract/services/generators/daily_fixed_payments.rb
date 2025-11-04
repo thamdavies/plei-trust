@@ -13,7 +13,13 @@ module Contract::Services::Generators
     def insert_data(save: true)
       schedule = []
 
-      end_date = contract.contract_end_date
+      withdrawal_principals = contract.withdrawal_principals
+      end_date = if withdrawal_principals.present?
+        withdrawal_principals.last.transaction_date
+      else
+        contract.contract_end_date
+      end
+
       current_from = start_date
 
       while current_from <= end_date

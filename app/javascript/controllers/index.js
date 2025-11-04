@@ -88,6 +88,9 @@ application.register("shared--reduce-principal", Shared__ReducePrincipalControll
 import Shared__AdditionalLoanController from "./shared/additional_loan_controller"
 application.register("shared--additional-loan", Shared__AdditionalLoanController)
 
+import Shared__WithdrawPrincipalController from "./shared/withdraw_principal_controller"
+application.register("shared--withdraw-principal", Shared__WithdrawPrincipalController)
+
 import SlimSelectController from "./slim_select_controller"
 application.register("slim-select", SlimSelectController)
 
