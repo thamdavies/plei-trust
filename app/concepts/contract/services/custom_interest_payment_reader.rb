@@ -37,6 +37,7 @@ module Contract::Services
         other_amount: other_amount.to_currency(unit: "").strip,
         total_interest_amount: total_interest_amount.to_currency,
         total_amount: (total_interest_amount + contract.total_amount * 1_000).to_currency,
+        total_amount_raw: total_interest_amount + contract.total_amount * 1_000,
         customer_payment_amount: total_interest_amount.to_currency(unit: "").strip
       }
     end

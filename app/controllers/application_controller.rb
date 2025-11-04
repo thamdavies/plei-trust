@@ -1,8 +1,10 @@
 class ApplicationController < ActionController::Base
   include Clearance::Controller
   include Pagy::Backend
+  include Pundit::Authorization
 
   set_current_tenant_through_filter
+
   before_action :set_current_branch
   before_action :set_without_filter_form, if: -> { %w[new edit].include?(action_name) }
 
@@ -10,6 +12,8 @@ class ApplicationController < ActionController::Base
   # allow_browser versions: :modern
 
   before_action :require_login
+
+  rescue_from Pundit::NotAuthorizedError, with: :handle_pundit_not_authorized
 
   def set_current_branch
     return unless signed_in?
@@ -38,5 +42,10 @@ class ApplicationController < ActionController::Base
 
   def set_without_filter_form
     @without_filter_form = true
+  end
+
+  def handle_pundit_not_authorized(exception)
+    policy_name = exception.policy.class.to_s.underscore
+    flash.now[:error] = t "#{policy_name}.#{exception.query}", scope: "pundit", default: :default
   end
 end

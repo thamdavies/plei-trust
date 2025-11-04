@@ -1,6 +1,7 @@
 module WithdrawPrincipal::Contracts
   class Update < ApplicationContract
     property :contract_id
+    property :start_date
     property :transaction_date, populator: ->(options) {
       self.transaction_date = self.input_params["transaction_date"].parse_date_vn if self.input_params["transaction_date"].present?
     }
@@ -18,7 +19,6 @@ module WithdrawPrincipal::Contracts
 
       params do
         required(:transaction_date).filled
-        required(:withdrawal_amount).filled(:float?, gt?: 0)
       end
     end
   end

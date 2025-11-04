@@ -8,10 +8,9 @@ module WithdrawPrincipal::Operations
     end
 
     def load_withdrawal_principal(ctx, params:, **)
-      start_date = ctx[:contract].unpaid_interest_payments.minimum(:from)
       reader = ::Contract::Services::CustomInterestPaymentReader.new(
         contract: ctx[:contract],
-        from_date: start_date,
+        from_date: params[:start_date],
         to_date: params[:transaction_date].parse_date_vn,
         old_debt_amount: ctx[:contract].customer.old_debt_amount,
         other_amount: params[:other_amount].remove_dots.to_f

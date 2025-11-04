@@ -1,5 +1,9 @@
-class Contracts::AdditionalLoansController < ApplicationController
+class Contracts::AdditionalLoansController < ContractsController
+  before_action :set_contract, only: [ :update, :destroy ]
+
   def update
+    authorize @contract, :update?
+
     ctx = AdditionalLoan::Operations::Update.call(params: permit_params.to_h, current_user:)
     if ctx.success?
       flash.now[:notice] = ctx[:message]
@@ -8,9 +12,13 @@ class Contracts::AdditionalLoansController < ApplicationController
     end
 
     @contract = ctx[:contract].decorate
+  rescue Pundit::NotAuthorizedError
+    handle_cannot_operate_on_ended_contract
   end
 
   def destroy
+    authorize @contract, :update?
+
     ctx = AdditionalLoan::Operations::Cancel.call(params: cancel_params.to_h, current_user:)
     if ctx.success?
       flash.now[:notice] = ctx[:message]
@@ -20,6 +28,8 @@ class Contracts::AdditionalLoansController < ApplicationController
     end
 
     @contract = ctx[:contract].decorate
+  rescue Pundit::NotAuthorizedError
+    handle_cannot_operate_on_ended_contract
   end
 
   private
@@ -30,5 +40,9 @@ class Contracts::AdditionalLoansController < ApplicationController
 
   def cancel_params
     params.require(:form).permit(:contract_id).merge(id: params[:id])
+  end
+
+  def contract_id
+    permit_params[:contract_id]
   end
 end

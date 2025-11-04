@@ -6,7 +6,7 @@ module Contract::Services::Generators
     # @param contract [Contract] The contract for which interest payments are being generated
     # @return [void]
     def initialize(contract:, start_date: nil)
-      @contract = contract
+      @contract = contract.reload
       @start_date = start_date || contract.contract_date
     end
 

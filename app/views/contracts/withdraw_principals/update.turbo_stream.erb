@@ -1,0 +1,13 @@
+<% if @form %>
+  <%= turbo_stream.update "withdraw_principal_form" do %>
+    <%= render Views::Shared::Contracts::Tabs::WithdrawPrincipal::Form.new(contract: @contract) %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.update "contract_show_modal" do %>
+    <%= render Views::Shared::Contracts::Show.new(contract: @contract, tab: "withdraw_principal") %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update "toast-notification" do %>
+  <%= render "shared/toast" %>
+<% end %>

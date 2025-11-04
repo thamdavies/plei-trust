@@ -10,25 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_15_091844) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
 
   create_table "administrative_regions", id: :integer, default: nil, force: :cascade do |t|
-    t.string "name", limit: 255, null: false
-    t.string "name_en", limit: 255, null: false
     t.string "code_name", limit: 255
     t.string "code_name_en", limit: 255
+    t.string "name", limit: 255, null: false
+    t.string "name_en", limit: 255, null: false
   end
 
   create_table "administrative_units", id: :integer, default: nil, force: :cascade do |t|
+    t.string "code_name", limit: 255
+    t.string "code_name_en", limit: 255
     t.string "full_name", limit: 255
     t.string "full_name_en", limit: 255
     t.string "short_name", limit: 255
     t.string "short_name_en", limit: 255
-    t.string "code_name", limit: 255
-    t.string "code_name_en", limit: 255
   end
 
   create_table "asset_setting_attributes", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
@@ -51,31 +51,31 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
   create_table "asset_setting_values", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.uuid "asset_setting_attribute_id", null: false
     t.uuid "contract_id", null: false
-    t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "value"
     t.index ["asset_setting_attribute_id"], name: "index_asset_setting_values_on_asset_setting_attribute_id"
     t.index ["contract_id"], name: "index_asset_setting_values_on_contract_id"
   end
 
   create_table "asset_settings", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.uuid "branch_id", null: false
+    t.float "asset_appraisal_fee"
     t.string "asset_code"
     t.string "asset_name"
-    t.string "status", default: "active"
-    t.string "interest_calculation_method", default: "monthly"
-    t.decimal "default_loan_amount", precision: 12, scale: 2
-    t.float "default_interest_rate"
-    t.integer "interest_period"
-    t.integer "default_contract_term"
-    t.integer "liquidation_after_days"
+    t.float "asset_rental_fee"
+    t.uuid "branch_id", null: false
     t.boolean "collect_interest_in_advance", default: false
     t.decimal "contract_initiation_fee", precision: 12, scale: 2
-    t.float "asset_appraisal_fee"
-    t.float "management_fee"
-    t.float "asset_rental_fee"
-    t.float "early_termination_fee"
     t.datetime "created_at", null: false
+    t.integer "default_contract_term"
+    t.float "default_interest_rate"
+    t.decimal "default_loan_amount", precision: 12, scale: 2
+    t.float "early_termination_fee"
+    t.string "interest_calculation_method", default: "monthly"
+    t.integer "interest_period"
+    t.integer "liquidation_after_days"
+    t.float "management_fee"
+    t.string "status", default: "active"
     t.datetime "updated_at", null: false
     t.index ["branch_id"], name: "index_asset_settings_on_branch_id"
   end
@@ -90,72 +90,72 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
   end
 
   create_table "branches", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.string "name"
-    t.string "province_id"
-    t.string "ward_id"
     t.string "address"
-    t.string "phone"
-    t.string "representative"
-    t.decimal "invest_amount", precision: 12, scale: 2
-    t.string "status", default: "active"
     t.datetime "created_at", null: false
+    t.decimal "invest_amount", precision: 12, scale: 2
+    t.string "name"
+    t.string "phone"
+    t.string "province_id"
+    t.string "representative"
+    t.string "status", default: "active"
     t.datetime "updated_at", null: false
+    t.string "ward_id"
     t.index ["province_id"], name: "index_branches_on_province_id"
     t.index ["ward_id"], name: "index_branches_on_ward_id"
   end
 
   create_table "contract_amount_changes", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.uuid "contract_id", null: false
     t.date "action_date"
-    t.string "type"
     t.decimal "amount", precision: 15, scale: 2
+    t.uuid "contract_id", null: false
+    t.datetime "created_at", null: false
     t.text "note"
     t.uuid "processed_by_id", null: false
-    t.datetime "created_at", null: false
+    t.string "type"
     t.datetime "updated_at", null: false
     t.index ["contract_id"], name: "index_contract_amount_changes_on_contract_id"
     t.index ["processed_by_id"], name: "index_contract_amount_changes_on_processed_by_id"
   end
 
   create_table "contract_extensions", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.uuid "contract_id", null: false
-    t.date "from"
-    t.date "to"
-    t.integer "number_of_days"
     t.text "content"
-    t.text "note"
+    t.uuid "contract_id", null: false
     t.datetime "created_at", null: false
+    t.date "from"
+    t.text "note"
+    t.integer "number_of_days"
+    t.date "to"
     t.datetime "updated_at", null: false
     t.index ["contract_id"], name: "index_contract_extensions_on_contract_id"
   end
 
   create_table "contract_interest_payments", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
     t.uuid "contract_id", null: false
-    t.date "from"
-    t.date "to"
-    t.boolean "custom_payment", default: false
-    t.integer "number_of_days"
-    t.decimal "amount", precision: 15, scale: 2
-    t.decimal "other_amount", precision: 15, scale: 2
-    t.decimal "total_amount", precision: 15, scale: 2
-    t.decimal "total_paid", precision: 15, scale: 2
-    t.string "payment_status", default: "unpaid"
-    t.text "note"
     t.datetime "created_at", null: false
+    t.boolean "custom_payment", default: false
+    t.date "from"
+    t.text "note"
+    t.integer "number_of_days"
+    t.decimal "other_amount", precision: 15, scale: 2, default: "0.0"
+    t.string "payment_status", default: "unpaid"
+    t.date "to"
+    t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_paid", precision: 15, scale: 2, default: "0.0"
     t.datetime "updated_at", null: false
     t.index ["contract_id"], name: "index_contract_interest_payments_on_contract_id"
   end
 
   create_table "contract_terminations", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.uuid "contract_id", null: false
-    t.date "termination_date"
     t.decimal "amount", precision: 15, scale: 2
-    t.decimal "old_debt", precision: 15, scale: 2
-    t.decimal "interest_amount", precision: 15, scale: 2
-    t.decimal "other_amount", precision: 15, scale: 2
-    t.decimal "total_amount", precision: 15, scale: 2
-    t.uuid "processed_by_id", null: false
+    t.uuid "contract_id", null: false
     t.datetime "created_at", null: false
+    t.decimal "interest_amount", precision: 15, scale: 2
+    t.decimal "old_debt", precision: 15, scale: 2
+    t.decimal "other_amount", precision: 15, scale: 2
+    t.uuid "processed_by_id", null: false
+    t.date "termination_date"
+    t.decimal "total_amount", precision: 15, scale: 2
     t.datetime "updated_at", null: false
     t.index ["contract_id"], name: "index_contract_terminations_on_contract_id"
     t.index ["processed_by_id"], name: "index_contract_terminations_on_processed_by_id"
@@ -163,31 +163,31 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
 
   create_table "contract_types", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.string "code"
-    t.string "name"
-    t.string "description"
     t.datetime "created_at", null: false
+    t.string "description"
+    t.string "name"
     t.datetime "updated_at", null: false
   end
 
   create_table "contracts", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.string "code"
-    t.uuid "customer_id", null: false
+    t.string "asset_name"
+    t.uuid "asset_setting_id"
     t.uuid "branch_id", null: false
     t.uuid "cashier_id", null: false
-    t.uuid "created_by_id", null: false
-    t.uuid "asset_setting_id"
-    t.string "asset_name"
-    t.uuid "contract_type_id", null: false
-    t.decimal "loan_amount", precision: 15, scale: 2
-    t.string "interest_calculation_method"
-    t.decimal "interest_rate", precision: 8, scale: 5
+    t.string "code"
     t.boolean "collect_interest_in_advance", default: false
-    t.integer "contract_term"
-    t.integer "interest_period"
     t.date "contract_date"
-    t.string "status", default: "active"
-    t.text "note"
+    t.integer "contract_term"
+    t.uuid "contract_type_id", null: false
     t.datetime "created_at", null: false
+    t.uuid "created_by_id", null: false
+    t.uuid "customer_id", null: false
+    t.string "interest_calculation_method"
+    t.integer "interest_period"
+    t.decimal "interest_rate", precision: 8, scale: 5
+    t.decimal "loan_amount", precision: 15, scale: 2
+    t.text "note"
+    t.string "status", default: "active"
     t.datetime "updated_at", null: false
     t.index ["asset_setting_id"], name: "index_contracts_on_asset_setting_id"
     t.index ["branch_id"], name: "index_contracts_on_branch_id"
@@ -198,33 +198,33 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
   end
 
   create_table "customers", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.string "address"
+    t.uuid "branch_id", null: false
+    t.datetime "created_at", null: false
+    t.uuid "created_by_id", null: false
     t.string "customer_code", null: false
     t.string "full_name", null: false
-    t.string "phone"
+    t.boolean "is_seed_capital", default: false
     t.string "national_id"
     t.date "national_id_issued_date"
     t.string "national_id_issued_place"
-    t.string "address"
-    t.uuid "created_by_id", null: false
-    t.uuid "branch_id", null: false
-    t.boolean "is_seed_capital", default: false
+    t.string "phone"
     t.string "status"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["branch_id"], name: "index_customers_on_branch_id"
     t.index ["created_by_id"], name: "index_customers_on_created_by_id"
   end
 
   create_table "financial_transactions", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.string "transaction_number", null: false
-    t.date "transaction_date", null: false
-    t.uuid "transaction_type_id", null: false
-    t.uuid "contract_id", null: false
     t.decimal "amount", precision: 15, scale: 2, null: false
+    t.uuid "contract_id", null: false
+    t.datetime "created_at", null: false
+    t.uuid "created_by_id", null: false
     t.string "description"
     t.string "reference_number"
-    t.uuid "created_by_id", null: false
-    t.datetime "created_at", null: false
+    t.date "transaction_date", null: false
+    t.string "transaction_number", null: false
+    t.uuid "transaction_type_id", null: false
     t.datetime "updated_at", null: false
     t.index ["contract_id"], name: "index_financial_transactions_on_contract_id"
     t.index ["created_by_id"], name: "index_financial_transactions_on_created_by_id"
@@ -232,44 +232,44 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
   end
 
   create_table "interest_rate_histories", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
     t.date "effective_date", null: false
     t.float "interest_rate", null: false
-    t.text "description"
     t.uuid "processed_by_id", null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["processed_by_id"], name: "index_interest_rate_histories_on_processed_by_id"
   end
 
   create_table "provinces", primary_key: "code", id: { type: :string, limit: 20 }, force: :cascade do |t|
-    t.string "name", limit: 255, null: false
-    t.string "name_en", limit: 255
+    t.integer "administrative_unit_id"
+    t.string "code_name", limit: 255
     t.string "full_name", limit: 255, null: false
     t.string "full_name_en", limit: 255
-    t.string "code_name", limit: 255
-    t.integer "administrative_unit_id"
+    t.string "name", limit: 255, null: false
+    t.string "name_en", limit: 255
     t.index ["administrative_unit_id"], name: "idx_provinces_unit"
   end
 
   create_table "transaction_types", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.string "code"
-    t.string "name"
+    t.datetime "created_at", null: false
     t.text "description"
     t.boolean "is_income"
-    t.datetime "created_at", null: false
+    t.string "name"
     t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.string "email", null: false
-    t.string "full_name", null: false
     t.uuid "branch_id", null: false
-    t.string "encrypted_password", limit: 128, null: false
     t.string "confirmation_token", limit: 128
-    t.string "remember_token", limit: 128, null: false
-    t.string "phone"
-    t.string "status", default: "active"
     t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.string "encrypted_password", limit: 128, null: false
+    t.string "full_name", null: false
+    t.string "phone"
+    t.string "remember_token", limit: 128, null: false
+    t.string "status", default: "active"
     t.datetime "updated_at", null: false
     t.index ["branch_id"], name: "index_users_on_branch_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
@@ -278,13 +278,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_091844) do
   end
 
   create_table "wards", primary_key: "code", id: { type: :string, limit: 20 }, force: :cascade do |t|
-    t.string "name", limit: 255, null: false
-    t.string "name_en", limit: 255
+    t.integer "administrative_unit_id"
+    t.string "code_name", limit: 255
     t.string "full_name", limit: 255
     t.string "full_name_en", limit: 255
-    t.string "code_name", limit: 255
+    t.string "name", limit: 255, null: false
+    t.string "name_en", limit: 255
     t.string "province_code", limit: 20
-    t.integer "administrative_unit_id"
     t.index ["administrative_unit_id"], name: "idx_wards_unit"
     t.index ["province_code"], name: "idx_wards_province"
   end

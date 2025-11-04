@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: transaction_types
+#
+#  id          :uuid             not null, primary key
+#  code        :string
+#  description :text
+#  is_income   :boolean
+#  name        :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
 FactoryBot.define do
   factory :transaction_type do
     code { TransactionType::ADDITIONAL_LOAN }

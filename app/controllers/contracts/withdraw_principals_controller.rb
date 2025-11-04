@@ -1,6 +1,11 @@
-class Contracts::WithdrawPrincipalsController < ApplicationController
+class Contracts::WithdrawPrincipalsController < ContractsController
+  before_action :set_contract, only: [ :update ]
+
   def update
+    authorize @contract, :update?
+
     ctx = WithdrawPrincipal::Operations::Update.call(params: permit_params.to_h, current_user:)
+
     if ctx.success?
       flash.now[:notice] = ctx[:message]
     else
@@ -8,6 +13,8 @@ class Contracts::WithdrawPrincipalsController < ApplicationController
     end
 
     @contract = ctx[:contract].decorate
+  rescue Pundit::NotAuthorizedError
+    handle_cannot_operate_on_ended_contract
   end
 
   def show
@@ -17,11 +24,21 @@ class Contracts::WithdrawPrincipalsController < ApplicationController
 
   private
 
+  def contract_id
+    permit_params[:contract_id]
+  end
+
   def permit_params
-    params.require(:form).permit(:contract_id, :transaction_date, :withdrawal_amount, :other_amount, :note)
+    params.require(:form)
+          .permit(:contract_id, :transaction_date, :withdrawal_amount, :other_amount, :note)
+          .merge(start_date:)
   end
 
   def show_params
-    params.permit(:transaction_date, :other_amount, :id).merge(contract_id: params[:id])
+    params.permit(:transaction_date, :other_amount, :id).merge(contract_id: params[:id], start_date:)
+  end
+
+  def start_date
+    @start_date ||= ContractInterestPayment.unpaid.where(contract_id: params[:id]).order(:from).first&.from || Date.current
   end
 end

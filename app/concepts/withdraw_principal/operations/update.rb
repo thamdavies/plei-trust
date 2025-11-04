@@ -5,7 +5,7 @@ module WithdrawPrincipal::Operations
       include ActiveModel::Attributes
       include ActiveModel::Validations
 
-      attr_accessor :transaction_date, :withdrawal_amount, :other_amount, :note, :contract_id
+      attr_accessor :start_date, :transaction_date, :withdrawal_amount, :other_amount, :note, :contract_id
     end
 
     class Present < ApplicationOperation
@@ -15,14 +15,23 @@ module WithdrawPrincipal::Operations
 
       def assign_attributes(ctx, model:, params:, **)
         model.assign_attributes(params)
+        ctx[:contract] = ::Contract.find(model.contract_id)
+        start_date = ContractInterestPayment.unpaid.where(contract_id: model.contract_id).order(:from).first&.from
+        model.start_date = start_date || Date.current
+
+        reader = ::Contract::Services::CustomInterestPaymentReader.new(
+          contract: ctx[:contract],
+          from_date: model.start_date,
+          to_date: model.transaction_date.parse_date_vn,
+          old_debt_amount: ctx[:contract].customer.old_debt_amount,
+          other_amount: model.other_amount&.remove_dots.to_f
+        )
+
+        ctx[:withdraw_principal] = reader.call
 
         form = ctx["contract.default"]
+        form.start_date = model.start_date
         form.transaction_date = model.transaction_date
-        form.withdrawal_amount = model.withdrawal_amount
-        form.note = model.note
-        form.contract_id = model.contract_id
-
-        ctx[:contract] = ::Contract.find(model.contract_id)
 
         true
       end
@@ -37,11 +46,12 @@ module WithdrawPrincipal::Operations
     }
 
     def save(ctx, model:, params:, **)
-      FinancialTransaction.create!(
+      withdraw_principal = ctx[:withdraw_principal]
+      ctx[:record] = FinancialTransaction.create!(
         contract_id: model.contract_id,
-        transaction_type: TransactionType.reduce_principal,
-        amount: model.withdrawal_amount,
-        transaction_date: model.transaction_date,
+        transaction_type: TransactionType.withdrawal_principal,
+        amount: withdraw_principal[:total_amount_raw],
+        transaction_date: model.transaction_date.parse_date_vn,
         description: model.note,
         created_by: ctx[:current_user]
       )
@@ -51,21 +61,16 @@ module WithdrawPrincipal::Operations
 
     def regenerate_interest_payments(ctx, model:, params:, **)
       contract = ctx[:contract]
-
-      paid_interest_payment = contract.paid_interest_payments.last
-
-      if paid_interest_payment
-        unpaid_interest_payment = contract.unpaid_interest_payments.first
-        ::Contract::Services::ContractInterestPaymentGenerator.call(contract:, start_date: unpaid_interest_payment.from)
-      else
-        ::Contract::Services::ContractInterestPaymentGenerator.call(contract:)
-      end
+      generator = ::Contract::Services::ContractInterestPaymentGenerator.new(contract:, start_date: model.start_date)
+      generator.call
+      contract.update_columns(status: "closed")
 
       true
     end
 
     def notify(ctx, model:, params:, **)
-      ctx[:message] = "Trả bớt gốc thành công!"
+      ctx[:message] = "Rút gốc thành công"
+
       true
     end
   end

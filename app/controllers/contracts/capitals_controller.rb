@@ -1,4 +1,6 @@
-class Contracts::CapitalsController < ApplicationController
+class Contracts::CapitalsController < ContractsController
+  before_action :set_contract, only: [ :update ]
+
   add_breadcrumb "Quản lý nguồn vốn", :contracts_capitals_path
 
   def index
@@ -42,6 +44,8 @@ class Contracts::CapitalsController < ApplicationController
   end
 
   def update
+    authorize @contract, :update?
+
     ctx = CapitalContract::Operations::Update.call(params: update_params.to_h, current_user:, current_branch:)
     if ctx.success?
       flash[:notice] = "Cập nhật hợp đồng nguồn vốn thành công"
@@ -51,6 +55,8 @@ class Contracts::CapitalsController < ApplicationController
       @form.prepopulate!(customer:)
       @form.can_edit_contract = @form.model.can_edit_contract?
     end
+  rescue Pundit::NotAuthorizedError
+    handle_cannot_operate_on_ended_contract
   end
 
   def show
@@ -102,6 +108,10 @@ class Contracts::CapitalsController < ApplicationController
     )
 
     form_params
+  end
+
+  def contract_id
+    params[:id]
   end
 
   def update_params

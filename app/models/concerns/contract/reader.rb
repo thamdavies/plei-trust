@@ -34,7 +34,8 @@ module Contract::Reader
   end
 
   def total_interest
-    (contract_interest_payments.sum(:total_amount) * 1_000).to_i
+    # (contract_interest_payments.sum(:total_amount) * 1_000).to_i
+    interest_in_days(amount: total_amount, days_count: contract_term_in_days).to_i * 1_000
   end
 
   def total_paid_interest
@@ -138,7 +139,7 @@ module Contract::Reader
 
     contract_code = contract_type.code
     inner_text, color = if closed?
-      [ I18n.t("contract_state.#{contract_code}.closed_contract"), :green ]
+      [ I18n.t("contract_state.#{contract_code}.closed"), :green ]
     elsif no_interest?
       [ "Đang đầu tư", :green ]
     elsif collect_interest_in_advance && first_interest_payment.unpaid? && first_interest_payment.to > Date.current
