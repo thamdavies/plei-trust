@@ -10,10 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_15_091844) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_05_131838) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
+
+  create_table "activities", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "key"
+    t.uuid "owner_id"
+    t.string "owner_type"
+    t.text "parameters"
+    t.uuid "recipient_id"
+    t.string "recipient_type"
+    t.uuid "trackable_id"
+    t.string "trackable_type"
+    t.datetime "updated_at", null: false
+    t.index ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type"
+    t.index ["owner_type", "owner_id"], name: "index_activities_on_owner"
+    t.index ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type"
+    t.index ["recipient_type", "recipient_id"], name: "index_activities_on_recipient"
+    t.index ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
+    t.index ["trackable_type", "trackable_id"], name: "index_activities_on_trackable"
+  end
 
   create_table "administrative_regions", id: :integer, default: nil, force: :cascade do |t|
     t.string "code_name", limit: 255
@@ -275,6 +294,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_15_091844) do
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email"
     t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
+  end
+
+  create_table "versions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at"
+    t.string "event", null: false
+    t.string "item_id", null: false
+    t.string "item_type", null: false
+    t.text "object"
+    t.text "object_changes"
+    t.string "whodunnit"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   create_table "wards", primary_key: "code", id: { type: :string, limit: 20 }, force: :cascade do |t|

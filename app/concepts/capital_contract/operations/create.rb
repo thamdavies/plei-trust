@@ -12,6 +12,7 @@ module CapitalContract::Operations
     step Wrap(AppTransaction) {
       step Contract::Persist()
       step :create_contract_interest_payments
+      step :create_activity_log
     }
 
     private
@@ -21,6 +22,18 @@ module CapitalContract::Operations
 
       service = ::Contract::Services::ContractInterestPaymentGenerator.new(contract: model)
       service.call
+      true
+    end
+
+    def create_activity_log(ctx, model:, current_user:, **)
+      debit_amount = 0
+      credit_amount = model.loan_amount
+      parameters = {
+        debit_amount:,
+        credit_amount:
+      }
+
+      model.create_activity! key: "activity.contract.create", owner: current_user, parameters: parameters
       true
     end
   end

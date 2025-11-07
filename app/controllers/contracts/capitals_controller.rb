@@ -123,10 +123,21 @@ class Contracts::CapitalsController < ContractsController
   end
 
   def customer
-    @customer ||= Customer.find_by(id: permit_params[:customer_id]).presence || Customer.new
+    @customer ||= Customer.find_by(id: permit_params[:customer_id]).presence || Customer.new(**assign_customer_to_form)
   end
 
   def interest_calculation_method_obj
     @interest_calculation_method_obj ||= InterestCalculationMethod.find_by(code: @form.interest_calculation_method)
+  end
+
+  def assign_customer_to_form
+    {
+      full_name: permit_params.dig(:customer, :full_name),
+      national_id: permit_params.dig(:customer, :national_id),
+      phone: permit_params.dig(:customer, :phone),
+      national_id_issued_date: permit_params.dig(:customer, :national_id_issued_date),
+      national_id_issued_place: permit_params.dig(:customer, :national_id_issued_place),
+      address: permit_params.dig(:customer, :address)
+    }
   end
 end
