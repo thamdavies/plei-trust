@@ -39,7 +39,7 @@ module ReducePrincipal::Operations
     def save(ctx, model:, params:, **)
       FinancialTransaction.create!(
         contract_id: model.contract_id,
-        transaction_type: TransactionType.principal_payment,
+        transaction_type: TransactionType.reduce_principal,
         amount: model.prepayment_amount,
         transaction_date: model.prepayment_date,
         description: model.note,
@@ -50,6 +50,8 @@ module ReducePrincipal::Operations
     end
 
     def regenerate_interest_payments(ctx, model:, params:, **)
+      return true if ctx[:contract].no_interest?
+
       contract = ctx[:contract]
 
       paid_interest_payment = contract.paid_interest_payments.last

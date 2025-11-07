@@ -117,3 +117,7 @@ gem "draper", "~> 4.0"
 gem "jsonapi-serializer", "~> 2.2"
 
 gem "pundit", "~> 2.5"
+
+gem "public_activity", "~> 3.0"
+
+gem "paper_trail", "~> 17.0"

@@ -37,5 +37,15 @@ module PleiTrust
       g.test_framework :rspec, fixture: true
       g.fixture_replacement :factory_bot, dir: "spec/factories"
     end
+
+    config.active_record.yaml_column_permitted_classes = [
+      Symbol,
+      Date,
+      Time,
+      ActiveSupport::TimeWithZone,
+      ActiveSupport::TimeZone,
+      ActiveSupport::HashWithIndifferentAccess,
+      BigDecimal
+    ]
   end
 end

@@ -12,26 +12,14 @@ module Contract::Services::Generators
 
     def insert_data(save: true)
       schedule = []
-      withdrawal_principals = contract.withdrawal_principals
-      is_withdrawal = withdrawal_principals.exists?
 
-      end_date = if is_withdrawal
-        withdrawal_principals.last.transaction_date
-      else
-        contract.contract_end_date
-      end
+      end_date = contract.contract_end_date
+
       current_from = start_date
       # Bắt đầu với số tiền gốc ban đầu - sử dụng total_amount thay vì loan_amount
       accumulated_loan_amount = contract.loan_amount
-      withdrawal_principals = contract.withdrawal_principals
-
-      if withdrawal_principals.blank?
-        additional_loans = contract.additional_loans
-        reduce_principals = contract.reduce_principals
-      else
-        additional_loans = []
-        reduce_principals = []
-      end
+      additional_loans = contract.additional_loans
+      reduce_principals = contract.reduce_principals
 
       while current_from <= end_date
         current_to = current_from + (contract.interest_period_in_days - 1).days
@@ -71,10 +59,8 @@ module Contract::Services::Generators
           from: current_from,
           to: current_to,
           number_of_days: actual_days,
-          payment_status: is_withdrawal ? "paid" : "unpaid",
           amount: interest_amount,
-          total_amount: interest_amount,
-          total_paid: is_withdrawal ? interest_amount : 0
+          total_amount: interest_amount
         }
 
         current_from = current_to + 1.day

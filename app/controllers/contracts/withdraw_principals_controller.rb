@@ -39,6 +39,13 @@ class Contracts::WithdrawPrincipalsController < ContractsController
   end
 
   def start_date
-    @start_date ||= ContractInterestPayment.unpaid.where(contract_id: params[:id]).order(:from).first&.from || Date.current
+    @start_date ||= begin
+      contract = Contract.find(params[:id])
+      if contract.no_interest?
+        contract.contract_date
+      else
+        ContractInterestPayment.unpaid.where(contract_id: params[:id]).order(:from).first&.from || Date.current
+      end
+    end
   end
 end

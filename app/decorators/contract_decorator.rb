@@ -6,6 +6,7 @@ class ContractDecorator < ApplicationDecorator
   decorates_association :reduce_principals
   decorates_association :additional_loans
   decorates_association :contract_extensions
+  decorates_association :activities
 
   def customer_name
     customer.full_name
@@ -20,7 +21,7 @@ class ContractDecorator < ApplicationDecorator
   end
 
   def fm_contract_term
-    return "" if contract_term.blank?
+    return "#{contract_date.to_fs(:date_vn)} - #{contract_date.to_fs(:date_vn)}" if no_interest?
 
     record = interest_payments
     "#{record.first.from.to_fs(:date_vn)} - #{contract_end_date.to_fs(:date_vn)}"

@@ -1,0 +1,13 @@
+vi:
+  activity:
+    contract:
+      create: Tạo mới hợp đồng
+      update: Cập nhật hợp đồng
+      interest_payment: Đóng tiền lãi
+      cancel_interest_payment: Hủy đóng tiền lãi
+      reduce_principal: Trả gốc
+      cancel_reduce_principal: Hủy trả gốc
+      addtional_loan: Vay thêm
+      cancel_addtional_loan: Hủy vay thêm
+      extend_contract: Gia hạn hợp đồng
+      withdraw_contract: Rút vốn

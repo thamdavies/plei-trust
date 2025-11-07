@@ -21,6 +21,7 @@ module CapitalContract::Operations
     step Wrap(AppTransaction) {
       step Contract::Persist()
       step :create_contract_interest_payments
+      step :create_activity_log
     }
 
     private
@@ -28,6 +29,29 @@ module CapitalContract::Operations
     def create_contract_interest_payments(ctx, model:, **)
       service = ::Contract::Services::ContractInterestPaymentGenerator.new(contract: model)
       service.call
+      true
+    end
+
+    def create_activity_log(ctx, model:, current_user:, **)
+      debit_amount = 0
+      credit_amount = 0
+      parameters = {
+        debit_amount:,
+        credit_amount:
+      }
+
+      last_version = model.versions.last
+      changes = last_version.changeset["loan_amount"]
+      amount = changes.last.to_d - changes.first.to_d
+
+      if amount.negative?
+        parameters[:debit_amount] = amount.abs
+      else
+        parameters[:credit_amount] = amount
+      end
+
+      model.create_activity! key: "activity.contract.update", owner: current_user, parameters: parameters
+
       true
     end
   end

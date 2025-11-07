@@ -30,6 +30,8 @@ export default class extends Controller {
 
       if (response.ok) {
         const data = await response.json();
+        if (!data) return;
+
         this.oldDebtTextTarget.textContent = data.old_debt_amount;
         this.interestAmountTextTarget.textContent = `${data.interest_amount} (${data.days_count} ngày)`;
         this.otherAmountInputTarget.value = data.other_amount.replace(' VNĐ', '');

@@ -42,6 +42,7 @@
 #  fk_rails_...  (customer_id => customers.id)
 #
 class Contract < ApplicationRecord
+  include PublicActivity::Model
   include AutoCodeGenerator
   include LargeNumberFields
   include Contract::Reader
@@ -53,6 +54,8 @@ class Contract < ApplicationRecord
   }
 
   acts_as_tenant(:branch)
+
+  has_paper_trail
 
   belongs_to :customer, optional: true
   belongs_to :branch, optional: true
@@ -71,6 +74,7 @@ class Contract < ApplicationRecord
   has_many :additional_loans, -> { where(transaction_type: TransactionType.additional_loan).order(:transaction_date) }, class_name: FinancialTransaction.name, foreign_key: :contract_id, dependent: :destroy
   has_many :withdrawal_principals, -> { where(transaction_type: TransactionType.withdrawal_principal).order(:transaction_date) }, class_name: FinancialTransaction.name, foreign_key: :contract_id, dependent: :destroy
   has_many :contract_extensions, -> { order(:from) }, dependent: :destroy
+  has_many :activities, -> { order("id DESC") }, class_name: PublicActivity::Activity.name, as: :trackable, dependent: :destroy
 
   auto_code_config(prefix: "HD", field: :code)
   large_number_field :loan_amount

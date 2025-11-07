@@ -63,7 +63,7 @@ module Contract::Reader
   end
 
   def interest_in_days(amount: nil, days_count: 0)
-    return 0 if days_count.zero? || no_interest?
+    return 0 if no_interest? || (days_count && days_count.zero?)
 
     amount ||= loan_amount
 
