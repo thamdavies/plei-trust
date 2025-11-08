@@ -40,7 +40,9 @@ module Contract::Services::Generators
           to: current_to,
           number_of_days: actual_days,
           amount: interest_amount,
-          total_amount: interest_amount
+          total_amount: interest_amount,
+          payment_status: contract.closed? ? "paid" : "unpaid",
+          total_paid: contract.closed? ? interest_amount : 0
         }
 
         # Chuẩn bị cho kỳ tiếp theo
