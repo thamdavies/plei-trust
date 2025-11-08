@@ -42,6 +42,7 @@ module WithdrawPrincipal::Operations
     step Wrap(AppTransaction) {
       step :save
       step :regenerate_interest_payments
+      step :create_activity_log
       step :notify
     }
 
@@ -64,6 +65,18 @@ module WithdrawPrincipal::Operations
       generator = ::Contract::Services::ContractInterestPaymentGenerator.new(contract:, start_date: model.start_date)
       generator.call
       contract.update_columns(status: "closed")
+
+      true
+    end
+
+    def create_activity_log(ctx, model:, current_user:, **)
+      parameters = {
+        debit_amount: ctx[:record].amount,
+        credit_amount: 0,
+        other_amount: 0
+      }
+
+      ctx[:contract].create_activity! key: "activity.contract.close", owner: current_user, parameters: parameters
 
       true
     end

@@ -23,6 +23,7 @@ module ExtendTerm::Operations
     step Contract::Validate()
     step Wrap(AppTransaction) {
       step :save
+      step :create_activity_log
       step :notify
     }
 
@@ -67,6 +68,18 @@ module ExtendTerm::Operations
       ::Contract::Services::ContractInterestPaymentGenerator.call(contract:, start_date:)
 
       from_date
+    end
+
+    def create_activity_log(ctx, model:, current_user:, **)
+      parameters = {
+        debit_amount: 0,
+        credit_amount: 0,
+        other_amount: 0
+      }
+
+      ctx[:contract].create_activity! key: "activity.contract.extend", owner: current_user, parameters: parameters
+
+      true
     end
 
     def notify(ctx, model:, params:, **)
