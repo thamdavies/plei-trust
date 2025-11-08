@@ -3,12 +3,14 @@ vi:
     contract:
       create: Tạo mới hợp đồng
       update: Cập nhật hợp đồng
-      reduce_principal: Trả gốc
-      cancel_reduce_principal: Hủy trả gốc
-      addtional_loan: Vay thêm
-      cancel_addtional_loan: Hủy vay thêm
-      extend_contract: Gia hạn hợp đồng
-      withdraw_contract: Rút vốn
+      extend: Gia hạn
+      close: Đóng hợp đồng
     contract_interest_payment:
       paid: Đóng tiền lãi
       cancel: Hủy đóng tiền lãi
+    reduce_principal:
+      create: Trả gốc
+      cancel: Hủy trả gốc
+    additional_loan:
+      create: Vay thêm gốc
+      cancel: Hủy vay thêm gốc

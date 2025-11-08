@@ -19,6 +19,7 @@ module AdditionalLoan::Operations
     step Wrap(AppTransaction) {
       step :save
       step :regenerate_interest_payments
+      step :create_activity_log
       step :notify
     }
 
@@ -49,6 +50,18 @@ module AdditionalLoan::Operations
       else
         ::Contract::Services::ContractInterestPaymentGenerator.call(contract:)
       end
+
+      true
+    end
+
+    def create_activity_log(ctx, current_user:, params:, **)
+      parameters = {
+        debit_amount: ctx[:financial_transaction].amount,
+        credit_amount: 0,
+        other_amount: 0
+      }
+
+      ctx[:contract].create_activity! key: "activity.additional_loan.cancel", owner: current_user, parameters: parameters
 
       true
     end

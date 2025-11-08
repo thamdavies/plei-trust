@@ -33,11 +33,12 @@ module ReducePrincipal::Operations
     step Wrap(AppTransaction) {
       step :save
       step :regenerate_interest_payments
+      step :create_activity_log
       step :notify
     }
 
     def save(ctx, model:, params:, **)
-      FinancialTransaction.create!(
+      ctx[:financial_transaction] = FinancialTransaction.create!(
         contract_id: model.contract_id,
         transaction_type: TransactionType.reduce_principal,
         amount: model.prepayment_amount,
@@ -68,6 +69,18 @@ module ReducePrincipal::Operations
 
     def notify(ctx, model:, params:, **)
       ctx[:message] = "Trả bớt gốc thành công!"
+      true
+    end
+
+    def create_activity_log(ctx, model:, current_user:, **)
+      parameters = {
+        debit_amount: ctx[:financial_transaction].amount,
+        credit_amount: 0,
+        other_amount: 0
+      }
+
+      ctx[:contract].create_activity! key: "activity.reduce_principal.create", owner: current_user, parameters: parameters
+
       true
     end
   end
