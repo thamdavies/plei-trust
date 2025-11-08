@@ -62,9 +62,9 @@ module WithdrawPrincipal::Operations
 
     def regenerate_interest_payments(ctx, model:, params:, **)
       contract = ctx[:contract]
+      contract.update_columns(status: "closed")
       generator = ::Contract::Services::ContractInterestPaymentGenerator.new(contract:, start_date: model.start_date)
       generator.call
-      contract.update_columns(status: "closed")
 
       true
     end
