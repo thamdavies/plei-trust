@@ -16,11 +16,11 @@ module SelectHelper
 
   def select_options_for_contract_statuses
     @select_options_for_contract_statuses ||= [
-      OpenStruct.new(code: "", name: "Tất cả"),
-      OpenStruct.new(code: "on_time", name: "Đúng hẹn"),
-      OpenStruct.new(code: "overdue", name: "Quá hạn"),
-      OpenStruct.new(code: "interest_late", name: "Chậm lãi"),
-      OpenStruct.new(code: "closed", name: "Đã tất toán")
+      OpenStruct.new(code: "active_contracts", name: "Đang vay"),
+      OpenStruct.new(code: "on_time_contracts", name: "Đúng hẹn"),
+      OpenStruct.new(code: "overdue_contracts", name: "Quá hạn"),
+      OpenStruct.new(code: "interest_late_contracts", name: "Chậm lãi"),
+      OpenStruct.new(code: "closed_contracts", name: "Đã kết thúc")
     ]
   end
 end

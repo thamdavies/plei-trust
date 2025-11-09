@@ -87,13 +87,9 @@ class Contract < ApplicationRecord
                                 allow_destroy: false,
                                 reject_if: :all_blank
 
-  ransacker :created_at do
-    Arel.sql("contracts.created_at::date")
-  end
-
   class << self
     def ransackable_attributes(auth_object = nil)
-      %w[created_at]
+      %w[contract_date]
     end
 
     def ransackable_associations(auth_object = nil)

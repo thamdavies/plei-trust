@@ -9,27 +9,27 @@ class Views::Contracts::Capitals::FilterForm < Views::Base
 
               FormField(class: "relative w-48") do
                 render Components::Fields::DateField.new(
-                  name: "q[created_at_gteq]",
+                  name: "q[contract_date_gteq]",
                   label: "",
                   id: "start_date",
                   placeholder: "Từ ngày",
-                  value: view_context.params.dig(:q, :created_at_gteq)
+                  value: view_context.params.dig(:q, :contract_date_gteq)
                 )
               end
               FormField(class: "relative w-48") do
                 render Components::Fields::DateField.new(
-                  name: "q[created_at_lteq]",
+                  name: "q[contract_date_lteq]",
                   label: "",
                   id: "end_date",
                   placeholder: "Đến ngày",
-                  value: view_context.params.dig(:q, :created_at_lteq)
+                  value: view_context.params.dig(:q, :contract_date_lteq)
                 )
               end
               FormField(class: "relative w-32") do
                 Select do
                   SelectInput(name: "q[status_eq]", value: view_context.params.dig(:q, :status_eq), id: "select-a-status")
                   SelectTrigger(variant: :ghost) do
-                    selected_status = view_context.select_options_for_contract_statuses.find { |status| status.code == view_context.params.dig(:q, :status_eq) }&.name || "Tất cả"
+                    selected_status = view_context.select_options_for_contract_statuses.find { |status| status.code == view_context.params.dig(:q, :status_eq) }&.name || "Đang vay"
                     SelectValue(placeholder: selected_status, id: "select-a-status")
                   end
                   SelectContent(outlet_id: "select-a-status") do
@@ -39,7 +39,7 @@ class Views::Contracts::Capitals::FilterForm < Views::Base
                         class: "cursor-pointer",
                         data: {
                           action: "click->auto-submit#submit",
-                          ruby_ui__select_item_selected_value: view_context.params.dig(:form, :status)
+                          ruby_ui__select_item_selected_value: view_context.params.dig(:q, :status_eq)
                         }) do
                         status.name
                       end

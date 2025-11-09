@@ -121,3 +121,5 @@ gem "pundit", "~> 2.5"
 gem "public_activity", "~> 3.0"
 
 gem "paper_trail", "~> 17.0"
+
+gem "scenic", "~> 1.9"

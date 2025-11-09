@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_05_131838) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -351,4 +351,110 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_05_131838) do
   add_foreign_key "users", "branches"
   add_foreign_key "wards", "administrative_units", name: "wards_administrative_unit_id_fkey"
   add_foreign_key "wards", "provinces", column: "province_code", primary_key: "code", name: "wards_province_code_fkey"
+
+  create_view "interest_late_contracts", sql_definition: <<-SQL
+      WITH must_pay_dates AS (
+           SELECT contract_interest_payments.contract_id,
+              max(contract_interest_payments."to") AS last_pay_date,
+                  CASE
+                      WHEN (count(contract_interest_payments.contract_id) FILTER (WHERE ((contract_interest_payments.payment_status)::text = 'paid'::text)) = count(contract_interest_payments.contract_id)) THEN max(contract_interest_payments."to")
+                      ELSE min(contract_interest_payments."to")
+                  END AS date
+             FROM contract_interest_payments
+            GROUP BY contract_interest_payments.contract_id
+          )
+   SELECT id,
+      code,
+      customer_id,
+      branch_id,
+      cashier_id,
+      created_by_id,
+      asset_setting_id,
+      asset_name,
+      contract_type_id,
+      loan_amount,
+      interest_calculation_method,
+      interest_rate,
+      collect_interest_in_advance,
+      contract_term,
+      interest_period,
+      contract_date,
+      status,
+      note,
+      created_at,
+      updated_at
+     FROM contracts c
+    WHERE ((( SELECT must_pay_dates.date
+             FROM must_pay_dates
+            WHERE (must_pay_dates.contract_id = c.id)) < CURRENT_DATE) AND (CURRENT_DATE < ( SELECT must_pay_dates.last_pay_date
+             FROM must_pay_dates
+            WHERE (must_pay_dates.contract_id = c.id))) AND ((status)::text <> 'closed'::text));
+  SQL
+  create_view "on_time_contracts", sql_definition: <<-SQL
+      WITH must_pay_dates AS (
+           SELECT contract_interest_payments.contract_id,
+                  CASE
+                      WHEN (count(contract_interest_payments.contract_id) FILTER (WHERE ((contract_interest_payments.payment_status)::text = 'paid'::text)) = count(contract_interest_payments.contract_id)) THEN max(contract_interest_payments."to")
+                      ELSE min(contract_interest_payments."to")
+                  END AS date
+             FROM contract_interest_payments
+            GROUP BY contract_interest_payments.contract_id
+          )
+   SELECT id,
+      code,
+      customer_id,
+      branch_id,
+      cashier_id,
+      created_by_id,
+      asset_setting_id,
+      asset_name,
+      contract_type_id,
+      loan_amount,
+      interest_calculation_method,
+      interest_rate,
+      collect_interest_in_advance,
+      contract_term,
+      interest_period,
+      contract_date,
+      status,
+      note,
+      created_at,
+      updated_at
+     FROM contracts c
+    WHERE ((( SELECT must_pay_dates.date
+             FROM must_pay_dates
+            WHERE (must_pay_dates.contract_id = c.id)) >= CURRENT_DATE) AND ((status)::text <> 'closed'::text));
+  SQL
+  create_view "overdue_contracts", sql_definition: <<-SQL
+      WITH must_pay_dates AS (
+           SELECT contract_interest_payments.contract_id,
+              max(contract_interest_payments."to") AS date
+             FROM contract_interest_payments
+            GROUP BY contract_interest_payments.contract_id
+          )
+   SELECT id,
+      code,
+      customer_id,
+      branch_id,
+      cashier_id,
+      created_by_id,
+      asset_setting_id,
+      asset_name,
+      contract_type_id,
+      loan_amount,
+      interest_calculation_method,
+      interest_rate,
+      collect_interest_in_advance,
+      contract_term,
+      interest_period,
+      contract_date,
+      status,
+      note,
+      created_at,
+      updated_at
+     FROM contracts c
+    WHERE ((( SELECT must_pay_dates.date
+             FROM must_pay_dates
+            WHERE (must_pay_dates.contract_id = c.id)) < CURRENT_DATE) AND ((status)::text <> 'closed'::text));
+  SQL
 end
