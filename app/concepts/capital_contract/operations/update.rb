@@ -41,7 +41,7 @@ module CapitalContract::Operations
       }
 
       last_version = model.versions.last
-      changes = last_version.changeset["loan_amount"]
+      changes = last_version.changeset["loan_amount"].presence || []
       amount = changes.last.to_d - changes.first.to_d
 
       if amount.negative?

@@ -1,27 +1,21 @@
-SELECT 
-  c.id AS contract_id,
-  c.code AS contract_code,
-  c.contract_date,
-  c.loan_amount,
-  c.interest_rate,
-  c.status AS contract_status,
-  c.customer_id,
-  c.branch_id,
-  cip.id AS interest_payment_id,
-  cip.from AS interest_period_from,
-  cip.to AS interest_period_to,
-  cip.amount AS interest_amount,
-  cip.total_amount,
-  cip.total_paid,
-  cip.payment_status,
-  (cip.total_amount - cip.total_paid) AS remaining_amount,
-  (CURRENT_DATE - cip.to) AS days_overdue
-FROM contracts c
-INNER JOIN contract_interest_payments cip ON cip.contract_id = c.id
-WHERE 
-  c.status = 'active'
-  AND cip.to < CURRENT_DATE
-  AND cip.payment_status = 'unpaid'
-ORDER BY 
-  cip.to ASC,
-  c.code ASC;
+WITH client_timezone AS (
+    SELECT (now() AT TIME ZONE 'Asia/Ho_Chi_Minh')::date AS date
+),
+interest_payment_schedule AS (
+    SELECT
+        contract_id,
+        CASE WHEN COUNT(contract_id) FILTER (WHERE payment_status = 'paid') = COUNT(contract_id) THEN
+            MAX(contract_interest_payments.to)
+        ELSE
+            MIN(contract_interest_payments.to)
+        END AS date,
+        MAX(contract_interest_payments.to) as end_date
+    FROM contract_interest_payments
+	GROUP BY contract_id
+)
+SELECT c.*
+FROM contracts AS c
+CROSS JOIN client_timezone
+WHERE (SELECT date FROM interest_payment_schedule WHERE interest_payment_schedule.contract_id = c.id) <= client_timezone.date
+  AND client_timezone.date <= (SELECT end_date FROM interest_payment_schedule WHERE interest_payment_schedule.contract_id = c.id)
+  AND c.status != 'closed'
