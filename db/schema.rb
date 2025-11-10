@@ -354,15 +354,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
 
   create_view "interest_late_contracts", sql_definition: <<-SQL
       WITH client_timezone AS (
-           SELECT ((now() AT TIME ZONE 'Asia/Ho_Chi_Minh'::text))::date AS date
+           SELECT ((now() AT TIME ZONE 'Asia/Ho_Chi_Minh'::text))::date AS "current_date"
           ), interest_payment_schedule AS (
            SELECT contract_interest_payments.contract_id,
-                  CASE
-                      WHEN (count(contract_interest_payments.contract_id) FILTER (WHERE ((contract_interest_payments.payment_status)::text = 'paid'::text)) = count(contract_interest_payments.contract_id)) THEN max(contract_interest_payments."to")
-                      ELSE min(contract_interest_payments."to")
-                  END AS date,
+              min(contract_interest_payments."to") AS date,
               max(contract_interest_payments."to") AS end_date
              FROM contract_interest_payments
+            WHERE ((contract_interest_payments.payment_status)::text = 'unpaid'::text)
             GROUP BY contract_interest_payments.contract_id
           )
    SELECT c.id,
@@ -389,20 +387,19 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
        CROSS JOIN client_timezone)
     WHERE ((( SELECT interest_payment_schedule.date
              FROM interest_payment_schedule
-            WHERE (interest_payment_schedule.contract_id = c.id)) <= client_timezone.date) AND (client_timezone.date <= ( SELECT interest_payment_schedule.end_date
+            WHERE (interest_payment_schedule.contract_id = c.id)) < client_timezone."current_date") AND (client_timezone."current_date" < ( SELECT interest_payment_schedule.end_date
              FROM interest_payment_schedule
             WHERE (interest_payment_schedule.contract_id = c.id))) AND ((c.status)::text <> 'closed'::text));
   SQL
   create_view "on_time_contracts", sql_definition: <<-SQL
       WITH client_timezone AS (
-           SELECT ((now() AT TIME ZONE 'Asia/Ho_Chi_Minh'::text))::date AS date
+           SELECT ((now() AT TIME ZONE 'Asia/Ho_Chi_Minh'::text))::date AS "current_date"
           ), interest_payment_schedule AS (
            SELECT contract_interest_payments.contract_id,
-                  CASE
-                      WHEN (count(contract_interest_payments.contract_id) FILTER (WHERE ((contract_interest_payments.payment_status)::text = 'paid'::text)) = count(contract_interest_payments.contract_id)) THEN max(contract_interest_payments."to")
-                      ELSE min(contract_interest_payments."to")
-                  END AS date
+              min(contract_interest_payments."to") AS date,
+              max(contract_interest_payments."to") AS end_date
              FROM contract_interest_payments
+            WHERE ((contract_interest_payments.payment_status)::text = 'unpaid'::text)
             GROUP BY contract_interest_payments.contract_id
           )
    SELECT c.id,
@@ -427,9 +424,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
       c.updated_at
      FROM (contracts c
        CROSS JOIN client_timezone)
-    WHERE ((( SELECT interest_payment_schedule.date
+    WHERE ((client_timezone."current_date" <= ( SELECT interest_payment_schedule.date
              FROM interest_payment_schedule
-            WHERE (interest_payment_schedule.contract_id = c.id)) >= client_timezone.date) AND ((c.status)::text <> 'closed'::text));
+            WHERE (interest_payment_schedule.contract_id = c.id))) AND (client_timezone."current_date" <= ( SELECT interest_payment_schedule.end_date
+             FROM interest_payment_schedule
+            WHERE (interest_payment_schedule.contract_id = c.id))) AND ((c.status)::text <> 'closed'::text));
   SQL
   create_view "overdue_contracts", sql_definition: <<-SQL
       WITH client_timezone AS (
