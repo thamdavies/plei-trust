@@ -9,6 +9,14 @@ class AssetSettingsController < ApplicationController
     end
   end
 
+  def show
+    run(AssetSetting::Operations::Show) do |result|
+      @asset_setting = result[:model]
+    end
+
+    render json: AssetSettingSerializer.new(@asset_setting).serializable_hash
+  end
+
   def new
     add_breadcrumb "Thêm mới", :new_asset_setting_path
     run(AssetSetting::Operations::Create::Present) do |result|

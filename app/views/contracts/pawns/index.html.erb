@@ -1,12 +1,12 @@
 <%= turbo_page_requires_reload %>
-<%= content_for :title, "Quản lý nguồn vốn" %>
-<%= content_for :subtitle, "Hợp đồng góp vốn cửa hàng" %>
+<%= content_for :title, "Cầm đồ" %>
+<%= content_for :subtitle, "Danh sách hợp đồng" %>
 
 <%= content_for :page_header_actions do %>
-  <%= render Views::Contracts::Capitals::FilterForm.new %>
+  <%= render Views::Contracts::Pawns::FilterForm.new %>
 <% end %>
 
-<%= render Views::Contracts::Capitals::Index.new(collection: @contracts, form: @form, pagy: @pagy) %>
+<%= render Views::Contracts::Pawns::Index.new(collection: @contracts, form: @form, pagy: @pagy) %>
 
 <% if @pagy.pages > 1 %>
   <div class="flex justify-center py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">

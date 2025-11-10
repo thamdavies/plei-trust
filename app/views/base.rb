@@ -9,4 +9,19 @@ class Views::Base < Components::Base
   def form_method
     form.model.new_record? ? :post : :patch
   end
+
+  def contract_type_label
+    case contract_type
+    when :capital
+      OpenStruct.new(
+        loan_amount: "Số tiền đầu tư",
+        contract_date: "Ngày góp vốn"
+      )
+    when :pawn
+      OpenStruct.new(
+        loan_amount: "Số tiền cầm",
+        contract_date: "Ngày vay"
+      )
+    end
+  end
 end

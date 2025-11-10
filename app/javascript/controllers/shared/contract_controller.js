@@ -10,6 +10,8 @@ export default class extends Controller {
     "interestUnit",
     "interestFieldsWrapper",
     "interestMethodSelect",
+    "assetTypeSelect",
+    "assetNameInput",
     "interestRateInput",
     "interestPeriodInput",
     "contractTermUnit",
@@ -19,6 +21,7 @@ export default class extends Controller {
   connect() {
     const data = { attributes: { code: this.interestMethodSelectTarget.value } };
     this.handleInterestWrapperVisibility(data);
+    this.fetchAssetTypeDefault();
   }
 
   async handleInterestMethodChange(event) {
@@ -37,6 +40,35 @@ export default class extends Controller {
       }
     } catch {
       alert('Đã có lỗi xảy ra, vui lòng thử lại sau!');
+    }
+  }
+
+  async fetchAssetTypeDefault() {
+    const assetTypeSelect = document.getElementById("select-asset-type");
+    if (!assetTypeSelect) return;
+
+    this.handleAssetTypeChange();
+  }
+
+  async handleAssetTypeChange() {
+    try {
+      const selectedAssetTypeId = this.assetTypeSelectTarget.value;
+      const request = new FetchRequest('get', `/asset_settings/${selectedAssetTypeId}`, {
+        responseKind: 'json',
+      });
+      const { response } = await request.perform();
+      if (response.ok) {
+        const data = await response.json();
+        const attributes = data.data.attributes;
+        this.interestRateInputTarget.value = attributes.default_interest_rate || "";
+        this.interestPeriodInputTarget.value = attributes.interest_period || "";
+        this.interestMethodSelectTarget.value = attributes.interest_calculation_method || "";
+        this.contractTermDaysInputTarget.value = attributes.default_contract_term || "";
+      } else {
+        alertController.show('Không thể lấy thông tin loại tài sản', 'alert');
+      }
+    } catch {
+      alertController.show('Không thể lấy thông tin loại tài sản', 'alert');
     }
   }
 

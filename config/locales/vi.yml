@@ -3,6 +3,7 @@ vi:
     dashboard: "Trang chủ"
     contract: "Hợp đồng"
     all_contracts: "Tất cả hợp đồng"
+    pawn_contracts: "Cầm đồ"
     customer: "Quản lý khách hàng"
   nav:
     dashboard: "Trang chủ"

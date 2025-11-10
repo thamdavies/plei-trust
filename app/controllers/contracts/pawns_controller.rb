@@ -1,31 +1,31 @@
-class Contracts::CapitalsController < ContractsController
+class Contracts::PawnsController < ContractsController
   before_action :set_contract, only: [ :update ]
 
-  add_breadcrumb "Quản lý nguồn vốn", :contracts_capitals_path
+  add_breadcrumb "Hợp đồng cầm đồ", :contracts_pawns_path
 
   def index
-    add_breadcrumb "Danh sách", :contracts_capitals_path
+    add_breadcrumb "Danh sách", :contracts_pawns_path
 
-    run(CapitalContract::Operations::Index, current_user:, current_branch:) do |result|
+    run(PawnContract::Operations::Index, current_user:, current_branch:) do |result|
       @pagy, contracts = pagy(result[:model])
       @contracts = contracts.decorate
-      ctx = CapitalContract::Operations::Create::Present.call
+      ctx = PawnContract::Operations::Create::Present.call
       @form = ctx[:"contract.default"]
       @form.interest_calculation_method_obj = interest_calculation_method_obj
     end
   end
 
   def new
-    ctx = CapitalContract::Operations::Create::Present.call
+    ctx = PawnContract::Operations::Create::Present.call
     @form = ctx[:"contract.default"]
     @form.interest_calculation_method_obj = interest_calculation_method_obj
   end
 
   def create
-    ctx = CapitalContract::Operations::Create.call(params: permit_params.to_h, current_user:, current_branch:)
+    ctx = PawnContract::Operations::Create.call(params: permit_params.to_h, current_user:, current_branch:)
     if ctx.success?
-      flash[:notice] = "Tạo mới hợp đồng nguồn vốn thành công"
-      redirect_to(contracts_capitals_path)
+      flash[:notice] = "Tạo mới hợp đồng cầm đồ thành công"
+      redirect_to(contracts_pawns_path)
     else
       @form = ctx[:"contract.default"]
       @form.prepopulate!(customer:)
@@ -34,7 +34,7 @@ class Contracts::CapitalsController < ContractsController
   end
 
   def edit
-    run(CapitalContract::Operations::Update::Present) do |result|
+    run(PawnContract::Operations::Update::Present) do |result|
       @form = result[:"contract.default"]
       @form.loan_amount = @form.loan_amount.to_f * 1000
       @form.interest_rate = @form.interest_rate.to_f
@@ -46,10 +46,10 @@ class Contracts::CapitalsController < ContractsController
   def update
     authorize @contract, :update?
 
-    ctx = CapitalContract::Operations::Update.call(params: update_params.to_h, current_user:, current_branch:)
+    ctx = PawnContract::Operations::Update.call(params: update_params.to_h, current_user:, current_branch:)
     if ctx.success?
-      flash[:notice] = "Cập nhật hợp đồng nguồn vốn thành công"
-      redirect_to(contracts_capitals_path)
+      flash[:notice] = "Cập nhật hợp đồng cầm đồ thành công"
+      redirect_to(contracts_pawns_path)
     else
       @form = ctx[:"contract.default"]
       @form.prepopulate!(customer:)
@@ -60,7 +60,7 @@ class Contracts::CapitalsController < ContractsController
   end
 
   def show
-    run(CapitalContract::Operations::Show, id: params[:id]) do |result|
+    run(PawnContract::Operations::Show, id: params[:id]) do |result|
       @contract = result[:model].decorate
     end
   end
@@ -78,6 +78,8 @@ class Contracts::CapitalsController < ContractsController
       :contract_term,
       :note,
       :collect_interest_in_advance,
+      :asset_setting_id,
+      :asset_name,
       customer: [
         :id,
         :full_name,
@@ -119,7 +121,7 @@ class Contracts::CapitalsController < ContractsController
   end
 
   def contract_type
-    @contract_type ||= ContractType.capital.first
+    @contract_type ||= ContractType.pawn.first
   end
 
   def customer

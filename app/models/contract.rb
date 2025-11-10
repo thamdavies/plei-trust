@@ -81,6 +81,7 @@ class Contract < ApplicationRecord
 
   enum :status, { active: "active", closed: "closed" }
 
+  scope :pawn_contracts, -> { where(contract_type: { code: :pawn }) }
   scope :capital_contracts, -> { where(contract_type: { code: :capital }) }
 
   accepts_nested_attributes_for :customer,

@@ -1,4 +1,4 @@
-module CapitalContract::Operations
+module PawnContract::Operations
   class Index < ApplicationOperation
     step :format_created_date
     step :filter
@@ -6,7 +6,7 @@ module CapitalContract::Operations
 
     def filter(ctx, params:, current_branch:, **)
       filter_view = params.dig(:q, :status_eq).presence || "active_contracts"
-      ctx[:model] = current_branch.send(filter_view).joins(:contract_type).capital_contracts.ransack(ctx[:params][:q]).result
+      ctx[:model] = current_branch.send(filter_view).joins(:contract_type).pawn_contracts.ransack(ctx[:params][:q]).result
     end
 
     def sort(ctx, params:, model:, **)

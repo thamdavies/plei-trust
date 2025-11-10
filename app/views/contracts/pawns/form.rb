@@ -1,4 +1,4 @@
-class Views::Contracts::Capitals::Form < Views::Base
+class Views::Contracts::Pawns::Form < Views::Base
   def initialize(form:, url: nil, method: :post)
     @form = form
   end
@@ -22,7 +22,7 @@ class Views::Contracts::Capitals::Form < Views::Base
           h2(class: "text-md mb-2 font-medium text-gray-900 dark:text-white") { "Thông tin hợp đồng" }
         end
 
-        render Views::Shared::Contracts::Form.new(form:, contract_type: :capital)
+        render Views::Shared::Contracts::Form.new(form:, contract_type: :pawn)
       end
       DialogFooter do
         Button(variant: :outline, data: { action: "click->ruby-ui--dialog#dismiss" }) { I18n.t("button.close") }
@@ -37,9 +37,9 @@ class Views::Contracts::Capitals::Form < Views::Base
 
   def form_url
     if form.model.new_record?
-      contracts_capitals_path
+      contracts_pawns_path
     else
-      contracts_capital_path(form.model)
+      contracts_pawn_path(form.model)
     end
   end
 end

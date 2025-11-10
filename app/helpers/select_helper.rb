@@ -23,4 +23,10 @@ module SelectHelper
       OpenStruct.new(code: "closed_contracts", name: "Đã kết thúc")
     ]
   end
+
+  def select_options_for_asset_types
+    @select_options_for_asset_types ||= AssetSetting.all.map do |asset_setting|
+      OpenStruct.new(id: asset_setting.id, name: asset_setting.asset_name)
+    end
+  end
 end

@@ -41,10 +41,10 @@ class Components::Sidebar < Components::Base
                   Remix::ArrowDownSLine(class: "w-6 h-6")
                 end
 
-                ul(id: "dropdown-layouts", class: "py-2 space-y-2 hidden") do
+                ul(id: "dropdown-layouts", class: "py-2 space-y-2 #{view_context.active_paths_class([ contracts_pawns_path ])}") do
                   li do
-                    Link(href: "/", variant: :sidebar_item) do
-                      span(class: "text-left whitespace-nowrap") { I18n.t("sidebar.all_contracts") }
+                    Link(href: contracts_pawns_path, variant: :sidebar_item, class: view_context.active_link_class(contracts_pawns_path, active: [ [ "contracts/pawns" ], [ "edit", "new", "index" ] ])) do
+                      span(class: "text-left whitespace-nowrap") { I18n.t("sidebar.pawn_contracts") }
                     end
                   end
                 end
