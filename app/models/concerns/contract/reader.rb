@@ -62,6 +62,21 @@ module Contract::Reader
     (nearest_unpaid_interest_payment || nearest_paid_interest_payment).to.to_fs(:date_vn)
   end
 
+  def current_interest_amount
+    return 0 if no_interest?
+
+    days_count = 0
+    current_date = Date.current + 1
+    if nearest_unpaid_interest_payment && nearest_unpaid_interest_payment.from <= current_date
+      days_count = (current_date - nearest_unpaid_interest_payment.from).to_i
+    else
+      days_count = 0
+    end
+
+    amount = interest_in_days(amount: total_amount, days_count:) * 1_000
+    OpenStruct.new(amount: amount.to_i, days_count: days_count)
+  end
+
   def interest_in_days(amount: nil, days_count: 0)
     return 0 if no_interest? || (days_count && days_count.zero?)
 
@@ -157,7 +172,7 @@ module Contract::Reader
     [ inner_text, color ]
   end
 
-  def fm_old_debt_amount
-    paid_interest_payments.map(&:old_debt_amount).sum.to_f.to_currency
+  def fm_old_debt_amount(unit: true)
+    paid_interest_payments.map(&:old_debt_amount).sum.to_f.to_currency(unit: unit ? "VNĐ" : "")
   end
 end

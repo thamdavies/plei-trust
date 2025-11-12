@@ -10,8 +10,9 @@ class Views::Base < Components::Base
     form.model.new_record? ? :post : :patch
   end
 
-  def contract_type_label
-    case contract_type
+  def contract_type_label(type: nil)
+    type ||= contract_type
+    case type
     when :capital
       OpenStruct.new(
         loan_amount: "Số tiền đầu tư",
@@ -20,6 +21,11 @@ class Views::Base < Components::Base
     when :pawn
       OpenStruct.new(
         loan_amount: "Số tiền cầm",
+        contract_date: "Ngày vay"
+      )
+    else
+      OpenStruct.new(
+        loan_amount: "Số tiền vay",
         contract_date: "Ngày vay"
       )
     end

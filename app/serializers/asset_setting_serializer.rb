@@ -1,7 +1,8 @@
 # == Schema Information
 #
-# Table name: customers
-#  id                       :uuid             not null, primary key
+# Table name: asset_settings
+#
+#  id                          :uuid             not null, primary key
 #  asset_appraisal_fee         :float
 #  asset_code                  :string
 #  asset_name                  :string
@@ -16,16 +17,18 @@
 #  interest_period             :integer
 #  liquidation_after_days      :integer
 #  management_fee              :float
+#  status                      :string           default("active")
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  branch_id                   :uuid             not null
 #
 # Indexes
 #
-#  index_customers_on_branch_id      (branch_id)
-#  index_customers_on_created_by_id  (created_by_id)
+#  index_asset_settings_on_branch_id  (branch_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (branch_id => branches.id)
-#  fk_rails_...  (created_by_id => users.id)
 #
 class AssetSettingSerializer
   include JSONAPI::Serializer

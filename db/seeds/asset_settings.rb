@@ -34,7 +34,7 @@ ActiveRecord::Base.transaction do
           if contract_type
             AssetSettingCategory.create!(
               asset_setting_id: asset_setting.id,
-              contract_type_id: contract_type.id
+              contract_type_code: contract_type.code
             )
           else
             puts "Warning: ContractType '#{category['code']}' not found. Skipping category creation."

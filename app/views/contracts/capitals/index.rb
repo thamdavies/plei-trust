@@ -6,8 +6,8 @@ class Views::Contracts::Capitals::Index < Views::Base
   end
 
   def view_template
-    render Views::Contracts::Capitals::Modal.new(form: @form)
-    render Views::Shared::Contracts::ShowModal.new(contract: nil)
+    render Views::Contracts::Capitals::Modal.new
+    render Views::Shared::Contracts::ShowModal.new
 
     div(class: "p-2 bg-white") do
       Table do

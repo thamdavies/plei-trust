@@ -6,8 +6,8 @@ class Views::Contracts::Pawns::Index < Views::Base
   end
 
   def view_template
-    render Views::Contracts::Pawns::Modal.new(form: @form)
-    render Views::Shared::Contracts::ShowModal.new(contract: nil)
+    render Views::Contracts::Pawns::Modal.new
+    render Views::Shared::Contracts::ShowModal.new
 
     div(class: "p-2 bg-white") do
       Table do
@@ -33,15 +33,15 @@ class Views::Contracts::Pawns::Index < Views::Base
             TableRow do
               TableCell(class: "font-medium") { @pagy.offset + index + 1 }
               TableCell(class: "font-medium") { contract.customer_name }
-              TableCell(class: "font-medium") { contract.customer_name }
-              TableCell(class: "font-medium") { contract.customer_name }
-              TableCell(class: "font-medium") { contract.customer_name }
-              TableCell(class: "font-medium") { contract.customer_name }
-              TableCell(class: "font-medium") { contract.customer_name }
-              TableCell(class: "font-medium") { contract.customer_name }
-              TableCell(class: "font-medium") { contract.customer_name }
-              TableCell(class: "font-medium") { contract.customer_name }
-              TableCell(class: "font-medium") { contract.customer_name }
+              TableCell(class: "font-medium") { contract.asset_setting.asset_code }
+              TableCell(class: "font-medium") { contract.asset_name }
+              TableCell(class: "font-medium") { contract.loan_amount_formatted }
+              TableCell(class: "font-medium") { contract.fm_contract_date }
+              TableCell(class: "font-medium") { contract.total_paid_interest_formatted }
+              TableCell(class: "font-medium") { contract.fm_old_debt_amount(unit: false) }
+              TableCell(class: "font-medium") { contract.fm_current_interest_amount }
+              TableCell(class: "font-medium") { contract.fm_due_date }
+              TableCell(class: "font-medium") { contract.status_badge }
               TableCell(class: "font-medium") do
                 div(class: "flex space-x-2") do
                   Remix::EditBoxLine(

@@ -7,7 +7,7 @@ module SelectHelper
     @select_options_for_interest_types ||= begin
       types = InterestCalculationMethod.all
       if contract_type.present?
-        types = types.select { |type| type.categories.include?(contract_type) }
+        types = types.select { |type| type.categories.include?(contract_type.to_s) }
       end
 
       types

@@ -8,6 +8,7 @@
 #  collect_interest_in_advance :boolean
 #  contract_date               :date
 #  contract_term               :integer
+#  contract_type_code          :string
 #  interest_calculation_method :string
 #  interest_period             :integer
 #  interest_rate               :decimal(8, 5)
@@ -19,7 +20,6 @@
 #  asset_setting_id            :uuid
 #  branch_id                   :uuid
 #  cashier_id                  :uuid
-#  contract_type_id            :uuid
 #  created_by_id               :uuid
 #  customer_id                 :uuid
 #

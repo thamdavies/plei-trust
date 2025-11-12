@@ -8,6 +8,7 @@
 #  collect_interest_in_advance :boolean          default(FALSE)
 #  contract_date               :date
 #  contract_term               :integer
+#  contract_type_code          :string           not null
 #  interest_calculation_method :string
 #  interest_period             :integer
 #  interest_rate               :decimal(8, 5)
@@ -19,7 +20,6 @@
 #  asset_setting_id            :uuid
 #  branch_id                   :uuid             not null
 #  cashier_id                  :uuid             not null
-#  contract_type_id            :uuid             not null
 #  created_by_id               :uuid             not null
 #  customer_id                 :uuid             not null
 #
@@ -28,7 +28,6 @@
 #  index_contracts_on_asset_setting_id  (asset_setting_id)
 #  index_contracts_on_branch_id         (branch_id)
 #  index_contracts_on_cashier_id        (cashier_id)
-#  index_contracts_on_contract_type_id  (contract_type_id)
 #  index_contracts_on_created_by_id     (created_by_id)
 #  index_contracts_on_customer_id       (customer_id)
 #
@@ -37,7 +36,7 @@
 #  fk_rails_...  (asset_setting_id => asset_settings.id)
 #  fk_rails_...  (branch_id => branches.id)
 #  fk_rails_...  (cashier_id => users.id)
-#  fk_rails_...  (contract_type_id => contract_types.id)
+#  fk_rails_...  (contract_type_code => contract_types.code)
 #  fk_rails_...  (created_by_id => users.id)
 #  fk_rails_...  (customer_id => customers.id)
 #
@@ -59,7 +58,7 @@ class Contract < ApplicationRecord
 
   belongs_to :customer, optional: true
   belongs_to :branch, optional: true
-  belongs_to :contract_type, optional: true
+  belongs_to :contract_type, optional: true, foreign_key: :contract_type_code, primary_key: :code
   belongs_to :asset_setting, optional: true
   belongs_to :cashier, class_name: User.name, foreign_key: :cashier_id, optional: true
   belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id, optional: true

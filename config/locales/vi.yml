@@ -45,4 +45,6 @@ vi:
       pay_today: "Hôm nay đóng lãi"
     capital:
       <<: *default
+    pawn:
+      <<: *default
   

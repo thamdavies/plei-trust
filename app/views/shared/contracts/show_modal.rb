@@ -1,8 +1,4 @@
 class Views::Shared::Contracts::ShowModal < Views::Base
-  def initialize(contract:)
-    @contract = contract
-  end
-
   def view_template
     Dialog do
       DialogTrigger(class: "hidden", id: "contract-modal-dialog-trigger") do

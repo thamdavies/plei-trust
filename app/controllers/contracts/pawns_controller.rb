@@ -19,6 +19,7 @@ class Contracts::PawnsController < ContractsController
     ctx = PawnContract::Operations::Create::Present.call
     @form = ctx[:"contract.default"]
     @form.interest_calculation_method_obj = interest_calculation_method_obj
+    @form.contract_type_code = ContractType.codes[:pawn]
   end
 
   def create
@@ -106,7 +107,7 @@ class Contracts::PawnsController < ContractsController
       created_by_id: current_user.id,
       branch_id: current_branch.id,
       cashier_id: current_user.id,
-      contract_type_id: contract_type.id,
+      contract_type_code: contract_type.code,
     )
 
     form_params

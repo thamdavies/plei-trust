@@ -70,4 +70,27 @@ class ContractDecorator < ApplicationDecorator
       schedule.to.to_fs(:date_vn)
     end
   end
+
+  def fm_current_interest_amount
+    amount = ActionController::Base.helpers.number_with_delimiter(
+      current_interest_amount.amount,
+      delimiter: ".",
+      separator: ",",
+      precision: 0,
+      strip_insignificant_zeros: true
+    )
+    return 0 if current_interest_amount.amount.zero?
+
+    "#{amount} (#{current_interest_amount.days_count} ngày)"
+  end
+
+  def total_paid_interest_formatted
+    ActionController::Base.helpers.number_with_delimiter(
+      total_paid_interest,
+      delimiter: ".",
+      separator: ",",
+      precision: 0,
+      strip_insignificant_zeros: true
+    )
+  end
 end

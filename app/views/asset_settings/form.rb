@@ -19,21 +19,21 @@ class Views::AssetSettings::Form < Views::Base
           FormField(class: "max-w-xl") do
             FormFieldLabel { "Lĩnh vực" }
             select(
-              name: "form[asset_setting_categories][][contract_type_id]",
+              name: "form[asset_setting_categories][][contract_type_code]",
               id: "select-asset-categories",
               multiple: true,
               placeholder: "Chọn lĩnh vực",
               data: {
                 controller: "slim-select",
                 'slim-select-target': "select",
-                'slim-select-selected-value': form.asset_setting_categories.map(&:contract_type_id).join(",")
+                'slim-select-selected-value': form.asset_setting_categories.map(&:contract_type_code).join(",")
               }) do
               ContractType.with_assets.select(:id, :name).all.each do |category|
-                option(value: category.id, selected: form.asset_setting_categories.map(&:contract_type_id).include?(category.id)) { category.name }
+                option(value: category.id, selected: form.asset_setting_categories.map(&:contract_type_code).include?(category.id)) { category.name }
               end
             end
 
-            FormFieldError() { form.errors[:"asset_setting_categories.contract_type_id"].first }
+            FormFieldError() { form.errors[:"asset_setting_categories.contract_type_code"].first }
           end
 
           FormField(class: "max-w-xl") do
