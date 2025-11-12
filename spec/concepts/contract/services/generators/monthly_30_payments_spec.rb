@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Contract::Services::Generators::Monthly30Payments do
-  let(:contract_type) { create(:contract_type, code: :capital) }
+  let(:contract_type) { create(:contract_type, :capital, code: :capital) }
   let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-02".to_date, loan_amount: 20_000_000, interest_rate: 0.5, contract_term: 3, interest_period: 1, interest_calculation_method: InterestCalculationMethod.config[:code][:monthly_30]) }
   let(:processed_by) { create(:user) }
   let(:service) { described_class.new(contract: contract) }

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Contract::Services::Generators::WeeklyPercentPayments do
-  let(:contract_type) { create(:contract_type, code: :capital) }
+  let(:contract_type) { create(:contract_type, :capital, code: :capital) }
   let(:contract) { create(:contract, :weekly_percent, contract_type:, contract_date: "2025-10-06".to_date) }
   let(:processed_by) { create(:user) }
   let(:service) { described_class.new(contract: contract) }

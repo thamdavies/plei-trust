@@ -10,9 +10,20 @@
 #
 FactoryBot.define do
   factory :contract_type do
-    id { SecureRandom.uuid }
-    code { [ "pawn", "capital" ].sample }
+    code { :capital }
     description { Faker::Lorem.sentence }
     name { Faker::Name.name }
+
+    trait :pawn do
+      code { :pawn }
+    end
+
+    trait :installment do
+      code { :installment }
+    end
+
+    trait :credit do
+      code { :credit }
+    end
   end
 end
