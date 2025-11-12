@@ -10,7 +10,7 @@
 
 <% if @pagy.pages > 1 %>
   <div class="flex justify-center py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-    <%== pagy_nav(@pagy) %>
+    <%== @pagy.series_nav %>
   </div>
 <% end %>
 <%# Để tránh giao diện bị co lại khi bảng có ít dòng dữ liệu, các component ảnh hưởng: datetimepicker,... %>
