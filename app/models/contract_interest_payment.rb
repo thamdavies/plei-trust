@@ -31,7 +31,7 @@ class ContractInterestPayment < ApplicationRecord
 
   belongs_to :contract
 
-  enum :payment_status, { unpaid: "unpaid", paid: "paid", partial: "partial" }
+  enum :payment_status, { unpaid: "unpaid", paid: "paid" }
 
   large_number_field :amount
   large_number_field :other_amount

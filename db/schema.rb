@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_05_131838) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -60,11 +60,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_05_131838) do
 
   create_table "asset_setting_categories", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.uuid "asset_setting_id", null: false
-    t.uuid "contract_type_id", null: false
+    t.string "contract_type_code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["asset_setting_id"], name: "index_asset_setting_categories_on_asset_setting_id"
-    t.index ["contract_type_id"], name: "index_asset_setting_categories_on_contract_type_id"
   end
 
   create_table "asset_setting_values", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
@@ -101,11 +100,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_05_131838) do
 
   create_table "branch_contract_types", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.uuid "branch_id", null: false
-    t.uuid "contract_type_id", null: false
+    t.string "contract_type_code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["branch_id"], name: "index_branch_contract_types_on_branch_id"
-    t.index ["contract_type_id"], name: "index_branch_contract_types_on_contract_type_id"
   end
 
   create_table "branches", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
@@ -180,8 +178,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_05_131838) do
     t.index ["processed_by_id"], name: "index_contract_terminations_on_processed_by_id"
   end
 
-  create_table "contract_types", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.string "code"
+  create_table "contract_types", primary_key: "code", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "description"
     t.string "name"
@@ -197,7 +194,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_05_131838) do
     t.boolean "collect_interest_in_advance", default: false
     t.date "contract_date"
     t.integer "contract_term"
-    t.uuid "contract_type_id", null: false
+    t.string "contract_type_code", null: false
     t.datetime "created_at", null: false
     t.uuid "created_by_id", null: false
     t.uuid "customer_id", null: false
@@ -211,7 +208,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_05_131838) do
     t.index ["asset_setting_id"], name: "index_contracts_on_asset_setting_id"
     t.index ["branch_id"], name: "index_contracts_on_branch_id"
     t.index ["cashier_id"], name: "index_contracts_on_cashier_id"
-    t.index ["contract_type_id"], name: "index_contracts_on_contract_type_id"
     t.index ["created_by_id"], name: "index_contracts_on_created_by_id"
     t.index ["customer_id"], name: "index_contracts_on_customer_id"
   end
@@ -321,12 +317,12 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_05_131838) do
 
   add_foreign_key "asset_setting_attributes", "asset_settings"
   add_foreign_key "asset_setting_categories", "asset_settings"
-  add_foreign_key "asset_setting_categories", "contract_types"
+  add_foreign_key "asset_setting_categories", "contract_types", column: "contract_type_code", primary_key: "code"
   add_foreign_key "asset_setting_values", "asset_setting_attributes"
   add_foreign_key "asset_setting_values", "contracts"
   add_foreign_key "asset_settings", "branches"
   add_foreign_key "branch_contract_types", "branches"
-  add_foreign_key "branch_contract_types", "contract_types"
+  add_foreign_key "branch_contract_types", "contract_types", column: "contract_type_code", primary_key: "code"
   add_foreign_key "branches", "provinces", primary_key: "code"
   add_foreign_key "branches", "wards", primary_key: "code"
   add_foreign_key "contract_amount_changes", "contracts"
@@ -337,7 +333,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_05_131838) do
   add_foreign_key "contract_terminations", "users", column: "processed_by_id"
   add_foreign_key "contracts", "asset_settings"
   add_foreign_key "contracts", "branches"
-  add_foreign_key "contracts", "contract_types"
+  add_foreign_key "contracts", "contract_types", column: "contract_type_code", primary_key: "code"
   add_foreign_key "contracts", "customers"
   add_foreign_key "contracts", "users", column: "cashier_id"
   add_foreign_key "contracts", "users", column: "created_by_id"
@@ -351,4 +347,118 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_05_131838) do
   add_foreign_key "users", "branches"
   add_foreign_key "wards", "administrative_units", name: "wards_administrative_unit_id_fkey"
   add_foreign_key "wards", "provinces", column: "province_code", primary_key: "code", name: "wards_province_code_fkey"
+
+  create_view "interest_late_contracts", sql_definition: <<-SQL
+      WITH client_timezone AS (
+           SELECT ((now() AT TIME ZONE 'Asia/Ho_Chi_Minh'::text))::date AS "current_date"
+          ), interest_payment_schedule AS (
+           SELECT contract_interest_payments.contract_id,
+              min(contract_interest_payments."to") AS date,
+              max(contract_interest_payments."to") AS end_date
+             FROM contract_interest_payments
+            WHERE ((contract_interest_payments.payment_status)::text = 'unpaid'::text)
+            GROUP BY contract_interest_payments.contract_id
+          )
+   SELECT c.id,
+      c.code,
+      c.customer_id,
+      c.branch_id,
+      c.cashier_id,
+      c.created_by_id,
+      c.asset_setting_id,
+      c.asset_name,
+      c.contract_type_code,
+      c.loan_amount,
+      c.interest_calculation_method,
+      c.interest_rate,
+      c.collect_interest_in_advance,
+      c.contract_term,
+      c.interest_period,
+      c.contract_date,
+      c.status,
+      c.note,
+      c.created_at,
+      c.updated_at
+     FROM (contracts c
+       CROSS JOIN client_timezone)
+    WHERE ((( SELECT interest_payment_schedule.date
+             FROM interest_payment_schedule
+            WHERE (interest_payment_schedule.contract_id = c.id)) < client_timezone."current_date") AND (client_timezone."current_date" < ( SELECT interest_payment_schedule.end_date
+             FROM interest_payment_schedule
+            WHERE (interest_payment_schedule.contract_id = c.id))) AND ((c.status)::text <> 'closed'::text));
+  SQL
+  create_view "on_time_contracts", sql_definition: <<-SQL
+      WITH client_timezone AS (
+           SELECT ((now() AT TIME ZONE 'Asia/Ho_Chi_Minh'::text))::date AS "current_date"
+          ), interest_payment_schedule AS (
+           SELECT contract_interest_payments.contract_id,
+              min(contract_interest_payments."to") AS date,
+              max(contract_interest_payments."to") AS end_date
+             FROM contract_interest_payments
+            WHERE ((contract_interest_payments.payment_status)::text = 'unpaid'::text)
+            GROUP BY contract_interest_payments.contract_id
+          )
+   SELECT c.id,
+      c.code,
+      c.customer_id,
+      c.branch_id,
+      c.cashier_id,
+      c.created_by_id,
+      c.asset_setting_id,
+      c.asset_name,
+      c.contract_type_code,
+      c.loan_amount,
+      c.interest_calculation_method,
+      c.interest_rate,
+      c.collect_interest_in_advance,
+      c.contract_term,
+      c.interest_period,
+      c.contract_date,
+      c.status,
+      c.note,
+      c.created_at,
+      c.updated_at
+     FROM (contracts c
+       CROSS JOIN client_timezone)
+    WHERE ((client_timezone."current_date" <= ( SELECT interest_payment_schedule.date
+             FROM interest_payment_schedule
+            WHERE (interest_payment_schedule.contract_id = c.id))) AND (client_timezone."current_date" <= ( SELECT interest_payment_schedule.end_date
+             FROM interest_payment_schedule
+            WHERE (interest_payment_schedule.contract_id = c.id))) AND ((c.status)::text <> 'closed'::text));
+  SQL
+  create_view "overdue_contracts", sql_definition: <<-SQL
+      WITH client_timezone AS (
+           SELECT ((now() AT TIME ZONE 'Asia/Ho_Chi_Minh'::text))::date AS date
+          ), interest_payment_schedule AS (
+           SELECT contract_interest_payments.contract_id,
+              max(contract_interest_payments."to") AS date
+             FROM contract_interest_payments
+            GROUP BY contract_interest_payments.contract_id
+          )
+   SELECT c.id,
+      c.code,
+      c.customer_id,
+      c.branch_id,
+      c.cashier_id,
+      c.created_by_id,
+      c.asset_setting_id,
+      c.asset_name,
+      c.contract_type_code,
+      c.loan_amount,
+      c.interest_calculation_method,
+      c.interest_rate,
+      c.collect_interest_in_advance,
+      c.contract_term,
+      c.interest_period,
+      c.contract_date,
+      c.status,
+      c.note,
+      c.created_at,
+      c.updated_at
+     FROM (contracts c
+       CROSS JOIN client_timezone)
+    WHERE ((( SELECT interest_payment_schedule.date
+             FROM interest_payment_schedule
+            WHERE (interest_payment_schedule.contract_id = c.id)) < client_timezone.date) AND ((c.status)::text <> 'closed'::text));
+  SQL
 end

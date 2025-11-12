@@ -16,7 +16,7 @@ module CapitalContract::Contracts
     property :interest_period
     property :status, default: "active"
     property :customer_id
-    property :contract_type_id
+    property :contract_type_code, default: ContractType.codes[:capital]
     property :asset_setting_id
     property :branch_id
     property :cashier_id

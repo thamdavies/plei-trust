@@ -96,3 +96,6 @@ application.register("slim-select", SlimSelectController)
 
 import Notification from '@stimulus-components/notification'
 application.register("notification", Notification)
+
+import AutoSubmit from '@stimulus-components/auto-submit'
+application.register("auto-submit", AutoSubmit)

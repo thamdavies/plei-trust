@@ -12,7 +12,7 @@ class CreateContracts < ActiveRecord::Migration[8.0]
       t.string :asset_name
 
       # Loại hợp đồng và số tiền
-      t.references :contract_type, null: false, foreign_key: true, type: :uuid
+      t.string :contract_type_code, null: false
       t.decimal :loan_amount, precision: 15, scale: 2
 
       # Cấu hình lãi suất
@@ -32,5 +32,7 @@ class CreateContracts < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
+
+    add_foreign_key :contracts, :contract_types, column: :contract_type_code, primary_key: :code
   end
 end

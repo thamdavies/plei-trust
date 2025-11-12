@@ -2,8 +2,7 @@
 #
 # Table name: contract_types
 #
-#  id          :uuid             not null, primary key
-#  code        :string
+#  code        :string           not null, primary key
 #  description :string
 #  name        :string
 #  created_at  :datetime         not null

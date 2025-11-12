@@ -28,7 +28,7 @@ class Views::Shared::Contracts::ContractInfo < Views::Base
             end
           end
           TableRow do
-            TableCell(class: "font-medium") { "Tiền đầu tư" }
+            TableCell(class: "font-medium") { contract_type_label(type: contract.contract_type_code.to_sym).loan_amount }
             TableCell(class: "font-medium") { contract.total_amount_currency }
           end
           TableRow do

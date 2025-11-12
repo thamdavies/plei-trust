@@ -79,7 +79,7 @@ gem "tailwind_merge", "~> 1.3"
 
 gem "pry-rails", "~> 0.3.11"
 
-gem "phlex-icons", "~> 2.43"
+gem "phlex-icons", "~> 2.44"
 
 gem "clearance", "~> 2.11"
 
@@ -121,3 +121,5 @@ gem "pundit", "~> 2.5"
 gem "public_activity", "~> 3.0"
 
 gem "paper_trail", "~> 17.0"
+
+gem "scenic", "~> 1.9"

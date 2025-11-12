@@ -1,13 +1,13 @@
 services:
   db:
-    image: postgres:18rc1
+    image: postgres:18.0-bookworm
     container_name: plei-trust-db
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=password
     volumes:
-      - pg_data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql
     healthcheck:
       test: pg_isready -U postgres
       interval: 2s

@@ -7,7 +7,7 @@ Branch.find_each do |branch|
   # based on branch location or other criteria
   contract_types = ContractType.all
   contract_types.each do |contract_type|
-    BranchContractType.find_or_create_by(branch_id: branch.id.to_s, contract_type_id: contract_type.id.to_s)
+    BranchContractType.find_or_create_by(branch_id: branch.id.to_s, contract_type_code: contract_type.code.to_s)
   end
   puts "✓ Associated #{contract_types.count} contract types with branch: #{branch.name}"
 end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Contract::Services::Generators::DailyPerMillionPayments do
-  let(:contract_type) { create(:contract_type, code: :capital) }
+  let(:contract_type) { create(:contract_type, :capital, code: :capital) }
   let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-03".to_date) }
   let(:processed_by) { create(:user) }
   let(:transaction_type) { create(:transaction_type, :additional_loan) }

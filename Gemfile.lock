@@ -322,7 +322,7 @@ GEM
     pg (1.6.2-x86_64-linux-musl)
     phlex (2.3.1)
       zeitwerk (~> 2.7)
-    phlex-icons (2.43.0)
+    phlex-icons (2.44.0)
       phlex (>= 1.11)
     phlex-rails (2.3.1)
       phlex (~> 2.3.0)
@@ -474,6 +474,9 @@ GEM
     ruby2_keywords (0.0.5)
     ruby_ui (1.0.2)
     rubyzip (3.2.1)
+    scenic (1.9.0)
+      activerecord (>= 4.0.0)
+      railties (>= 4.0.0)
     securerandom (0.4.1)
     selenium-webdriver (4.38.0)
       base64 (~> 0.2)
@@ -598,7 +601,7 @@ DEPENDENCIES
   pagy (~> 9.4)
   paper_trail (~> 17.0)
   pg (~> 1.6)
-  phlex-icons (~> 2.43)
+  phlex-icons (~> 2.44)
   phlex-rails (~> 2.3)
   phonelib (~> 0.10.12)
   propshaft
@@ -614,6 +617,7 @@ DEPENDENCIES
   rspec-rails (~> 8.0.0)
   rubocop-rails-omakase
   ruby_ui (~> 1.0)
+  scenic (~> 1.9)
   selenium-webdriver
   simple_form (~> 5.4)
   stimulus-rails

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Contract::Services::Generators::DailyFixedPayments do
-  let(:contract_type) { create(:contract_type, code: :capital) }
+  let(:contract_type) { create(:contract_type, :capital, code: :capital) }
   let(:contract) { create(:contract, :daily_fixed, contract_type:, contract_date: "2025-10-03".to_date, interest_rate: 10, interest_calculation_method: InterestCalculationMethod.config[:code][:daily_fixed]) }
   let(:processed_by) { create(:user) }
   let(:service) { described_class.new(contract: contract) }

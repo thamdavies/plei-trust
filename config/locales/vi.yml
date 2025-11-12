@@ -3,6 +3,7 @@ vi:
     dashboard: "Trang chủ"
     contract: "Hợp đồng"
     all_contracts: "Tất cả hợp đồng"
+    pawn_contracts: "Cầm đồ"
     customer: "Quản lý khách hàng"
   nav:
     dashboard: "Trang chủ"
@@ -38,10 +39,12 @@ vi:
     default: &default
       on_time: "Đúng hẹn"
       overdue: "Quá hạn"
-      interest_late: "Trễ lãi"
+      interest_late: "Chậm lãi"
       closed: "Đã kết thúc"
       due_date: "Đến hạn đóng lãi"
       pay_today: "Hôm nay đóng lãi"
     capital:
+      <<: *default
+    pawn:
       <<: *default
   

@@ -9,12 +9,20 @@ class AssetSettingsController < ApplicationController
     end
   end
 
+  def show
+    run(AssetSetting::Operations::Show) do |result|
+      @asset_setting = result[:model]
+    end
+
+    render json: AssetSettingSerializer.new(@asset_setting).serializable_hash
+  end
+
   def new
     add_breadcrumb "Thêm mới", :new_asset_setting_path
     run(AssetSetting::Operations::Create::Present) do |result|
       @form = result[:"contract.default"]
       @form.interest_calculation_method = InterestCalculationMethod.config[:code][:monthly_30]
-      @form.asset_setting_categories = current_branch.contract_types.all.map { |ct| AssetSettingCategory.new(contract_type_id: ct.id) }
+      @form.asset_setting_categories = current_branch.contract_types.all.map { |ct| AssetSettingCategory.new(contract_type_code: ct.code) }
     end
   end
 
@@ -67,7 +75,7 @@ class AssetSettingsController < ApplicationController
       :interest_calculation_method,
       :collect_interest_in_advance,
       :status,
-      asset_setting_categories: [ :contract_type_id ],
+      asset_setting_categories: [ :contract_type_code ],
       asset_setting_attributes_attributes: [
         :id,
         :attribute_name,

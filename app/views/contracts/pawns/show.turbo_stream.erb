@@ -1,0 +1,3 @@
+<%= turbo_stream.update "contract_show_modal" do %>
+  <%= render Views::Shared::Contracts::Show.new(contract: @contract) %>
+<% end %>

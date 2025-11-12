@@ -7,7 +7,7 @@ module AssetSetting::Operations
 
       def preprocess_params(ctx, params:, **)
         if params[:asset_setting_categories].blank?
-          params[:asset_setting_categories] = [ { "contract_type_id" => "" } ]
+          params[:asset_setting_categories] = [ { "contract_type_code" => "" } ]
         end
 
         true

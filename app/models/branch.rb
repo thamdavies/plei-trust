@@ -38,6 +38,15 @@ class Branch < ApplicationRecord
   has_many :contract_types, through: :branch_contract_types, source: :contract_type
   has_many :asset_settings, dependent: :destroy
   has_many :customers, dependent: :destroy
+  has_many :contracts, dependent: :destroy
+
+  # Views
+  has_many :active_contracts, -> { where(status: :active) }, class_name: Contract.name
+  has_many :closed_contracts, -> { where(status: :closed) }, class_name: Contract.name
+
+  has_many :on_time_contracts, class_name: ViewOnTimeContract.name
+  has_many :interest_late_contracts, class_name: ViewInterestLateContract.name
+  has_many :overdue_contracts, class_name: ViewOverdueContract.name
 
   enum :status, { active: "active", inactive: "inactive" }
 

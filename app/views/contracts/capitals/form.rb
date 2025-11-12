@@ -22,7 +22,7 @@ class Views::Contracts::Capitals::Form < Views::Base
           h2(class: "text-md mb-2 font-medium text-gray-900 dark:text-white") { "Thông tin hợp đồng" }
         end
 
-        render Views::Shared::Contracts::Form.new(form:)
+        render Views::Shared::Contracts::Form.new(form:, contract_type: :capital)
       end
       DialogFooter do
         Button(variant: :outline, data: { action: "click->ruby-ui--dialog#dismiss" }) { I18n.t("button.close") }

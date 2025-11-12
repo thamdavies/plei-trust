@@ -1,17 +1,23 @@
 class Views::Shared::Contracts::Form < Views::Base
-  def initialize(form:)
+  def initialize(form:, contract_type:)
     @form = form
+    @contract_type = contract_type
   end
 
   def view_template
     div(data: { controller: "shared--contract" }) do
       Text(class: "text-sm mb-2 text-red-500 italic") { "Bạn phải huỷ bỏ kỳ lãi đã thanh toán để cập nhật thông tin hợp đồng" } if !form.can_edit_contract
+
+      if contract_type == :pawn
+        render Views::Shared::Contracts::AssetFormFields.new(form:)
+      end
+
       FormField(class: "max-w-sm") do
-        FormFieldLabel { "Số tiền đầu tư" }
+        FormFieldLabel { contract_type_label.loan_amount }
         div(class: "relative") do
           MaskedInput(
             data: { maska_number_locale: "vi", maska_number_unsigned: true },
-            placeholder: "Nhập số tiền đầu tư",
+            placeholder: "Nhập #{contract_type_label.loan_amount.downcase}",
             name: "form[loan_amount]",
             value: form.loan_amount.to_i,
             readonly: !form.can_edit_contract,
@@ -29,7 +35,7 @@ class Views::Shared::Contracts::Form < Views::Base
         name: "form[contract_date]",
         wrapper_class: "max-w-sm",
         readonly: !form.can_edit_contract,
-        label: "Ngày góp", id: "contract_date", error: form.errors[:contract_date].first,
+        label: contract_type_label.contract_date, id: "contract_date", error: form.errors[:contract_date].first,
         value: form.contract_date
       )
 
@@ -48,7 +54,7 @@ class Views::Shared::Contracts::Form < Views::Base
               "slim-select-selected-value": form.interest_calculation_method,
               action: "change->shared--contract#handleInterestMethodChange"
             }) do
-            view_context.select_options_for_interest_types.each do |interest_method|
+            view_context.select_options_for_interest_types(contract_type: contract_type).each do |interest_method|
               option(value: interest_method.code, selected: interest_method.code == form.interest_calculation_method) { interest_method.name }
             end
           end
@@ -85,5 +91,5 @@ class Views::Shared::Contracts::Form < Views::Base
 
   private
 
-  attr_reader :form
+  attr_reader :form, :contract_type
 end

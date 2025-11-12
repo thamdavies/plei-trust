@@ -27,11 +27,11 @@ module AssetSetting::Contracts
 
     # Others
     collection :asset_setting_categories, populate_if_empty: AssetSettingCategory do
-      property :contract_type_id
+      property :contract_type_code
 
       validation contract: DryContract do
         params do
-          required(:contract_type_id).filled(:string)
+          required(:contract_type_code).filled(:string)
         end
       end
     end
