@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include Clearance::Controller
-  include Pagy::Backend
+  include Pagy::Method
   include Pundit::Authorization
 
   set_current_tenant_through_filter

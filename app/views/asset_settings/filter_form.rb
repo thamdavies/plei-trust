@@ -54,10 +54,10 @@ class Views::AssetSettings::FilterForm < Views::Base
             div(class: "flex items-center gap-4") do
               Remix::ServiceLine(class: "w-6 h-6")
               Select(class: "w-48") do
-                SelectInput(name: "q[asset_setting_categories_contract_type_id_eq]", value: view_context.params.dig(:q, :asset_setting_categories_contract_type_id_eq), id: "select-contract-type")
+                SelectInput(name: "q[asset_setting_categories_contract_type_code_eq]", value: view_context.params.dig(:q, :asset_setting_categories_contract_type_code_eq), id: "select-contract-type")
                 SelectTrigger(variant: :ghost) do
                   SelectValue(
-                    placeholder: view_context.select_options_for_contract_types.find { |item| item.id == view_context.params.dig(:q, :asset_setting_categories_contract_type_id_eq) }&.name || "Tất cả lĩnh vực",
+                    placeholder: view_context.select_options_for_contract_types.find { |item| item.code == view_context.params.dig(:q, :asset_setting_categories_contract_type_code_eq) }&.name || "Tất cả lĩnh vực",
                     id: "select-contract-type"
                   )
                 end
@@ -67,7 +67,7 @@ class Views::AssetSettings::FilterForm < Views::Base
                     class: "cursor-pointer",
                     data: {
                       action: "click->auto-submit#submit",
-                      ruby_ui__select_item_selected_value: view_context.params.dig(:q, :asset_setting_categories_contract_type_id_eq)
+                      ruby_ui__select_item_selected_value: view_context.params.dig(:q, :asset_setting_categories_contract_type_code_eq)
                     }) do
                     "Tất cả lĩnh vực"
                   end
@@ -77,7 +77,7 @@ class Views::AssetSettings::FilterForm < Views::Base
                       class: "cursor-pointer",
                       data: {
                         action: "click->auto-submit#submit",
-                        ruby_ui__select_item_selected_value: view_context.params.dig(:q, :asset_setting_categories_contract_type_id_eq)
+                        ruby_ui__select_item_selected_value: view_context.params.dig(:q, :asset_setting_categories_contract_type_code_eq)
                       }) do
                       contract_type.name
                     end

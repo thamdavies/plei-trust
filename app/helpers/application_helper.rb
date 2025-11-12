@@ -1,6 +1,6 @@
 module ApplicationHelper
   include RubyUI
-  include Pagy::Frontend
+  include Pagy::Method
 
   def active_link_class(path, active: :exact)
     active_link_to_class(path, class_active: "dark:bg-gray-700 bg-gray-100", active:)

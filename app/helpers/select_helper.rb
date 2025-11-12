@@ -1,6 +1,6 @@
 module SelectHelper
   def select_options_for_contract_types
-    @select_options_for_contract_types ||= ContractType.all.select(:id, :name)
+    @select_options_for_contract_types ||= ContractType.all.select(:code, :name)
   end
 
   def select_options_for_interest_types(contract_type: nil)
