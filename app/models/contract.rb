@@ -49,7 +49,10 @@ class Contract < ApplicationRecord
 
   class_attribute :config, default: {
     disable_custom_interest_payment: true,
-    principal_payment_fee_percent: 0.01 # 1%
+    principal_payment_fee_percent: 0.01, # 1%
+    activity_reverse_debit_amount: [
+      :pawn
+    ]
   }
 
   acts_as_tenant(:branch)
@@ -79,6 +82,7 @@ class Contract < ApplicationRecord
   large_number_field :loan_amount
 
   enum :status, { active: "active", closed: "closed" }
+  enum :contract_type_code, { pawn: "pawn", credit: "credit", installment: "installment", capital: "capital" }
 
   scope :pawn_contracts, -> { where(contract_type: { code: :pawn }) }
   scope :capital_contracts, -> { where(contract_type: { code: :capital }) }

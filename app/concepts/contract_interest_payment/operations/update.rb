@@ -53,6 +53,7 @@ module ContractInterestPayment::Operations
         note: "Kỳ: #{model.from.to_fs(:date_vn)} - #{model.to.to_fs(:date_vn)}"
       }
 
+      parameters = model.contract.reverse_debit_amount_params(parameters)
       model.contract.create_activity! key: key, owner: current_user, parameters: parameters
 
       true

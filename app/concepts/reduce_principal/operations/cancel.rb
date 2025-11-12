@@ -66,6 +66,7 @@ module ReducePrincipal::Operations
         other_amount: 0
       }
 
+      parameters = ctx[:contract].reverse_debit_amount_params(parameters)
       ctx[:contract].create_activity! key: "activity.reduce_principal.cancel", owner: current_user, parameters: parameters
 
       true

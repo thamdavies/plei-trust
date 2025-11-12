@@ -50,6 +50,7 @@ module CapitalContract::Operations
         parameters[:credit_amount] = amount
       end
 
+      parameters = model.reverse_debit_amount_params(parameters)
       model.create_activity! key: "activity.contract.update", owner: current_user, parameters: parameters
 
       true
