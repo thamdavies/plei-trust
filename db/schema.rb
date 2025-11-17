@@ -66,14 +66,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
     t.index ["asset_setting_id"], name: "index_asset_setting_categories_on_asset_setting_id"
   end
 
-  create_table "asset_setting_values", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+  create_table "asset_setting_values", primary_key: ["contract_id", "asset_setting_attribute_id"], force: :cascade do |t|
     t.uuid "asset_setting_attribute_id", null: false
     t.uuid "contract_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "value"
-    t.index ["asset_setting_attribute_id"], name: "index_asset_setting_values_on_asset_setting_attribute_id"
-    t.index ["contract_id"], name: "index_asset_setting_values_on_contract_id"
+    t.index ["contract_id", "asset_setting_attribute_id"], name: "idx_on_contract_id_asset_setting_attribute_id_b35d1be676", unique: true
   end
 
   create_table "asset_settings", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|

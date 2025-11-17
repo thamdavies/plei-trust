@@ -17,12 +17,15 @@ module PawnContract::Contracts
     property :status, default: "active"
     property :customer_id
     property :contract_type_code, default: ContractType.codes[:pawn]
-    property :asset_setting_id
     property :branch_id
     property :cashier_id
     property :created_by_id
 
     property :interest_calculation_method_obj, virtual: true, prepopulator: ->(options) { self.interest_calculation_method_obj = options[:interest_calculation_method_obj] }
+
+    # asset setting
+    property :asset_setting_id
+    property :asset_name
 
     validation contract: DryContract do
       option :form
@@ -113,8 +116,15 @@ module PawnContract::Contracts
       end
     end
 
-    # asset_setting
-    property :asset_setting_id
-    property :asset_name
+    # Nested attributes for asset setting attributes
+    collection :asset_setting_values, populate_if_empty: AssetSettingValue do
+      property :value
+      property :asset_setting_attribute_id
+
+      property :asset_setting_attribute, populate_if_empty: AssetSettingAttribute do
+        property :id
+        property :attribute_name
+      end
+    end
   end
 end

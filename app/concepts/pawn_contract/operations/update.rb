@@ -20,11 +20,17 @@ module PawnContract::Operations
     step Contract::Validate()
     step Wrap(AppTransaction) {
       step Contract::Persist()
+      step :update_asset_setting_values
       step :create_contract_interest_payments
       step :create_activity_log
     }
 
     private
+
+    def update_asset_setting_values(ctx, model:, params:, **)
+      model.asset_setting_values.delete_all
+      model.asset_setting_values.insert_all!(params[:asset_setting_values])
+    end
 
     def create_contract_interest_payments(ctx, model:, **)
       service = ::Contract::Services::ContractInterestPaymentGenerator.new(contract: model)

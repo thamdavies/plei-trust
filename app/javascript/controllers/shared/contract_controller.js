@@ -47,7 +47,7 @@ export default class extends Controller {
     const assetTypeSelect = document.getElementById("select-asset-type");
     if (!assetTypeSelect) return;
 
-    this.handleAssetTypeChange();
+    this.handleAssetTypeChange(true);
   }
 
   async handleAssetTypeChange() {
@@ -70,6 +70,14 @@ export default class extends Controller {
     } catch {
       alertController.show('Không thể lấy thông tin loại tài sản', 'alert');
     }
+  }
+
+  async fetchAssetAttributes() {
+    const request = new FetchRequest('get', `/contracts/asset_attributes/${this.assetTypeSelectTarget.value}`, {
+      responseKind: 'turbo-stream',
+    });
+
+    await request.perform();
   }
 
   setInterestMethodDetails(data) {    

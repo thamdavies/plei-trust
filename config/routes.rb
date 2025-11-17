@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     resources :additional_loans, only: [ :update, :destroy ]
     resources :extend_terms, only: [ :update ]
     resources :withdraw_principals, only: [ :update, :show ]
+    resources :asset_attributes, only: [ :show ]
   end
 
   # For automplete search

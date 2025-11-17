@@ -55,6 +55,7 @@ class Contracts::CapitalsController < ContractsController
       @form = ctx[:"contract.default"]
       @form.prepopulate!(customer:)
       @form.can_edit_contract = @form.model.can_edit_contract?
+      @form.interest_calculation_method_obj = interest_calculation_method_obj
     end
   rescue Pundit::NotAuthorizedError
     handle_cannot_operate_on_ended_contract

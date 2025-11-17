@@ -71,6 +71,7 @@ class Contract < ApplicationRecord
   has_many :unpaid_interest_payments, -> { where(payment_status: :unpaid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
   has_many :paid_interest_payments, -> { where(payment_status: :paid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
   has_many :financial_transactions, dependent: :destroy
+  has_many :asset_setting_values, dependent: :destroy
 
   has_many :reduce_principals, -> { where(transaction_type: TransactionType.reduce_principal).order(:transaction_date) }, class_name: FinancialTransaction.name, foreign_key: :contract_id, dependent: :destroy
   has_many :additional_loans, -> { where(transaction_type: TransactionType.additional_loan).order(:transaction_date) }, class_name: FinancialTransaction.name, foreign_key: :contract_id, dependent: :destroy
@@ -89,6 +90,10 @@ class Contract < ApplicationRecord
 
   accepts_nested_attributes_for :customer,
                                 allow_destroy: false,
+                                reject_if: :all_blank
+
+  accepts_nested_attributes_for :asset_setting_values,
+                                allow_destroy: true,
                                 reject_if: :all_blank
 
   class << self
