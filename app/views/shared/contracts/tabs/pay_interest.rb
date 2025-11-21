@@ -99,6 +99,20 @@ class Views::Shared::Contracts::Tabs::PayInterest < Views::Base
                           Text(size: :sm) { "Ghi chú" }
                         end
                       end
+
+                      Tooltip(data: {
+                          controller: "shared--pdf",
+                          "shared--pdf_contract-id-value": contract.id,
+                          "shared--pdf_interest-payment-id-value": item.id,
+                          "shared--pdf_is-paid-value": "#{item.paid?}"
+                        }) do
+                        TooltipTrigger do
+                          Remix::PrinterLine(class: "h-5 w-5 cursor-pointer", data: { action: "click->shared--pdf#printReceipt" })
+                        end
+                        TooltipContent do
+                          Text(size: :sm) { "In Biên nhận đóng lãi" }
+                        end
+                      end
                     end
                   end
                 end

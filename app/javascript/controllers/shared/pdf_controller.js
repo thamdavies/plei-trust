@@ -5,7 +5,10 @@ import { alertController } from "../../alert";
 // Connects to data-controller="shared--pdf"
 export default class extends Controller {
   static values = {
-    contractTypeCode: String
+    contractTypeCode: String,
+    contractId: String,
+    interestPaymentId: String,
+    isPaid: Boolean
   }
 
   async printContractInfo() {
@@ -32,5 +35,14 @@ export default class extends Controller {
     } else {
       throw new Error('Something went wrong');
     }
+  }
+
+  async printReceipt() {
+    if (!this.isPaidValue) {
+      alertController.show("Chưa đóng lãi, không thể in biên nhận.", "alert");
+      return;
+    }
+
+    window.open(`/pdfs/interest_payments/${this.interestPaymentIdValue}?contract_id=${this.contractIdValue}`, 'popup', 'width='+screen.width + 'height='+screen.height)
   }
 }

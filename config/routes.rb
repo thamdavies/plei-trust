@@ -40,6 +40,7 @@ Rails.application.routes.draw do
 
   namespace :pdfs do
     resources :contracts, only: [ :create, :show ]
+    resources :interest_payments, only: [ :show ]
   end
 
   # For automplete search

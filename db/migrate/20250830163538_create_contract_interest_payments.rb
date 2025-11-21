@@ -11,6 +11,7 @@ class CreateContractInterestPayments < ActiveRecord::Migration[8.0]
       t.decimal :other_amount, precision: 15, scale: 2, default: 0
       t.decimal :total_amount, precision: 15, scale: 2, default: 0
       t.decimal :total_paid, precision: 15, scale: 2, default: 0
+      t.datetime :paid_at
       t.string :payment_status, default: 'unpaid'
       t.text :note
 

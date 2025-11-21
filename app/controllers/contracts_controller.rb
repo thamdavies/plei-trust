@@ -56,9 +56,11 @@ class ContractsController < ApplicationController
       created_by_id: current_user.id,
       branch_id: current_branch.id,
       cashier_id: current_user.id,
-      contract_type_code: params[:contract_type_code],
+      contract_type_code: contract_type_code,
     )
 
     form_params
   end
+
+  def contract_type_code; end
 end

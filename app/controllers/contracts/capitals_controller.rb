@@ -69,59 +69,16 @@ class Contracts::CapitalsController < ContractsController
 
   private
 
-  def permit_params
-    form_params = params.require(:form).permit(
-      :customer_id,
-      :loan_amount,
-      :contract_date,
-      :interest_calculation_method,
-      :interest_rate,
-      :interest_period,
-      :contract_term,
-      :note,
-      :collect_interest_in_advance,
-      customer: [
-        :id,
-        :full_name,
-        :national_id,
-        :phone,
-        :national_id_issued_date,
-        :national_id_issued_place,
-        :address
-      ]
-    )
-
-    # Merge created_by_id vào customer nếu có customer data
-    if form_params[:customer].present?
-      form_params[:customer].merge!(
-        created_by_id: current_user.id,
-        branch_id: current_branch.id
-      )
-
-      form_params[:customer].merge!(id: form_params[:customer_id]) if form_params[:customer_id].present?
-    end
-
-    # Merge contract level data
-    form_params.merge!(
-      created_by_id: current_user.id,
-      branch_id: current_branch.id,
-      cashier_id: current_user.id,
-      contract_type_code: contract_type.id,
-    )
-
-    form_params
-  end
-
   def contract_id
     params[:id]
   end
 
-  def update_params
-    permit_params.merge(id: params[:id])
+  def contract_type_code
+    ContractType.codes[:capital]
   end
 
-  def contract_type
-    @contract_type ||= ContractType.capital.first
+  def update_params
+    permit_params.merge(id: params[:id])
   end
 
   def customer

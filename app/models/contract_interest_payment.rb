@@ -9,6 +9,7 @@
 #  note           :text
 #  number_of_days :integer
 #  other_amount   :decimal(15, 2)   default(0.0)
+#  paid_at        :datetime
 #  payment_status :string           default("unpaid")
 #  to             :date
 #  total_amount   :decimal(15, 2)   default(0.0)

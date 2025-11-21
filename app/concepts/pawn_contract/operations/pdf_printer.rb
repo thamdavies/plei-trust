@@ -1,5 +1,5 @@
 module PawnContract::Operations
-  class PdfPrint < ApplicationOperation
+  class PdfPrinter < ApplicationOperation
     step Model(::PublicActivity::Activity, :find)
     step :set_parameters
     step :build_customer_info
@@ -45,7 +45,7 @@ module PawnContract::Operations
           { index: 1, label: "Ngày cầm cố", value: ctx[:parameters].dig(:contract_date) }
         ],
         [
-          { index: 0, label: "Thời hạn cầm cố", value: contract.contract_term_in_days },
+          { index: 0, label: "Thời hạn cầm cố", value: "#{contract.contract_term} #{contract.interest_calculation_method_obj&.unit}" },
           { index: 1, label: "Phân loại tài sản", value: asset_setting&.asset_name || "" }
         ],
         [

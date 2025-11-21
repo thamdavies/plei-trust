@@ -23,6 +23,7 @@ module ContractInterestPayment::Operations
         is_paid = false
       else
         model.payment_status = ContractInterestPayment.payment_statuses[:paid]
+        model.paid_at = Time.current
         model.total_paid = params[:total_paid].remove_dots.to_d
         ctx[:message] = "Đóng lãi thành công"
         is_paid = true

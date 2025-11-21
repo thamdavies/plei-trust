@@ -154,6 +154,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
     t.text "note"
     t.integer "number_of_days"
     t.decimal "other_amount", precision: 15, scale: 2, default: "0.0"
+    t.datetime "paid_at"
     t.string "payment_status", default: "unpaid"
     t.date "to"
     t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"

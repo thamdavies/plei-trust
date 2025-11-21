@@ -79,8 +79,8 @@ class Contracts::PawnsController < ContractsController
     permit_params.merge(id: params[:id])
   end
 
-  def contract_type
-    @contract_type ||= ContractType.pawn.first
+  def contract_type_code
+    ContractType.codes[:pawn]
   end
 
   def customer
