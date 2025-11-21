@@ -82,6 +82,9 @@ application.register("shared--contract-detail", Shared__ContractDetailController
 import Shared__CustomInterestPaymentController from "./shared/custom_interest_payment_controller"
 application.register("shared--custom-interest-payment", Shared__CustomInterestPaymentController)
 
+import Shared__PdfController from "./shared/pdf_controller"
+application.register("shared--pdf", Shared__PdfController)
+
 import Shared__ReducePrincipalController from "./shared/reduce_principal_controller"
 application.register("shared--reduce-principal", Shared__ReducePrincipalController)
 

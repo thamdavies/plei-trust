@@ -304,6 +304,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-musl)
       racc (~> 1.4)
+    numbers_and_words (1.0.2)
+      i18n (<= 2)
     ostruct (0.6.3)
     pagy (43.0.3)
       json
@@ -601,6 +603,7 @@ DEPENDENCIES
   jsonapi-serializer (~> 2.2)
   kamal
   letter_opener_web (~> 3.0)
+  numbers_and_words (~> 1.0)
   pagy (~> 43.0)
   paper_trail (~> 17.0)
   pg (~> 1.6)

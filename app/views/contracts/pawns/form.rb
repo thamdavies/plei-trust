@@ -4,7 +4,7 @@ class Views::Contracts::Pawns::Form < Views::Base
   end
 
   def view_template
-    Form(action: form_url, method: form_method) do
+    Form(action: form_url, method: form_method, id: "contract-form") do
       Input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
       DialogHeader do
         DialogTitle { form.model.new_record? ? "Thêm hợp đồng mới" : "Chỉnh sửa hợp đồng" }
@@ -42,7 +42,8 @@ class Views::Contracts::Pawns::Form < Views::Base
           end
         end
       end
-      DialogFooter do
+      DialogFooter(data: { controller: "shared--pdf", "shared--pdf_contract_type_code_value": "pawn" }) do
+        Button(variant: :secondary, data: { action: "click->shared--pdf#printContractInfo" }) { "In HĐ" }
         Button(variant: :outline, data: { action: "click->ruby-ui--dialog#dismiss" }) { I18n.t("button.close") }
         Button(type: "submit", disabled: !form.can_edit_contract) { I18n.t("button.save") }
       end

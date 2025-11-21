@@ -123,3 +123,5 @@ gem "public_activity", "~> 3.0"
 gem "paper_trail", "~> 17.0"
 
 gem "scenic", "~> 1.9"
+
+gem "numbers_and_words", "~> 1.0"

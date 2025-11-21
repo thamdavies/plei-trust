@@ -1,0 +1,12 @@
+<% if false %>
+  <th scope="row" class="font-medium">
+    <%= info[:label] %>: <span class="font-semibold"><%= info[:value] %></span>
+  </th>
+<% else %>
+  <th scope="row" class="font-medium">
+    <%= info[:label] %>
+  </th>
+  <td class="font-semibold">
+    <%= info[:value] %>
+  </td>
+<% end %>

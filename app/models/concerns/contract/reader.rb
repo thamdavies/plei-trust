@@ -33,8 +33,11 @@ module Contract::Reader
     InterestCalculationMethod.find_by(code: interest_calculation_method)
   end
 
+  def loan_amount_words
+    I18n.with_locale(:vi) { (loan_amount.to_i * 1_000).to_words + " đồng" }.capitalize
+  end
+
   def total_interest
-    # (contract_interest_payments.sum(:total_amount) * 1_000).to_i
     interest_in_days(amount: total_amount, days_count: contract_term_in_days).to_i * 1_000
   end
 
