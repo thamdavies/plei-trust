@@ -47,4 +47,16 @@ vi:
       <<: *default
     pawn:
       <<: *default
-  
+  labels:
+    contract:
+      capital:
+        withdraw_principal: "Rút vốn"
+        date: "Ngày rút vốn"
+        amount: "Số tiền đầu tư"
+        submit: "Rút vốn"
+      pawn:
+        withdraw_principal: "Chuộc đồ"
+        date: "Ngày chuộc đồ"
+        amount: "Số tiền cầm cố"
+        submit: "Chuộc đồ"
+    

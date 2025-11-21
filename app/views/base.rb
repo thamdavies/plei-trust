@@ -30,4 +30,8 @@ class Views::Base < Components::Base
       )
     end
   end
+
+  def contract_labels(withdraw_principal)
+    I18n.t("labels.contract.#{contract.contract_type_code}.#{withdraw_principal}")
+  end
 end

@@ -19,7 +19,7 @@ class Views::Shared::Contracts::Tabs::WithdrawPrincipal::Form < Views::Base
           name: "form[transaction_date]",
           wrapper_style: :inline,
           label_classes: "w-sm",
-          label: "Ngày rút vốn",
+          label: contract_labels("date"),
           id: "withdraw_principal_transaction_date",
           error: form.errors[:transaction_date].first,
           listen_change: true,
@@ -33,7 +33,7 @@ class Views::Shared::Contracts::Tabs::WithdrawPrincipal::Form < Views::Base
         div(class: "flex gap-4 items-center mt-2") do
           FormField(class: "space-y-2") do
             div(class: "max-w-md flex items-center gap-2") do
-              FormFieldLabel(class: "w-sm") { "Tiền cầm" }
+              FormFieldLabel(class: "w-sm") { contract_labels("amount") }
               div(class: "relative space-y-4 mb-0 w-full") do
                 span(
                   class: "text-sm text-green-600", data: { "shared--withdraw-principal-target": "heldAmountText" }) do
@@ -116,7 +116,7 @@ class Views::Shared::Contracts::Tabs::WithdrawPrincipal::Form < Views::Base
         end
 
         div(class: "mt-4 w-md flex justify-end space-x-2") do
-          Button(type: "submit") { "Rút vốn" }
+          Button(type: "submit") { contract_labels("submit") }
         end
       end
     end

@@ -16,7 +16,7 @@ class Views::Shared::Contracts::Show < Views::Base
           TabsTrigger(value: "reduce_principal") { "Rút bớt gốc" }
           TabsTrigger(value: "additional_loan") { "Vay thêm" }
           TabsTrigger(value: "extend_term") { "Gia hạn" }
-          TabsTrigger(value: "withdraw_principal") { "Rút vốn" }
+          TabsTrigger(value: "withdraw_principal") { contract_labels("withdraw_principal") }
           TabsTrigger(value: "transaction_history") { "Lịch sử" }
         end
 
