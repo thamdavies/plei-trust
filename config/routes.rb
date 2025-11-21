@@ -36,7 +36,10 @@ Rails.application.routes.draw do
     resources :extend_terms, only: [ :update ]
     resources :withdraw_principals, only: [ :update, :show ]
     resources :asset_attributes, only: [ :show ]
-    resources :pdfs, only: [ :create, :show ]
+  end
+
+  namespace :pdfs do
+    resources :contracts, only: [ :create, :show ]
   end
 
   # For automplete search

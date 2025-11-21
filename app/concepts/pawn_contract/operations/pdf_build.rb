@@ -1,5 +1,5 @@
-module Pdf::Operations
-  class Build < ApplicationOperation
+module PawnContract::Operations
+  class PdfBuild < ApplicationOperation
     step :create_pdf_params
 
     def create_pdf_params(ctx, params:, **)

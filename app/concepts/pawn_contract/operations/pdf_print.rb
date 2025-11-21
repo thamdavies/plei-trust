@@ -1,5 +1,5 @@
-module Pdf::Operations
-  class Print < ApplicationOperation
+module PawnContract::Operations
+  class PdfPrint < ApplicationOperation
     step Model(::PublicActivity::Activity, :find)
     step :set_parameters
     step :build_customer_info

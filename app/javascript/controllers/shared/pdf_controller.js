@@ -18,7 +18,7 @@ export default class extends Controller {
     const formData = new FormData(formElement);
     formData.append("contract_type_code", this.contractTypeCodeValue);
 
-    const request = new FetchRequest('POST', '/contracts/pdfs', {
+    const request = new FetchRequest('POST', '/pdfs/contracts', {
       responseKind: 'json',
       body: formData
     });
@@ -28,7 +28,7 @@ export default class extends Controller {
       const data = await response.json();
       if (!data) return;
 
-      window.open(`/contracts/pdfs/${data.activity_id}`, 'popup', 'width='+screen.width + 'height='+screen.height)
+      window.open(`/pdfs/contracts/${data.activity_id}`, 'popup', 'width='+screen.width + 'height='+screen.height)
     } else {
       throw new Error('Something went wrong');
     }
