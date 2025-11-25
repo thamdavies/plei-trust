@@ -26,6 +26,8 @@ class TransactionType < ApplicationRecord
   OTHER_EXPENSE = "other_expense".freeze
   ADDITIONAL_LOAN = "additional_loan".freeze
   CONTRACT_EXTENSION = "contract_extension".freeze
+  OUTSTANDING_INTEREST = "outstanding_interest".freeze
+  DEBT_REPAYMENT = "debt_repayment".freeze
 
   scope :income, -> { where(is_income: true) }
   scope :expense, -> { where(is_income: false) }
@@ -65,6 +67,14 @@ class TransactionType < ApplicationRecord
 
     def contract_extension
       find_by(code: CONTRACT_EXTENSION)
+    end
+
+    def outstanding_interest
+      find_by(code: OUTSTANDING_INTEREST)
+    end
+
+    def debt_repayment
+      find_by(code: DEBT_REPAYMENT)
     end
 
     def seed_default_types
@@ -162,6 +172,18 @@ class TransactionType < ApplicationRecord
           name: "Gia hạn hợp đồng",
           description: "Phí gia hạn hợp đồng hoặc ghi nhận gia hạn",
           is_income: true  # Có thể thu phí gia hạn
+        },
+        {
+          code: OUTSTANDING_INTEREST,
+          name: "Khách hàng nợ lãi",
+          description: "Ghi nhận khách hàng còn nợ tiền lãi hoặc trả tiền thừa được bù trừ vào lãi",
+          is_income: false
+        },
+        {
+          code: DEBT_REPAYMENT,
+          name: "Khách hàng trả nợ",
+          description: "Khách hàng thanh toán nợ (lãi/gốc/phí) vào hệ thống",
+          is_income: true
         }
       ]
     end

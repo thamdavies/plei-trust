@@ -175,7 +175,20 @@ module Contract::Reader
     [ inner_text, color ]
   end
 
-  def fm_old_debt_amount(unit: true)
-    paid_interest_payments.map(&:old_debt_amount).sum.to_f.to_currency(unit: unit ? "VNĐ" : "")
+  def has_debt_tab?
+    [ ContractType.codes[:pawn] ].include?(contract_type_code)
+  end
+
+  def old_debt_amount
+    interest_debt_amount = paid_interest_payments.map(&:old_debt_amount).sum
+    (interest_debt_amount - total_outstanding_interest + total_debt_repayment).to_f
+  end
+
+  def total_outstanding_interest
+    outstanding_interests.sum(:amount).to_f * 1_000
+  end
+
+  def total_debt_repayment
+    debt_repayments.sum(:amount).to_f * 1_000
   end
 end

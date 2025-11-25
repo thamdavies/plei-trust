@@ -29,6 +29,7 @@
 class FinancialTransaction < ApplicationRecord
   include LargeNumberFields
   include AutoCodeGenerator
+  include PublicActivity::Model
 
   auto_code_config(prefix: "TX", field: :transaction_number)
   large_number_field :amount

@@ -17,6 +17,7 @@ class Views::Shared::Contracts::Show < Views::Base
           TabsTrigger(value: "additional_loan") { "Vay thêm" }
           TabsTrigger(value: "extend_term") { "Gia hạn" }
           TabsTrigger(value: "withdraw_principal") { contract_labels("withdraw_principal") }
+          TabsTrigger(value: "debt") { "Nợ" } if contract.has_debt_tab?
           TabsTrigger(value: "transaction_history") { "Lịch sử" }
         end
 
@@ -25,6 +26,7 @@ class Views::Shared::Contracts::Show < Views::Base
         render Views::Shared::Contracts::Tabs::AdditionalLoan.new(contract:)
         render Views::Shared::Contracts::Tabs::ExtendTerm.new(contract:)
         render Views::Shared::Contracts::Tabs::WithdrawPrincipal.new(contract:)
+        render Views::Shared::Contracts::Tabs::Debt.new(contract:) if contract.has_debt_tab?
         render Views::Shared::Contracts::Tabs::TransactionHistory.new(contract:)
       end
     end

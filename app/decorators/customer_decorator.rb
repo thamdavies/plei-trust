@@ -1,7 +1,19 @@
 class CustomerDecorator < ApplicationDecorator
   delegate_all
 
-  def fm_old_debt_amount
-    object.old_debt_amount.to_f.to_currency
+  def fm_old_debt_amount(unit: true, abs: false)
+    if abs
+      old_debt_amount.abs
+    else
+      old_debt_amount
+    end.to_f.to_currency(unit: unit ? "VNĐ" : "")
+  end
+
+  def fm_old_debt_amount_with_label(unit: true)
+    if old_debt_amount.positive?
+      "Tiền thừa KH: #{fm_old_debt_amount(unit:)}"
+    else
+      "Nợ cũ KH: <span class='text-red-600 dark:text-red-400 font-semibold'>#{fm_old_debt_amount(unit:, abs: true)}</span>".html_safe
+    end
   end
 end
