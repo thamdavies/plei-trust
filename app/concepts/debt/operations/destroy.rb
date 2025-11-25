@@ -37,6 +37,7 @@ module Debt::Operations
       model.amount = model.amount.remove_dots.to_d
       transaction_type = TransactionType.debt_repayment
 
+      ctx[:contract] = contract
       ctx[:financial_transaction] = FinancialTransaction.create!(
         contract: contract,
         transaction_date: Date.current,
@@ -48,8 +49,13 @@ module Debt::Operations
       true
     end
 
-    def create_activity_log(ctx, financial_transaction:, current_user:, **)
-      financial_transaction.create_activity! key: "activity.contract.debt_repayment", owner: current_user
+    def create_activity_log(ctx, financial_transaction:, contract:, current_user:, **)
+      parameters = {
+        debit_amount: 0,
+        credit_amount: financial_transaction.amount,
+        financial_transaction_id: financial_transaction.id
+      }
+      contract.create_activity! key: "activity.contract.debt_repayment", owner: current_user, parameters: parameters
 
       true
     end

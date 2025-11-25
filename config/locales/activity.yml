@@ -5,6 +5,8 @@ vi:
       update: Cập nhật hợp đồng
       extend: Gia hạn
       close: Đóng hợp đồng
+      debt_repayment: Trả nợ
+      outstanding_interest: Nợ lãi
     contract_interest_payment:
       paid: Đóng tiền lãi
       cancel: Hủy đóng tiền lãi

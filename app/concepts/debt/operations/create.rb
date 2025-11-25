@@ -36,6 +36,7 @@ module Debt::Operations
       contract = model.contract
       transaction_type = TransactionType.outstanding_interest
 
+      ctx[:contract] = contract
       ctx[:financial_transaction] = FinancialTransaction.create!(
         contract: contract,
         transaction_date: Date.current,
@@ -47,8 +48,13 @@ module Debt::Operations
       true
     end
 
-    def create_activity_log(ctx, financial_transaction:, current_user:, **)
-      financial_transaction.create_activity! key: "activity.contract.outstanding_interest", owner: current_user
+    def create_activity_log(ctx, financial_transaction:, current_user:, contract:, **)
+      parameters = {
+        debit_amount: financial_transaction.amount,
+        credit_amount: 0,
+        financial_transaction_id: financial_transaction.id
+      }
+      contract.create_activity! key: "activity.contract.outstanding_interest", owner: current_user, parameters: parameters
 
       true
     end
