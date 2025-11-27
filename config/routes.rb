@@ -37,7 +37,12 @@ Rails.application.routes.draw do
     resources :withdraw_principals, only: [ :update, :show ]
     resources :asset_attributes, only: [ :show ]
     resources :debts, only: [ :create, :destroy ]
-    resources :files, only: [ :index, :create, :destroy ]
+    resources :files, only: [ :create, :destroy ]
+  end
+
+  # For customers management
+  namespace :customers do
+    resources :files, only: [ :create, :destroy ]
   end
 
   namespace :pdfs do

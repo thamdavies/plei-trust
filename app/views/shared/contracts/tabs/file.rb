@@ -9,7 +9,7 @@ class Views::Shared::Contracts::Tabs::File < Views::Base
         div(class: "grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6") do
           # Left section - Customer file
           turbo_frame_tag "customer_file_form" do
-            render Views::Shared::Contracts::Tabs::File::CustomerFileForm.new(contract:)
+            render Views::Shared::Contracts::Tabs::File::CustomerFileForm.new(customer: contract.customer)
           end
           # Right section - Contract file
           turbo_frame_tag "contract_file_form" do
