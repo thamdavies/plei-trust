@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     resources :withdraw_principals, only: [ :update, :show ]
     resources :asset_attributes, only: [ :show ]
     resources :debts, only: [ :create, :destroy ]
+    resources :files, only: [ :index, :create, :destroy ]
   end
 
   namespace :pdfs do

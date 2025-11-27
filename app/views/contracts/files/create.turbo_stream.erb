@@ -1,0 +1,13 @@
+<% if @form %>
+  <%= turbo_stream.update "customer_file_form" do %>
+    <%= render Views::Shared::Contracts::Tabs::File::CustomerFileForm.new(contract: @contract, form: @form) %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.update "customer_file_form" do %>
+    <%= render Views::Shared::Contracts::Tabs::File::CustomerFileForm.new(contract: @contract) %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update "toast-notification" do %>
+  <%= render "shared/toast" %>
+<% end %>

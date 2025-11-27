@@ -59,6 +59,8 @@ class Contract < ApplicationRecord
 
   has_paper_trail
 
+  has_many_attached :files
+
   belongs_to :customer, optional: true
   belongs_to :branch, optional: true
   belongs_to :contract_type, optional: true, foreign_key: :contract_type_code, primary_key: :code

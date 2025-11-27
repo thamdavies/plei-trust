@@ -102,3 +102,12 @@ application.register("notification", Notification)
 
 import AutoSubmit from '@stimulus-components/auto-submit'
 application.register("auto-submit", AutoSubmit)
+
+import Lightbox from '@stimulus-components/lightbox'
+application.register("lightbox", Lightbox)
+
+import Dropzone from "./dropzone_controller"
+application.register("dropzone", Dropzone)
+
+import JstreeController from "./jstree_controller"
+application.register("jstree", JstreeController)

@@ -21,6 +21,19 @@ module Contract::Reader
     )
   end
 
+  def blobs
+    files.map do |file|
+      {
+        id: file.id,
+        filename: file.filename,
+        byte_size: file.byte_size,
+        signed_id: file.signed_id,
+        url: Rails.application.routes.url_helpers.rails_blob_url(file, host: Settings.host),
+        remove_url: "/contracts/files/:ID"
+      }
+    end
+  end
+
   def total_amount_currency
     total_amount_formatted + " VNĐ"
   end
@@ -176,6 +189,10 @@ module Contract::Reader
   end
 
   def has_debt_tab?
+    [ ContractType.codes[:pawn] ].include?(contract_type_code)
+  end
+
+  def has_file_tab?
     [ ContractType.codes[:pawn] ].include?(contract_type_code)
   end
 

@@ -437,6 +437,13 @@
   resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-8.0.201.tgz#f5ac6bfa3ac6f52f8a1c37b2661b66a61d4442e4"
   integrity sha512-WiXZodvnK7u+wlu72DZydfV75x14HhzXI84sto9xcdsW1DMOHK+jYwQuuE/Wh/hKH5yajFIw/3DUP6MHDeGrbA==
 
+"@rails/activestorage@^8.1.100":
+  version "8.1.100"
+  resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-8.1.100.tgz#8814545349eaf824ea7a528b33f7bae0867584c9"
+  integrity sha512-rlZg23KYT7JFYXl1tj1WD9nm/yvtUvZT6pzNMVX+HaOjPyGq8xpEv1ADrrhawkbMktKxRj3xDVZ3d/qy0akHvw==
+  dependencies:
+    spark-md5 "^3.0.1"
+
 "@rails/request.js@^0.0.12":
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/@rails/request.js/-/request.js-0.0.12.tgz#3d1f73e7585141d9c4c2149a34476d128eb900bc"
@@ -467,6 +474,13 @@
   resolved "https://registry.yarnpkg.com/@stimulus-components/auto-submit/-/auto-submit-6.0.0.tgz#5649e2cca24834ff0d62b4ef1944393a8b0f5dfe"
   integrity sha512-GBwjjnNuDZey9kdJinTGyrkIMCNVnPrTQvqihC0pBiwieIMfZIp+TT7Giee0Z0DS+pX6WdJweIeo8xEYD/VZJg==
 
+"@stimulus-components/lightbox@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@stimulus-components/lightbox/-/lightbox-4.0.0.tgz#dbe56146a3d14582a13e568406292d52aa56cbb0"
+  integrity sha512-pj4PfnGANbc3Ef6I/5aPeRS8Tj2rK1b9dn8rlpJZs1K9narqM57ZtUTutHZsnOv95+4LqQVktj+auMgz+LKzjw==
+  dependencies:
+    lightgallery "^2.7.2"
+
 "@stimulus-components/notification@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@stimulus-components/notification/-/notification-3.0.0.tgz#f67ec72bb0601ec33f597494def72e6ca93dd4a5"
@@ -478,6 +492,11 @@
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@stimulus-components/rails-nested-form/-/rails-nested-form-5.0.0.tgz#b443ad8ba5220328cfd704ca956ebf95ab8c4848"
   integrity sha512-qrmmurT+KBPrz9iBlyrgJa6Di8i0j328kSk2SUR53nK5W0kDhw1YxVC91aUR+7EsFKiwJT1iB7oDSwpDhDQPeA==
+
+"@swc/helpers@^0.2.13":
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.2.14.tgz#20288c3627442339dd3d743c944f7043ee3590f0"
+  integrity sha512-wpCQMhf5p5GhNg2MmGKXzUNwxe7zRiCsmqYsamez2beP7mKPCSiu+BjZcdN95yYSzO857kr0VfQewmGpS77nqA==
 
 "@tailwindcss/cli@^4.1.12":
   version "4.1.12"
@@ -764,6 +783,14 @@ detect-libc@^2.0.3, detect-libc@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-2.0.4.tgz#f04715b8ba815e53b4d8109655b6508a6865a7e8"
   integrity sha512-3UDv+G9CsCKO1WKMGw9fwq/SWJYbI0c5Y7LU1AXYoDdbhE2AHQ6N6Nb34sG8Fj7T5APy8qXDCKuuIHd1BR0tVA==
+
+dropzone@^6.0.0-beta.2:
+  version "6.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/dropzone/-/dropzone-6.0.0-beta.2.tgz#098be8fa84bdc08674cf0b74f4c889e2679083d6"
+  integrity sha512-k44yLuFFhRk53M8zP71FaaNzJYIzr99SKmpbO/oZKNslDjNXQsBTdfLs+iONd0U0L94zzlFzRnFdqbLcs7h9fQ==
+  dependencies:
+    "@swc/helpers" "^0.2.13"
+    just-extend "^5.0.0"
 
 enhanced-resolve@^5.18.3:
   version "5.18.3"
@@ -1089,6 +1116,11 @@ jiti@^2.5.1:
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-2.5.1.tgz#bd099c1c2be1c59bbea4e5adcd127363446759d0"
   integrity sha512-twQoecYPiVA5K/h6SxtORw/Bs3ar+mLUtoPSc7iMXzQzK8d7eJ/R09wmTwAjiamETn1cXYPGfNnu7DMoHgu12w==
 
+jquery@^3.5.0:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"
+  integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
+
 js-yaml@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-4.1.0.tgz#c1fb65f8f5017901cdd2c951864ba18458a10602"
@@ -1111,6 +1143,18 @@ json-stable-stringify-without-jsonify@^1.0.1:
   resolved "https://registry.yarnpkg.com/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz#9db7b59496ad3f3cfef30a75142d2d930ad72651"
   integrity sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==
 
+jstree@^3.3.17:
+  version "3.3.17"
+  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.17.tgz#aa7f22ee504ba7f63f8942c3d71c62ff21f756cf"
+  integrity sha512-V0Pl1B6BIaxHUQMiWkol37QlhlBKoZA9RUeUmm95+UnV2QeZsj2QP1sOQl/m2EIOyZXOOxOHvR0SYZLSDC7EFw==
+  dependencies:
+    jquery "^3.5.0"
+
+just-extend@^5.0.0:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/just-extend/-/just-extend-5.1.1.tgz#4f33b1fc719964f816df55acc905776694b713ab"
+  integrity sha512-b+z6yF1d4EOyDgylzQo5IminlUmzSeqR1hs/bzjBNjuGras4FXq/6TrzjxfN0j+TmI0ltJzTNlqXUMCniciwKQ==
+
 keyv@^4.5.4:
   version "4.5.4"
   resolved "https://registry.yarnpkg.com/keyv/-/keyv-4.5.4.tgz#a879a99e29452f942439f2a405e3af8b31d4de93"
@@ -1125,6 +1169,11 @@ levn@^0.4.1:
   dependencies:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
+
+lightgallery@^2.7.2:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/lightgallery/-/lightgallery-2.9.0.tgz#b3b6e15169eb9b840f70e14d67b9ec0a213cc612"
+  integrity sha512-58Ud1DyhD2ao58t+kPEqSZrjFxg23tGd5ZKr75erm7q31g5xhUtWUJH3sTUkhHzlyJAKHj5eTrJ37HQRXG4Wbg==
 
 lightningcss-darwin-arm64@1.30.1:
   version "1.30.1"
@@ -1440,6 +1489,11 @@ source-map-js@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.1.tgz#1ce5650fddd87abc099eda37dcff024c2667ae46"
   integrity sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==
+
+spark-md5@^3.0.1:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-3.0.2.tgz#7952c4a30784347abcee73268e473b9c0167e3fc"
+  integrity sha512-wcFzz9cDfbuqe0FZzfi2or1sgyIrsDwmPwfZC4hiNidPdPINjeUwNfv5kldczoEAcjl9Y1L3SM7Uz2PUEQzxQw==
 
 stimulus-autocomplete@^3.1.0:
   version "3.1.0"

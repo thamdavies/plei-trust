@@ -36,7 +36,6 @@ export default class extends Controller {
         this.interestAmountTextTarget.textContent = `${data.interest_amount} (${data.days_count} ngày)`;
         this.otherAmountInputTarget.value = data.other_amount.replace(' VNĐ', '');
         this.totalAmountTextTarget.textContent = data.total_amount;
-        console.log(data);
       } else {
         throw new Error('Something went wrong');
       }

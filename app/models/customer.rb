@@ -33,6 +33,8 @@ class Customer < ApplicationRecord
 
   acts_as_tenant(:branch)
 
+  has_many_attached :files
+
   belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id, optional: true
   belongs_to :contract, optional: true
 

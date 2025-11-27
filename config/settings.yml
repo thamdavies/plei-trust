@@ -1,2 +1,3 @@
 cache:
   current_tenant: "tenant::user::%{user_id}"
+max_number_of_file_uploads: 4

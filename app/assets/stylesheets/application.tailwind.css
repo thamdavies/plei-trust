@@ -2,6 +2,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "../../../node_modules/slim-select/dist/slimselect.css";
+@import "lightgallery/css/lightgallery.css";
+@import "dropzone/dist/dropzone.css";
+@import "dropzone/dist/basic.css";
+/* @import 'jstree/dist/themes/default/style.css'; */
 
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
@@ -216,4 +220,27 @@ input::-webkit-inner-spin-button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, 0);
+}
+
+/* Dropzone */
+.dropzone {
+  @apply border-2 rounded-lg border-gray-400 border-dashed;
+
+  &.dz-drag-hover {
+    @apply border-2 rounded-lg border-gray-200 border-dashed;
+
+    .dz-message {
+      opacity: 0.9;
+    }
+  }
+}
+
+.dropzone .dz-preview .dz-error-message {
+  color: #FFFFFF !important;
+  display: none;
+  top: 145px;
+}
+
+.dropzone .dz-preview:not(.dz-processing) .dz-progress {
+    animation: 6s infinite !important;
 }

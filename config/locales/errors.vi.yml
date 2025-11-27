@@ -20,5 +20,7 @@ vi:
       bool?: "phải là giá trị đúng/sai"
       included_in?: "phải nằm trong danh sách cho phép"
       rules:
+        files:
+          filled?: "phải có ít nhất một tệp được tải lên"
         asset_setting_categories:
           min_size?: "phải chọn ít nhất %{num} lĩnh vực"
