@@ -1,6 +1,6 @@
 class Views::Shared::Contracts::Tabs::File::ContractFileForm < Views::Base
   def initialize(contract:, form: nil)
-    @contract = contract
+    @contract = contract.reload
     ctx = ContractFile::Operations::Create::Present.call(params: form_params.to_h)
     @form = ctx[:"contract.default"]
     @form.files = contract.blobs
@@ -36,10 +36,10 @@ class Views::Shared::Contracts::Tabs::File::ContractFileForm < Views::Base
       div(class: "dropzone dropzone-default dz-clickable",
         data: {
           controller: "dropzone",
-          dropzone_max_file_size: "10",
-          dropzone_max_files: "4",
+          dropzone_max_file_size: Settings.max_contract_file_size,
+          dropzone_max_files: Settings.max_number_of_file_uploads,
           dropzone_accepted_files: "image/*",
-          dropzone_remove_file_base_url: "/contracts/files/:ID",
+          dropzone_remove_file_base_url: Settings.remove_contract_file_base_url,
           dropzone_blobs: form.files.to_json
         }
       ) do

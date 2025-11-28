@@ -8,7 +8,7 @@ module CustomerFile::Operations
       blob = ActiveStorage::Blob.find_signed(params[:id])
       if blob
         if blob.attachments.any?
-          blob.attachments.each(&:purge)
+          blob.attachments.where(record_type: Customer.name).each(&:purge)
         else
           blob.purge
         end

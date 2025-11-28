@@ -1,3 +1,7 @@
 cache:
   current_tenant: "tenant::user::%{user_id}"
 max_number_of_file_uploads: 4
+max_contract_file_size: 10
+max_customer_file_size: 10
+remove_customer_file_base_url: "/customers/files/:ID"
+remove_contract_file_base_url: "/contracts/files/:ID"

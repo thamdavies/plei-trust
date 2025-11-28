@@ -26,7 +26,7 @@ class Views::Shared::Contracts::Tabs::TransactionHistory < Views::Base
               end
             end
             TableBody do
-              contract.activities.each_with_index do |item, index|
+              contract.activities.includes(:owner).each_with_index do |item, index|
                 TableRow do
                   TableCell(class: "font-medium") { index + 1 }
                   TableCell(class: "text-center") { item.fm_created_at }
