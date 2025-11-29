@@ -98,7 +98,7 @@ gem "annotaterb", "~> 4.20"
 
 gem "breadcrumbs_on_rails", "~> 4.1"
 
-gem "phonelib", "~> 0.10.12"
+gem "phonelib", "~> 0.10.14"
 
 gem "ransack", "~> 4.4"
 
@@ -106,7 +106,7 @@ gem "acts_as_tenant", "~> 1.0"
 
 gem "config", "~> 5.6"
 
-gem "pagy", "~> 43.0"
+gem "pagy", "~> 43.1"
 
 gem "active_link_to", "~> 1.0"
 
