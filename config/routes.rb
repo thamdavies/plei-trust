@@ -38,6 +38,7 @@ Rails.application.routes.draw do
     resources :asset_attributes, only: [ :show ]
     resources :debts, only: [ :create, :destroy ]
     resources :files, only: [ :create, :destroy ]
+    resources :reminders, only: [ :create ]
   end
 
   # For customers management

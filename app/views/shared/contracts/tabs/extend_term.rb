@@ -16,7 +16,7 @@ class Views::Shared::Contracts::Tabs::ExtendTerm < Views::Base
             h2(class: "text-md mb-2 font-medium text-gray-900 dark:text-white") { "Lịch sử gia hạn" }
           end
 
-          Table(class: "mt-4") do
+          Table do
             TableCaption { "Lịch sử gia hạn sẽ được hiển thị ở đây" } if contract.contract_extensions.empty?
             TableHeader do
               TableRow do

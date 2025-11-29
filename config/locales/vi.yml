@@ -47,6 +47,10 @@ vi:
       <<: *default
     pawn:
       <<: *default
+  contract_reminder:
+    states:
+      schedule_reminder: "Hẹn giờ"
+      cancel_scheduled_reminder: "Dừng hẹn giờ"
   labels:
     contract:
       capital:

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_25_142439) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_28_015157) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -191,6 +191,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_25_142439) do
     t.index ["contract_id"], name: "index_contract_interest_payments_on_contract_id"
   end
 
+  create_table "contract_reminders", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.uuid "contract_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "date"
+    t.text "note"
+    t.string "reminder_type", null: false
+    t.string "status", default: "active"
+    t.datetime "updated_at", null: false
+    t.index ["contract_id"], name: "index_contract_reminders_on_contract_id"
+  end
+
   create_table "contract_terminations", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.decimal "amount", precision: 15, scale: 2
     t.uuid "contract_id", null: false
@@ -359,6 +370,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_25_142439) do
   add_foreign_key "contract_amount_changes", "users", column: "processed_by_id"
   add_foreign_key "contract_extensions", "contracts"
   add_foreign_key "contract_interest_payments", "contracts"
+  add_foreign_key "contract_reminders", "contracts"
   add_foreign_key "contract_terminations", "contracts"
   add_foreign_key "contract_terminations", "users", column: "processed_by_id"
   add_foreign_key "contracts", "asset_settings"

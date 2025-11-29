@@ -11,7 +11,7 @@ class Views::Shared::Contracts::Tabs::TransactionHistory < Views::Base
             Remix::ListView(class: "w-6 h-6")
             h2(class: "text-md mb-2 font-medium text-gray-900 dark:text-white") { "Lịch sử thao tác" }
           end
-          Table(class: "mt-4") do
+          Table do
             TableCaption { "Lịch sử thao tác sẽ được hiển thị ở đây" } if contract.activities.blank?
             TableHeader do
               TableRow do

@@ -196,6 +196,10 @@ module Contract::Reader
     [ ContractType.codes[:pawn] ].include?(contract_type_code)
   end
 
+  def has_reminder_tab?
+    [ ContractType.codes[:pawn] ].include?(contract_type_code)
+  end
+
   def old_debt_amount
     interest_debt_amount = paid_interest_payments.map(&:old_debt_amount).sum
     (interest_debt_amount - total_outstanding_interest + total_debt_repayment).to_f

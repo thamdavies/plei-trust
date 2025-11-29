@@ -19,6 +19,7 @@ class Views::Shared::Contracts::Show < Views::Base
           TabsTrigger(value: "withdraw_principal") { contract_labels("withdraw_principal") }
           TabsTrigger(value: "debt") { "Nợ" } if contract.has_debt_tab?
           TabsTrigger(value: "file") { "Chứng từ" } if contract.has_file_tab?
+          TabsTrigger(value: "reminder") { "Hẹn giờ" } if contract.has_reminder_tab?
           TabsTrigger(value: "transaction_history") { "Lịch sử" }
         end
 
@@ -29,6 +30,7 @@ class Views::Shared::Contracts::Show < Views::Base
         render Views::Shared::Contracts::Tabs::WithdrawPrincipal.new(contract:)
         render Views::Shared::Contracts::Tabs::Debt.new(contract:) if contract.has_debt_tab?
         render Views::Shared::Contracts::Tabs::File.new(contract:) if contract.has_file_tab?
+        render Views::Shared::Contracts::Tabs::Reminder.new(contract:) if contract.has_reminder_tab?
         render Views::Shared::Contracts::Tabs::TransactionHistory.new(contract:)
       end
     end
