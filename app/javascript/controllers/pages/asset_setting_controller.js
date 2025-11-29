@@ -17,7 +17,7 @@ export default class extends Controller {
         const data = await response.json();
         this.setInterestMethodDetails(data);
       } else {
-        alertController.show('Không thể lấy thông tin hình thức lãi', 'alert');
+        alertController.show('Không thể lấy thông tin hình thức lãi', 'error');
       }
     } catch {
       alert('Đã có lỗi xảy ra, vui lòng thử lại sau!');

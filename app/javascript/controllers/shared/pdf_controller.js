@@ -39,7 +39,7 @@ export default class extends Controller {
 
   async printReceipt() {
     if (!this.isPaidValue) {
-      alertController.show("Chưa đóng lãi, không thể in biên nhận.", "alert");
+      alertController.show("Chưa đóng lãi, không thể in biên nhận.", "error");
       return;
     }
 

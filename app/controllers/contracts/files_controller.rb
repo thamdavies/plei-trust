@@ -4,11 +4,11 @@ class Contracts::FilesController < ContractsController
     @contract = ctx[:contract].decorate
 
     if ctx.success?
-      flash.now[:notice] = "Tệp đã được tải lên thành công"
+      flash.now[:success] = "Tệp đã được tải lên thành công"
     else
       @form = ctx[:"contract.default"]
       @form.files = @contract.blobs
-      flash.now[:alert] = @form.errors[:files].any? ? @form.errors[:files].first : "Đã có lỗi xảy ra trong quá trình tải lên tệp"
+      flash.now[:error] = @form.errors[:files].any? ? @form.errors[:files].first : "Đã có lỗi xảy ra trong quá trình tải lên tệp"
     end
   end
 

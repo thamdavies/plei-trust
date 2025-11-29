@@ -36,7 +36,7 @@ export default class extends Controller {
         this.setInterestMethodDetails(data);
         this.handleInterestWrapperVisibility(data);
       } else {
-        alertController.show('Không thể lấy thông tin hình thức lãi', 'alert');
+        alertController.show('Không thể lấy thông tin hình thức lãi', 'error');
       }
     } catch {
       alert('Đã có lỗi xảy ra, vui lòng thử lại sau!');
@@ -65,10 +65,10 @@ export default class extends Controller {
         this.interestMethodSelectTarget.value = attributes.interest_calculation_method || "";
         this.contractTermDaysInputTarget.value = attributes.default_contract_term || "";
       } else {
-        alertController.show('Không thể lấy thông tin loại tài sản', 'alert');
+        alertController.show('Không thể lấy thông tin loại tài sản', 'error');
       }
     } catch {
-      alertController.show('Không thể lấy thông tin loại tài sản', 'alert');
+      alertController.show('Không thể lấy thông tin loại tài sản', 'error');
     }
   }
 

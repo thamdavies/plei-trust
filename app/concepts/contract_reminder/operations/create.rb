@@ -44,7 +44,8 @@ module ContractReminder::Operations
     end
 
     def notify(ctx, model:, params:, **)
-      ctx[:message] = "Vay thêm thành công!"
+      ctx[:message] = "Hẹn giờ thành công!"
+
       true
     end
   end

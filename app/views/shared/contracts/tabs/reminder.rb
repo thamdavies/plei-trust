@@ -30,10 +30,10 @@ class Views::Shared::Contracts::Tabs::Reminder < Views::Base
               contract.reminders.each_with_index do |item, index|
                 TableRow do
                   TableCell(class: "font-medium") { index + 1 }
-                  TableCell(class: "text-center") { item.fm_state }
-                  TableCell() { item.fm_remind_date }
-                  TableCell(class: "text-center") { item.note }
-                  TableCell() { item.fm_created_at }
+                  TableCell { item.fm_state }
+                  TableCell { item.fm_remind_date }
+                  TableCell { item.note }
+                  TableCell { item.fm_created_at }
                 end
               end
             end

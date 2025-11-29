@@ -11,18 +11,18 @@ class Views::Shared::Contracts::Tabs::Reminder::Form < Views::Base
 
   def view_template
     div do
-      Form(action: form_url, method: "POST") do
+      Form(action: form_url, method: "POST", id: "reminder-form", data: { controller: "shared--reminder" }) do
         Input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
         Input(type: "hidden", name: "form[contract_id]", value: contract.id)
 
         render Components::Fields::DateField.new(
-          name: "form[remind_date]",
+          name: "form[date]",
           wrapper_style: :inline,
           label_classes: "w-sm",
           label: "Ngày hẹn",
-          id: "remind_date",
-          error: form.errors[:remind_date].first,
-          value: form.remind_date,
+          id: "date",
+          error: form.errors[:date].first,
+          value: form.date,
         )
 
         FormField(class: "space-y-2 max-w-md flex items-center gap-4") do
@@ -33,7 +33,7 @@ class Views::Shared::Contracts::Tabs::Reminder::Form < Views::Base
 
         div(class: "mt-4 w-md flex justify-end space-x-2") do
           Button(type: "submit") { "Tạo hẹn giờ" }
-          Button(variant: :destructive, class: "text-white") { "Dừng hẹn giờ" }
+          Button(variant: :destructive, class: "text-white", data: { action: "click->shared--reminder#cancel" }) { "Dừng hẹn giờ" }
         end
       end
     end
@@ -51,14 +51,14 @@ class Views::Shared::Contracts::Tabs::Reminder::Form < Views::Base
     params = ActionController::Parameters.new(
       form: {
         contract_id: contract.id,
-        remind_date: Date.current.to_fs(:date_vn),
+        date: Date.current.to_fs(:date_vn),
         note: ""
       }
     )
 
     params.require(:form).permit(
       :contract_id,
-      :remind_date,
+      :date,
       :note
     )
   end

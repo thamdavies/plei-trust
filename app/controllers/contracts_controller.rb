@@ -10,7 +10,7 @@ class ContractsController < ApplicationController
   end
 
   def handle_cannot_operate_on_ended_contract
-    flash.now[:alert] = "Không thể thao tác trên hợp đồng đã kết thúc."
+    flash.now[:error] = "Không thể thao tác trên hợp đồng đã kết thúc."
   end
 
   def permit_params

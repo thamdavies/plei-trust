@@ -7,6 +7,7 @@ class ContractDecorator < ApplicationDecorator
   decorates_association :additional_loans
   decorates_association :contract_extensions
   decorates_association :activities
+  decorates_association :reminders
 
   def customer_name
     customer.full_name

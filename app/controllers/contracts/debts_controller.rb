@@ -3,7 +3,7 @@ class Contracts::DebtsController < ContractsController
     ctx = Debt::Operations::Create.call(params: debt_params.to_h, current_user:)
 
     if ctx.success?
-      flash.now[:notice] = ctx[:message]
+      flash.now[:success] = ctx[:message]
     else
       @form = ctx[:"contract.default"]
     end
@@ -15,7 +15,7 @@ class Contracts::DebtsController < ContractsController
     ctx = Debt::Operations::Destroy.call(params: debt_params.to_h, current_user:)
 
     if ctx.success?
-      flash.now[:notice] = ctx[:message]
+      flash.now[:success] = ctx[:message]
     else
       @form = ctx[:"contract.default"]
     end

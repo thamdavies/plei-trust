@@ -26,7 +26,7 @@ export default class extends Controller {
       btnCancelReduction.click();
     } catch (error) {
       console.error(error);
-      alertController.show('Không thể huỷ thanh toán', 'alert');
+      alertController.show('Không thể huỷ thanh toán', 'error');
     }
   }
 }

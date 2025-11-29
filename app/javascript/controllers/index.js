@@ -94,6 +94,9 @@ application.register("shared--additional-loan", Shared__AdditionalLoanController
 import Shared__WithdrawPrincipalController from "./shared/withdraw_principal_controller"
 application.register("shared--withdraw-principal", Shared__WithdrawPrincipalController)
 
+import Shared__ReminderController from "./shared/reminder_controller"
+application.register("shared--reminder", Shared__ReminderController)
+
 import SlimSelectController from "./slim_select_controller"
 application.register("slim-select", SlimSelectController)
 

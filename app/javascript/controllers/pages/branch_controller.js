@@ -12,7 +12,7 @@ export default class extends Controller {
       });
       const { response } = await request.perform();
       if (!response.ok) {
-        alertController.show('Không thể lấy thông tin quận/huyện', 'alert');
+        alertController.show('Không thể lấy thông tin quận/huyện', 'error');
       } else {
         // Set all elements with name="form[ward_id]" to unchecked
         const wardElements = document.getElementsByName("form[ward_id]");

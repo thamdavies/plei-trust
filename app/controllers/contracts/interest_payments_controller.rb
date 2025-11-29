@@ -6,9 +6,9 @@ class Contracts::InterestPaymentsController < ContractsController
 
     ctx = ContractInterestPayment::Operations::Update.call(params: permit_params.to_h, current_user:)
     if ctx.success?
-      flash.now[:notice] = ctx[:message]
+      flash.now[:success] = ctx[:message]
     else
-      flash.now[:alert] = ctx["contract.default"].errors[:id].first
+      flash.now[:error] = ctx["contract.default"].errors[:id].first
     end
 
     @contract = ctx[:model].contract.decorate

@@ -41,7 +41,7 @@ export default class extends Controller {
       }
     } catch (error) {
       console.error(error);
-      alertController.show('Không thể tính lãi theo ngày', 'alert');
+      alertController.show('Không thể tính lãi theo ngày', 'error');
     }
   }
 }

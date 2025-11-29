@@ -7,7 +7,7 @@ class Contracts::WithdrawPrincipalsController < ContractsController
     ctx = WithdrawPrincipal::Operations::Update.call(params: permit_params.to_h, current_user:)
 
     if ctx.success?
-      flash.now[:notice] = ctx[:message]
+      flash.now[:success] = ctx[:message]
     else
       @form = ctx["contract.default"]
     end

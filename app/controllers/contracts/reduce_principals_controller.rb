@@ -6,7 +6,7 @@ class Contracts::ReducePrincipalsController < ContractsController
 
     ctx = ReducePrincipal::Operations::Update.call(params: permit_params.to_h, current_user:)
     if ctx.success?
-      flash.now[:notice] = ctx[:message]
+      flash.now[:success] = ctx[:message]
     else
       @form = ctx["contract.default"]
     end
@@ -21,10 +21,10 @@ class Contracts::ReducePrincipalsController < ContractsController
 
     ctx = ReducePrincipal::Operations::Cancel.call(params: cancel_params.to_h, current_user:)
     if ctx.success?
-      flash.now[:notice] = ctx[:message]
+      flash.now[:success] = ctx[:message]
     else
       err_msg = ctx["contract.default"].errors.messages[:id].first || "Đã có lỗi xảy ra khi hủy rút bớt gốc"
-      flash.now[:alert] = err_msg
+      flash.now[:error] = err_msg
     end
 
     @contract = ctx[:contract].decorate
