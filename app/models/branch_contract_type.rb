@@ -19,5 +19,5 @@
 #
 class BranchContractType < ApplicationRecord
   belongs_to :branch
-  belongs_to :contract_type
+  belongs_to :contract_type, foreign_key: :contract_type_code, primary_key: :code
 end
