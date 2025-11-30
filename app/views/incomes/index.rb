@@ -1,4 +1,4 @@
-class Views::Expenses::Index < Views::Base
+class Views::Incomes::Index < Views::Base
   def initialize(collection:, form:, pagy: nil)
     @collection = collection
     @form = form
@@ -8,7 +8,7 @@ class Views::Expenses::Index < Views::Base
   def view_template
     div(class: "p-2 bg-white") do
       Table do
-        TableCaption(class: "mb-3") { "Danh sách chi tiêu sẽ hiển thị ở đây" } if @collection.empty?
+        TableCaption(class: "mb-3") { "Danh sách thu nhập sẽ hiển thị ở đây" } if @collection.empty?
         TableHeader do
           TableRow do
             TableHead { "STT" }
@@ -34,7 +34,7 @@ class Views::Expenses::Index < Views::Base
               TableCell(class: "font-medium") do
                 div(class: "flex space-x-2") do
                   Remix::PrinterLine(class: "w-5 h-5 cursor-pointer")
-                  Link(href: expense_path(item.id), class: "w-5 h-5 cursor-pointer p-0", data: { turbo_method: :delete, turbo_confirm: "Bạn có chắc chắn muốn hủy phiếu chi này?" }) do
+                  Link(href: income_path(item.id), class: "w-5 h-5 cursor-pointer p-0", data: { turbo_method: :delete, turbo_confirm: "Bạn có chắc chắn muốn hủy phiếu thu này?" }) do
                     Remix::DeleteBinLine(class: "w-5 h-5 cursor-pointer")
                   end
                 end

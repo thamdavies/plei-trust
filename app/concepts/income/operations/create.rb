@@ -1,6 +1,6 @@
-module Expense::Operations
+module Income::Operations
   class Create < ApplicationOperation
-    class Expense
+    class Income
       include ActiveModel::Model
       include ActiveModel::Attributes
       include ActiveModel::Validations
@@ -9,8 +9,8 @@ module Expense::Operations
     end
 
     class Present < ApplicationOperation
-      step Model(Expense, :new)
-      step Contract::Build(constant: ::Expense::Contracts::Create)
+      step Model(Income, :new)
+      step Contract::Build(constant: ::Income::Contracts::Create)
     end
 
     step Subprocess(Present)
@@ -39,7 +39,7 @@ module Expense::Operations
     end
 
     def notify(ctx, model:, params:, **)
-      ctx[:message] = "Ghi nhận phiếu chi thành công!"
+      ctx[:message] = "Ghi nhận phiếu thu thành công!"
 
       true
     end

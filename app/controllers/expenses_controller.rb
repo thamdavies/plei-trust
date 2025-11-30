@@ -22,6 +22,17 @@ class ExpensesController < ApplicationController
     end
   end
 
+  def destroy
+    expense = current_branch.financial_transactions.find(params[:id])
+    expense.destroy!
+
+    flash[:success] = "Xóa phiếu chi thành công!"
+    redirect_to(expenses_path)
+  rescue ActiveRecord::RecordNotFound
+    flash[:error] = "Phiếu chi không tồn tại hoặc đã bị xóa."
+    redirect_to(expenses_path)
+  end
+
   private
 
   def build_params
