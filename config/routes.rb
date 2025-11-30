@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   resources :customers
   resources :asset_settings
   resources :branches
+  resources :expenses, only: [ :index, :create, :show, :destroy ]
+  resources :incomes, only: [ :index, :create, :show, :destroy ]
 
   resources :interest_calculation_methods, only: [ :show ]
   resources :wards, only: [ :index ]

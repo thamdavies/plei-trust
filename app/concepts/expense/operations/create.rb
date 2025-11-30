@@ -1,0 +1,36 @@
+module Expense::Operations
+  class Create < ApplicationOperation
+    class Expense
+      include ActiveModel::Model
+      include ActiveModel::Attributes
+      include ActiveModel::Validations
+
+      attr_accessor :party_name, :amount, :transaction_type_code, :transaction_note
+    end
+
+    class Present < ApplicationOperation
+      step Model(Expense, :new)
+      step Contract::Build(constant: Expense::Contracts::Create)
+    end
+
+    step Subprocess(Present)
+    step Contract::Validate()
+    step Wrap(AppTransaction) {
+      step :save
+      step :notify
+    }
+
+    private
+
+    def save(ctx, model:, params:, **)
+      binding.pry
+      true
+    end
+
+    def notify(ctx, model:, params:, **)
+      ctx[:message] = "Ghi nhận chi tiêu thành công!"
+
+      true
+    end
+  end
+end

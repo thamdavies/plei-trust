@@ -7,6 +7,7 @@ class CreateFinancialTransactions < ActiveRecord::Migration[8.0]
       t.references :contract, null: false, foreign_key: true, type: :uuid
       t.decimal :amount, precision: 15, scale: 2, null: false
       t.string :description
+      t.string :party_name
       t.string :reference_number
       t.references :created_by, null: false, foreign_key: { to_table: :users }, type: :uuid
 

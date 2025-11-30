@@ -46,8 +46,8 @@ class TransactionType < ApplicationRecord
   EXPENSE_HOUSE_RENT = "expense_house_rent".freeze
   EXPENSE_LEND_MONEY = "expense_lend_money".freeze
 
-  scope :income, -> { where(is_income: true) }
-  scope :expense, -> { where(is_income: false) }
+  scope :income, -> { where("code LIKE 'income_%'") }
+  scope :expense, -> { where("code LIKE 'expense_%'") }
 
   class << self
     def interest_payment
