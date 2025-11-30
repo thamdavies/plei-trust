@@ -14,6 +14,16 @@ module SelectHelper
     end
   end
 
+  def select_options_for_transaction_types(is_income: nil)
+    @select_options_for_transaction_types ||= begin
+      if is_income
+        TransactionType.income.select(:code, :name)
+      else
+        TransactionType.expense.select(:code, :name)
+      end
+    end
+  end
+
   def select_options_for_contract_statuses
     @select_options_for_contract_statuses ||= [
       OpenStruct.new(code: "active_contracts", name: "Đang vay"),

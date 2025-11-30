@@ -83,6 +83,31 @@ class Components::Sidebar < Components::Base
               end
 
               li do
+                Button(
+                  variant: :sidebar,
+                  arial_controls: "dropdown-layouts",
+                  data_collapse_toggle: "dropdown-incomes-expenses",
+                  aria_expanded: view_context.active_paths?([ expenses_path, incomes_path ])) do
+                  Remix::MoneyDollarBoxLine(class: "flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
+                  span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Quản lý thu chi" }
+                  Remix::ArrowDownSLine(class: "w-6 h-6")
+                end
+
+                ul(id: "dropdown-incomes-expenses", class: "py-2 space-y-2 #{view_context.active_paths_class([ expenses_path, incomes_path ])}") do
+                  li do
+                    Link(href: expenses_path, variant: :sidebar_item, class: view_context.active_link_class(expenses_path, active: [ [ "expenses" ], [ "create", "new", "index" ] ])) do
+                      span(class: "text-left whitespace-nowrap") { "Chi hoạt động" }
+                    end
+                  end
+                  li do
+                    Link(href: incomes_path, variant: :sidebar_item, class: view_context.active_link_class(incomes_path, active: [ [ "incomes" ], [ "create", "new", "index" ] ])) do
+                      span(class: "text-left whitespace-nowrap") { "Thu hoạt động" }
+                    end
+                  end
+                end
+              end
+
+              li do
                 Link(href: contracts_capitals_path, variant: :sidebar, class: view_context.active_link_class(contracts_capitals_path)) do
                   Remix::Wallet2Line(class: "w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
                   span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Quản lý nguồn vốn" }

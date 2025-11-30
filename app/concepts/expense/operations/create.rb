@@ -10,7 +10,7 @@ module Expense::Operations
 
     class Present < ApplicationOperation
       step Model(Expense, :new)
-      step Contract::Build(constant: Expense::Contracts::Create)
+      step Contract::Build(constant: ::Expense::Contracts::Create)
     end
 
     step Subprocess(Present)
@@ -22,8 +22,19 @@ module Expense::Operations
 
     private
 
-    def save(ctx, model:, params:, **)
-      binding.pry
+    def save(ctx, model:, params:, current_branch:, current_user:, **)
+      model.assign_attributes(params)
+      transaction_type = TransactionType.find_by!(code: model.transaction_type_code)
+
+      ctx[:current_branch].financial_transactions.create!(
+        amount: model.amount,
+        party_name: model.party_name,
+        transaction_type:,
+        description: model.transaction_note,
+        created_by: current_user,
+        transaction_date: Date.current
+      )
+
       true
     end
 

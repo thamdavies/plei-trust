@@ -2,6 +2,12 @@
 <%= content_for :title, "Quản lý chi tiêu" %>
 <%= content_for :subtitle, "Quản lý chi tiêu" %>
 
+<%= content_for :page_header_actions do %>
+  <%= turbo_frame_tag "expense_form" do %>
+    <%= render Views::Expenses::Form.new(form: @form) %>
+  <% end %>
+<% end %>
+
 <%= render Views::Expenses::Index.new(collection: @expenses, form: @form, pagy: @pagy) %>
 
 <% if @pagy && @pagy.pages > 1 %>
