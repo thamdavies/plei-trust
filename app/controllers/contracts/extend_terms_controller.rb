@@ -12,6 +12,8 @@ class Contracts::ExtendTermsController < ContractsController
     end
 
     @contract = ctx[:contract].decorate
+  rescue Pundit::NotAuthorizedError
+    handle_cannot_operate_on_ended_contract
   end
 
   private

@@ -1,5 +1,9 @@
 class Contracts::DebtsController < ContractsController
+  before_action :set_contract, only: [ :create, :destroy ]
+
   def create
+    authorize @contract, :update?
+
     ctx = Debt::Operations::Create.call(params: debt_params.to_h, current_user:)
 
     if ctx.success?
@@ -9,9 +13,13 @@ class Contracts::DebtsController < ContractsController
     end
 
     @contract = ctx[:model].contract.decorate
+  rescue Pundit::NotAuthorizedError
+    handle_cannot_operate_on_ended_contract
   end
 
   def destroy
+    authorize @contract, :update?
+
     ctx = Debt::Operations::Destroy.call(params: debt_params.to_h, current_user:)
 
     if ctx.success?
@@ -21,6 +29,8 @@ class Contracts::DebtsController < ContractsController
     end
 
     @contract = ctx[:model].contract.decorate
+  rescue Pundit::NotAuthorizedError
+    handle_cannot_operate_on_ended_contract
   end
 
   private
@@ -33,5 +43,9 @@ class Contracts::DebtsController < ContractsController
         params.require(:form).permit(:amount, :contract_id)
       end
     end
+  end
+
+  def contract_id
+    debt_params[:contract_id]
   end
 end

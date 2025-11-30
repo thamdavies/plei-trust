@@ -1,5 +1,9 @@
 class Contracts::FilesController < ContractsController
+  before_action :set_contract, only: [ :create ]
+
   def create
+    authorize @contract, :update?
+
     ctx = ContractFile::Operations::Create.call(params: files_params.to_h, current_user:)
     @contract = ctx[:contract].decorate
 
@@ -10,6 +14,8 @@ class Contracts::FilesController < ContractsController
       @form.files = @contract.blobs
       flash.now[:error] = @form.errors[:files].any? ? @form.errors[:files].first : "Đã có lỗi xảy ra trong quá trình tải lên tệp"
     end
+  rescue Pundit::NotAuthorizedError
+    handle_cannot_operate_on_ended_contract
   end
 
   def destroy
@@ -30,5 +36,9 @@ class Contracts::FilesController < ContractsController
 
   def destroy_params
     params.permit(:id)
+  end
+
+  def contract_id
+    files_params[:contract_id]
   end
 end
