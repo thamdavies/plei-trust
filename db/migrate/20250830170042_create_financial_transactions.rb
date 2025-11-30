@@ -3,8 +3,8 @@ class CreateFinancialTransactions < ActiveRecord::Migration[8.0]
     create_table :financial_transactions, id: :uuid, default: 'uuidv7()' do |t|
       t.string :transaction_number, null: false
       t.date :transaction_date, null: false
+      t.references :recordable, null: false, polymorphic: true, index: false, type: :uuid
       t.references :transaction_type, null: false, foreign_key: true, type: :uuid
-      t.references :contract, null: false, foreign_key: true, type: :uuid
       t.decimal :amount, precision: 15, scale: 2, null: false
       t.string :description
       t.string :party_name

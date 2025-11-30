@@ -39,6 +39,7 @@ class Branch < ApplicationRecord
   has_many :asset_settings, dependent: :destroy
   has_many :customers, dependent: :destroy
   has_many :contracts, dependent: :destroy
+  has_many :financial_transactions, as: :recordable, dependent: :destroy
 
   # Views
   has_many :active_contracts, -> { where(status: :active) }, class_name: Contract.name

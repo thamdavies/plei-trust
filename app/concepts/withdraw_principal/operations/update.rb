@@ -6,6 +6,10 @@ module WithdrawPrincipal::Operations
       include ActiveModel::Validations
 
       attr_accessor :start_date, :transaction_date, :withdrawal_amount, :other_amount, :note, :contract_id
+
+      def contract
+        @contract ||= ::Contract.find(contract_id)
+      end
     end
 
     class Present < ApplicationOperation
@@ -15,7 +19,7 @@ module WithdrawPrincipal::Operations
 
       def assign_attributes(ctx, model:, params:, **)
         model.assign_attributes(params)
-        ctx[:contract] = ::Contract.find(model.contract_id)
+        ctx[:contract] = model.contract
         start_date = ContractInterestPayment.unpaid.where(contract_id: model.contract_id).order(:from).first&.from
         model.start_date = start_date || Date.current
 
@@ -48,8 +52,7 @@ module WithdrawPrincipal::Operations
 
     def save(ctx, model:, params:, **)
       withdraw_principal = ctx[:withdraw_principal]
-      ctx[:record] = FinancialTransaction.create!(
-        contract_id: model.contract_id,
+      ctx[:record] = model.contract.financial_transactions.create!(
         transaction_type: TransactionType.withdrawal_principal,
         amount: withdraw_principal[:total_amount_raw],
         transaction_date: model.transaction_date.parse_date_vn,

@@ -271,16 +271,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_28_015157) do
 
   create_table "financial_transactions", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.decimal "amount", precision: 15, scale: 2, null: false
-    t.uuid "contract_id", null: false
     t.datetime "created_at", null: false
     t.uuid "created_by_id", null: false
     t.string "description"
+    t.string "party_name"
+    t.uuid "recordable_id", null: false
+    t.string "recordable_type", null: false
     t.string "reference_number"
     t.date "transaction_date", null: false
     t.string "transaction_number", null: false
     t.uuid "transaction_type_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["contract_id"], name: "index_financial_transactions_on_contract_id"
     t.index ["created_by_id"], name: "index_financial_transactions_on_created_by_id"
     t.index ["transaction_type_id"], name: "index_financial_transactions_on_transaction_type_id"
   end
@@ -381,7 +382,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_28_015157) do
   add_foreign_key "contracts", "users", column: "created_by_id"
   add_foreign_key "customers", "branches"
   add_foreign_key "customers", "users", column: "created_by_id"
-  add_foreign_key "financial_transactions", "contracts"
   add_foreign_key "financial_transactions", "transaction_types"
   add_foreign_key "financial_transactions", "users", column: "created_by_id"
   add_foreign_key "interest_rate_histories", "users", column: "processed_by_id"

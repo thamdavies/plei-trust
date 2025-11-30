@@ -72,15 +72,15 @@ class Contract < ApplicationRecord
   has_many :interest_payments, -> { order(:from) }, dependent: :destroy, class_name: ContractInterestPayment.name
   has_many :unpaid_interest_payments, -> { where(payment_status: :unpaid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
   has_many :paid_interest_payments, -> { where(payment_status: :paid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
-  has_many :financial_transactions, dependent: :destroy
+  has_many :financial_transactions, as: :recordable, dependent: :destroy
   has_many :asset_setting_values, dependent: :destroy
   has_many :reminders, dependent: :destroy, class_name: ContractReminder.name
 
-  has_many :reduce_principals, -> { where(transaction_type: TransactionType.reduce_principal).order(:transaction_date) }, class_name: FinancialTransaction.name, foreign_key: :contract_id, dependent: :destroy
-  has_many :additional_loans, -> { where(transaction_type: TransactionType.additional_loan).order(:transaction_date) }, class_name: FinancialTransaction.name, foreign_key: :contract_id, dependent: :destroy
-  has_many :withdrawal_principals, -> { where(transaction_type: TransactionType.withdrawal_principal).order(:transaction_date) }, class_name: FinancialTransaction.name, foreign_key: :contract_id, dependent: :destroy
-  has_many :outstanding_interests, -> { where(transaction_type: TransactionType.outstanding_interest).order(:transaction_date) }, class_name: FinancialTransaction.name, foreign_key: :contract_id, dependent: :destroy
-  has_many :debt_repayments, -> { where(transaction_type: TransactionType.debt_repayment).order(:transaction_date) }, class_name: FinancialTransaction.name, foreign_key: :contract_id, dependent: :destroy
+  has_many :reduce_principals, -> { where(transaction_type: TransactionType.reduce_principal).order(:transaction_date) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :additional_loans, -> { where(transaction_type: TransactionType.additional_loan).order(:transaction_date) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :withdrawal_principals, -> { where(transaction_type: TransactionType.withdrawal_principal).order(:transaction_date) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :outstanding_interests, -> { where(transaction_type: TransactionType.outstanding_interest).order(:transaction_date) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :debt_repayments, -> { where(transaction_type: TransactionType.debt_repayment).order(:transaction_date) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
 
   has_many :contract_extensions, -> { order(:from) }, dependent: :destroy
   has_many :activities, -> { order("id DESC") }, class_name: PublicActivity::Activity.name, as: :trackable, dependent: :destroy

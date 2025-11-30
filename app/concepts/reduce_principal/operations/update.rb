@@ -6,6 +6,10 @@ module ReducePrincipal::Operations
       include ActiveModel::Validations
 
       attr_accessor :prepayment_date, :prepayment_amount, :note, :contract_id
+
+      def contract
+        @contract ||= ::Contract.find(contract_id)
+      end
     end
 
     class Present < ApplicationOperation
@@ -21,8 +25,7 @@ module ReducePrincipal::Operations
         form.prepayment_amount = model.prepayment_amount
         form.note = model.note
         form.contract_id = model.contract_id
-
-        ctx[:contract] = ::Contract.find(model.contract_id)
+        ctx[:contract] = model.contract
 
         true
       end
@@ -38,8 +41,7 @@ module ReducePrincipal::Operations
     }
 
     def save(ctx, model:, params:, **)
-      ctx[:financial_transaction] = FinancialTransaction.create!(
-        contract_id: model.contract_id,
+      ctx[:financial_transaction] = model.contract.financial_transactions.create!(
         transaction_type: TransactionType.reduce_principal,
         amount: model.prepayment_amount,
         transaction_date: model.prepayment_date,

@@ -38,8 +38,7 @@ module Debt::Operations
       transaction_type = TransactionType.debt_repayment
 
       ctx[:contract] = contract
-      ctx[:financial_transaction] = FinancialTransaction.create!(
-        contract: contract,
+      ctx[:financial_transaction] = contract.financial_transactions.create!(
         transaction_date: Date.current,
         transaction_type: transaction_type,
         amount: model.amount,
