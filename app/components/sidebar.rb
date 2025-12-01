@@ -41,10 +41,16 @@ class Components::Sidebar < Components::Base
                   Remix::ArrowDownSLine(class: "w-6 h-6")
                 end
 
-                ul(id: "dropdown-layouts", class: "py-2 space-y-2 #{view_context.active_paths_class([ contracts_pawns_path ])}") do
+                ul(id: "dropdown-layouts", class: "py-2 space-y-2 #{view_context.active_paths_class([ contracts_pawns_path, contracts_installments_path ])}") do
                   li do
                     Link(href: contracts_pawns_path, variant: :sidebar_item, class: view_context.active_link_class(contracts_pawns_path, active: [ [ "contracts/pawns" ], [ "edit", "new", "index" ] ])) do
-                      span(class: "text-left whitespace-nowrap") { I18n.t("sidebar.pawn_contracts") }
+                      span(class: "text-left whitespace-nowrap") { "Cầm đồ" }
+                    end
+                  end
+
+                  li do
+                    Link(href: contracts_installments_path, variant: :sidebar_item, class: view_context.active_link_class(contracts_installments_path, active: [ [ "contracts/installments" ], [ "edit", "new", "index" ] ])) do
+                      span(class: "text-left whitespace-nowrap") { "Trả góp" }
                     end
                   end
                 end

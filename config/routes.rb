@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   namespace :contracts do
     resources :capitals
     resources :pawns
+    resources :installments
     resources :interest_payments, only: [ :update ]
     resources :custom_interest_payments, only: [ :create, :show ]
     resources :reduce_principals, only: [ :update, :destroy ]

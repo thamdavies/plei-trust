@@ -8,7 +8,7 @@ class Views::Shared::Contracts::Form < Views::Base
     div(data: { controller: "shared--contract" }) do
       Text(class: "text-sm mb-2 text-red-500 italic") { "Bạn phải huỷ bỏ kỳ lãi đã thanh toán để cập nhật thông tin hợp đồng" } if !form.can_edit_contract
 
-      if contract_type == :pawn
+      if contract_type == :pawn || contract_type == :installment
         render Views::Shared::Contracts::AssetFormFields.new(form:)
       end
 
