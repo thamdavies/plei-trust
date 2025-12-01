@@ -39,6 +39,7 @@ class Branch < ApplicationRecord
   has_many :asset_settings, dependent: :destroy
   has_many :customers, dependent: :destroy
   has_many :contracts, dependent: :destroy
+  has_many :users, dependent: :destroy
   has_many :financial_transactions, as: :recordable, dependent: :destroy
 
   # Views

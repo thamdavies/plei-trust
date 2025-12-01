@@ -113,6 +113,31 @@ class Components::Sidebar < Components::Base
                   span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Quản lý nguồn vốn" }
                 end
               end
+
+              li do
+              Button(
+                variant: :sidebar,
+                arial_controls: "dropdown-layouts",
+                data_collapse_toggle: "dropdown-staffs",
+                aria_expanded: view_context.active_paths?([ staffs_path ])) do
+                Remix::Store3Line(class: "flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
+                span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Quản lý nhân viên" }
+                Remix::ArrowDownSLine(class: "w-6 h-6")
+              end
+
+              ul(id: "dropdown-staffs", class: "py-2 space-y-2 #{view_context.active_paths_class([ asset_settings_path, staffs_path ])}") do
+                li do
+                  Link(href: staffs_path, variant: :sidebar_item, class: view_context.active_link_class(staffs_path, active: [ [ "staffs" ], [ "edit", "new", "index" ] ])) do
+                    span(class: "text-left whitespace-nowrap") { "Danh sách nhân viên" }
+                  end
+                end
+                # li do
+                #   Link(href: asset_settings_path, variant: :sidebar_item, class: view_context.active_link_class(asset_settings_path, active: [ [ "asset_settings" ], [ "edit", "new", "index" ] ])) do
+                #     span(class: "text-left whitespace-nowrap") { "Phân quyền nhân viên" }
+                #   end
+                # end
+              end
+            end
             end
             # ...existing code for sidebar bottom menu and other sections...
           end

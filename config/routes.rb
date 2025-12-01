@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
   resources :interest_calculation_methods, only: [ :show ]
   resources :wards, only: [ :index ]
+  resources :staffs
 
   resources :alerts, only: [ :create ]
   resource :current_tenant, only: [ :update ], controller: "current_tenant"
