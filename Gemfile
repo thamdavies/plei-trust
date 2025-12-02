@@ -125,3 +125,5 @@ gem "paper_trail", "~> 17.0"
 gem "scenic", "~> 1.9"
 
 gem "numbers_and_words", "~> 1.0"
+
+gem "twilio-ruby", "~> 7.8"
