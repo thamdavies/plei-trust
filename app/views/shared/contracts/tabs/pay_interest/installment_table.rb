@@ -88,6 +88,12 @@ class Views::Shared::Contracts::Tabs::PayInterest::InstallmentTable < Views::Bas
           end
         end
       end
+      TableFooter do
+        TableRow do
+          TableHead(class: "font-medium", colspan: 5) { "Tổng tiền" }
+          TableHead(class: "font-medium text-right") { contract.total_payment_amount_formatted }
+        end
+      end
     end
   end
 

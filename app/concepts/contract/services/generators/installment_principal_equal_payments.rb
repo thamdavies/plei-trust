@@ -13,42 +13,66 @@ module Contract::Services::Generators
     def insert_data(save: true)
       schedule = []
 
-      term = contract.contract_term
-      rate = contract.interest_rate
-      total_principal = contract.loan_amount
-      current_date = start_date
+      @loan_amount = contract.total_amount
+      @months = contract.contract_term
+      @annual_rate = contract.interest_rate.to_f
+      monthly_rate = (@annual_rate / 100.0) / 12.0
+      current_from = start_date
 
-      # Calculate fixed principal payment per month
-      monthly_principal = (total_principal / term).round(0)
+      # 1. TÍNH TIỀN GỐC CỐ ĐỊNH (Principal)
+      # Chia đều tiền gốc cho các tháng. Làm tròn 4 số để lưu DB.
+      # Trong ví dụ của bạn: 10.000.000 / 5 = 2.000.000
+      base_principal = (@loan_amount.to_f / @months).round(4)
 
-      remaining_principal = total_principal
+      schedule = []
+      current_balance = @loan_amount.to_f
+      total_interest = 0
+      total_principal = 0
 
-      (1..term).each do |i|
-        # Interest on remaining balance
-        interest_amount = (remaining_principal * rate / 100.0).round(0)
+      (1..@months).each do |i|
+        # --- TÍNH TOÁN NGÀY THÁNG ---
+        period_start = i == 1 ? current_from : (current_from >> (i - 1))
+        period_end = current_from >> i
+        days_in_period = (period_end - period_start).to_i
 
-        # Adjust principal for the last month to handle rounding differences
-        current_principal = (i == term) ? remaining_principal : monthly_principal
+        # --- TÍNH TOÁN TÀI CHÍNH ---
 
-        total_payment = interest_amount + current_principal
+        # 1. Tính Lãi: Dựa trên dư nợ hiện tại
+        interest = (current_balance * monthly_rate).round(4)
 
-        from_date = current_date
-        to_date = current_date + 1.month - 1.day
+        # 2. Tính Gốc:
+        # Nếu là tháng cuối cùng, gốc = toàn bộ dư nợ còn lại (để tránh sai số lẻ)
+        # Nếu không, gốc = base_principal (cố định)
+        if i == @months
+          principal = current_balance
+        else
+          principal = base_principal
+        end
+
+        # 3. Tính Tổng tiền phải trả tháng này
+        monthly_payment = (principal + interest).round(4)
+
+        # Cập nhật dư nợ
+        current_balance -= principal
+
+        # Xử lý hiển thị số 0 tuyệt đối
+        current_balance = 0 if current_balance.abs < 0.01
+
+        total_interest += interest
+        total_principal += principal
 
         schedule << {
           contract_id: contract.id,
-          from: from_date,
-          to: to_date,
-          number_of_days: (to_date - from_date + 1).to_i,
-          amount: interest_amount,
-          # principal_amount: current_principal,
-          total_amount: total_payment,
+          from: period_start,
+          to: period_end,
+          number_of_days: days_in_period,
+          amount: monthly_payment, # Tổng trả (Giảm dần)
+          other_amount: interest,       # Lãi (Giảm dần)
+          total_amount: monthly_payment,
+          balance: current_balance,
           payment_status: contract.closed? ? "paid" : "unpaid",
-          total_paid: contract.closed? ? total_payment : 0
+          total_paid: contract.closed? ? interest_amount : 0
         }
-
-        remaining_principal -= current_principal
-        current_date = current_date + 1.month
       end
 
       if save

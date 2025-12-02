@@ -13,7 +13,7 @@ module Contract::Services::Generators
     def insert_data(save: true)
       schedule = []
 
-      @loan_amount = contract.loan_amount
+      @loan_amount = contract.total_amount
       @months = contract.contract_term
       @annual_rate = contract.interest_rate.to_f
       current_from = start_date

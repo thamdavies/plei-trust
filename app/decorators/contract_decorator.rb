@@ -110,4 +110,12 @@ class ContractDecorator < ApplicationDecorator
       "Nợ cũ HĐ: <span class='text-red-600 dark:text-red-400'>#{fm_old_debt_amount(unit:, abs: true)}</span>".html_safe
     end
   end
+
+  def total_payment_amount
+    contract_interest_payments.map(&:total_amount).sum * 1_000
+  end
+
+  def total_payment_amount_formatted
+    total_payment_amount.to_currency(unit: "")
+  end
 end
