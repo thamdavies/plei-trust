@@ -317,7 +317,7 @@ GEM
     numbers_and_words (1.0.2)
       i18n (<= 2)
     ostruct (0.6.3)
-    pagy (43.1.6)
+    pagy (43.1.8)
       json
       yaml
     paper_trail (17.0.0)
