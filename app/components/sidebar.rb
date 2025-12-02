@@ -131,7 +131,7 @@ class Components::Sidebar < Components::Base
                 Remix::ArrowDownSLine(class: "w-6 h-6")
               end
 
-              ul(id: "dropdown-staffs", class: "py-2 space-y-2 #{view_context.active_paths_class([ asset_settings_path, staffs_path ])}") do
+              ul(id: "dropdown-staffs", class: "py-2 space-y-2 #{view_context.active_paths_class([ staffs_path ])}") do
                 li do
                   Link(href: staffs_path, variant: :sidebar_item, class: view_context.active_link_class(staffs_path, active: [ [ "staffs" ], [ "edit", "new", "index" ] ])) do
                     span(class: "text-left whitespace-nowrap") { "Danh sách nhân viên" }
