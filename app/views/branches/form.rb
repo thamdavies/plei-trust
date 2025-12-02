@@ -50,8 +50,8 @@ class Views::Branches::Form < Views::Base
                         value: province.code,
                         checked: province.code == form.province_id,
                         data: {
-                          controller: "page--branch",
-                          action: "change->page--branch#fetchWards"
+                          controller: "pages--branch",
+                          action: "change->pages--branch#fetchWards"
                         }
                       )
                       span { province.name }

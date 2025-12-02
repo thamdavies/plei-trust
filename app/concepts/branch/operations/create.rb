@@ -21,7 +21,7 @@ module Branch::Operations
     end
 
     def create_capital_contract(ctx, model:, current_user:, **)
-      ::Contract.create!(
+      model.contracts.create!(
         asset_name: "Vốn khởi tạo",
         code: SecureRandom.hex(4).upcase,
         contract_date: Date.current,
@@ -31,9 +31,8 @@ module Branch::Operations
         loan_amount: model.invest_amount,
         interest_period: 0,
         status: "active",
-        branch: model,
         cashier: current_user,
-        contract_type: ContractType.capital.first,
+        contract_type_code: ContractType.codes[:capital],
         customer: ctx[:seed_capital_customer],
         created_by: current_user,
       )

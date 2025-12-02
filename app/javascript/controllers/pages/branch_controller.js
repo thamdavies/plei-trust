@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 import { FetchRequest } from '@rails/request.js';
 import { alertController } from "../../alert";
 
-// Connects to data-controller="page--branch"
+// Connects to data-controller="pages--branch"
 export default class extends Controller {
   async fetchWards(event) {
     try {

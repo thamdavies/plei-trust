@@ -46,6 +46,11 @@ class TransactionType < ApplicationRecord
   EXPENSE_HOUSE_RENT = "expense_house_rent".freeze
   EXPENSE_LEND_MONEY = "expense_lend_money".freeze
 
+  # Fund related codes
+  CAPITAL_IN = "capital_in".freeze
+  CASH_FUND_IMPORT = "cash_fund_import".freeze
+  OPENING_BALANCE = "opening_balance".freeze
+
   scope :income, -> { where("code LIKE 'income_%'") }
   scope :expense, -> { where("code LIKE 'expense_%'") }
 
@@ -78,8 +83,20 @@ class TransactionType < ApplicationRecord
       find_by(code: DEBT_REPAYMENT)
     end
 
+    def cash_fund_import
+      find_by(code: CASH_FUND_IMPORT)
+    end
+
+    def opening_balance
+      find_by(code: OPENING_BALANCE)
+    end
+
+    def capital_in
+      find_by(code: CAPITAL_IN)
+    end
+
     def seed_default_types
-      default_types.each do |type_data|
+      (default_types + fund_types).each do |type_data|
         find_or_create_by(code: type_data[:code]) do |transaction_type|
           transaction_type.assign_attributes(type_data)
         end
@@ -263,6 +280,29 @@ class TransactionType < ApplicationRecord
           name: "Chi mượn tiền",
           description: "Chi cho mượn tiền",
           is_income: false
+        }
+      ]
+    end
+
+    def fund_types
+      [
+        {
+          code: CASH_FUND_IMPORT,
+          name: "Nhập quỹ tiền mặt",
+          description: "Ghi nhận việc nhập quỹ tiền mặt vào hệ thống",
+          is_income: true
+        },
+        {
+          code: OPENING_BALANCE,
+          name: "Số dư đầu kỳ",
+          description: "Ghi nhận số dư đầu kỳ cho tài khoản/quỹ",
+          is_income: true
+        },
+        {
+          code: CAPITAL_IN,
+          name: "Vốn đầu vào",
+          description: "Ghi nhận vốn đầu tư khi tạo mới chi nhánh",
+          is_income: true
         }
       ]
     end
