@@ -3,7 +3,7 @@
 # Table name: financial_transactions
 #
 #  id                  :uuid             not null, primary key
-#  amount              :decimal(15, 2)   not null
+#  amount              :decimal(15, 4)   not null
 #  description         :string
 #  party_name          :string
 #  recordable_type     :string           not null

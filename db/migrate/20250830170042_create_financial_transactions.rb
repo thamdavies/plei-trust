@@ -5,7 +5,7 @@ class CreateFinancialTransactions < ActiveRecord::Migration[8.0]
       t.date :transaction_date, null: false
       t.references :recordable, null: false, polymorphic: true, index: false, type: :uuid
       t.references :transaction_type, null: false, foreign_key: true, type: :uuid
-      t.decimal :amount, precision: 15, scale: 2, null: false
+      t.decimal :amount, precision: 15, scale: 4, null: false
       t.string :description
       t.string :party_name
       t.string :reference_number

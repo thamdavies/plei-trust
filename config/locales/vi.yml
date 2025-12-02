@@ -47,6 +47,8 @@ vi:
       <<: *default
     pawn:
       <<: *default
+    installment:
+      <<: *default
   contract_reminder:
     states:
       schedule_reminder: "Hẹn giờ"
@@ -63,4 +65,9 @@ vi:
         date: "Ngày chuộc đồ"
         amount: "Số tiền cầm cố"
         submit: "Chuộc đồ"
+      installment:
+        withdraw_principal: "Thanh lý hợp đồng"
+        date: "Ngày thanh lý"
+        amount: "Số tiền thanh lý"
+        submit: "Thanh lý hợp đồng"
     

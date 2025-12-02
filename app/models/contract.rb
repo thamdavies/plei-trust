@@ -12,7 +12,7 @@
 #  interest_calculation_method :string
 #  interest_period             :integer
 #  interest_rate               :decimal(8, 5)
-#  loan_amount                 :decimal(15, 2)
+#  loan_amount                 :decimal(15, 4)
 #  note                        :text
 #  status                      :string           default("active")
 #  created_at                  :datetime         not null
@@ -93,6 +93,7 @@ class Contract < ApplicationRecord
 
   scope :pawn_contracts, -> { where(contract_type: { code: :pawn }) }
   scope :capital_contracts, -> { where(contract_type: { code: :capital }) }
+  scope :installment_contracts, -> { where(contract_type: { code: :installment }) }
 
   accepts_nested_attributes_for :customer,
                                 allow_destroy: false,

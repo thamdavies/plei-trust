@@ -19,6 +19,12 @@ module Contract::Services
         Generators::Monthly30Payments.new(contract:, start_date:).call
       when InterestCalculationMethod.config[:code][:monthly_calendar]
         Generators::MonthlyCalendarPayments.new(contract:, start_date:).call
+      when InterestCalculationMethod.config[:code][:installment_principal_one_time]
+        Generators::InstallmentPrincipalOneTimePayments.new(contract:, start_date:).call
+      when InterestCalculationMethod.config[:code][:installment_principal_equal]
+        Generators::InstallmentPrincipalEqualPayments.new(contract:, start_date:).call
+      when InterestCalculationMethod.config[:code][:installment_principal_interest_equal]
+        Generators::InstallmentPrincipalInterestEqualPayments.new(contract:, start_date:).call
       end
     end
 
@@ -36,6 +42,12 @@ module Contract::Services
         Generators::Monthly30Payments.new(contract:, start_date:).info
       when InterestCalculationMethod.config[:code][:monthly_calendar]
         Generators::MonthlyCalendarPayments.new(contract:, start_date:).info
+      when InterestCalculationMethod.config[:code][:installment_principal_one_time]
+        Generators::InstallmentPrincipalOneTimePayments.new(contract:, start_date:).info
+      when InterestCalculationMethod.config[:code][:installment_principal_equal]
+        Generators::InstallmentPrincipalEqualPayments.new(contract:, start_date:).info
+      when InterestCalculationMethod.config[:code][:installment_principal_interest_equal]
+        Generators::InstallmentPrincipalInterestEqualPayments.new(contract:, start_date:).info
       end
     end
 

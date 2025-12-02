@@ -7,7 +7,7 @@ class CreateBranches < ActiveRecord::Migration[8.0]
       t.string :address
       t.string :phone
       t.string :representative
-      t.decimal :invest_amount, precision: 12, scale: 2
+      t.decimal :invest_amount, precision: 12, scale: 4
       t.string :status, default: "active"
 
       t.timestamps

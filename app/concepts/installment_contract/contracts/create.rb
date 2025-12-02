@@ -33,8 +33,8 @@ module InstallmentContract::Contracts
       params do
         required(:contract_date).filled
         required(:interest_calculation_method).filled
-        required(:asset_setting_id).filled
-        required(:asset_name).filled
+        # required(:asset_setting_id).filled
+        # required(:asset_name).filled
         required(:loan_amount).filled
         optional(:interest_rate).maybe(:string)
         optional(:contract_term).maybe(:string)

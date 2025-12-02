@@ -12,7 +12,7 @@
 #  interest_calculation_method :string
 #  interest_period             :integer
 #  interest_rate               :decimal(8, 5)
-#  loan_amount                 :decimal(15, 2)
+#  loan_amount                 :decimal(15, 4)
 #  note                        :text
 #  status                      :string           default("active")
 #  created_at                  :datetime         not null

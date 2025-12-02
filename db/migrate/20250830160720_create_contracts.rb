@@ -13,7 +13,7 @@ class CreateContracts < ActiveRecord::Migration[8.0]
 
       # Loại hợp đồng và số tiền
       t.string :contract_type_code, null: false
-      t.decimal :loan_amount, precision: 15, scale: 2
+      t.decimal :loan_amount, precision: 15, scale: 4
 
       # Cấu hình lãi suất
       t.string :interest_calculation_method

@@ -18,6 +18,7 @@ class Contracts::InstallmentsController < ContractsController
   def new
     ctx = InstallmentContract::Operations::Create::Present.call
     @form = ctx[:"contract.default"]
+    @form.interest_calculation_method = InterestCalculationMethod.config[:code][:installment_principal_interest_equal]
     @form.interest_calculation_method_obj = interest_calculation_method_obj
     @form.contract_type_code = ContractType.codes[:installment]
     @form.asset_setting_values = build_asset_setting_values(asset_setting)

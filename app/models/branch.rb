@@ -4,7 +4,7 @@
 #
 #  id             :uuid             not null, primary key
 #  address        :string
-#  invest_amount  :decimal(12, 2)
+#  invest_amount  :decimal(12, 4)
 #  name           :string
 #  phone          :string
 #  representative :string

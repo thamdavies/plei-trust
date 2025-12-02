@@ -12,4 +12,20 @@ class ContractInterestPaymentDecorator < ApplicationDecorator
   def total_amount_currency
     "#{total_amount_formatted} VNĐ"
   end
+
+  def installment_principal_amount
+    (amount - other_amount) * 1_000
+  end
+
+  def fm_installment_principal_amount
+    installment_principal_amount.to_currency(unit: "")
+  end
+
+  def installment_balance_amount
+    (contract.total_amount - amount) * 1_000
+  end
+
+  def fm_installment_balance_amount
+    installment_balance_amount.to_currency(unit: "")
+  end
 end

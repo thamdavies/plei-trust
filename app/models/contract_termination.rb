@@ -3,12 +3,12 @@
 # Table name: contract_terminations
 #
 #  id               :uuid             not null, primary key
-#  amount           :decimal(15, 2)
-#  interest_amount  :decimal(15, 2)
-#  old_debt         :decimal(15, 2)
-#  other_amount     :decimal(15, 2)
+#  amount           :decimal(15, 4)
+#  interest_amount  :decimal(15, 4)
+#  old_debt         :decimal(15, 4)
+#  other_amount     :decimal(15, 4)
 #  termination_date :date
-#  total_amount     :decimal(15, 2)
+#  total_amount     :decimal(15, 4)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  contract_id      :uuid             not null

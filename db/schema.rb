@@ -110,11 +110,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_28_015157) do
     t.float "asset_rental_fee"
     t.uuid "branch_id", null: false
     t.boolean "collect_interest_in_advance", default: false
-    t.decimal "contract_initiation_fee", precision: 12, scale: 2
+    t.decimal "contract_initiation_fee", precision: 12, scale: 4
     t.datetime "created_at", null: false
     t.integer "default_contract_term"
     t.float "default_interest_rate"
-    t.decimal "default_loan_amount", precision: 12, scale: 2
+    t.decimal "default_loan_amount", precision: 12, scale: 4
     t.float "early_termination_fee"
     t.string "interest_calculation_method", default: "monthly"
     t.integer "interest_period"
@@ -136,7 +136,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_28_015157) do
   create_table "branches", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.string "address"
     t.datetime "created_at", null: false
-    t.decimal "invest_amount", precision: 12, scale: 2
+    t.decimal "invest_amount", precision: 12, scale: 4
     t.string "name"
     t.string "phone"
     t.string "province_id"
@@ -150,7 +150,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_28_015157) do
 
   create_table "contract_amount_changes", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.date "action_date"
-    t.decimal "amount", precision: 15, scale: 2
+    t.decimal "amount", precision: 15, scale: 4
     t.uuid "contract_id", null: false
     t.datetime "created_at", null: false
     t.text "note"
@@ -174,19 +174,20 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_28_015157) do
   end
 
   create_table "contract_interest_payments", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "amount", precision: 15, scale: 4, default: "0.0"
+    t.decimal "balance", precision: 15, scale: 4, default: "0.0"
     t.uuid "contract_id", null: false
     t.datetime "created_at", null: false
     t.boolean "custom_payment", default: false
     t.date "from"
     t.text "note"
     t.integer "number_of_days"
-    t.decimal "other_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "other_amount", precision: 15, scale: 4, default: "0.0"
     t.datetime "paid_at"
     t.string "payment_status", default: "unpaid"
     t.date "to"
-    t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
-    t.decimal "total_paid", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_amount", precision: 15, scale: 4, default: "0.0"
+    t.decimal "total_paid", precision: 15, scale: 4, default: "0.0"
     t.datetime "updated_at", null: false
     t.index ["contract_id"], name: "index_contract_interest_payments_on_contract_id"
   end
@@ -203,15 +204,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_28_015157) do
   end
 
   create_table "contract_terminations", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.decimal "amount", precision: 15, scale: 2
+    t.decimal "amount", precision: 15, scale: 4
     t.uuid "contract_id", null: false
     t.datetime "created_at", null: false
-    t.decimal "interest_amount", precision: 15, scale: 2
-    t.decimal "old_debt", precision: 15, scale: 2
-    t.decimal "other_amount", precision: 15, scale: 2
+    t.decimal "interest_amount", precision: 15, scale: 4
+    t.decimal "old_debt", precision: 15, scale: 4
+    t.decimal "other_amount", precision: 15, scale: 4
     t.uuid "processed_by_id", null: false
     t.date "termination_date"
-    t.decimal "total_amount", precision: 15, scale: 2
+    t.decimal "total_amount", precision: 15, scale: 4
     t.datetime "updated_at", null: false
     t.index ["contract_id"], name: "index_contract_terminations_on_contract_id"
     t.index ["processed_by_id"], name: "index_contract_terminations_on_processed_by_id"
@@ -240,7 +241,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_28_015157) do
     t.string "interest_calculation_method"
     t.integer "interest_period"
     t.decimal "interest_rate", precision: 8, scale: 5
-    t.decimal "loan_amount", precision: 15, scale: 2
+    t.decimal "loan_amount", precision: 15, scale: 4
     t.text "note"
     t.string "status", default: "active"
     t.datetime "updated_at", null: false
@@ -270,7 +271,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_28_015157) do
   end
 
   create_table "financial_transactions", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.decimal "amount", precision: 15, scale: 2, null: false
+    t.decimal "amount", precision: 15, scale: 4, null: false
     t.datetime "created_at", null: false
     t.uuid "created_by_id", null: false
     t.string "description"

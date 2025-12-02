@@ -113,6 +113,10 @@ module Contract::Reader
       num_of_weeks * interest_rate
     when InterestCalculationMethod.config[:code][:monthly_30], InterestCalculationMethod.config[:code][:monthly_calendar]
       ((amount * (interest_rate / 100.0)) / 30) * days_count
+    when InterestCalculationMethod.config[:code][:installment_principal_interest_equal]
+      monthly_rate = (interest_rate / 100.0) / 12.0
+      daily_rate = monthly_rate / 30.0
+      amount * daily_rate * days_count
     else
       Rails.logger.warn("Unknown interest calculation method: #{interest_calculation_method}")
       0
@@ -127,6 +131,10 @@ module Contract::Reader
       contract_term * 7
     when InterestCalculationMethod.config[:code][:monthly_30], InterestCalculationMethod.config[:code][:monthly_calendar]
       contract_term * 30
+    when InterestCalculationMethod.config[:code][:installment_principal_one_time],
+         InterestCalculationMethod.config[:code][:installment_principal_equal],
+         InterestCalculationMethod.config[:code][:installment_principal_interest_equal]
+      contract_term * 30
     end
   end
 
@@ -137,6 +145,10 @@ module Contract::Reader
     when InterestCalculationMethod.config[:code][:weekly_percent], InterestCalculationMethod.config[:code][:weekly_fixed]
       interest_period * 7
     when InterestCalculationMethod.config[:code][:monthly_30], InterestCalculationMethod.config[:code][:monthly_calendar]
+      interest_period * 30
+    when InterestCalculationMethod.config[:code][:installment_principal_one_time],
+         InterestCalculationMethod.config[:code][:installment_principal_equal],
+         InterestCalculationMethod.config[:code][:installment_principal_interest_equal]
       interest_period * 30
     end
   end
