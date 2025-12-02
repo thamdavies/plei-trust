@@ -133,7 +133,7 @@ GEM
     config (5.6.1)
       deep_merge (~> 1.2, >= 1.2.1)
       ostruct
-    connection_pool (2.5.4)
+    connection_pool (2.5.5)
     crass (1.0.6)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
@@ -241,7 +241,7 @@ GEM
       activesupport (>= 4.2)
     jwt (3.1.2)
       base64
-    kamal (2.8.2)
+    kamal (2.9.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
       bcrypt_pbkdf (~> 1.0)
@@ -279,7 +279,7 @@ GEM
     matrix (0.4.3)
     method_source (1.1.0)
     mini_mime (1.1.5)
-    minitest (5.26.1)
+    minitest (5.26.2)
     msgpack (1.8.0)
     net-http (0.8.0)
       uri (>= 0.11.1)
@@ -317,7 +317,7 @@ GEM
     numbers_and_words (1.0.2)
       i18n (<= 2)
     ostruct (0.6.3)
-    pagy (43.1.6)
+    pagy (43.1.8)
       json
       yaml
     paper_trail (17.0.0)
@@ -336,7 +336,7 @@ GEM
     pg (1.6.2-x86_64-linux-musl)
     phlex (2.3.1)
       zeitwerk (~> 2.7)
-    phlex-icons (2.44.0)
+    phlex-icons (2.47.0)
       phlex (>= 1.11)
     phlex-rails (2.3.1)
       phlex (~> 2.3.0)
@@ -621,7 +621,7 @@ DEPENDENCIES
   pagy (~> 43.1)
   paper_trail (~> 17.0)
   pg (~> 1.6)
-  phlex-icons (~> 2.44)
+  phlex-icons (~> 2.47)
   phlex-rails (~> 2.3)
   phonelib (~> 0.10.14)
   propshaft
