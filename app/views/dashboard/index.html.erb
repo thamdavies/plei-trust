@@ -1,7 +1,12 @@
 <%= content_for :title do %>
-  Dashboard
+  Trang chủ
 <% end %>
 
-<%= content_for :subtitle do %>
-  Overview of your account
-<% end %>
+<%= render Views::Shared::LegalNoticeComponent.new %>
+
+<div class="flex m-4 justify-between">
+  <%= render Views::Shared::DashboardStatCardComponent.new(amount: "500.000.000") %>
+  <%= render Views::Shared::DashboardStatCardComponent.new(amount: 1, title: "SỐ HỢP ĐỒNG ĐANG VAY") %>
+  <%= render Views::Shared::DashboardStatCardComponent.new(amount: "15.000.000", title: "TIỀN ĐANG CHO VAY") %>
+  <%= render Views::Shared::DashboardStatCardComponent.new(amount: "1.500.000", title: "LÃI ĐÃ THU TRONG THÁNG") %>
+</div>
