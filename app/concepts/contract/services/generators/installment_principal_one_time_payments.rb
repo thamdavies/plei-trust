@@ -66,7 +66,7 @@ module Contract::Services::Generators
           total_amount: monthly_payment,
           balance: current_balance,
           payment_status: contract.closed? ? "paid" : "unpaid",
-          total_paid: contract.closed? ? interest_amount : 0
+          total_paid: contract.closed? ? monthly_payment : 0
         }
       end
 
