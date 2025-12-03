@@ -24,6 +24,12 @@ Rails.application.routes.draw do
   resources :interest_calculation_methods, only: [ :show ]
   resources :wards, only: [ :index ]
   resources :staffs
+  resources :cash_controls, only: [ :index ] do
+    collection do
+      post :deposit                 # Cho hành động Nhập quỹ
+      post :update_opening_balance  # Cho hành động Nhập tiền đầu ngày
+    end
+  end
 
   resources :alerts, only: [ :create ]
   resource :current_tenant, only: [ :update ], controller: "current_tenant"

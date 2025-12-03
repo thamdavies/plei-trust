@@ -68,13 +68,13 @@ class Components::Sidebar < Components::Base
                   variant: :sidebar,
                   arial_controls: "dropdown-layouts",
                   data_collapse_toggle: "dropdown-branches",
-                  aria_expanded: view_context.active_paths?([ asset_settings_path, branches_path ])) do
+                  aria_expanded: view_context.active_paths?([ asset_settings_path, branches_path, cash_controls_path ])) do
                   Remix::Store3Line(class: "flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
                   span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Quản lý chi nhánh" }
                   Remix::ArrowDownSLine(class: "w-6 h-6")
                 end
 
-                ul(id: "dropdown-branches", class: "py-2 space-y-2 #{view_context.active_paths_class([ asset_settings_path, branches_path ])}") do
+                ul(id: "dropdown-branches", class: "py-2 space-y-2 #{view_context.active_paths_class([ asset_settings_path, branches_path, cash_controls_path ])}") do
                   li do
                     Link(href: branches_path, variant: :sidebar_item, class: view_context.active_link_class(branches_path, active: [ [ "branches" ], [ "edit", "new", "index" ] ])) do
                       span(class: "text-left whitespace-nowrap") { "Danh sách chi nhánh" }
@@ -83,6 +83,11 @@ class Components::Sidebar < Components::Base
                   li do
                     Link(href: asset_settings_path, variant: :sidebar_item, class: view_context.active_link_class(asset_settings_path, active: [ [ "asset_settings" ], [ "edit", "new", "index" ] ])) do
                       span(class: "text-left whitespace-nowrap") { "Cấu hình hàng hóa" }
+                    end
+                  end
+                  li do
+                    Link(href: cash_controls_path, variant: :sidebar_item, class: view_context.active_link_class(cash_controls_path, active: [ [ "cash_controls" ], [ "edit", "new", "index" ] ])) do
+                      span(class: "text-left whitespace-nowrap") { "Nhập tiền quỹ đầu ngày" }
                     end
                   end
                 end

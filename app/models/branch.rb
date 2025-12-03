@@ -26,6 +26,7 @@
 #
 class Branch < ApplicationRecord
   include LargeNumberFields
+  include Branch::Reader
 
   large_number_field :invest_amount
 
@@ -40,6 +41,7 @@ class Branch < ApplicationRecord
   has_many :customers, dependent: :destroy
   has_many :contracts, dependent: :destroy
   has_many :users, dependent: :destroy
+  has_many :daily_balances, dependent: :destroy
   has_many :financial_transactions, as: :recordable, dependent: :destroy
 
   # Views
