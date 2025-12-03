@@ -16,6 +16,6 @@ class TransactionType < ApplicationRecord
   scope :income_types, -> { where(code: INCOME_TYPES) }
   scope :expense_types, -> { where(code: EXPENSE_TYPES) }
 
-  scope :income, -> { joins(:transaction_type).where(transaction_types: { is_income: true }) }
-  scope :expense, -> { joins(:transaction_type).where(transaction_types: { is_income: false }) }
+  scope :income, -> { where(is_income: true) }
+  scope :expense, -> { where(is_income: false) }
 end

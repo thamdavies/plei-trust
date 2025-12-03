@@ -38,6 +38,6 @@ class FinancialTransaction < ApplicationRecord
   belongs_to :transaction_type, foreign_key: :transaction_type_code, primary_key: :code
   belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id, optional: true
 
-  scope :income, -> { joins(:transaction_type).where("transaction_types.code LIKE 'income_%'") }
-  scope :expense, -> { joins(:transaction_type).where("transaction_types.code LIKE 'expense_%'") }
+  scope :income, -> { joins(:transaction_type).where(transaction_types: { is_income: true }) }
+  scope :expense, -> { joins(:transaction_type).where(transaction_types: { is_income: false }) }
 end

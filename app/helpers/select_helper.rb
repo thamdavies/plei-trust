@@ -17,9 +17,9 @@ module SelectHelper
   def select_options_for_transaction_types(is_income: nil)
     @select_options_for_transaction_types ||= begin
       if is_income
-        TransactionType.income.select(:code, :name)
+        TransactionType.income_types.select(:code, :name)
       else
-        TransactionType.expense.select(:code, :name)
+        TransactionType.expense_types.select(:code, :name)
       end
     end
   end
