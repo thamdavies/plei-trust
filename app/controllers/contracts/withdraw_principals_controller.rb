@@ -4,7 +4,7 @@ class Contracts::WithdrawPrincipalsController < ContractsController
   def update
     authorize @contract, :update?
 
-    ctx = WithdrawPrincipal::Operations::Update.call(params: permit_params.to_h, current_user:)
+    ctx = WithdrawPrincipal::Operations::Update.call(params: permit_params.to_h, current_user:, current_branch:)
 
     if ctx.success?
       flash.now[:success] = ctx[:message]
@@ -18,7 +18,7 @@ class Contracts::WithdrawPrincipalsController < ContractsController
   end
 
   def show
-    ctx = WithdrawPrincipal::Operations::Show.call(params: show_params.to_h, current_user:)
+    ctx = WithdrawPrincipal::Operations::Show.call(params: show_params.to_h, current_user:, current_branch:)
     render json: ctx[:withdraw_principal]
   end
 
