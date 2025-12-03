@@ -25,13 +25,13 @@ class Views::CashControls::TransactionTable < Views::Base
                 TableCell(colspan: 4, class: "text-center text-muted-foreground") { "Chưa có giao dịch nào" }
               end
             else
-              @transactions.each do |transaction|
+              @transactions.each_with_index do |transaction, index|
                 TableRow do
-                  TableCell { 1 }
-                  TableCell { transaction.transaction_date.strftime("%d/%m/%Y") }
-                  TableCell { transaction.transaction_type.name }
-                  TableCell { number_to_currency(transaction.amount, unit: "VNĐ", precision: 0) }
-                  TableCell { transaction.created_by&.full_name }
+                  TableCell { index + 1 }
+                  TableCell { transaction.fm_transaction_date }
+                  TableCell { transaction.created_by.full_name }
+                  TableCell { transaction.amount_formatted }
+                  TableCell { transaction.fm_cash_control_action_type }
                 end
               end
             end

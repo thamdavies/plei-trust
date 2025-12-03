@@ -1,0 +1,9 @@
+<% if @form.present? %>
+  <%= turbo_stream.update "opening_balance_form" do %>
+    <%= render Views::CashControls::OpeningBalanceForm.new(form: @form) %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.update "toast-notification" do %>
+    <%= render "shared/toast" %>
+  <% end %>
+<% end %>

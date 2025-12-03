@@ -1,7 +1,11 @@
 module Branch::Reader
+  def opening_balance(date = Date.current)
+    daily_balances.find_by(date: date)&.opening_balance || 0
+  end
+
   def current_cash_balance(date = Date.current)
     # 1. Lấy tiền đầu ngày
-    opening = daily_balances.find_by(date: date)&.opening_balance || 0
+    opening = opening_balance(date)
 
     # 2. Tính biến động trong ngày (Income - Expense)
     # Sử dụng bảng financial_transactions có sẵn của bạn

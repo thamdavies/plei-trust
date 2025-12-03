@@ -2,13 +2,11 @@
 <%= content_for :title, "Nhập tiền quỹ đầu ngày" %>
 
 <%= content_for :page_header_actions do %>
-  <%= turbo_frame_tag "cash_control_deposit_form" do %>
-    <div class="flex gap-4">
-      <%= render Views::CashControls::StatCardComponent.new(title: "QUỸ TIỀN MẶT") %>
-      <%= render Views::CashControls::StatCardComponent.new(title: "TIỀN ĐẦU NGÀY") %>
-      <%= render Views::CashControls::StatCardComponent.new(title: "VỐN ĐẦU TƯ") %>
-    </div>
-  <% end %>
+  <div class="flex gap-4">
+    <%= render Views::CashControls::StatCardComponent.new(title: "QUỸ TIỀN MẶT", amount: @summary.current_cash_balance) %>
+    <%= render Views::CashControls::StatCardComponent.new(title: "TIỀN ĐẦU NGÀY", amount: @summary.opening_balance) %>
+    <%= render Views::CashControls::StatCardComponent.new(title: "VỐN ĐẦU TƯ", amount: @summary.capital_amount) %>
+  </div>
 <% end %>
 
 <%= render Views::CashControls::Index.new %>
