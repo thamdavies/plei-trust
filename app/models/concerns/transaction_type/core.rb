@@ -2,13 +2,21 @@ module TransactionType::Core
   extend ActiveSupport::Concern
 
   included do
-    INTEREST_PAYMENT = "interest_payment".freeze
-    REDUCE_PRINCIPAL = "reduce_principal".freeze
-    WITHDRAWAL_PRINCIPAL = "withdrawal_principal".freeze
-    ADDITIONAL_LOAN = "additional_loan".freeze
-    CONTRACT_EXTENSION = "contract_extension".freeze
-    OUTSTANDING_INTEREST = "outstanding_interest".freeze
-    DEBT_REPAYMENT = "debt_repayment".freeze
+    INCOME_INTEREST = "income_interest".freeze
+    INCOME_PRINCIPAL = "income_principal".freeze # Trả gốc
+    INCOME_WITHDRAWAL_PRINCIPAL = "income_withdrawal_principal".freeze # Rút vốn
+    INCOME_ADDITIONAL_LOAN = "income_additional_loan".freeze
+    INCOME_CONTRACT_EXTENSION = "income_contract_extension".freeze
+    INCOME_OUTSTANDING_INTEREST = "income_outstanding_interest".freeze # Khách hàng nợ lãi
+    INCOME_DEBT_REPAYMENT = "income_debt_repayment".freeze # Khách hàng trả nợ
+
+    EXPENSE_INTEREST = "expense_interest".freeze
+    EXPENSE_PRINCIPAL = "expense_principal".freeze # Trả gốc
+    EXPENSE_WITHDRAWAL_PRINCIPAL = "expense_withdrawal_principal".freeze # Rút vốn
+    EXPENSE_ADDITIONAL_LOAN = "expense_additional_loan".freeze
+    EXPENSE_CONTRACT_EXTENSION = "expense_contract_extension".freeze
+    EXPENSE_OUTSTANDING_INTEREST = "expense_outstanding_interest".freeze # Khách hàng nợ lãi
+    EXPENSE_DEBT_REPAYMENT = "expense_debt_repayment".freeze # Khách hàng trả nợ
 
     # Additional income-prefixed codes (English constants)
     INCOME_MISC = "income_misc".freeze
@@ -63,60 +71,22 @@ module TransactionType::Core
       EXPENSE_HOUSE_RENT,
       EXPENSE_LEND_MONEY
     ].freeze
-
-    # Fund related codes
-    CAPITAL_IN = "capital_in".freeze
-    CASH_FUND_IMPORT = "cash_fund_import".freeze
-    OPENING_BALANCE = "opening_balance".freeze
   end
 
   class_methods do
-    def interest_payment
-      find_by(code: INTEREST_PAYMENT)
-    end
-
-    def reduce_principal
-      find_by(code: REDUCE_PRINCIPAL)
-    end
-
-    def withdrawal_principal
-      find_by(code: WITHDRAWAL_PRINCIPAL)
-    end
-
-    def additional_loan
-      find_by(code: ADDITIONAL_LOAN)
-    end
-
-    def contract_extension
-      find_by(code: CONTRACT_EXTENSION)
-    end
-
-    def outstanding_interest
-      find_by(code: OUTSTANDING_INTEREST)
-    end
-
-    def debt_repayment
-      find_by(code: DEBT_REPAYMENT)
-    end
-
-    def cash_fund_import
-      find_by(code: CASH_FUND_IMPORT)
-    end
-
-    def opening_balance
-      find_by(code: OPENING_BALANCE)
-    end
-
-    def capital_in
-      find_by(code: CAPITAL_IN)
-    end
-
     def seed_default_types
-      (default_types + fund_types).each do |type_data|
-        find_or_create_by(code: type_data[:code]) do |transaction_type|
-          transaction_type.assign_attributes(type_data)
-        end
+      return unless Rails.env.development? || Rails.env.test?
+
+      FinancialTransaction.delete_all
+      TransactionType.delete_all
+
+      payload = []
+
+      default_types.each do |type_data|
+        payload << type_data
       end
+
+      TransactionType.insert_all(payload)
     end
 
     private
@@ -124,45 +94,45 @@ module TransactionType::Core
     def default_types
       [
         {
-          code: INTEREST_PAYMENT,
-          name: "Đóng lãi",
-          description: "Thu tiền lãi từ khách hàng",
+          code: INCOME_INTEREST,
+          name: "Trả lãi",
+          description: "Trả lãi được xem là thu nhập",
           is_income: true
         },
         {
-          code: REDUCE_PRINCIPAL,
-          name: "Trả gốc",
-          description: "Thu tiền gốc từ khách hàng",
+          code: INCOME_PRINCIPAL,
+          name: "Rút gốc",
+          description: "Rút gốc được xem là thu nhập",
           is_income: true
         },
         {
-          code: WITHDRAWAL_PRINCIPAL,
-          name: "Rút vốn",
-          description: "Rút vốn khỏi hệ thống",
-          is_income: false
+          code: INCOME_WITHDRAWAL_PRINCIPAL,
+          name: "Rút vốn / Đóng hợp đồng",
+          description: "Rút vốn hoặc đóng hợp đồng được xem là thu nhập",
+          is_income: true
         },
         {
-          code: ADDITIONAL_LOAN,
+          code: INCOME_ADDITIONAL_LOAN,
           name: "Vay thêm",
-          description: "Giải ngân tiền vay thêm cho khách hàng",
-          is_income: false
-        },
-        {
-          code: CONTRACT_EXTENSION,
-          name: "Gia hạn hợp đồng",
-          description: "Phí gia hạn hợp đồng hoặc ghi nhận gia hạn",
+          description: "Vay thêm được xem là thu nhập",
           is_income: true
         },
         {
-          code: OUTSTANDING_INTEREST,
-          name: "Khách hàng nợ lãi",
-          description: "Ghi nhận khách hàng còn nợ tiền lãi hoặc trả tiền thừa được bù trừ vào lãi",
-          is_income: false
+          code: INCOME_CONTRACT_EXTENSION,
+          name: "Gia hạn hợp đồng",
+          description: "Gia hạn hợp đồng được xem là thu nhập",
+          is_income: true
         },
         {
-          code: DEBT_REPAYMENT,
+          code: INCOME_OUTSTANDING_INTEREST,
+          name: "Khách hàng nợ lãi",
+          description: "Khách hàng nợ lãi được xem là thu nhập",
+          is_income: true
+        },
+        {
+          code: INCOME_DEBT_REPAYMENT,
           name: "Khách hàng trả nợ",
-          description: "Khách hàng thanh toán nợ (lãi/gốc/phí) vào hệ thống",
+          description: "Khách hàng trả nợ được xem là thu nhập",
           is_income: true
         },
         {
@@ -224,6 +194,49 @@ module TransactionType::Core
           name: "Thu lãi khác",
           description: "Các khoản thu lãi khác ngoài lãi thông thường",
           is_income: true
+        },
+        # Expense types
+        {
+          code: EXPENSE_INTEREST,
+          name: "Trả lãi",
+          description: "Trả lãi được xem là chi phí",
+          is_income: false
+        },
+        {
+          code: EXPENSE_PRINCIPAL,
+          name: "Trả gốc",
+          description: "Trả gốc được xem là chi phí",
+          is_income: false
+        },
+        {
+          code: EXPENSE_WITHDRAWAL_PRINCIPAL,
+          name: "Rút vốn / Đóng hợp đồng",
+          description: "Rút vốn hoặc đóng hợp đồng được xem là chi phí",
+          is_income: false
+        },
+        {
+          code: EXPENSE_ADDITIONAL_LOAN,
+          name: "Vay thêm",
+          description: "Vay thêm được xem là chi phí",
+          is_income: false
+        },
+        {
+          code: EXPENSE_CONTRACT_EXTENSION,
+          name: "Gia hạn hợp đồng",
+          description: "Gia hạn hợp đồng được xem là chi phí",
+          is_income: false
+        },
+        {
+          code: EXPENSE_OUTSTANDING_INTEREST,
+          name: "Khách hàng nợ lãi",
+          description: "Khách hàng nợ lãi được xem là chi phí",
+          is_income: false
+        },
+        {
+          code: EXPENSE_DEBT_REPAYMENT,
+          name: "Khách hàng trả nợ",
+          description: "Khách hàng trả nợ được xem là chi phí",
+          is_income: false
         },
         {
           code: EXPENSE_MISC,
@@ -296,29 +309,6 @@ module TransactionType::Core
           name: "Chi mượn tiền",
           description: "Chi cho mượn tiền",
           is_income: false
-        }
-      ]
-    end
-
-    def fund_types
-      [
-        {
-          code: CASH_FUND_IMPORT,
-          name: "Nhập quỹ tiền mặt",
-          description: "Ghi nhận việc nhập quỹ tiền mặt vào hệ thống",
-          is_income: true
-        },
-        {
-          code: OPENING_BALANCE,
-          name: "Số dư đầu kỳ",
-          description: "Ghi nhận số dư đầu kỳ cho tài khoản/quỹ",
-          is_income: true
-        },
-        {
-          code: CAPITAL_IN,
-          name: "Vốn đầu vào",
-          description: "Ghi nhận vốn đầu tư khi tạo mới chi nhánh",
-          is_income: true
         }
       ]
     end

@@ -293,10 +293,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
     t.string "reference_number"
     t.date "transaction_date", null: false
     t.string "transaction_number", null: false
-    t.uuid "transaction_type_id", null: false
+    t.string "transaction_type_code", null: false
     t.datetime "updated_at", null: false
     t.index ["created_by_id"], name: "index_financial_transactions_on_created_by_id"
-    t.index ["transaction_type_id"], name: "index_financial_transactions_on_transaction_type_id"
+    t.index ["transaction_type_code"], name: "index_financial_transactions_on_transaction_type_code"
   end
 
   create_table "interest_rate_histories", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
@@ -319,8 +319,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
     t.index ["administrative_unit_id"], name: "idx_provinces_unit"
   end
 
-  create_table "transaction_types", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.string "code"
+  create_table "transaction_types", primary_key: "code", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
     t.boolean "is_income"
@@ -396,7 +395,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
   add_foreign_key "customers", "branches"
   add_foreign_key "customers", "users", column: "created_by_id"
   add_foreign_key "daily_balances", "branches"
-  add_foreign_key "financial_transactions", "transaction_types"
+  add_foreign_key "financial_transactions", "transaction_types", column: "transaction_type_code", primary_key: "code"
   add_foreign_key "financial_transactions", "users", column: "created_by_id"
   add_foreign_key "interest_rate_histories", "users", column: "processed_by_id"
   add_foreign_key "provinces", "administrative_units", name: "provinces_administrative_unit_id_fkey"

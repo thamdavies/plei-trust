@@ -2,8 +2,7 @@
 #
 # Table name: transaction_types
 #
-#  id          :uuid             not null, primary key
-#  code        :string
+#  code        :string           not null, primary key
 #  description :text
 #  is_income   :boolean
 #  name        :string

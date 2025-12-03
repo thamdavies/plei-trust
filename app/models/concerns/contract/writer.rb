@@ -28,10 +28,9 @@ module Contract::Writer
     code = is_income ? TransactionType::INCOME_MISC : TransactionType::EXPENSE_MISC
     current_branch = self.branch
     current_user = self.created_by
-    transaction_type = TransactionType.find_by!(code: code)
     current_branch.financial_transactions.create!(
       amount: self.loan_amount_display,
-      transaction_type:,
+      transaction_type_code: code,
       created_by: current_user,
       transaction_date: Date.current,
       recordable: self
