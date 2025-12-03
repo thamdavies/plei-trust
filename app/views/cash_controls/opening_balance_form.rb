@@ -9,7 +9,7 @@ class Views::CashControls::OpeningBalanceForm < Views::Base
   end
 
   def form_params
-    { amount: 0 }
+    { amount: "0" }
   end
 
   def view_template

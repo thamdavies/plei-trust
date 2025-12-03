@@ -90,6 +90,8 @@ class Views::Branches::Form < Views::Base
               placeholder: "Nhập số vốn đầu tư",
               name: "form[invest_amount]",
               value: form.invest_amount.to_i,
+              readonly: !form.model.new_record?,
+              disabled: !form.model.new_record?,
               class: "pr-10"
             )
             span(class: "absolute text-sm inset-y-0 right-0 flex items-center pr-3 text-gray-500") { "VNĐ" }

@@ -49,4 +49,14 @@ class ApplicationController < ActionController::Base
     policy_name = exception.policy.class.to_s.underscore
     flash.now[:error] = t "#{policy_name}.#{exception.query}", scope: "pundit", default: :default
   end
+
+  def daily_balance
+    @daily_balance ||= begin
+      current_branch.daily_balances.create_or_find_by(date: Date.current) do |balance|
+        balance.opening_balance = 0
+        balance.closing_balance = 0
+        balance.created_by = current_user
+      end
+    end
+  end
 end

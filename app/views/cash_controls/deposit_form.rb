@@ -9,7 +9,7 @@ class Views::CashControls::DepositForm < Views::Base
   end
 
   def form_params
-    { amount: 0 }
+    { amount: "0" }
   end
 
   def view_template
@@ -33,7 +33,7 @@ class Views::CashControls::DepositForm < Views::Base
                     },
                     placeholder: "0",
                     name: "form[amount]",
-                    value: form.amount,
+                    value: form.amount.to_i,
                     class: "pr-10 mb-0"
                   )
 

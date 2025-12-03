@@ -5,8 +5,8 @@ module CashControl::Operations
 
     def load_summary_data(ctx, current_branch:, **)
       ctx[:summary] = OpenStruct.new(
-        opening_balance: current_branch.opening_balance,
-        current_cash_balance: current_branch.current_cash_balance,
+        opening_balance: current_branch.opening_balance.to_currency(unit: ""),
+        current_cash_balance: current_branch.current_cash_balance.to_currency(unit: ""),
         capital_amount: current_branch.invest_amount_formatted
       )
 

@@ -7,6 +7,8 @@ class Views::CashControls::Index < Views::Base
           render Views::CashControls::DepositForm.new
         end
 
+        div(class: "h-1") # Spacer between forms
+
         turbo_frame_tag "opening_balance_form" do
           render Views::CashControls::OpeningBalanceForm.new
         end

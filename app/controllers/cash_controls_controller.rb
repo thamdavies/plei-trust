@@ -30,24 +30,11 @@ class CashControlsController < ApplicationController
 
   private
 
-  #  id                  :uuid             not null, primary key
-  #  amount              :decimal(15, 4)   not null
-  #  description         :string
-  #  party_name          :string
-  #  recordable_type     :string           not null
-  #  reference_number    :string
-  #  transaction_date    :date             not null
-  #  transaction_number  :string           not null
-  #  created_at          :datetime         not null
-  #  updated_at          :datetime         not null
-  #  created_by_id       :uuid             not null
-  #  recordable_id       :uuid             not null
-  #  transaction_type_id :uuid             not null
   def deposit_params
-    params.require(:form).permit(:amount)
+    params.require(:form).permit(:amount).merge(daily_balance: daily_balance)
   end
 
   def update_opening_balance_params
-    params.require(:form).permit(:amount)
+    params.require(:form).permit(:amount).merge(daily_balance: daily_balance)
   end
 end
