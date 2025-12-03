@@ -9,6 +9,9 @@ class Contracts::ExtendTermsController < ContractsController
       flash.now[:success] = ctx[:message]
     else
       @form = ctx["contract.default"]
+      if @form.errors[:contract_id].present?
+        flash.now[:error] = @form.errors[:contract_id].first
+      end
     end
 
     @contract = ctx[:contract].decorate

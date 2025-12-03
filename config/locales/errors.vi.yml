@@ -24,3 +24,6 @@ vi:
           filled?: "phải có ít nhất một tệp được tải lên"
         asset_setting_categories:
           min_size?: "phải chọn ít nhất %{num} lĩnh vực"
+        contract_id:
+          not_found: "Hợp đồng không tồn tại"
+          cannot_extend: "Không thể gia hạn hợp đồng vốn đầu tư, vui lòng tạo hợp đồng mới nếu bạn muốn tiếp tục đầu tư."
