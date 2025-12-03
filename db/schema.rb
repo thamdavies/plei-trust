@@ -241,6 +241,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
     t.string "interest_calculation_method"
     t.integer "interest_period"
     t.decimal "interest_rate", precision: 8, scale: 5
+    t.boolean "is_default_capital", default: false, null: false
     t.decimal "loan_amount", precision: 15, scale: 4
     t.text "note"
     t.string "status", default: "active"
@@ -287,6 +288,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
     t.datetime "created_at", null: false
     t.uuid "created_by_id", null: false
     t.string "description"
+    t.uuid "owner_id"
+    t.string "owner_type"
     t.string "party_name"
     t.uuid "recordable_id", null: false
     t.string "recordable_type", null: false
@@ -432,6 +435,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
       c.contract_date,
       c.status,
       c.note,
+      c.is_default_capital,
       c.created_at,
       c.updated_at
      FROM (contracts c
@@ -471,6 +475,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
       c.contract_date,
       c.status,
       c.note,
+      c.is_default_capital,
       c.created_at,
       c.updated_at
      FROM (contracts c
@@ -508,6 +513,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
       c.contract_date,
       c.status,
       c.note,
+      c.is_default_capital,
       c.created_at,
       c.updated_at
      FROM (contracts c

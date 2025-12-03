@@ -12,6 +12,7 @@
 #  interest_calculation_method :string
 #  interest_period             :integer
 #  interest_rate               :decimal(8, 5)
+#  is_default_capital          :boolean
 #  loan_amount                 :decimal(15, 4)
 #  note                        :text
 #  status                      :string

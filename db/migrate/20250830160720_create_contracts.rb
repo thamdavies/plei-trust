@@ -30,6 +30,8 @@ class CreateContracts < ActiveRecord::Migration[8.0]
       t.string :status, default: 'active'
       t.text :note
 
+      t.boolean :is_default_capital, default: false, null: false
+
       t.timestamps
     end
 

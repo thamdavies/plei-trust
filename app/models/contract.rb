@@ -12,6 +12,7 @@
 #  interest_calculation_method :string
 #  interest_period             :integer
 #  interest_rate               :decimal(8, 5)
+#  is_default_capital          :boolean          default(FALSE), not null
 #  loan_amount                 :decimal(15, 4)
 #  note                        :text
 #  status                      :string           default("active")
@@ -73,14 +74,20 @@ class Contract < ApplicationRecord
   has_many :unpaid_interest_payments, -> { where(payment_status: :unpaid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
   has_many :paid_interest_payments, -> { where(payment_status: :paid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
   has_many :financial_transactions, as: :recordable, dependent: :destroy
+  has_many :transactions, as: :owner, dependent: :destroy, class_name: FinancialTransaction.name
   has_many :asset_setting_values, dependent: :destroy
   has_many :reminders, dependent: :destroy, class_name: ContractReminder.name
 
-  has_many :reduce_principals, -> { where(transaction_type_code: TransactionType::REDUCE_PRINCIPAL).order(:transaction_date) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :additional_loans, -> { where(transaction_type_code: TransactionType::ADDITIONAL_LOAN).order(:transaction_date) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :withdrawal_principals, -> { where(transaction_type_code: TransactionType::WITHDRAWAL_PRINCIPAL).order(:transaction_date) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :outstanding_interests, -> { where(transaction_type_code: TransactionType::OUTSTANDING_INTEREST).order(:transaction_date) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :debt_repayments, -> { where(transaction_type_code: TransactionType::DEBT_REPAYMENT).order(:transaction_date) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_principals, -> { where(transaction_type_code: TransactionType::INCOME_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_principals, -> { where(transaction_type_code: TransactionType::EXPENSE_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_additional_loans, -> { where(transaction_type_code: TransactionType::INCOME_ADDITIONAL_LOAN) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_additional_loans, -> { where(transaction_type_code: TransactionType::EXPENSE_ADDITIONAL_LOAN) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_withdrawal_principals, -> { where(transaction_type_code: TransactionType::INCOME_WITHDRAWAL_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_withdrawal_principals, -> { where(transaction_type_code: TransactionType::EXPENSE_WITHDRAWAL_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_outstanding_interests, -> { where(transaction_type_code: TransactionType::INCOME_OUTSTANDING_INTEREST) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_outstanding_interests, -> { where(transaction_type_code: TransactionType::EXPENSE_OUTSTANDING_INTEREST) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_debt_repayments, -> { where(transaction_type_code: TransactionType::INCOME_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_debt_repayments, -> { where(transaction_type_code: TransactionType::EXPENSE_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
 
   has_many :contract_extensions, -> { order(:from) }, dependent: :destroy
   has_many :activities, -> { order("id DESC") }, class_name: PublicActivity::Activity.name, as: :trackable, dependent: :destroy
@@ -91,9 +98,9 @@ class Contract < ApplicationRecord
   enum :status, { active: "active", closed: "closed" }
   enum :contract_type_code, { pawn: "pawn", credit: "credit", installment: "installment", capital: "capital" }
 
-  scope :pawn_contracts, -> { where(contract_type: { code: :pawn }) }
-  scope :capital_contracts, -> { where(contract_type: { code: :capital }) }
-  scope :installment_contracts, -> { where(contract_type: { code: :installment }) }
+  scope :pawn_contracts, -> { where(contract_type_code: :pawn) }
+  scope :capital_contracts, -> { where(contract_type_code: :capital) }
+  scope :installment_contracts, -> { where(contract_type_code: :installment) }
 
   accepts_nested_attributes_for :customer,
                                 allow_destroy: false,

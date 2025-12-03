@@ -44,6 +44,20 @@ class Branch < ApplicationRecord
   has_many :daily_balances, dependent: :destroy
   has_many :financial_transactions, as: :recordable, dependent: :destroy
 
+  has_many :income_transactions, -> { joins(:transaction_type).where(transaction_types: { is_income: true }) }, class_name: FinancialTransaction.name, foreign_key: :recordable_id, primary_key: :id
+  has_many :expense_transactions, -> { joins(:transaction_type).where(transaction_types: { is_income: false }) }, class_name: FinancialTransaction.name, foreign_key: :recordable_id, primary_key: :id
+
+  has_many :income_principals, -> { where(transaction_type_code: TransactionType::INCOME_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_principals, -> { where(transaction_type_code: TransactionType::EXPENSE_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_additional_loans, -> { where(transaction_type_code: TransactionType::INCOME_ADDITIONAL_LOAN) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_additional_loans, -> { where(transaction_type_code: TransactionType::EXPENSE_ADDITIONAL_LOAN) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_withdrawal_principals, -> { where(transaction_type_code: TransactionType::INCOME_WITHDRAWAL_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_withdrawal_principals, -> { where(transaction_type_code: TransactionType::EXPENSE_WITHDRAWAL_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_outstanding_interests, -> { where(transaction_type_code: TransactionType::INCOME_OUTSTANDING_INTEREST) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_outstanding_interests, -> { where(transaction_type_code: TransactionType::EXPENSE_OUTSTANDING_INTEREST) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_debt_repayments, -> { where(transaction_type_code: TransactionType::INCOME_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_debt_repayments, -> { where(transaction_type_code: TransactionType::EXPENSE_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+
   # Views
   has_many :active_contracts, -> { where(status: :active) }, class_name: Contract.name
   has_many :closed_contracts, -> { where(status: :closed) }, class_name: Contract.name

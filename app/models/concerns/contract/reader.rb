@@ -1,6 +1,51 @@
 module Contract::Reader
   extend ActiveSupport::Concern
 
+  def reduce_principals
+    case contract_type_code
+    when ContractType.codes[:pawn], ContractType.codes[:installment]
+      branch.income_principals.where(owner: self)
+    when ContractType.codes[:capital]
+      branch.expense_principals.where(owner: self)
+    end
+  end
+
+  def additional_loans
+    case contract_type_code
+    when ContractType.codes[:pawn], ContractType.codes[:installment]
+      branch.expense_additional_loans.where(owner: self)
+    when ContractType.codes[:capital]
+      branch.income_additional_loans.where(owner: self)
+    end
+  end
+
+  def outstanding_interests
+    case contract_type_code
+    when ContractType.codes[:pawn], ContractType.codes[:installment]
+      income_outstanding_interests
+    when ContractType.codes[:capital]
+      expense_outstanding_interests
+    end
+  end
+
+  def withdrawal_principals
+    case contract_type_code
+    when ContractType.codes[:pawn], ContractType.codes[:installment]
+      expense_withdrawal_principals
+    when ContractType.codes[:capital]
+      income_withdrawal_principals
+    end
+  end
+
+  def debt_repayments
+    case contract_type_code
+    when ContractType.codes[:pawn], ContractType.codes[:installment]
+      income_debt_repayments
+    when ContractType.codes[:capital]
+      expense_debt_repayments
+    end
+  end
+
   def no_interest?
     interest_calculation_method == InterestCalculationMethod.config[:code][:investment_capital]
   end

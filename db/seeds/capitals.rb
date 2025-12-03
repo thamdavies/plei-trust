@@ -3,6 +3,7 @@ Branch.find_each do |branch|
   Contract.create!(
     contract_type_code: ContractType.codes[:capital],
     branch: branch,
+    is_default_capital: true,
     cashier_id: branch.users.first.id,
     created_by: branch.users.first,
     customer: branch.customers.first,

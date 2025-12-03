@@ -31,9 +31,8 @@ module AdditionalLoan::Operations
       true
     end
 
-    def save(ctx, params:, model:, **)
-      contract = ctx[:contract]
-      financial_transaction = contract.financial_transactions.find(params[:id])
+    def save(ctx, params:, model:, current_branch:, **)
+      financial_transaction = current_branch.financial_transactions.find(params[:id])
       ctx[:financial_transaction] = financial_transaction
       financial_transaction.destroy!
 

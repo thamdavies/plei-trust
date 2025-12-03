@@ -5,6 +5,7 @@
 #  id                    :uuid             not null, primary key
 #  amount                :decimal(15, 4)   not null
 #  description           :string
+#  owner_type            :string
 #  party_name            :string
 #  recordable_type       :string           not null
 #  reference_number      :string
@@ -14,6 +15,7 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  created_by_id         :uuid             not null
+#  owner_id              :uuid
 #  recordable_id         :uuid             not null
 #
 # Indexes
@@ -35,6 +37,7 @@ class FinancialTransaction < ApplicationRecord
   large_number_field :amount
 
   belongs_to :recordable, polymorphic: true
+  belongs_to :owner, polymorphic: true, optional: true
   belongs_to :transaction_type, foreign_key: :transaction_type_code, primary_key: :code
   belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id, optional: true
 

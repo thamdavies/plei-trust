@@ -4,15 +4,14 @@ module Branch::Reader
     opening = opening_balance(date)
 
     # Công thức: Vốn + Đầu ngày + (Thu - Chi)
-    invest_amount.to_f * 1_000 + opening + today_net_transaction(date)
+    default_capital = contracts.capital_contracts.find_by(is_default_capital: true)
+    default_capital.total_amount.to_f * 1_000 + opening + today_net_transaction(date)
   end
 
   # Hàm tính biến động dòng tiền trong ngày (Thu - Chi)
   def today_net_transaction(date = Date.current)
-    transactions = financial_transactions.where(transaction_date: date)
-
-    income = transactions.select { |t| t.transaction_type.is_income? }.sum(&:amount).to_f * 1_000
-    expense = transactions.select { |t| !t.transaction_type.is_income? }.sum(&:amount).to_f * 1_000
+    income = income_transactions.where(transaction_date: date).sum(:amount).to_f * 1_000
+    expense = expense_transactions.where(transaction_date: date).sum(:amount).to_f * 1_000
 
     income - expense
   end

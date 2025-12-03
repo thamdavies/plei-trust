@@ -40,12 +40,13 @@ module AdditionalLoan::Operations
       step :notify
     }
 
-    def save(ctx, model:, params:, **)
-      ctx[:financial_transaction] = model.contract.financial_transactions.create!(
-        transaction_type: TransactionType.additional_loan,
+    def save(ctx, model:, current_branch:, params:, **)
+      ctx[:financial_transaction] = current_branch.financial_transactions.create!(
+        transaction_type_code: TransactionType::Core::INCOME_ADDITIONAL_LOAN,
         amount: model.transaction_amount,
         transaction_date: model.transaction_date,
         description: model.note,
+        owner: model.contract,
         created_by: ctx[:current_user]
       )
 

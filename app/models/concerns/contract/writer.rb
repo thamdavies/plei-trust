@@ -24,12 +24,14 @@ module Contract::Writer
     parameters
   end
 
-  def create_financial_transaction!(is_income: false)
+  def create_financial_transaction!(is_income: false, amount: nil)
+    return if is_default_capital?
+
     code = is_income ? TransactionType::INCOME_MISC : TransactionType::EXPENSE_MISC
     current_branch = self.branch
     current_user = self.created_by
     current_branch.financial_transactions.create!(
-      amount: self.loan_amount_display,
+      amount: amount || self.loan_amount_display,
       transaction_type_code: code,
       created_by: current_user,
       transaction_date: Date.current,

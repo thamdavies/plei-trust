@@ -40,13 +40,14 @@ module ReducePrincipal::Operations
       step :notify
     }
 
-    def save(ctx, model:, params:, **)
-      ctx[:financial_transaction] = model.contract.financial_transactions.create!(
-        transaction_type: TransactionType.reduce_principal,
+    def save(ctx, model:, current_branch:, **)
+      ctx[:financial_transaction] = current_branch.financial_transactions.create!(
+        transaction_type_code: TransactionType::EXPENSE_PRINCIPAL,
         amount: model.prepayment_amount,
         transaction_date: model.prepayment_date,
         description: model.note,
-        created_by: ctx[:current_user]
+        created_by: ctx[:current_user],
+        owner: model.contract
       )
 
       true

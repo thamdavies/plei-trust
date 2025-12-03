@@ -37,6 +37,8 @@ module ExtendTerm::Operations
         content: "Gia hạn"
       )
 
+      return true if ctx[:contract].capital?
+
       start_date = regenerate_interest_payments(contract: ctx[:contract])
 
       contract_extension.from = start_date

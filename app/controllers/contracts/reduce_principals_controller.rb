@@ -4,7 +4,7 @@ class Contracts::ReducePrincipalsController < ContractsController
   def update
     authorize @contract, :update?
 
-    ctx = ReducePrincipal::Operations::Update.call(params: permit_params.to_h, current_user:)
+    ctx = ReducePrincipal::Operations::Update.call(params: permit_params.to_h, current_user:, current_branch:)
     if ctx.success?
       flash.now[:success] = ctx[:message]
     else
@@ -19,7 +19,7 @@ class Contracts::ReducePrincipalsController < ContractsController
   def destroy
     authorize @contract, :update?
 
-    ctx = ReducePrincipal::Operations::Cancel.call(params: cancel_params.to_h, current_user:)
+    ctx = ReducePrincipal::Operations::Cancel.call(params: cancel_params.to_h, current_user:, current_branch:)
     if ctx.success?
       flash.now[:success] = ctx[:message]
     else

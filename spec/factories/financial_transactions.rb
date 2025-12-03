@@ -5,6 +5,7 @@
 #  id                    :uuid             not null, primary key
 #  amount                :decimal(15, 4)   not null
 #  description           :string
+#  owner_type            :string
 #  party_name            :string
 #  recordable_type       :string           not null
 #  reference_number      :string
@@ -14,6 +15,7 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  created_by_id         :uuid             not null
+#  owner_id              :uuid
 #  recordable_id         :uuid             not null
 #
 # Indexes
