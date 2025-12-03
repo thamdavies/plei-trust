@@ -11,8 +11,8 @@ module Branch::Reader
   def today_net_transaction(date = Date.current)
     transactions = financial_transactions.where(transaction_date: date)
 
-    income = transactions.select { |t| t.transaction_type.is_income? }.sum(&:amount) * 1_000
-    expense = transactions.select { |t| !t.transaction_type.is_income? }.sum(&:amount) * 1_000
+    income = transactions.select { |t| t.transaction_type.is_income? }.sum(&:amount).to_f * 1_000
+    expense = transactions.select { |t| !t.transaction_type.is_income? }.sum(&:amount).to_f * 1_000
 
     income - expense
   end

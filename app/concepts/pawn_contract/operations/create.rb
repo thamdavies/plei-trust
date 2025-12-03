@@ -13,6 +13,7 @@ module PawnContract::Operations
       step Contract::Persist()
       step :create_contract_interest_payments
       step :create_activity_log
+      step :create_financial_transaction
     }
 
     private
@@ -35,6 +36,12 @@ module PawnContract::Operations
 
       parameters = model.reverse_debit_amount_params(parameters)
       model.create_activity! key: "activity.contract.create", owner: current_user, parameters: parameters
+      true
+    end
+
+    def create_financial_transaction(ctx, model:, **)
+      model.create_financial_transaction!(is_income: false)
+
       true
     end
   end
