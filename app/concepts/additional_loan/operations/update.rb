@@ -42,7 +42,7 @@ module AdditionalLoan::Operations
 
     def save(ctx, model:, current_branch:, params:, **)
       ctx[:financial_transaction] = current_branch.financial_transactions.create!(
-        transaction_type_code: TransactionType::Core::INCOME_ADDITIONAL_LOAN,
+        transaction_type_code: TransactionType.config.dig(:additional_loan, model.contract.contract_type_code.to_sym, :update),
         amount: model.transaction_amount,
         transaction_date: model.transaction_date,
         description: model.note,

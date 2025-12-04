@@ -53,7 +53,7 @@ module WithdrawPrincipal::Operations
     def save(ctx, model:, params:, current_branch:, **)
       withdraw_principal = ctx[:withdraw_principal]
       ctx[:record] = current_branch.financial_transactions.create!(
-        transaction_type_code: TransactionType::EXPENSE_WITHDRAWAL_PRINCIPAL,
+        transaction_type_code: TransactionType.config.dig(:withdraw_principal, model.contract.contract_type_code.to_sym, :update),
         amount: withdraw_principal[:total_amount_raw],
         transaction_date: model.transaction_date.parse_date_vn,
         description: model.note,

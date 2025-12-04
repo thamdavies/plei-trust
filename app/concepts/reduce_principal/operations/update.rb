@@ -42,7 +42,7 @@ module ReducePrincipal::Operations
 
     def save(ctx, model:, current_branch:, **)
       ctx[:financial_transaction] = current_branch.financial_transactions.create!(
-        transaction_type_code: TransactionType::EXPENSE_PRINCIPAL,
+        transaction_type_code: TransactionType.config.dig(:reduce_principal, model.contract.contract_type_code.to_sym, :update),
         amount: model.prepayment_amount,
         transaction_date: model.prepayment_date,
         description: model.note,

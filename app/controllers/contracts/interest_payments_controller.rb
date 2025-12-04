@@ -4,7 +4,7 @@ class Contracts::InterestPaymentsController < ContractsController
   def update
     authorize @contract, :update?
 
-    ctx = ContractInterestPayment::Operations::Update.call(params: permit_params.to_h, current_user:)
+    ctx = ContractInterestPayment::Operations::Update.call(params: permit_params.to_h, current_user:, current_branch:)
     if ctx.success?
       flash.now[:success] = ctx[:message]
     else
