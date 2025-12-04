@@ -2,6 +2,7 @@ module TransactionType::Core
   extend ActiveSupport::Concern
 
   included do
+    INCOME_CONTRACT_CHANGE = "income_contract_change".freeze
     INCOME_INTEREST = "income_interest".freeze
     INCOME_PRINCIPAL = "income_principal".freeze # Trả gốc
     INCOME_WITHDRAWAL_PRINCIPAL = "income_withdrawal_principal".freeze # Rút vốn
@@ -10,6 +11,7 @@ module TransactionType::Core
     INCOME_OUTSTANDING_INTEREST = "income_outstanding_interest".freeze # Khách hàng nợ lãi
     INCOME_DEBT_REPAYMENT = "income_debt_repayment".freeze # Khách hàng trả nợ
 
+    EXPENSE_CONTRACT_CHANGE = "expense_contract_change".freeze
     EXPENSE_INTEREST = "expense_interest".freeze
     EXPENSE_PRINCIPAL = "expense_principal".freeze # Trả gốc
     EXPENSE_WITHDRAWAL_PRINCIPAL = "expense_withdrawal_principal".freeze # Rút vốn
@@ -93,6 +95,12 @@ module TransactionType::Core
 
     def default_types
       [
+        {
+          code: INCOME_CONTRACT_CHANGE,
+          name: "Thay đổi số tiền hợp đồng",
+          description: "Thay đổi số tiền hợp đồng được xem là thu nhập",
+          is_income: true
+        },
         {
           code: INCOME_INTEREST,
           name: "Trả lãi",
@@ -196,6 +204,12 @@ module TransactionType::Core
           is_income: true
         },
         # Expense types
+        {
+          code: EXPENSE_CONTRACT_CHANGE,
+          name: "Thay đổi số tiền hợp đồng",
+          description: "Thay đổi số tiền hợp đồng được xem là chi phí",
+          is_income: false
+        },
         {
           code: EXPENSE_INTEREST,
           name: "Trả lãi",

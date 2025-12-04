@@ -27,7 +27,7 @@ module Contract::Writer
   def create_financial_transaction!(is_income: false, amount: nil)
     return if is_default_capital?
 
-    code = is_income ? TransactionType::INCOME_MISC : TransactionType::EXPENSE_MISC
+    code = is_income ? TransactionType::INCOME_CONTRACT_CHANGE : TransactionType::EXPENSE_CONTRACT_CHANGE
     current_branch = self.branch
     current_user = self.created_by
     current_branch.financial_transactions.create!(

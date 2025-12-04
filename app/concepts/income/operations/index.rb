@@ -5,7 +5,9 @@ module Income::Operations
     step :sort
 
     def filter(ctx, params:, current_branch:, **)
-      ctx[:model] = current_branch.financial_transactions.income_types.includes(:transaction_type, :created_by).ransack(ctx[:params][:q]).result
+      ctx[:model] = current_branch.financial_transactions.joins(:transaction_type)
+                                  .where(transaction_types: { code: TransactionType::INCOME_TYPES })
+                                  .ransack(ctx[:params][:q]).result
     end
 
     def sort(ctx, params:, model:, **)
