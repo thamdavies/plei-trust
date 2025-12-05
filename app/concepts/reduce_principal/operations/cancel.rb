@@ -32,6 +32,7 @@ module ReducePrincipal::Operations
     end
 
     def save(ctx, params:, current_branch:, model:, **)
+      binding.pry
       financial_transaction = current_branch.financial_transactions.find(params[:id])
       ctx[:financial_transaction] = financial_transaction
       financial_transaction.destroy!
