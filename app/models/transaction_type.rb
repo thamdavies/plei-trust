@@ -19,6 +19,9 @@ class TransactionType < ApplicationRecord
       },
       pawn: {
         update: EXPENSE_ADDITIONAL_LOAN
+      },
+      installment: {
+        update: EXPENSE_ADDITIONAL_LOAN
       }
     },
     reduce_principal: {
@@ -26,6 +29,9 @@ class TransactionType < ApplicationRecord
         update: EXPENSE_PRINCIPAL
       },
       pawn: {
+        update: INCOME_PRINCIPAL
+      },
+      installment: {
         update: INCOME_PRINCIPAL
       }
     },
@@ -35,6 +41,9 @@ class TransactionType < ApplicationRecord
       },
       pawn: {
         update: INCOME_WITHDRAWAL_PRINCIPAL
+      },
+      installment: {
+        update: INCOME_WITHDRAWAL_PRINCIPAL
       }
     },
     interest_payment: {
@@ -43,6 +52,10 @@ class TransactionType < ApplicationRecord
         cancel: INCOME_INTEREST
       },
       pawn: {
+        update: INCOME_INTEREST,
+        cancel: EXPENSE_INTEREST
+      },
+      installment: {
         update: INCOME_INTEREST,
         cancel: EXPENSE_INTEREST
       }

@@ -18,21 +18,24 @@ class Views::Base < Components::Base
         loan_amount: "Số tiền đầu tư",
         contract_date: "Ngày góp vốn",
         customer_debt: "Nợ cũ KH",
-        contract_debt: "Nợ cũ HĐ"
+        contract_debt: "Nợ cũ HĐ",
+        contract_term: "Thời gian đầu tư"
       )
     when :pawn
       OpenStruct.new(
         loan_amount: "Số tiền cầm",
-        contract_date: "Ngày vay",
+        contract_date: "Ngày cầm cố",
         customer_debt: "Tiền thừa KH",
-        contract_debt: "Tiền thừa HĐ"
+        contract_debt: "Tiền thừa HĐ",
+        contract_term: "Thời gian cầm cố"
       )
     else
       OpenStruct.new(
         loan_amount: "Số tiền vay",
         contract_date: "Ngày vay",
         customer_debt: "Nợ cũ KH",
-        contract_debt: "Nợ cũ HĐ"
+        contract_debt: "Nợ cũ HĐ",
+        contract_term: "Thời gian vay"
       )
     end
   end
