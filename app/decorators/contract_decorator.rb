@@ -25,7 +25,12 @@ class ContractDecorator < ApplicationDecorator
     return "#{contract_date.to_fs(:date_vn)} - #{contract_date.to_fs(:date_vn)}" if no_interest?
 
     record = interest_payments
-    "#{record.first.from.to_fs(:date_vn)} - #{contract_end_date.to_fs(:date_vn)}"
+    if installment?
+      end_date = contract_end_date.change(day: record.first.from.day)
+      "#{record.first.from.to_fs(:date_vn)} - #{end_date.to_fs(:date_vn)}"
+    else
+      "#{record.first.from.to_fs(:date_vn)} - #{contract_end_date.to_fs(:date_vn)}"
+    end
   end
 
   def fm_total_interest
