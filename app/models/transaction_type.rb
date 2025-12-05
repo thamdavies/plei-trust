@@ -16,22 +16,35 @@ class TransactionType < ApplicationRecord
     additional_loan: {
       capital: {
         update: INCOME_ADDITIONAL_LOAN
+      },
+      pawn: {
+        update: EXPENSE_ADDITIONAL_LOAN
       }
     },
     reduce_principal: {
       capital: {
         update: EXPENSE_PRINCIPAL
+      },
+      pawn: {
+        update: INCOME_PRINCIPAL
       }
     },
     withdraw_principal: {
       capital: {
         update: EXPENSE_WITHDRAWAL_PRINCIPAL
+      },
+      pawn: {
+        update: INCOME_WITHDRAWAL_PRINCIPAL
       }
     },
     interest_payment: {
       capital: {
         update: EXPENSE_INTEREST,
         cancel: INCOME_INTEREST
+      },
+      pawn: {
+        update: INCOME_INTEREST,
+        cancel: EXPENSE_INTEREST
       }
     }
   }
