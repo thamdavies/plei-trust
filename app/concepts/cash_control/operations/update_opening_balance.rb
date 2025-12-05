@@ -24,10 +24,18 @@ module CashControl::Operations
     step Contract::Validate()
     step Wrap(AppTransaction) {
       step :save
+      step :create_activity_log
     }
 
     def save(ctx, model:, current_user:, daily_balance:, **)
       daily_balance.update(opening_balance: model.amount, created_by: current_user)
+    end
+
+    def create_activity_log(ctx, model:, current_user:, current_branch:, **)
+      parameters = {
+        amount: model.amount / 1000.to_f
+      }
+      current_branch.create_activity! key: Settings.activity_keys.cash_control.update_opening_balance, owner: current_user, parameters: parameters
     end
   end
 end

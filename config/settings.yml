@@ -5,3 +5,24 @@ max_contract_file_size: 10
 max_customer_file_size: 10
 remove_customer_file_base_url: "/customers/files/:ID"
 remove_contract_file_base_url: "/contracts/files/:ID"
+
+activity_keys:
+  cash_control:
+    deposit: "activity.cash_control.deposit"
+    update_opening_balance: "activity.cash_control.update_opening_balance"
+  contract:
+    create: "activity.contract.create"
+    update: "activity.contract.update"
+    close: "activity.contract.close"
+    outstanding_interest: "activity.contract.outstanding_interest"
+    debt_repayment: "activity.contract.debt_repayment"
+    extend: "activity.contract.extend"
+    additional_loan:
+      create: "activity.additional_loan.create"
+      cancel: "activity.additional_loan.cancel"
+    contract_interest_payment:
+      paid: "activity.contract_interest_payment.paid"
+      cancel: "activity.contract_interest_payment.cancel"
+    reduce_principal:
+      create: "activity.reduce_principal.create"
+      cancel: "activity.reduce_principal.cancel"

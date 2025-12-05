@@ -14,7 +14,11 @@ module CashControl::Operations
     end
 
     def load_transactions(ctx, current_branch:, **)
-      ctx[:transactions] = current_branch.financial_transactions.includes(:transaction_type, :created_by).order(id: :desc)
+      keys = [
+        Settings.activity_keys.cash_control.deposit,
+        Settings.activity_keys.cash_control.update_opening_balance
+      ]
+      ctx[:transactions] = current_branch.activities.includes(:owner).where(key: keys)
 
       true
     end

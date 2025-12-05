@@ -1,4 +1,8 @@
 class Views::CashControls::Index < Views::Base
+  def initialize(transactions: [])
+    @transactions = transactions
+  end
+
   def view_template
     div(class: "grid grid-cols-1 md:grid-cols-3 gap-4 m-4") do
       # Left Column: Forms (Takes up 1/3 of the space on medium screens and up)
@@ -16,7 +20,7 @@ class Views::CashControls::Index < Views::Base
 
       # Right Column: Transaction Table (Takes up 2/3 of the space)
       div(class: "md:col-span-2") do
-        render Views::CashControls::TransactionTable.new
+        render Views::CashControls::TransactionTable.new(transactions: @transactions)
       end
     end
   end

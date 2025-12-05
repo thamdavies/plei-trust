@@ -16,3 +16,6 @@ vi:
     additional_loan:
       create: Vay thêm gốc
       cancel: Hủy vay thêm gốc
+    cash_control:
+      deposit: Nhập quỹ tiền mặt
+      update_opening_balance: Cập nhật tiền đầu ngày

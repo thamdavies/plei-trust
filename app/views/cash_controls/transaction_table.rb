@@ -20,7 +20,7 @@ class Views::CashControls::TransactionTable < Views::Base
             end
           end
           TableBody do
-            if @transactions.empty?
+            if @transactions.blank?
               TableRow do
                 TableCell(colspan: 4, class: "text-center text-muted-foreground") { "Chưa có giao dịch nào" }
               end
@@ -28,10 +28,10 @@ class Views::CashControls::TransactionTable < Views::Base
               @transactions.each_with_index do |transaction, index|
                 TableRow do
                   TableCell { index + 1 }
-                  TableCell { transaction.fm_transaction_date }
-                  TableCell { transaction.created_by.full_name }
-                  TableCell { transaction.amount_formatted }
-                  TableCell { transaction.fm_cash_control_action_type }
+                  TableCell { transaction.fm_created_at }
+                  TableCell { transaction.owner_name }
+                  TableCell { transaction.fm_amount }
+                  TableCell { transaction.fm_activity_key }
                 end
               end
             end
