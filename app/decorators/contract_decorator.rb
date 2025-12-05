@@ -118,4 +118,12 @@ class ContractDecorator < ApplicationDecorator
   def total_payment_amount_formatted
     total_payment_amount.to_currency(unit: "")
   end
+
+  def total_installment_amount
+    contract_interest_payments.map(&:other_amount).sum * 1_000
+  end
+
+  def total_installment_amount_formatted
+    total_installment_amount.to_currency(unit: "")
+  end
 end

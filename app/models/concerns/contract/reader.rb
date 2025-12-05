@@ -96,7 +96,12 @@ module Contract::Reader
   end
 
   def total_interest
-    interest_in_days(amount: total_amount, days_count: contract_term_in_days).to_i * 1_000
+    # interest_in_days(amount: total_amount, days_count: contract_term_in_days).to_i * 1_000
+    if self.installment?
+      contract_interest_payments.sum(:other_amount).to_f * 1_000
+    else
+      interest_in_days(amount: total_amount, days_count: contract_term_in_days).to_f * 1_000
+    end.to_currency(unit: "")
   end
 
   def total_paid_interest
@@ -156,9 +161,12 @@ module Contract::Reader
     when InterestCalculationMethod.config[:code][:weekly_fixed]
       num_of_weeks = (days_count / 7.0).ceil
       num_of_weeks * interest_rate
-    when InterestCalculationMethod.config[:code][:monthly_30], InterestCalculationMethod.config[:code][:monthly_calendar]
+    when InterestCalculationMethod.config[:code][:monthly_30],
+         InterestCalculationMethod.config[:code][:monthly_calendar]
       ((amount * (interest_rate / 100.0)) / 30) * days_count
-    when InterestCalculationMethod.config[:code][:installment_principal_interest_equal]
+    when InterestCalculationMethod.config[:code][:installment_principal_interest_equal],
+          InterestCalculationMethod.config[:code][:installment_principal_equal],
+          InterestCalculationMethod.config[:code][:installment_principal_one_time]
       monthly_rate = (interest_rate / 100.0) / 12.0
       daily_rate = monthly_rate / 30.0
       amount * daily_rate * days_count
@@ -246,15 +254,15 @@ module Contract::Reader
   end
 
   def has_debt_tab?
-    [ ContractType.codes[:pawn] ].include?(contract_type_code)
+    [ ContractType.codes[:pawn], ContractType.codes[:installment] ].include?(contract_type_code)
   end
 
   def has_file_tab?
-    [ ContractType.codes[:pawn] ].include?(contract_type_code)
+    [ ContractType.codes[:pawn], ContractType.codes[:installment] ].include?(contract_type_code)
   end
 
   def has_reminder_tab?
-    [ ContractType.codes[:pawn] ].include?(contract_type_code)
+    [ ContractType.codes[:pawn], ContractType.codes[:installment] ].include?(contract_type_code)
   end
 
   def old_debt_amount
