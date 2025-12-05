@@ -44,7 +44,7 @@ module AdditionalLoan::Operations
       ctx[:financial_transaction] = current_branch.financial_transactions.create!(
         transaction_type_code: TransactionType.config.dig(:additional_loan, model.contract.contract_type_code.to_sym, :update),
         amount: model.transaction_amount,
-        transaction_date: model.transaction_date,
+        transaction_date: Date.current,
         description: model.note,
         owner: model.contract,
         created_by: ctx[:current_user]

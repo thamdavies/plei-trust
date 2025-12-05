@@ -44,7 +44,7 @@ module ReducePrincipal::Operations
       ctx[:financial_transaction] = current_branch.financial_transactions.create!(
         transaction_type_code: TransactionType.config.dig(:reduce_principal, model.contract.contract_type_code.to_sym, :update),
         amount: model.prepayment_amount,
-        transaction_date: model.prepayment_date,
+        transaction_date: Date.current,
         description: model.note,
         created_by: ctx[:current_user],
         owner: model.contract
