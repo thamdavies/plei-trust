@@ -63,11 +63,31 @@ module WithdrawPrincipal::Operations
       true
     end
 
-    def regenerate_interest_payments(ctx, model:, params:, **)
+    def regenerate_interest_payments(ctx, model:, current_branch:, **)
       contract = ctx[:contract]
-      contract.update_columns(status: "closed")
-      generator = ::Contract::Services::ContractInterestPaymentGenerator.new(contract:, start_date: model.start_date)
-      generator.call
+      contract.update_columns(status: "closed", contract_ended_at: Time.current)
+      interest_amount = ctx[:withdraw_principal][:interest_amount_raw]
+
+      contract.contract_interest_payments.unpaid.delete_all
+
+      if interest_amount > 0
+      number_of_days = ctx[:withdraw_principal][:days_count]
+
+        params = {
+          contract_id: contract.id,
+          branch_id: current_branch.id,
+          from: model.start_date,
+          to: model.transaction_date.parse_date_vn,
+          number_of_days:,
+          amount: interest_amount,
+          total_amount: interest_amount,
+          payment_status: ContractInterestPayment.payment_statuses[:paid],
+          total_paid: interest_amount,
+          paid_at: Time.current
+        }
+
+        ContractInterestPayment.create!(params)
+      end
 
       true
     end

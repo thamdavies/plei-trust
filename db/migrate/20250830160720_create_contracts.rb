@@ -25,6 +25,7 @@ class CreateContracts < ActiveRecord::Migration[8.0]
       t.integer :interest_period
 
       t.date :contract_date
+      t.datetime :contract_ended_at
 
       # Trạng thái và cài đặt
       t.string :status, default: 'active'

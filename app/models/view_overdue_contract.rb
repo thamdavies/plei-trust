@@ -7,6 +7,7 @@
 #  code                        :string
 #  collect_interest_in_advance :boolean
 #  contract_date               :date
+#  contract_ended_at           :datetime
 #  contract_term               :integer
 #  contract_type_code          :string
 #  interest_calculation_method :string

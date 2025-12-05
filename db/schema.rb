@@ -235,6 +235,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
     t.string "code"
     t.boolean "collect_interest_in_advance", default: false
     t.date "contract_date"
+    t.datetime "contract_ended_at"
     t.integer "contract_term"
     t.string "contract_type_code", null: false
     t.datetime "created_at", null: false
@@ -436,6 +437,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
       c.contract_term,
       c.interest_period,
       c.contract_date,
+      c.contract_ended_at,
       c.status,
       c.note,
       c.is_default_capital,
@@ -476,6 +478,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
       c.contract_term,
       c.interest_period,
       c.contract_date,
+      c.contract_ended_at,
       c.status,
       c.note,
       c.is_default_capital,
@@ -514,6 +517,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
       c.contract_term,
       c.interest_period,
       c.contract_date,
+      c.contract_ended_at,
       c.status,
       c.note,
       c.is_default_capital,

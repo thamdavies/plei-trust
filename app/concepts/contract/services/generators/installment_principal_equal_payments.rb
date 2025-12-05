@@ -70,9 +70,7 @@ module Contract::Services::Generators
           amount: monthly_payment, # Tổng trả (Giảm dần)
           other_amount: interest,       # Lãi (Giảm dần)
           total_amount: monthly_payment,
-          balance: current_balance,
-          payment_status: contract.closed? ? "paid" : "unpaid",
-          total_paid: contract.closed? ? monthly_payment : 0
+          balance: current_balance
         }
       end
 

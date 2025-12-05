@@ -51,6 +51,9 @@ class ContractInterestPayment < ApplicationRecord
   scope :start_date_greater_than, ->(date) { where(arel_table[:from].gt(date)) }
   scope :due_date_less_than, ->(date) { where(arel_table[:to].lt(date)) }
   scope :due_date_greater_than, ->(date) { where(arel_table[:to].gt(date)) }
+  scope :paid_in_current_month, -> {
+    where(paid_at: Time.current.beginning_of_month..Time.current.end_of_month)
+  }
 
   scope :custom_payments, -> { where(custom_payment: true) }
 end

@@ -5,8 +5,8 @@
 <%= render Views::Shared::LegalNoticeComponent.new %>
 
 <div class="flex m-4 justify-between">
-  <%= render Views::Shared::StatCardComponent.new(amount: @dashboard_data.cash_balance, title: "QUỸ TIỀN MẶT") %>
-  <%= render Views::Shared::StatCardComponent.new(amount: @dashboard_data.active_contract_count, title: "SỐ HỢP ĐỒNG ĐANG VAY") %>
-  <%= render Views::Shared::StatCardComponent.new(amount: @dashboard_data.active_loan_amount, title: "TIỀN ĐANG CHO VAY") %>
-  <%= render Views::Shared::StatCardComponent.new(amount: @dashboard_data.monthly_interest_collected, title: "LÃI ĐÃ THU TRONG THÁNG") %>
+  <%= render Views::Shared::StatCardComponent.new(amount: @dashboard_data.cash_balance, title: "QUỸ TIỀN MẶT", variant: :icon) %>
+  <%= render Views::Shared::StatCardComponent.new(amount: @dashboard_data.active_contract_count, title: "SỐ HỢP ĐỒNG ĐANG VAY", variant: :icon) %>
+  <%= render Views::Shared::StatCardComponent.new(amount: @dashboard_data.active_loan_amount, title: "TIỀN ĐANG CHO VAY", variant: :icon) %>
+  <%= render Views::Shared::StatCardComponent.new(amount: @dashboard_data.monthly_interest_collected, title: "LÃI ĐÃ THU TRONG THÁNG", variant: :icon) %>
 </div>

@@ -19,9 +19,7 @@ module Dashboard::Operations
     end
 
     def fetch_monthly_interest_collected(ctx, current_branch:, **)
-      ctx[:monthly_interest_collected] = current_branch.income_transactions
-        .where(transaction_date: Date.current.beginning_of_month..Date.current.end_of_month)
-        .sum(:amount)
+      ctx[:monthly_interest_collected] = current_branch.interest_payments.paid_in_current_month.sum(:total_paid) * 1_000
       true
     end
 

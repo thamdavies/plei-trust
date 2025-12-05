@@ -5,14 +5,15 @@ module Contract::Services::Generators
     # Initialize with contract
     # @param contract [Contract] The contract for which interest payments are being generated
     # @return [void]
-    def initialize(contract:, start_date: nil)
+    def initialize(contract:, start_date: nil, interest_amount: nil)
       @contract = contract.reload
       @start_date = start_date || contract.contract_date
+      @given_interest_amount = interest_amount
     end
 
     private
 
-    attr_reader :contract, :start_date
+    attr_reader :contract, :start_date, :given_interest_amount
 
     def payment_cycle
       (contract.contract_term / contract.interest_period.to_f).ceil

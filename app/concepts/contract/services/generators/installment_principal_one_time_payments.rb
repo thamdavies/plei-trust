@@ -65,9 +65,7 @@ module Contract::Services::Generators
           other_amount: interest,  # Số tiền lãi trong kỳ
           amount: monthly_payment, # Số tiền trả hàng tháng
           total_amount: monthly_payment,
-          balance: current_balance,
-          payment_status: contract.closed? ? "paid" : "unpaid",
-          total_paid: contract.closed? ? monthly_payment : 0
+          balance: current_balance
         }
       end
 
