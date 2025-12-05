@@ -35,7 +35,7 @@ class Views::Contracts::Pawns::Index < Views::Base
               TableCell(class: "font-medium") { contract.customer_name }
               TableCell(class: "font-medium") { contract.asset_setting.asset_code }
               TableCell(class: "font-medium") { contract.asset_name }
-              TableCell(class: "font-medium") { contract.loan_amount_formatted }
+              TableCell(class: "font-medium") { contract.total_amount_formatted }
               TableCell(class: "font-medium") { contract.fm_contract_date }
               TableCell(class: "font-medium") { contract.total_paid_interest_formatted }
               TableCell(class: "font-medium") { contract.fm_old_debt_amount(unit: false) }
