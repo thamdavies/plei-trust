@@ -36,6 +36,7 @@ module Contract::Services::Generators
 
         schedule << {
           contract_id: contract.id,
+          branch_id: contract.branch_id,
           from: current_from,
           to: current_to,
           number_of_days: actual_days,

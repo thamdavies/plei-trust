@@ -17,14 +17,17 @@
 #  total_paid     :decimal(15, 4)   default(0.0)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  branch_id      :uuid             not null
 #  contract_id    :uuid             not null
 #
 # Indexes
 #
+#  index_contract_interest_payments_on_branch_id    (branch_id)
 #  index_contract_interest_payments_on_contract_id  (contract_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (branch_id => branches.id)
 #  fk_rails_...  (contract_id => contracts.id)
 #
 class ContractInterestPayment < ApplicationRecord
@@ -32,6 +35,9 @@ class ContractInterestPayment < ApplicationRecord
   include ContractInterestPayment::Reader
 
   belongs_to :contract
+  belongs_to :branch
+
+  acts_as_tenant(:branch)
 
   enum :payment_status, { unpaid: "unpaid", paid: "paid" }
 

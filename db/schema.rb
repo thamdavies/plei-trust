@@ -176,6 +176,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
   create_table "contract_interest_payments", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.decimal "amount", precision: 15, scale: 4, default: "0.0"
     t.decimal "balance", precision: 15, scale: 4, default: "0.0"
+    t.uuid "branch_id", null: false
     t.uuid "contract_id", null: false
     t.datetime "created_at", null: false
     t.boolean "custom_payment", default: false
@@ -189,6 +190,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
     t.decimal "total_amount", precision: 15, scale: 4, default: "0.0"
     t.decimal "total_paid", precision: 15, scale: 4, default: "0.0"
     t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_contract_interest_payments_on_branch_id"
     t.index ["contract_id"], name: "index_contract_interest_payments_on_contract_id"
   end
 
@@ -385,6 +387,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
   add_foreign_key "contract_amount_changes", "contracts"
   add_foreign_key "contract_amount_changes", "users", column: "processed_by_id"
   add_foreign_key "contract_extensions", "contracts"
+  add_foreign_key "contract_interest_payments", "branches"
   add_foreign_key "contract_interest_payments", "contracts"
   add_foreign_key "contract_reminders", "contracts"
   add_foreign_key "contract_terminations", "contracts"

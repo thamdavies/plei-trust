@@ -98,9 +98,10 @@ class Contract < ApplicationRecord
   enum :status, { active: "active", closed: "closed" }
   enum :contract_type_code, { pawn: "pawn", credit: "credit", installment: "installment", capital: "capital" }
 
-  scope :pawn_contracts, -> { where(contract_type_code: :pawn) }
-  scope :capital_contracts, -> { where(contract_type_code: :capital) }
-  scope :installment_contracts, -> { where(contract_type_code: :installment) }
+  scope :without_capital, -> { where.not(contract_type_code: ContractType.codes[:capital]) }
+  scope :pawn_contracts, -> { where(contract_type_code: ContractType.codes[:pawn]) }
+  scope :capital_contracts, -> { where(contract_type_code: ContractType.codes[:capital]) }
+  scope :installment_contracts, -> { where(contract_type_code: ContractType.codes[:installment]) }
 
   accepts_nested_attributes_for :customer,
                                 allow_destroy: false,

@@ -3,9 +3,9 @@
 
 <%= content_for :page_header_actions do %>
   <div class="flex gap-4">
-    <%= render Views::CashControls::StatCardComponent.new(title: "QUỸ TIỀN MẶT", amount: @summary.current_cash_balance) %>
-    <%= render Views::CashControls::StatCardComponent.new(title: "TIỀN ĐẦU NGÀY", amount: @summary.opening_balance) %>
-    <%= render Views::CashControls::StatCardComponent.new(title: "VỐN ĐẦU TƯ", amount: @summary.capital_amount) %>
+    <%= render Views::Shared::StatCardComponent.new(title: "QUỸ TIỀN MẶT", amount: @summary.current_cash_balance) %>
+    <%= render Views::Shared::StatCardComponent.new(title: "TIỀN ĐẦU NGÀY", amount: @summary.opening_balance) %>
+    <%= render Views::Shared::StatCardComponent.new(title: "VỐN ĐẦU TƯ", amount: @summary.capital_amount) %>
   </div>
 <% end %>
 

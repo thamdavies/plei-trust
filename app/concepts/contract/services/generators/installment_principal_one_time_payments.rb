@@ -58,6 +58,7 @@ module Contract::Services::Generators
 
         schedule << {
           contract_id: contract.id,
+          branch_id: contract.branch_id,
           from: period_start,
           to: period_end,
           number_of_days: days_in_period,

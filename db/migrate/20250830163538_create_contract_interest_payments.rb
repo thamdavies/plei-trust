@@ -2,6 +2,7 @@ class CreateContractInterestPayments < ActiveRecord::Migration[8.0]
   def change
     create_table :contract_interest_payments, id: :uuid, default: 'uuidv7()' do |t|
       t.references :contract, null: false, foreign_key: true, type: :uuid
+      t.references :branch, null: false, foreign_key: true, type: :uuid
       t.date :from
       t.date :to
       # flag để nhận biết có sử dụng chức năng đóng lãi tuỳ biến theo ngày hay không
