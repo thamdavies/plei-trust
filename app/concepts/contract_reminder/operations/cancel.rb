@@ -24,6 +24,7 @@ module ContractReminder::Operations
       model.assign_attributes(params)
       ctx[:contract] = model.contract
       ctx[:contract].reminders.create!(
+        branch_id: model.contract.branch_id,
         reminder_type: ContractReminder.reminder_types[:cancel_scheduled_reminder],
       )
 

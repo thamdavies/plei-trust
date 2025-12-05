@@ -195,6 +195,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
   end
 
   create_table "contract_reminders", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.uuid "branch_id", null: false
     t.uuid "contract_id", null: false
     t.datetime "created_at", null: false
     t.datetime "date"
@@ -202,6 +203,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
     t.string "reminder_type", null: false
     t.string "status", default: "active"
     t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_contract_reminders_on_branch_id"
     t.index ["contract_id"], name: "index_contract_reminders_on_contract_id"
   end
 
@@ -390,6 +392,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
   add_foreign_key "contract_extensions", "contracts"
   add_foreign_key "contract_interest_payments", "branches"
   add_foreign_key "contract_interest_payments", "contracts"
+  add_foreign_key "contract_reminders", "branches"
   add_foreign_key "contract_reminders", "contracts"
   add_foreign_key "contract_terminations", "contracts"
   add_foreign_key "contract_terminations", "users", column: "processed_by_id"

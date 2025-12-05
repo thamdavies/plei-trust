@@ -50,46 +50,29 @@ class Components::Navigation < Components::Base
             end
           end
           div(class: "flex items-center") do
-            #   div(class: "hidden mr-3 -mb-1 sm:block") { span }
-            #   button(id: "toggleSidebarMobileSearch", type: "button", class: "p-2 text-gray-500 rounded-lg lg:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white") do
-            #     span(class: "sr-only") { "Search" }
-            #     Remix::SearchLine(class: "w-6 h-6")
+            # div(class: "hidden mr-3 -mb-1 sm:block") { span }
+            # button(id: "toggleSidebarMobileSearch", type: "button", class: "p-2 text-gray-500 rounded-lg lg:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white") do
+            #   span(class: "sr-only") { "Search" }
+            #   Remix::SearchLine(class: "w-6 h-6")
+            # end
+            button(type: "button", data_dropdown_toggle: "notification-dropdown", class: "relative p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700") do
+              span(class: "sr-only") { "View notifications" }
+              Remix::AlarmWarningLine(class: "w-6 h-6")
+              if view_context.current_branch.reminders_count.positive?
+                div(class: "absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-1 -right-1 dark:border-gray-900") do
+                  view_context.current_branch.reminders_count
+                end
+              end
+            end
+            # div(class: "z-20 z-50 hidden max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:divide-gray-600 dark:bg-gray-700", id: "notification-dropdown", data_popper_placement: "bottom", style: "position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(1333px, 65px, 0px);") do
+            #   div(class: "block px-4 py-2 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400") { "Notifications" }
+            #   div do
+            #     # ...notification items...
             #   end
-            #   button(type: "button", data_dropdown_toggle: "notification-dropdown", class: "p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700") do
-            #     span(class: "sr-only") { "View notifications" }
-            #     Remix::Notification3Line(class: "w-6 h-6")
-            #   end
-            #   div(class: "z-20 z-50 hidden max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:divide-gray-600 dark:bg-gray-700", id: "notification-dropdown", data_popper_placement: "bottom", style: "position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(1333px, 65px, 0px);") do
-            #     div(class: "block px-4 py-2 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400") { "Notifications" }
-            #     div do
-            #       # ...notification items...
-            #     end
-            #     a(href: "#", class: "block py-2 text-base font-normal text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:text-white dark:hover:underline") do
-            #       div(class: "inline-flex items-center") do
-            #         Remix::EyeLine(class: "w-5 h-5")
-            #         "View all"
-            #       end
-            #     end
-            #   end
-            #   button(type: "button", data_dropdown_toggle: "apps-dropdown", class: "hidden p-2 text-gray-500 rounded-lg sm:flex hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700") do
-            #     span(class: "sr-only") { "View notifications" }
-            #     Remix::Apps2Line(class: "w-5 h-5")
-            #   end
-            #   div(class: "z-20 z-50 hidden max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:bg-gray-700 dark:divide-gray-600", id: "apps-dropdown", data_popper_placement: "bottom", style: "position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(1373px, 65px, 0px);") do
-            #     div(class: "block px-4 py-2 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400") { "Apps" }
-            #     div(class: "grid grid-cols-3 gap-4 p-4") do
-            #       # ...app items...
-            #     end
-            #   end
-            # ThemeToggle do |toggle|
-            #   SetLightMode do
-            #     Button(variant: :faded_icon, icon: true) do
-            #       Remix::MoonFill(class: "w-5 h-5")
-            #     end
-            #   end
-            #   SetDarkMode do
-            #     Button(variant: :faded_icon, icon: true) do
-            #       Remix::SunLine(class: "w-5 h-5")
+            #   a(href: "#", class: "block py-2 text-base font-normal text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:text-white dark:hover:underline") do
+            #     div(class: "inline-flex items-center") do
+            #       Remix::EyeLine(class: "w-5 h-5")
+            #       "View all"
             #     end
             #   end
             # end
@@ -207,7 +190,7 @@ class Components::Navigation < Components::Base
 
   def render_notifications_dropdown_content
     div(
-      class: "hidden z-20 max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:divide-gray-600 dark:bg-gray-700",
+      class: "hidden z-20 max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:bg-gray-700 dark:divide-gray-600",
       data_dropdown_target: "menu"
     ) do
       div(class: "block px-4 py-2 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400") do

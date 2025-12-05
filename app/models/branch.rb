@@ -45,6 +45,7 @@ class Branch < ApplicationRecord
   has_many :daily_balances, dependent: :destroy
   has_many :financial_transactions, as: :recordable, dependent: :destroy
   has_many :interest_payments, class_name: ContractInterestPayment.name, dependent: :destroy
+  has_many :reminders, class_name: ContractReminder.name, dependent: :destroy
 
   has_many :income_transactions, -> { joins(:transaction_type).where(transaction_types: { is_income: true }) }, class_name: FinancialTransaction.name, foreign_key: :recordable_id, primary_key: :id
   has_many :expense_transactions, -> { joins(:transaction_type).where(transaction_types: { is_income: false }) }, class_name: FinancialTransaction.name, foreign_key: :recordable_id, primary_key: :id

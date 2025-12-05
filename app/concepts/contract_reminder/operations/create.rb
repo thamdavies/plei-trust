@@ -35,6 +35,7 @@ module ContractReminder::Operations
 
     def save(ctx, model:, params:, **)
       model.contract.reminders.create!(
+        branch_id: model.contract.branch_id,
         reminder_type: ContractReminder.reminder_types[:schedule_reminder],
         date: model.date,
         note: model.note
