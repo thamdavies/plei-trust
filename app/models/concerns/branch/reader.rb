@@ -29,11 +29,32 @@ module Branch::Reader
           FROM contract_reminders
           ORDER BY contract_id, created_at DESC
         ) AS contract_reminders")
-        .where(reminder_type: "cancel_scheduled_reminder")
+        .where(reminder_type: ContractReminder.reminder_types[:cancel_scheduled_reminder])
         .pluck(:contract_id)
 
       # Đếm số contract không nằm trong danh sách bị hủy
       contracts.without_capital.where.not(id: cancelled_contract_ids).count
     end
+  end
+
+  # def reminders
+  #   latest_reminders = ContractReminder
+  #     .select("DISTINCT ON (contract_id) *")
+  #     .order("contract_id, created_at DESC")
+
+  #   ContractReminder
+  #     .select("cr.*")
+  #     .from("(#{latest_reminders.to_sql}) AS cr")
+  #     .where("cr.reminder_type = ?", ContractReminder.reminder_types[:schedule_reminder])
+  # end
+  def reminders
+    latest_reminders = ContractReminder
+      .select("DISTINCT ON (contract_id) *")
+      .order("contract_id, created_at DESC")
+
+    ContractReminder
+      .from("(#{latest_reminders.to_sql}) AS contract_reminders")   # <– alias về tên gốc!
+      .select("contract_reminders.*")
+      .where("contract_reminders.reminder_type = ?", ContractReminder.reminder_types[:schedule_reminder])
   end
 end

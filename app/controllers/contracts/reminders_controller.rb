@@ -1,6 +1,13 @@
 class Contracts::RemindersController < ContractsController
   before_action :set_contract, only: [ :create, :destroy ]
 
+  def index
+    run(ContractReminder::Operations::Index, current_branch:) do |result|
+      reminders = result[:active_reminders].decorate
+      @pagy, @reminders = pagy(reminders)
+    end
+  end
+
   def create
     authorize @contract, :update?
 

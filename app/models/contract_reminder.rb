@@ -32,4 +32,14 @@ class ContractReminder < ApplicationRecord
   }
 
   enum :status, { active: "active", canceled: "canceled" }
+
+  class << self
+    def ransackable_attributes(auth_object = nil)
+      []
+    end
+
+    def ransackable_associations(auth_object = nil)
+      [ "contract" ]
+    end
+  end
 end

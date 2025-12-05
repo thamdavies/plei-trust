@@ -17,4 +17,9 @@ export default class extends Controller {
 		this.toggleSidebarMobileHamburgerTarget.classList.toggle('hidden');
 		this.toggleSidebarMobileCloseTarget.classList.toggle('hidden');
 	}
+
+	redirectToUrl(event) {
+		const url = event.currentTarget.dataset.url;
+		window.location.href = url;
+	}
 }

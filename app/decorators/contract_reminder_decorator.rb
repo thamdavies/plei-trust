@@ -12,4 +12,12 @@ class ContractReminderDecorator < ApplicationDecorator
   def fm_state
     I18n.t("contract_reminder.states.#{reminder_type}")
   end
+
+  def customer_name
+    contract.customer.full_name
+  end
+
+  def contract_type_name
+    contract.contract_type.name
+  end
 end

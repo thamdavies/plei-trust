@@ -1,0 +1,19 @@
+<%= turbo_page_requires_reload %>
+<%= content_for :title, "Thông báo hẹn giờ" %>
+<%= content_for :subtitle, "Thông báo hẹn giờ" %>
+
+<%= content_for :page_header_actions do %>
+  <%= turbo_frame_tag "reminder_form" do %>
+    <%= render Views::Contracts::Reminders::FilterForm.new %>
+  <% end %>
+<% end %>
+
+<%= render Views::Contracts::Reminders::Index.new(collection: @reminders, pagy: @pagy) %>
+<% if @pagy && @pagy.pages > 1 %>
+  <div class="flex justify-center py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <%== @pagy.series_nav %>
+  </div>
+<% end %>
+
+<%# Để tránh giao diện bị co lại khi bảng có ít dòng dữ liệu, các component ảnh hưởng: datetimepicker,... %>
+<div class="h-screen"></div>
