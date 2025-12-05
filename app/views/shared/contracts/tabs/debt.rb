@@ -10,11 +10,11 @@ class Views::Shared::Contracts::Tabs::Debt < Views::Base
         div(class: "grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6") do
           # Left section - Overdue debt
           turbo_frame_tag "overdue_debt_form" do
-            render Views::Shared::Contracts::Tabs::Debt::OverdueDebtForm.new(contract:)
+            render Views::Shared::Contracts::Tabs::Debt::InterestOverpaymentForm.new(contract:)
           end
           # Right section - Payment
           turbo_frame_tag "payment_form" do
-            render Views::Shared::Contracts::Tabs::Debt::PaymentForm.new(contract:)
+            render Views::Shared::Contracts::Tabs::Debt::DebtRepaymentForm.new(contract:)
           end
         end
       end

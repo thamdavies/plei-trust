@@ -1,4 +1,4 @@
-class Views::Shared::Contracts::Tabs::Debt::PaymentForm < Views::Base
+class Views::Shared::Contracts::Tabs::Debt::DebtRepaymentForm < Views::Base
   def initialize(contract:, form: nil)
     @contract = contract
     if form.present?

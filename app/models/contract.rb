@@ -85,8 +85,8 @@ class Contract < ApplicationRecord
   has_many :expense_additional_loans, -> { where(transaction_type_code: TransactionType::EXPENSE_ADDITIONAL_LOAN) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
   has_many :income_withdrawal_principals, -> { where(transaction_type_code: TransactionType::INCOME_WITHDRAWAL_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
   has_many :expense_withdrawal_principals, -> { where(transaction_type_code: TransactionType::EXPENSE_WITHDRAWAL_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :income_outstanding_interests, -> { where(transaction_type_code: TransactionType::INCOME_OUTSTANDING_INTEREST) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :expense_outstanding_interests, -> { where(transaction_type_code: TransactionType::EXPENSE_OUTSTANDING_INTEREST) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_outstanding_interests, -> { where(transaction_type_code: TransactionType::INCOME_INTEREST_OVERPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_outstanding_interests, -> { where(transaction_type_code: TransactionType::EXPENSE_INTEREST_OVERPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
   has_many :income_debt_repayments, -> { where(transaction_type_code: TransactionType::INCOME_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
   has_many :expense_debt_repayments, -> { where(transaction_type_code: TransactionType::EXPENSE_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
 

@@ -8,7 +8,7 @@ module TransactionType::Core
     INCOME_WITHDRAWAL_PRINCIPAL = "income_withdrawal_principal".freeze # Rút vốn
     INCOME_ADDITIONAL_LOAN = "income_additional_loan".freeze
     INCOME_CONTRACT_EXTENSION = "income_contract_extension".freeze
-    INCOME_OUTSTANDING_INTEREST = "income_outstanding_interest".freeze # Khách hàng nợ lãi
+    INCOME_INTEREST_OVERPAYMENT = "income_outstanding_interest".freeze # Khách hàng nợ lãi
     INCOME_DEBT_REPAYMENT = "income_debt_repayment".freeze # Khách hàng trả nợ
 
     EXPENSE_CONTRACT_CHANGE = "expense_contract_change".freeze
@@ -17,7 +17,7 @@ module TransactionType::Core
     EXPENSE_WITHDRAWAL_PRINCIPAL = "expense_withdrawal_principal".freeze # Rút vốn
     EXPENSE_ADDITIONAL_LOAN = "expense_additional_loan".freeze
     EXPENSE_CONTRACT_EXTENSION = "expense_contract_extension".freeze
-    EXPENSE_OUTSTANDING_INTEREST = "expense_outstanding_interest".freeze # Khách hàng nợ lãi
+    EXPENSE_INTEREST_OVERPAYMENT = "expense_outstanding_interest".freeze # Khách hàng nợ lãi
     EXPENSE_DEBT_REPAYMENT = "expense_debt_repayment".freeze # Khách hàng trả nợ
 
     # Additional income-prefixed codes (English constants)
@@ -132,7 +132,7 @@ module TransactionType::Core
           is_income: true
         },
         {
-          code: INCOME_OUTSTANDING_INTEREST,
+          code: INCOME_INTEREST_OVERPAYMENT,
           name: "Khách hàng nợ lãi",
           description: "Khách hàng nợ lãi được xem là thu nhập",
           is_income: true
@@ -241,7 +241,7 @@ module TransactionType::Core
           is_income: false
         },
         {
-          code: EXPENSE_OUTSTANDING_INTEREST,
+          code: EXPENSE_INTEREST_OVERPAYMENT,
           name: "Khách hàng nợ lãi",
           description: "Khách hàng nợ lãi được xem là chi phí",
           is_income: false

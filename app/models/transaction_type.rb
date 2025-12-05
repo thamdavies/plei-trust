@@ -59,6 +59,34 @@ class TransactionType < ApplicationRecord
         update: INCOME_INTEREST,
         cancel: EXPENSE_INTEREST
       }
+    },
+    interest_overpayment: {
+      capital: {
+        create: EXPENSE_INTEREST,
+        destroy: INCOME_INTEREST
+      },
+      pawn: {
+        create: INCOME_INTEREST,
+        destroy: EXPENSE_INTEREST
+      },
+      installment: {
+        create: INCOME_INTEREST,
+        destroy: EXPENSE_INTEREST
+      }
+    },
+    debt_repayment: {
+      capital: {
+        create: EXPENSE_INTEREST,
+        destroy: INCOME_INTEREST
+      },
+      pawn: {
+        create: INCOME_INTEREST,
+        destroy: EXPENSE_INTEREST
+      },
+      installment: {
+        create: INCOME_INTEREST,
+        destroy: EXPENSE_INTEREST
+      }
     }
   }
 

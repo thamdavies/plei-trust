@@ -1,6 +1,6 @@
 <% if @form %>
   <%= turbo_stream.update "payment_form" do %>
-    <%= render Views::Shared::Contracts::Tabs::Debt::PaymentForm.new(contract: @contract, form: @form) %>
+    <%= render Views::Shared::Contracts::Tabs::Debt::DebtRepaymentForm.new(contract: @contract, form: @form) %>
   <% end %>
 <% else %>
   <%= turbo_stream.update "contract_show_modal" do %>
