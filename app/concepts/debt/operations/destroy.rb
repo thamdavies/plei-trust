@@ -32,17 +32,18 @@ module Debt::Operations
       step :notify
     }
 
-    def save(ctx, model:, **)
+    def save(ctx, model:, current_branch:, **)
       contract = model.contract
       model.amount = model.amount.remove_dots.to_d
-      transaction_type = TransactionType.debt_repayment
+      transaction_type = TransactionType.config.dig(:debt_repayment, contract.contract_type_code.to_sym, :destroy)
 
       ctx[:contract] = contract
-      ctx[:financial_transaction] = contract.financial_transactions.create!(
+      ctx[:financial_transaction] = current_branch.financial_transactions.create!(
         transaction_date: Date.current,
-        transaction_type: transaction_type,
+        transaction_type_code: transaction_type,
         amount: model.amount,
-        created_by_id: ctx[:current_user]&.id,
+        created_by: ctx[:current_user],
+        owner: contract
       )
 
       true

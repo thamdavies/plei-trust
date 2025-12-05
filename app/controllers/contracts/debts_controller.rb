@@ -4,7 +4,7 @@ class Contracts::DebtsController < ContractsController
   def create
     authorize @contract, :update?
 
-    ctx = Debt::Operations::Create.call(params: debt_params.to_h, current_user:)
+    ctx = Debt::Operations::Create.call(params: debt_params.to_h, current_user:, current_branch:)
 
     if ctx.success?
       flash.now[:success] = ctx[:message]
@@ -20,7 +20,7 @@ class Contracts::DebtsController < ContractsController
   def destroy
     authorize @contract, :update?
 
-    ctx = Debt::Operations::Destroy.call(params: debt_params.to_h, current_user:)
+    ctx = Debt::Operations::Destroy.call(params: debt_params.to_h, current_user:, current_branch:)
 
     if ctx.success?
       flash.now[:success] = ctx[:message]

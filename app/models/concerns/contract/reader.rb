@@ -19,30 +19,30 @@ module Contract::Reader
     end
   end
 
-  def outstanding_interests
-    case contract_type_code
-    when ContractType.codes[:pawn], ContractType.codes[:installment]
-      income_outstanding_interests
-    when ContractType.codes[:capital]
-      expense_outstanding_interests
-    end
-  end
-
   def withdrawal_principals
     case contract_type_code
     when ContractType.codes[:pawn], ContractType.codes[:installment]
-      expense_withdrawal_principals
+      branch.expense_withdrawal_principals.where(owner: self)
     when ContractType.codes[:capital]
-      income_withdrawal_principals
+      branch.income_withdrawal_principals.where(owner: self)
     end
   end
 
   def debt_repayments
     case contract_type_code
     when ContractType.codes[:pawn], ContractType.codes[:installment]
-      income_debt_repayments
+      branch.income_debt_repayments.where(owner: self)
     when ContractType.codes[:capital]
-      expense_debt_repayments
+      branch.expense_debt_repayments.where(owner: self)
+    end
+  end
+
+  def interest_overpayments
+    case contract_type_code
+    when ContractType.codes[:pawn], ContractType.codes[:installment]
+      branch.expense_interest_overpayments.where(owner: self)
+    when ContractType.codes[:capital]
+      branch.income_interest_overpayments.where(owner: self)
     end
   end
 
@@ -259,11 +259,11 @@ module Contract::Reader
 
   def old_debt_amount
     interest_debt_amount = paid_interest_payments.map(&:old_debt_amount).sum
-    (interest_debt_amount - total_outstanding_interest + total_debt_repayment).to_f
+    (interest_debt_amount - total_interest_overpayment + total_debt_repayment).to_f
   end
 
-  def total_outstanding_interest
-    outstanding_interests.sum(:amount).to_f * 1_000
+  def total_interest_overpayment
+    interest_overpayments.sum(:amount).to_f * 1_000
   end
 
   def total_debt_repayment

@@ -8,7 +8,7 @@ module TransactionType::Core
     INCOME_WITHDRAWAL_PRINCIPAL = "income_withdrawal_principal".freeze # Rút vốn
     INCOME_ADDITIONAL_LOAN = "income_additional_loan".freeze
     INCOME_CONTRACT_EXTENSION = "income_contract_extension".freeze
-    INCOME_INTEREST_OVERPAYMENT = "income_outstanding_interest".freeze # Khách hàng nợ lãi
+    INCOME_INTEREST_OVERPAYMENT = "income_interest_overpayment".freeze # Khách hàng nợ lãi
     INCOME_DEBT_REPAYMENT = "income_debt_repayment".freeze # Khách hàng trả nợ
 
     EXPENSE_CONTRACT_CHANGE = "expense_contract_change".freeze
@@ -17,7 +17,7 @@ module TransactionType::Core
     EXPENSE_WITHDRAWAL_PRINCIPAL = "expense_withdrawal_principal".freeze # Rút vốn
     EXPENSE_ADDITIONAL_LOAN = "expense_additional_loan".freeze
     EXPENSE_CONTRACT_EXTENSION = "expense_contract_extension".freeze
-    EXPENSE_INTEREST_OVERPAYMENT = "expense_outstanding_interest".freeze # Khách hàng nợ lãi
+    EXPENSE_INTEREST_OVERPAYMENT = "expense_interest_overpayment".freeze # Khách hàng nợ lãi
     EXPENSE_DEBT_REPAYMENT = "expense_debt_repayment".freeze # Khách hàng trả nợ
 
     # Additional income-prefixed codes (English constants)

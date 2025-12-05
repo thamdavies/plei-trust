@@ -18,6 +18,7 @@ class Contracts::PawnsController < ContractsController
   def new
     ctx = PawnContract::Operations::Create::Present.call
     @form = ctx[:"contract.default"]
+    @form.contract_date = Date.current.to_fs(:date_vn)
     @form.interest_calculation_method_obj = interest_calculation_method_obj
     @form.contract_type_code = ContractType.codes[:pawn]
     @form.asset_setting_values = build_asset_setting_values(asset_setting)
