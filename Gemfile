@@ -65,6 +65,15 @@ group :development do
 
   # RubyUI Components
   gem "ruby_ui", "~> 1.0", require: false
+
+  # Deploy tools
+  gem "capistrano", "~> 3.19", require: false
+  gem "capistrano-rails", "~> 1.7", require: false
+  gem "capistrano-bundler", "~> 2.1", require: false
+  gem "capistrano-rvm", require: false
+  gem "capistrano3-puma", require: false
+  gem "ed25519"
+  gem "bcrypt_pbkdf"
 end
 
 group :test do
@@ -127,3 +136,5 @@ gem "scenic", "~> 1.9"
 gem "numbers_and_words", "~> 1.0"
 
 gem "twilio-ruby", "~> 7.8"
+
+gem "whenever", "~> 1.1"

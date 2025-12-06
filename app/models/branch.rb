@@ -28,6 +28,7 @@ class Branch < ApplicationRecord
   include PublicActivity::Model
   include LargeNumberFields
   include Branch::Reader
+  include Branch::Writer
 
   large_number_field :invest_amount
 

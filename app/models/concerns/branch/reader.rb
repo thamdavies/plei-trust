@@ -1,4 +1,6 @@
 module Branch::Reader
+  extend ActiveSupport::Concern
+
   # Hàm tính Quỹ tiền mặt hiển thị (Real-time)
   def current_cash_balance(date = Date.current)
     opening = opening_balance(date)
