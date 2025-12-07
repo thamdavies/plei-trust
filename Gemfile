@@ -82,6 +82,11 @@ group :test do
   gem "selenium-webdriver"
 end
 
+# For systemd notify support (production)
+group :production do
+  gem "sd_notify"
+end
+
 gem "phlex-rails", "~> 2.3"
 
 gem "tailwind_merge", "~> 1.3"

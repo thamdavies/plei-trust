@@ -7,8 +7,6 @@ set :repo_url, "git@github.com:thamdavies/plei-trust.git"
 # ask :branch, %x(git rev-parse --abbrev-ref HEAD).chomp
 set :branch, "develop"
 
-# set :assets_prefix, "vite"
-
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 
@@ -20,7 +18,11 @@ set :format_options, command_output: true, log_file: "log/capistrano.log", color
 set :pty, true
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/vite", "vendor", "storage"
+append :linked_files, ".env", "config/credentials/production.key"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "public/uploads", "storage"
+
+# Rails environment
+set :rails_env, "production"
 
 # Default value for default_env is {}
 set :default_env, { path: "/home/ubuntu/.nvm/versions/node/v24.4.1/bin:$PATH" }
@@ -32,7 +34,7 @@ set :default_env, { path: "/home/ubuntu/.nvm/versions/node/v24.4.1/bin:$PATH" }
 set :keep_releases, 3
 
 # Uncomment the following to require manually verifying the host key before first deploy.
-# set :ssh_options, verify_host_key: :secure
+set :ssh_options, verify_host_key: :secure
 
 # Global options
 # --------------
@@ -43,4 +45,7 @@ set :ssh_options, {
   auth_methods: [ "publickey" ]
 }
 
-set :rvm_custom_path, "/usr/share/rvm"
+# Puma configuration
+set :puma_use_login_shell, true
+set :puma_bind, "unix://#{shared_path}/tmp/sockets/puma.sock"
+set :puma_service_unit_type, :notify  # Uses sd_notify gem
