@@ -20,3 +20,6 @@ db-reset:
 	docker compose up -d
 	rm -rf db/schema.rb
 	bin/rails db:create db:migrate db:seed
+
+deploy:
+	bundle exec cap production deploy
