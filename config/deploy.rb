@@ -18,7 +18,7 @@ set :format_options, command_output: true, log_file: "log/capistrano.log", color
 set :pty, true
 
 # Default value for linked_dirs is []
-append :linked_files, ".env", "config/master.key", "config/credentials/production.key"
+append :linked_files, ".env", "config/credentials/production.key"
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "public/uploads", "storage"
 
 # Rails environment
