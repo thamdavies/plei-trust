@@ -6,7 +6,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: <%= Rails.application.credentials.dig(:database, :host) %>
   username: <%= Rails.application.credentials.dig(:database, :username) %>
-  password: pleitrust@123
+  password: <%= Rails.application.credentials.dig(:database, :password) %>
   port: <%= Rails.application.credentials.dig(:database, :port) %>
 
 development:
