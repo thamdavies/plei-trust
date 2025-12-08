@@ -6,7 +6,7 @@ class Views::Shared::Contracts::Show < Views::Base
 
   def view_template
     div(data: { controller: "shared--contract-detail" }) do
-      Text(size: "5", weight: "bold") { "Chi tiết hợp đồng" }
+      Text(size: "5", weight: "bold") { "Chi tiết hợp đồng ##{contract.code}" }
       Separator(class: "my-4")
       render Views::Shared::Contracts::ContractInfo.new(contract:)
 
