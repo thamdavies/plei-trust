@@ -3,6 +3,7 @@ set :bundle_flags, "--no-deployment"
 set :deploy_to, "/home/ubuntu/dnm"
 
 set :application, "dnm"
+set :stage, :production
 set :puma_enable_socket_service, true
 
 # Web deploy

@@ -57,7 +57,15 @@ class Components::Navigation < Components::Base
             # end
             button(type: "button", data_dropdown_toggle: "notification-dropdown", class: "relative p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700") do
               span(class: "sr-only") { "View notifications" }
-              Remix::AlarmWarningLine(class: "w-6 h-6", data_action: "click->app#redirectToUrl", data_url: contracts_reminders_path)
+              Tooltip(placement: "bottom") do
+                TooltipTrigger do
+                  Remix::AlarmWarningLine(class: "w-6 h-6 cursor-pointer", data_action: "click->app#redirectToUrl", data_url: contracts_reminders_path)
+                end
+                TooltipContent do
+                  Text { "Bạn có #{view_context.current_branch.reminders_count} hợp đồng đang hẹn" }
+                end
+              end
+
               if view_context.current_branch.reminders_count.positive?
                 div(class: "absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-1 -right-1 dark:border-gray-900") do
                   view_context.current_branch.reminders_count

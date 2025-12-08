@@ -49,3 +49,5 @@ set :puma_service_unit_type, :notify  # Uses sd_notify gem
 
 # Whenever configuration
 set :whenever_identifier, -> { "dnm" }
+set :assets_roles, [ :web, :app ]
+set :whenever_roles, [ :bot ]
