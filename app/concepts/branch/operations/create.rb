@@ -39,6 +39,13 @@ module Branch::Operations
           customer: ctx[:seed_capital_customer],
           created_by: current_user,
         )
+
+        model.daily_balances.create!(
+          date: Date.current,
+          opening_balance: 0,
+          closing_balance: 0,
+          created_by: current_user,
+        )
       end
 
       true

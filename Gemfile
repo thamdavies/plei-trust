@@ -37,7 +37,7 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.2"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -65,12 +65,26 @@ group :development do
 
   # RubyUI Components
   gem "ruby_ui", "~> 1.0", require: false
+
+  # Deploy tools
+  gem "capistrano", "~> 3.19", require: false
+  gem "capistrano-rails", "~> 1.7", require: false
+  gem "capistrano-bundler", "~> 2.1", require: false
+  gem "capistrano-rvm", require: false
+  gem "capistrano3-puma", require: false
+  gem "ed25519"
+  gem "bcrypt_pbkdf"
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+end
+
+# For systemd notify support (production)
+group :production do
+  gem "sd_notify"
 end
 
 gem "phlex-rails", "~> 2.3"
@@ -127,3 +141,5 @@ gem "scenic", "~> 1.9"
 gem "numbers_and_words", "~> 1.0"
 
 gem "twilio-ruby", "~> 7.8"
+
+gem "whenever", "~> 1.1"

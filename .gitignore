@@ -5,7 +5,7 @@
 # `$XDG_CONFIG_HOME/git/ignore` or `~/.config/git/ignore`
 
 # Ignore all environment files.
-/.env*
+/.env
 
 # Ignore .idea files (from RubyMine).
 /.idea/*
@@ -47,3 +47,7 @@ config/settings/*.local.yml
 config/environments/*.local.yml
 
 /config/credentials/test.key
+
+# Ignore key files for decrypting credentials and more.
+/config/credentials/*.key
+

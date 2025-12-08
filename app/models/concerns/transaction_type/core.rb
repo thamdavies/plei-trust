@@ -77,8 +77,6 @@ module TransactionType::Core
 
   class_methods do
     def seed_default_types
-      return unless Rails.env.development? || Rails.env.test?
-
       FinancialTransaction.delete_all
       TransactionType.delete_all
 

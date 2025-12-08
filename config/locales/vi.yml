@@ -66,8 +66,8 @@ vi:
         amount: "Số tiền cầm cố"
         submit: "Chuộc đồ"
       installment:
-        withdraw_principal: "Thanh lý hợp đồng"
-        date: "Ngày thanh lý"
-        amount: "Số tiền thanh lý"
-        submit: "Thanh lý hợp đồng"
+        withdraw_principal: "Kết thúc hợp đồng"
+        date: "Ngày kết thúc"
+        amount: "Số tiền trả góp"
+        submit: "Kết thúc hợp đồng"
     

@@ -11,6 +11,13 @@ Branch.find_each do |branch|
     contract_date: Date.current,
     interest_calculation_method: InterestCalculationMethod.config[:code][:investment_capital],
   )
+
+  branch.daily_balances.create!(
+    date: Date.current,
+    opening_balance: 0,
+    closing_balance: 0,
+    created_by: branch.users.first,
+  )
 end
 
 puts "✓ Recorded capital investment for all branches."

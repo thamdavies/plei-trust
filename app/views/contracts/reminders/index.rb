@@ -7,7 +7,7 @@ class Views::Contracts::Reminders::Index < Views::Base
   def view_template
     div(class: "p-2 bg-white") do
       Table do
-        TableCaption(class: "mb-3") { "Danh sách thu nhập sẽ hiển thị ở đây" } if @collection.empty?
+        TableCaption(class: "mb-3") { "Danh sách hợp đồng đang hẹn sẽ hiển thị ở đây" } if @collection.empty?
         TableHeader do
           TableRow do
             TableHead { "STT" }
