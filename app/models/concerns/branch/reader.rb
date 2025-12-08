@@ -23,32 +23,9 @@ module Branch::Reader
   end
 
   def reminders_count
-    @reminders_count ||= begin
-      # Lấy danh sách contract_id có reminder mới nhất là cancel_scheduled_reminder
-      cancelled_contract_ids = ContractReminder
-        .from("(
-          SELECT DISTINCT ON (contract_id) *
-          FROM contract_reminders
-          ORDER BY contract_id, created_at DESC
-        ) AS contract_reminders")
-        .where(reminder_type: ContractReminder.reminder_types[:cancel_scheduled_reminder])
-        .pluck(:contract_id)
-
-      # Đếm số contract không nằm trong danh sách bị hủy
-      contracts.without_capital.where.not(id: cancelled_contract_ids).count
-    end
+    @reminders_count ||= reminders.count
   end
 
-  # def reminders
-  #   latest_reminders = ContractReminder
-  #     .select("DISTINCT ON (contract_id) *")
-  #     .order("contract_id, created_at DESC")
-
-  #   ContractReminder
-  #     .select("cr.*")
-  #     .from("(#{latest_reminders.to_sql}) AS cr")
-  #     .where("cr.reminder_type = ?", ContractReminder.reminder_types[:schedule_reminder])
-  # end
   def reminders
     latest_reminders = ContractReminder
       .select("DISTINCT ON (contract_id) *")
