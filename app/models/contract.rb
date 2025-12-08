@@ -114,7 +114,7 @@ class Contract < ApplicationRecord
 
   class << self
     def ransackable_attributes(auth_object = nil)
-      %w[contract_date contract_type_code]
+      %w[contract_date contract_type_code code]
     end
 
     def ransackable_associations(auth_object = nil)

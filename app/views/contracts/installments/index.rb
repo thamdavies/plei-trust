@@ -15,6 +15,7 @@ class Views::Contracts::Installments::Index < Views::Base
         TableHeader do
           TableRow do
             TableHead { "STT" }
+            TableHead { "Mã HĐ" }
             TableHead { "Khách hàng" }
             TableHead { "Tiền vay" }
             TableHead { "Ngày vay" }
@@ -30,6 +31,7 @@ class Views::Contracts::Installments::Index < Views::Base
           @collection.each_with_index do |contract, index|
             TableRow do
               TableCell(class: "font-medium") { @pagy.offset + index + 1 }
+              TableCell(class: "font-medium") { contract.code }
               TableCell(class: "font-medium") { contract.customer_name }
               TableCell(class: "font-medium") { contract.total_amount_formatted }
               TableCell(class: "font-medium") { contract.fm_contract_date }

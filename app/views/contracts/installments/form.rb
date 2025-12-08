@@ -23,24 +23,6 @@ class Views::Contracts::Installments::Form < Views::Base
         end
 
         render Views::Shared::Contracts::Form.new(form:, contract_type: :installment)
-        RubyUI::Separator(class: "my-4")
-        Collapsible(open: true) do
-          div(class: "flex items-center justify-start") do
-            CollapsibleTrigger do
-              div(class: "flex items-center space-x-2 cursor-pointer") do
-                Remix::HomeGearLine(class: "h-6 w-6")
-                h2(class: "text-md font-medium text-gray-900 dark:text-white") { "Cấu hình tài sản" }
-              end
-              span(class: "sr-only") { "Toggle" }
-            end
-          end
-
-          CollapsibleContent do
-            turbo_frame_tag("asset_attribute_fields") do
-              render Views::Shared::Contracts::AssetAttributeFields.new(form:)
-            end
-          end
-        end
       end
       DialogFooter(data: { controller: "shared--pdf", "shared--pdf_contract_type_code_value": "pawn" }) do
         Button(variant: :secondary, data: { action: "click->shared--pdf#printContractInfo" }) { "In HĐ" }
