@@ -143,3 +143,8 @@ gem "numbers_and_words", "~> 1.0"
 gem "twilio-ruby", "~> 7.8"
 
 gem "whenever", "~> 1.1"
+
+# Slacks
+gem "slack_alarm", git: "https://github.com/thamdavies/slack_alarm.git"
+gem "slack-notifier"
+gem "exception_notification"
