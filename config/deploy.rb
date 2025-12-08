@@ -5,7 +5,7 @@ set :repo_url, "git@github.com:thamdavies/plei-trust.git"
 
 # Default branch is :main
 # ask :branch, %x(git rev-parse --abbrev-ref HEAD).chomp
-set :branch, "deploy"
+set :branch, "main"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
