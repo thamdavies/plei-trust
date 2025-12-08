@@ -49,9 +49,9 @@ class Views::Contracts::Installments::FilterForm < Views::Base
               end
               FormField(class: "relative w-48 sm:w-64 xl:w-96") do
                 SearchInput(
-                  name: "q[customer_full_name_or_customer_national_id_cont]",
+                  name: "q[code_or_customer_full_name_or_customer_national_id_cont]",
                   placeholder: "Tìm kiếm theo tên, CCCD khách hàng",
-                  value: view_context.params.dig(:q, :customer_full_name_or_customer_national_id_cont)
+                  value: view_context.params.dig(:q, :code_or_customer_full_name_or_customer_national_id_cont)
                 )
               end
 

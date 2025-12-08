@@ -15,6 +15,7 @@ class Views::Contracts::Pawns::Index < Views::Base
         TableHeader do
           TableRow do
             TableHead { "STT" }
+            TableHead { "Mã HĐ" }
             TableHead { "Khách hàng" }
             TableHead { "Mã TS" }
             TableHead { "Tài sản" }
@@ -32,6 +33,7 @@ class Views::Contracts::Pawns::Index < Views::Base
           @collection.each_with_index do |contract, index|
             TableRow do
               TableCell(class: "font-medium") { @pagy.offset + index + 1 }
+              TableCell(class: "font-medium") { contract.code }
               TableCell(class: "font-medium") { contract.customer_name }
               TableCell(class: "font-medium") { contract.asset_setting.asset_code }
               TableCell(class: "font-medium") { contract.asset_name }
