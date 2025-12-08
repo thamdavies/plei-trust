@@ -46,3 +46,6 @@ set :ssh_options, {
 set :puma_use_login_shell, true
 set :puma_bind, "unix://#{shared_path}/tmp/sockets/puma.sock"
 set :puma_service_unit_type, :notify  # Uses sd_notify gem
+
+# Whenever configuration
+set :whenever_identifier, -> { "dnm" }

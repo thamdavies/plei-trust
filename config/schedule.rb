@@ -19,7 +19,7 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every :day, at: "12:00am" do
+every :day, at: "12:00am", roles: [ :bot ] do
   # Cập nhập tiền đầu ngày cho tất cả các chi nhánh
   runner "Branch.update_opening_balance_for_all_branches"
 end
