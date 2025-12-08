@@ -10,10 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
+
+  create_table "active_storage_attachments", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.uuid "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.uuid "record_id", null: false
+    t.string "record_type", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.string "content_type"
+    t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.uuid "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
 
   create_table "activities", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -66,14 +94,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
     t.index ["asset_setting_id"], name: "index_asset_setting_categories_on_asset_setting_id"
   end
 
-  create_table "asset_setting_values", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+  create_table "asset_setting_values", primary_key: ["contract_id", "asset_setting_attribute_id"], force: :cascade do |t|
     t.uuid "asset_setting_attribute_id", null: false
     t.uuid "contract_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "value"
-    t.index ["asset_setting_attribute_id"], name: "index_asset_setting_values_on_asset_setting_attribute_id"
-    t.index ["contract_id"], name: "index_asset_setting_values_on_contract_id"
+    t.index ["contract_id", "asset_setting_attribute_id"], name: "idx_on_contract_id_asset_setting_attribute_id_b35d1be676", unique: true
   end
 
   create_table "asset_settings", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
@@ -83,11 +110,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
     t.float "asset_rental_fee"
     t.uuid "branch_id", null: false
     t.boolean "collect_interest_in_advance", default: false
-    t.decimal "contract_initiation_fee", precision: 12, scale: 2
+    t.decimal "contract_initiation_fee", precision: 12, scale: 4
     t.datetime "created_at", null: false
     t.integer "default_contract_term"
     t.float "default_interest_rate"
-    t.decimal "default_loan_amount", precision: 12, scale: 2
+    t.decimal "default_loan_amount", precision: 12, scale: 4
     t.float "early_termination_fee"
     t.string "interest_calculation_method", default: "monthly"
     t.integer "interest_period"
@@ -109,7 +136,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
   create_table "branches", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.string "address"
     t.datetime "created_at", null: false
-    t.decimal "invest_amount", precision: 12, scale: 2
+    t.decimal "invest_amount", precision: 12, scale: 4
     t.string "name"
     t.string "phone"
     t.string "province_id"
@@ -123,7 +150,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
 
   create_table "contract_amount_changes", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.date "action_date"
-    t.decimal "amount", precision: 15, scale: 2
+    t.decimal "amount", precision: 15, scale: 4
     t.uuid "contract_id", null: false
     t.datetime "created_at", null: false
     t.text "note"
@@ -147,32 +174,49 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
   end
 
   create_table "contract_interest_payments", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.decimal "amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "amount", precision: 15, scale: 4, default: "0.0"
+    t.decimal "balance", precision: 15, scale: 4, default: "0.0"
+    t.uuid "branch_id", null: false
     t.uuid "contract_id", null: false
     t.datetime "created_at", null: false
     t.boolean "custom_payment", default: false
     t.date "from"
     t.text "note"
     t.integer "number_of_days"
-    t.decimal "other_amount", precision: 15, scale: 2, default: "0.0"
+    t.decimal "other_amount", precision: 15, scale: 4, default: "0.0"
+    t.datetime "paid_at"
     t.string "payment_status", default: "unpaid"
     t.date "to"
-    t.decimal "total_amount", precision: 15, scale: 2, default: "0.0"
-    t.decimal "total_paid", precision: 15, scale: 2, default: "0.0"
+    t.decimal "total_amount", precision: 15, scale: 4, default: "0.0"
+    t.decimal "total_paid", precision: 15, scale: 4, default: "0.0"
     t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_contract_interest_payments_on_branch_id"
     t.index ["contract_id"], name: "index_contract_interest_payments_on_contract_id"
   end
 
-  create_table "contract_terminations", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.decimal "amount", precision: 15, scale: 2
+  create_table "contract_reminders", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.uuid "branch_id", null: false
     t.uuid "contract_id", null: false
     t.datetime "created_at", null: false
-    t.decimal "interest_amount", precision: 15, scale: 2
-    t.decimal "old_debt", precision: 15, scale: 2
-    t.decimal "other_amount", precision: 15, scale: 2
+    t.datetime "date"
+    t.text "note"
+    t.string "reminder_type", null: false
+    t.string "status", default: "active"
+    t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_contract_reminders_on_branch_id"
+    t.index ["contract_id"], name: "index_contract_reminders_on_contract_id"
+  end
+
+  create_table "contract_terminations", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.decimal "amount", precision: 15, scale: 4
+    t.uuid "contract_id", null: false
+    t.datetime "created_at", null: false
+    t.decimal "interest_amount", precision: 15, scale: 4
+    t.decimal "old_debt", precision: 15, scale: 4
+    t.decimal "other_amount", precision: 15, scale: 4
     t.uuid "processed_by_id", null: false
     t.date "termination_date"
-    t.decimal "total_amount", precision: 15, scale: 2
+    t.decimal "total_amount", precision: 15, scale: 4
     t.datetime "updated_at", null: false
     t.index ["contract_id"], name: "index_contract_terminations_on_contract_id"
     t.index ["processed_by_id"], name: "index_contract_terminations_on_processed_by_id"
@@ -193,6 +237,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
     t.string "code"
     t.boolean "collect_interest_in_advance", default: false
     t.date "contract_date"
+    t.datetime "contract_ended_at"
     t.integer "contract_term"
     t.string "contract_type_code", null: false
     t.datetime "created_at", null: false
@@ -201,7 +246,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
     t.string "interest_calculation_method"
     t.integer "interest_period"
     t.decimal "interest_rate", precision: 8, scale: 5
-    t.decimal "loan_amount", precision: 15, scale: 2
+    t.boolean "is_default_capital", default: false, null: false
+    t.decimal "loan_amount", precision: 15, scale: 4
     t.text "note"
     t.string "status", default: "active"
     t.datetime "updated_at", null: false
@@ -230,20 +276,35 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
     t.index ["created_by_id"], name: "index_customers_on_created_by_id"
   end
 
+  create_table "daily_balances", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.uuid "branch_id", null: false
+    t.decimal "closing_balance", precision: 15, scale: 4
+    t.datetime "created_at", null: false
+    t.uuid "created_by_id"
+    t.date "date", null: false
+    t.decimal "opening_balance", precision: 15, scale: 4, default: "0.0"
+    t.datetime "updated_at", null: false
+    t.index ["branch_id", "date"], name: "index_daily_balances_on_branch_id_and_date", unique: true
+    t.index ["branch_id"], name: "index_daily_balances_on_branch_id"
+  end
+
   create_table "financial_transactions", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.decimal "amount", precision: 15, scale: 2, null: false
-    t.uuid "contract_id", null: false
+    t.decimal "amount", precision: 15, scale: 4, null: false
     t.datetime "created_at", null: false
     t.uuid "created_by_id", null: false
     t.string "description"
+    t.uuid "owner_id"
+    t.string "owner_type"
+    t.string "party_name"
+    t.uuid "recordable_id", null: false
+    t.string "recordable_type", null: false
     t.string "reference_number"
     t.date "transaction_date", null: false
     t.string "transaction_number", null: false
-    t.uuid "transaction_type_id", null: false
+    t.string "transaction_type_code", null: false
     t.datetime "updated_at", null: false
-    t.index ["contract_id"], name: "index_financial_transactions_on_contract_id"
     t.index ["created_by_id"], name: "index_financial_transactions_on_created_by_id"
-    t.index ["transaction_type_id"], name: "index_financial_transactions_on_transaction_type_id"
+    t.index ["transaction_type_code"], name: "index_financial_transactions_on_transaction_type_code"
   end
 
   create_table "interest_rate_histories", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
@@ -266,8 +327,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
     t.index ["administrative_unit_id"], name: "idx_provinces_unit"
   end
 
-  create_table "transaction_types", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
-    t.string "code"
+  create_table "transaction_types", primary_key: "code", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
     t.boolean "is_income"
@@ -315,6 +375,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
     t.index ["province_code"], name: "idx_wards_province"
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "asset_setting_attributes", "asset_settings"
   add_foreign_key "asset_setting_categories", "asset_settings"
   add_foreign_key "asset_setting_categories", "contract_types", column: "contract_type_code", primary_key: "code"
@@ -328,7 +390,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
   add_foreign_key "contract_amount_changes", "contracts"
   add_foreign_key "contract_amount_changes", "users", column: "processed_by_id"
   add_foreign_key "contract_extensions", "contracts"
+  add_foreign_key "contract_interest_payments", "branches"
   add_foreign_key "contract_interest_payments", "contracts"
+  add_foreign_key "contract_reminders", "branches"
+  add_foreign_key "contract_reminders", "contracts"
   add_foreign_key "contract_terminations", "contracts"
   add_foreign_key "contract_terminations", "users", column: "processed_by_id"
   add_foreign_key "contracts", "asset_settings"
@@ -339,8 +404,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
   add_foreign_key "contracts", "users", column: "created_by_id"
   add_foreign_key "customers", "branches"
   add_foreign_key "customers", "users", column: "created_by_id"
-  add_foreign_key "financial_transactions", "contracts"
-  add_foreign_key "financial_transactions", "transaction_types"
+  add_foreign_key "daily_balances", "branches"
+  add_foreign_key "financial_transactions", "transaction_types", column: "transaction_type_code", primary_key: "code"
   add_foreign_key "financial_transactions", "users", column: "created_by_id"
   add_foreign_key "interest_rate_histories", "users", column: "processed_by_id"
   add_foreign_key "provinces", "administrative_units", name: "provinces_administrative_unit_id_fkey"
@@ -375,8 +440,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
       c.contract_term,
       c.interest_period,
       c.contract_date,
+      c.contract_ended_at,
       c.status,
       c.note,
+      c.is_default_capital,
       c.created_at,
       c.updated_at
      FROM (contracts c
@@ -414,8 +481,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
       c.contract_term,
       c.interest_period,
       c.contract_date,
+      c.contract_ended_at,
       c.status,
       c.note,
+      c.is_default_capital,
       c.created_at,
       c.updated_at
      FROM (contracts c
@@ -451,8 +520,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_08_164044) do
       c.contract_term,
       c.interest_period,
       c.contract_date,
+      c.contract_ended_at,
       c.status,
       c.note,
+      c.is_default_capital,
       c.created_at,
       c.updated_at
      FROM (contracts c

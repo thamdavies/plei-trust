@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 import { FetchRequest } from '@rails/request.js';
 import { alertController } from "../../alert";
 
-// Connects to data-controller="page--branch"
+// Connects to data-controller="pages--branch"
 export default class extends Controller {
   async fetchWards(event) {
     try {
@@ -12,7 +12,7 @@ export default class extends Controller {
       });
       const { response } = await request.perform();
       if (!response.ok) {
-        alertController.show('Không thể lấy thông tin quận/huyện', 'alert');
+        alertController.show('Không thể lấy thông tin quận/huyện', 'error');
       } else {
         // Set all elements with name="form[ward_id]" to unchecked
         const wardElements = document.getElementsByName("form[ward_id]");

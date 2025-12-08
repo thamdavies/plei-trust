@@ -6,6 +6,10 @@ module WithdrawPrincipal::Operations
       include ActiveModel::Validations
 
       attr_accessor :start_date, :transaction_date, :withdrawal_amount, :other_amount, :note, :contract_id
+
+      def contract
+        @contract ||= ::Contract.find(contract_id)
+      end
     end
 
     class Present < ApplicationOperation
@@ -15,7 +19,7 @@ module WithdrawPrincipal::Operations
 
       def assign_attributes(ctx, model:, params:, **)
         model.assign_attributes(params)
-        ctx[:contract] = ::Contract.find(model.contract_id)
+        ctx[:contract] = model.contract
         start_date = ContractInterestPayment.unpaid.where(contract_id: model.contract_id).order(:from).first&.from
         model.start_date = start_date || Date.current
 
@@ -46,11 +50,10 @@ module WithdrawPrincipal::Operations
       step :notify
     }
 
-    def save(ctx, model:, params:, **)
+    def save(ctx, model:, params:, current_branch:, **)
       withdraw_principal = ctx[:withdraw_principal]
-      ctx[:record] = FinancialTransaction.create!(
-        contract_id: model.contract_id,
-        transaction_type: TransactionType.withdrawal_principal,
+      ctx[:record] = current_branch.financial_transactions.create!(
+        transaction_type_code: TransactionType.config.dig(:withdraw_principal, model.contract.contract_type_code.to_sym, :update),
         amount: withdraw_principal[:total_amount_raw],
         transaction_date: model.transaction_date.parse_date_vn,
         description: model.note,
@@ -60,11 +63,31 @@ module WithdrawPrincipal::Operations
       true
     end
 
-    def regenerate_interest_payments(ctx, model:, params:, **)
+    def regenerate_interest_payments(ctx, model:, current_branch:, **)
       contract = ctx[:contract]
-      contract.update_columns(status: "closed")
-      generator = ::Contract::Services::ContractInterestPaymentGenerator.new(contract:, start_date: model.start_date)
-      generator.call
+      contract.update_columns(status: "closed", contract_ended_at: Time.current)
+      interest_amount = ctx[:withdraw_principal][:interest_amount_raw]
+
+      contract.contract_interest_payments.unpaid.delete_all
+
+      if interest_amount > 0
+      number_of_days = ctx[:withdraw_principal][:days_count]
+
+        params = {
+          contract_id: contract.id,
+          branch_id: current_branch.id,
+          from: model.start_date,
+          to: model.transaction_date.parse_date_vn,
+          number_of_days:,
+          amount: interest_amount,
+          total_amount: interest_amount,
+          payment_status: ContractInterestPayment.payment_statuses[:paid],
+          total_paid: interest_amount,
+          paid_at: Time.current
+        }
+
+        ContractInterestPayment.create!(params)
+      end
 
       true
     end
@@ -76,6 +99,7 @@ module WithdrawPrincipal::Operations
         other_amount: 0
       }
 
+      parameters = ctx[:contract].reverse_debit_amount_params(parameters)
       ctx[:contract].create_activity! key: "activity.contract.close", owner: current_user, parameters: parameters
 
       true

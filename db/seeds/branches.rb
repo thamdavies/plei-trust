@@ -34,7 +34,7 @@ branches_gia_lai = [
     address: "123 Đường Lê Duẩn",
     phone: "0269.3123.456",
     representative: "Nguyễn Văn An",
-    invest_amount: 3_000_000_000.00,
+    invest_amount: 300_000_000,
     status: "active"
   }
 ]
@@ -50,7 +50,7 @@ branches_da_nang = [
     address: "123 Đường Trần Phú",
     phone: "0236.3111.222",
     representative: "Phạm Văn Dũng",
-    invest_amount: 5_000_000_000.00,
+    invest_amount: 500_000_000,
     status: "active"
   }
 ]

@@ -18,4 +18,5 @@
 #
 class AssetSettingAttribute < ApplicationRecord
   belongs_to :asset_setting, optional: true
+  has_one :asset_setting_value, dependent: :destroy
 end

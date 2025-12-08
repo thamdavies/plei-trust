@@ -28,8 +28,8 @@ class Views::AssetSettings::Form < Views::Base
                 'slim-select-target': "select",
                 'slim-select-selected-value': form.asset_setting_categories.map(&:contract_type_code).join(",")
               }) do
-              ContractType.with_assets.select(:id, :name).all.each do |category|
-                option(value: category.id, selected: form.asset_setting_categories.map(&:contract_type_code).include?(category.id)) { category.name }
+              ContractType.with_assets.select(:code, :name).all.each do |category|
+                option(value: category.code, selected: form.asset_setting_categories.map(&:contract_type_code).include?(category.code)) { category.name }
               end
             end
 

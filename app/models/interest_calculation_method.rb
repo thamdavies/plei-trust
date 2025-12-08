@@ -9,7 +9,10 @@ class InterestCalculationMethod < ActiveHash::Base
       weekly_fixed: "weekly_fixed",
       monthly_30: "monthly_30",
       monthly_calendar: "monthly_calendar",
-      investment_capital: "investment_capital"
+      investment_capital: "investment_capital",
+      installment_principal_one_time: "installment_principal_one_time",
+      installment_principal_equal: "installment_principal_equal",
+      installment_principal_interest_equal: "installment_principal_interest_equal"
     }
   }
 end

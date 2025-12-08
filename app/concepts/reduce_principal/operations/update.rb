@@ -6,6 +6,10 @@ module ReducePrincipal::Operations
       include ActiveModel::Validations
 
       attr_accessor :prepayment_date, :prepayment_amount, :note, :contract_id
+
+      def contract
+        @contract ||= ::Contract.find(contract_id)
+      end
     end
 
     class Present < ApplicationOperation
@@ -21,8 +25,7 @@ module ReducePrincipal::Operations
         form.prepayment_amount = model.prepayment_amount
         form.note = model.note
         form.contract_id = model.contract_id
-
-        ctx[:contract] = ::Contract.find(model.contract_id)
+        ctx[:contract] = model.contract
 
         true
       end
@@ -37,14 +40,14 @@ module ReducePrincipal::Operations
       step :notify
     }
 
-    def save(ctx, model:, params:, **)
-      ctx[:financial_transaction] = FinancialTransaction.create!(
-        contract_id: model.contract_id,
-        transaction_type: TransactionType.reduce_principal,
+    def save(ctx, model:, current_branch:, **)
+      ctx[:financial_transaction] = current_branch.financial_transactions.create!(
+        transaction_type_code: TransactionType.config.dig(:reduce_principal, model.contract.contract_type_code.to_sym, :update),
         amount: model.prepayment_amount,
-        transaction_date: model.prepayment_date,
+        transaction_date: Date.current,
         description: model.note,
-        created_by: ctx[:current_user]
+        created_by: ctx[:current_user],
+        owner: model.contract
       )
 
       true
@@ -79,6 +82,7 @@ module ReducePrincipal::Operations
         other_amount: 0
       }
 
+      parameters = ctx[:contract].reverse_debit_amount_params(parameters)
       ctx[:contract].create_activity! key: "activity.reduce_principal.create", owner: current_user, parameters: parameters
 
       true

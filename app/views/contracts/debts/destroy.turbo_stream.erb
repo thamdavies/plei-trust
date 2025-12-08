@@ -1,0 +1,13 @@
+<% if @form %>
+  <%= turbo_stream.update "payment_form" do %>
+    <%= render Views::Shared::Contracts::Tabs::Debt::DebtRepaymentForm.new(contract: @contract, form: @form) %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.update "contract_show_modal" do %>
+    <%= render Views::Shared::Contracts::Show.new(contract: @contract, tab: "debt") %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update "toast-notification" do %>
+  <%= render "shared/toast" %>
+<% end %>

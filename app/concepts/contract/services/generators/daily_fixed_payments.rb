@@ -36,13 +36,12 @@ module Contract::Services::Generators
 
         schedule << {
           contract_id: contract.id,
+          branch_id: contract.branch_id,
           from: current_from,
           to: current_to,
           number_of_days: actual_days,
           amount: interest_amount,
-          total_amount: interest_amount,
-          payment_status: contract.closed? ? "paid" : "unpaid",
-          total_paid: contract.closed? ? interest_amount : 0
+          total_amount: interest_amount
         }
 
         # Chuẩn bị cho kỳ tiếp theo

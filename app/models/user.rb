@@ -26,6 +26,8 @@
 #  fk_rails_...  (branch_id => branches.id)
 #
 class User < ApplicationRecord
+  attr_accessor :skip_password_validation
+
   include Clearance::User
   include User::Reader
   include User::Writer
@@ -37,5 +39,20 @@ class User < ApplicationRecord
 
   def self.validate_email(email)
     self.new(email: email, password: SecureRandom.uuid)
+  end
+
+  def skip_password_validation?
+    skip_password_validation || password_optional? ||
+      (encrypted_password.present? && !encrypted_password_changed?)
+  end
+
+  class << self
+    def ransackable_attributes(auth_object = nil)
+      [ "full_name", "email", "phone", "status" ]
+    end
+
+    def ransackable_associations(auth_object = nil)
+      []
+    end
   end
 end

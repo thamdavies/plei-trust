@@ -1,6 +1,51 @@
 module Contract::Reader
   extend ActiveSupport::Concern
 
+  def reduce_principals
+    case contract_type_code
+    when ContractType.codes[:pawn], ContractType.codes[:installment]
+      branch.income_principals.where(owner: self)
+    when ContractType.codes[:capital]
+      branch.expense_principals.where(owner: self)
+    end
+  end
+
+  def additional_loans
+    case contract_type_code
+    when ContractType.codes[:pawn], ContractType.codes[:installment]
+      branch.expense_additional_loans.where(owner: self)
+    when ContractType.codes[:capital]
+      branch.income_additional_loans.where(owner: self)
+    end
+  end
+
+  def withdrawal_principals
+    case contract_type_code
+    when ContractType.codes[:pawn], ContractType.codes[:installment]
+      branch.expense_withdrawal_principals.where(owner: self)
+    when ContractType.codes[:capital]
+      branch.income_withdrawal_principals.where(owner: self)
+    end
+  end
+
+  def debt_repayments
+    case contract_type_code
+    when ContractType.codes[:pawn], ContractType.codes[:installment]
+      branch.income_debt_repayments.where(owner: self)
+    when ContractType.codes[:capital]
+      branch.expense_debt_repayments.where(owner: self)
+    end
+  end
+
+  def interest_overpayments
+    case contract_type_code
+    when ContractType.codes[:pawn], ContractType.codes[:installment]
+      branch.expense_interest_overpayments.where(owner: self)
+    when ContractType.codes[:capital]
+      branch.income_interest_overpayments.where(owner: self)
+    end
+  end
+
   def no_interest?
     interest_calculation_method == InterestCalculationMethod.config[:code][:investment_capital]
   end
@@ -21,6 +66,19 @@ module Contract::Reader
     )
   end
 
+  def blobs
+    files.map do |file|
+      {
+        id: file.id,
+        filename: file.filename,
+        byte_size: file.byte_size,
+        signed_id: file.signed_id,
+        url: Rails.application.routes.url_helpers.rails_blob_url(file, host: Settings.host),
+        remove_url: "/contracts/files/:ID"
+      }
+    end
+  end
+
   def total_amount_currency
     total_amount_formatted + " VNĐ"
   end
@@ -33,9 +91,17 @@ module Contract::Reader
     InterestCalculationMethod.find_by(code: interest_calculation_method)
   end
 
+  def loan_amount_words
+    I18n.with_locale(:vi) { (loan_amount.to_i * 1_000).to_words + " đồng" }.capitalize
+  end
+
   def total_interest
-    # (contract_interest_payments.sum(:total_amount) * 1_000).to_i
-    interest_in_days(amount: total_amount, days_count: contract_term_in_days).to_i * 1_000
+    # interest_in_days(amount: total_amount, days_count: contract_term_in_days).to_i * 1_000
+    if self.installment?
+      contract_interest_payments.sum(:other_amount).to_f * 1_000
+    else
+      interest_in_days(amount: total_amount, days_count: contract_term_in_days).to_f * 1_000
+    end.to_currency(unit: "")
   end
 
   def total_paid_interest
@@ -95,8 +161,15 @@ module Contract::Reader
     when InterestCalculationMethod.config[:code][:weekly_fixed]
       num_of_weeks = (days_count / 7.0).ceil
       num_of_weeks * interest_rate
-    when InterestCalculationMethod.config[:code][:monthly_30], InterestCalculationMethod.config[:code][:monthly_calendar]
+    when InterestCalculationMethod.config[:code][:monthly_30],
+         InterestCalculationMethod.config[:code][:monthly_calendar]
       ((amount * (interest_rate / 100.0)) / 30) * days_count
+    when InterestCalculationMethod.config[:code][:installment_principal_interest_equal],
+          InterestCalculationMethod.config[:code][:installment_principal_equal],
+          InterestCalculationMethod.config[:code][:installment_principal_one_time]
+      monthly_rate = (interest_rate / 100.0) / 12.0
+      daily_rate = monthly_rate / 30.0
+      amount * daily_rate * days_count
     else
       Rails.logger.warn("Unknown interest calculation method: #{interest_calculation_method}")
       0
@@ -111,6 +184,10 @@ module Contract::Reader
       contract_term * 7
     when InterestCalculationMethod.config[:code][:monthly_30], InterestCalculationMethod.config[:code][:monthly_calendar]
       contract_term * 30
+    when InterestCalculationMethod.config[:code][:installment_principal_one_time],
+         InterestCalculationMethod.config[:code][:installment_principal_equal],
+         InterestCalculationMethod.config[:code][:installment_principal_interest_equal]
+      contract_term * 30
     end
   end
 
@@ -121,6 +198,10 @@ module Contract::Reader
     when InterestCalculationMethod.config[:code][:weekly_percent], InterestCalculationMethod.config[:code][:weekly_fixed]
       interest_period * 7
     when InterestCalculationMethod.config[:code][:monthly_30], InterestCalculationMethod.config[:code][:monthly_calendar]
+      interest_period * 30
+    when InterestCalculationMethod.config[:code][:installment_principal_one_time],
+         InterestCalculationMethod.config[:code][:installment_principal_equal],
+         InterestCalculationMethod.config[:code][:installment_principal_interest_equal]
       interest_period * 30
     end
   end
@@ -172,7 +253,28 @@ module Contract::Reader
     [ inner_text, color ]
   end
 
-  def fm_old_debt_amount(unit: true)
-    paid_interest_payments.map(&:old_debt_amount).sum.to_f.to_currency(unit: unit ? "VNĐ" : "")
+  def has_debt_tab?
+    [ ContractType.codes[:pawn], ContractType.codes[:installment] ].include?(contract_type_code)
+  end
+
+  def has_file_tab?
+    [ ContractType.codes[:pawn], ContractType.codes[:installment] ].include?(contract_type_code)
+  end
+
+  def has_reminder_tab?
+    [ ContractType.codes[:pawn], ContractType.codes[:installment] ].include?(contract_type_code)
+  end
+
+  def old_debt_amount
+    interest_debt_amount = paid_interest_payments.map(&:old_debt_amount).sum
+    (interest_debt_amount - total_interest_overpayment + total_debt_repayment).to_f
+  end
+
+  def total_interest_overpayment
+    interest_overpayments.sum(:amount).to_f * 1_000
+  end
+
+  def total_debt_repayment
+    debt_repayments.sum(:amount).to_f * 1_000
   end
 end

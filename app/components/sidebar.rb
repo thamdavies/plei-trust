@@ -41,10 +41,16 @@ class Components::Sidebar < Components::Base
                   Remix::ArrowDownSLine(class: "w-6 h-6")
                 end
 
-                ul(id: "dropdown-layouts", class: "py-2 space-y-2 #{view_context.active_paths_class([ contracts_pawns_path ])}") do
+                ul(id: "dropdown-layouts", class: "py-2 space-y-2 #{view_context.active_paths_class([ contracts_pawns_path, contracts_installments_path ])}") do
                   li do
                     Link(href: contracts_pawns_path, variant: :sidebar_item, class: view_context.active_link_class(contracts_pawns_path, active: [ [ "contracts/pawns" ], [ "edit", "new", "index" ] ])) do
-                      span(class: "text-left whitespace-nowrap") { I18n.t("sidebar.pawn_contracts") }
+                      span(class: "text-left whitespace-nowrap") { "Cầm đồ" }
+                    end
+                  end
+
+                  li do
+                    Link(href: contracts_installments_path, variant: :sidebar_item, class: view_context.active_link_class(contracts_installments_path, active: [ [ "contracts/installments" ], [ "edit", "new", "index" ] ])) do
+                      span(class: "text-left whitespace-nowrap") { "Trả góp" }
                     end
                   end
                 end
@@ -62,13 +68,13 @@ class Components::Sidebar < Components::Base
                   variant: :sidebar,
                   arial_controls: "dropdown-layouts",
                   data_collapse_toggle: "dropdown-branches",
-                  aria_expanded: view_context.active_paths?([ asset_settings_path, branches_path ])) do
+                  aria_expanded: view_context.active_paths?([ asset_settings_path, branches_path, cash_controls_path ])) do
                   Remix::Store3Line(class: "flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
                   span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Quản lý chi nhánh" }
                   Remix::ArrowDownSLine(class: "w-6 h-6")
                 end
 
-                ul(id: "dropdown-branches", class: "py-2 space-y-2 #{view_context.active_paths_class([ asset_settings_path, branches_path ])}") do
+                ul(id: "dropdown-branches", class: "py-2 space-y-2 #{view_context.active_paths_class([ asset_settings_path, branches_path, cash_controls_path ])}") do
                   li do
                     Link(href: branches_path, variant: :sidebar_item, class: view_context.active_link_class(branches_path, active: [ [ "branches" ], [ "edit", "new", "index" ] ])) do
                       span(class: "text-left whitespace-nowrap") { "Danh sách chi nhánh" }
@@ -77,6 +83,36 @@ class Components::Sidebar < Components::Base
                   li do
                     Link(href: asset_settings_path, variant: :sidebar_item, class: view_context.active_link_class(asset_settings_path, active: [ [ "asset_settings" ], [ "edit", "new", "index" ] ])) do
                       span(class: "text-left whitespace-nowrap") { "Cấu hình hàng hóa" }
+                    end
+                  end
+                  li do
+                    Link(href: cash_controls_path, variant: :sidebar_item, class: view_context.active_link_class(cash_controls_path, active: [ [ "cash_controls" ], [ "edit", "new", "index" ] ])) do
+                      span(class: "text-left whitespace-nowrap") { "Nhập tiền quỹ đầu ngày" }
+                    end
+                  end
+                end
+              end
+
+              li do
+                Button(
+                  variant: :sidebar,
+                  arial_controls: "dropdown-layouts",
+                  data_collapse_toggle: "dropdown-incomes-expenses",
+                  aria_expanded: view_context.active_paths?([ expenses_path, incomes_path ])) do
+                  Remix::MoneyDollarBoxLine(class: "flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
+                  span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Quản lý thu chi" }
+                  Remix::ArrowDownSLine(class: "w-6 h-6")
+                end
+
+                ul(id: "dropdown-incomes-expenses", class: "py-2 space-y-2 #{view_context.active_paths_class([ expenses_path, incomes_path ])}") do
+                  li do
+                    Link(href: expenses_path, variant: :sidebar_item, class: view_context.active_link_class(expenses_path, active: [ [ "expenses" ], [ "create", "new", "index" ] ])) do
+                      span(class: "text-left whitespace-nowrap") { "Chi hoạt động" }
+                    end
+                  end
+                  li do
+                    Link(href: incomes_path, variant: :sidebar_item, class: view_context.active_link_class(incomes_path, active: [ [ "incomes" ], [ "create", "new", "index" ] ])) do
+                      span(class: "text-left whitespace-nowrap") { "Thu hoạt động" }
                     end
                   end
                 end
@@ -88,6 +124,31 @@ class Components::Sidebar < Components::Base
                   span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Quản lý nguồn vốn" }
                 end
               end
+
+              li do
+              Button(
+                variant: :sidebar,
+                arial_controls: "dropdown-layouts",
+                data_collapse_toggle: "dropdown-staffs",
+                aria_expanded: view_context.active_paths?([ staffs_path ])) do
+                Remix::GroupLine(class: "flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
+                span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Quản lý nhân viên" }
+                Remix::ArrowDownSLine(class: "w-6 h-6")
+              end
+
+              ul(id: "dropdown-staffs", class: "py-2 space-y-2 #{view_context.active_paths_class([ staffs_path ])}") do
+                li do
+                  Link(href: staffs_path, variant: :sidebar_item, class: view_context.active_link_class(staffs_path, active: [ [ "staffs" ], [ "edit", "new", "index" ] ])) do
+                    span(class: "text-left whitespace-nowrap") { "Danh sách nhân viên" }
+                  end
+                end
+                # li do
+                #   Link(href: asset_settings_path, variant: :sidebar_item, class: view_context.active_link_class(asset_settings_path, active: [ [ "asset_settings" ], [ "edit", "new", "index" ] ])) do
+                #     span(class: "text-left whitespace-nowrap") { "Phân quyền nhân viên" }
+                #   end
+                # end
+              end
+            end
             end
             # ...existing code for sidebar bottom menu and other sections...
           end

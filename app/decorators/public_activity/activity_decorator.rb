@@ -14,6 +14,10 @@ class PublicActivity::ActivityDecorator < Draper::Decorator
     object.created_at.to_date.to_fs(:date_vn)
   end
 
+  def fm_activity_key
+    I18n.t(key)
+  end
+
   def owner_name
     object.owner&.full_name || "Hệ thống"
   end
@@ -28,6 +32,10 @@ class PublicActivity::ActivityDecorator < Draper::Decorator
 
   def fm_other_amount
     (object.parameters[:other_amount].to_d * 1_000).to_currency(unit: "")
+  end
+
+  def fm_amount
+    (object.parameters[:amount].to_d * 1_000).to_currency(unit: "")
   end
 
   def fm_note

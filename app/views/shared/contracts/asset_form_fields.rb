@@ -17,7 +17,7 @@ class Views::Shared::Contracts::AssetFormFields < Views::Base
             "slim-select-target": "select",
             "shared--contract_target": "assetTypeSelect",
             "slim-select-selected-value": form.asset_setting_id,
-            action: "change->shared--contract#handleAssetTypeChange"
+            action: "change->shared--contract#handleAssetTypeChange change->shared--contract#fetchAssetAttributes"
           }) do
           view_context.select_options_for_asset_types.each do |asset_type|
             option(value: asset_type.id, selected: asset_type.id == form.asset_setting_id) { asset_type.name }

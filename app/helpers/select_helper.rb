@@ -1,6 +1,8 @@
 module SelectHelper
   def select_options_for_contract_types
-    @select_options_for_contract_types ||= ContractType.all.select(:id, :name)
+    @select_options_for_contract_types ||= ContractType.all.select(:code, :name).map do |item|
+      OpenStruct.new(code: item.code, name: item.name)
+    end
   end
 
   def select_options_for_interest_types(contract_type: nil)
@@ -11,6 +13,16 @@ module SelectHelper
       end
 
       types
+    end
+  end
+
+  def select_options_for_transaction_types(is_income: nil)
+    @select_options_for_transaction_types ||= begin
+      if is_income
+        TransactionType.income_types.select(:code, :name)
+      else
+        TransactionType.expense_types.select(:code, :name)
+      end
     end
   end
 
@@ -27,6 +39,14 @@ module SelectHelper
   def select_options_for_asset_types
     @select_options_for_asset_types ||= AssetSetting.all.map do |asset_setting|
       OpenStruct.new(id: asset_setting.id, name: asset_setting.asset_name)
+    end
+  end
+
+  def select_options_for_contract_types_with_all_option
+    @select_options_for_contract_types_with_all_option ||= begin
+      options = select_options_for_contract_types
+      options.unshift(OpenStruct.new(code: "", name: "Tất cả loại hợp đồng"))
+      options
     end
   end
 end

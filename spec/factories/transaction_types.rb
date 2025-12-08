@@ -2,8 +2,7 @@
 #
 # Table name: transaction_types
 #
-#  id          :uuid             not null, primary key
-#  code        :string
+#  code        :string           not null, primary key
 #  description :text
 #  is_income   :boolean
 #  name        :string
@@ -12,13 +11,19 @@
 #
 FactoryBot.define do
   factory :transaction_type do
-    code { TransactionType::ADDITIONAL_LOAN }
     name { "Additional Loan" }
     description { "Transaction type for additional loan disbursements." }
     is_income { false }
 
-    trait :additional_loan do
-      code { TransactionType::ADDITIONAL_LOAN }
+    trait :income_additional_loan do
+      code { TransactionType::INCOME_ADDITIONAL_LOAN }
+      name { "Additional Loan" }
+      description { "Transaction type for additional loan disbursements." }
+      is_income { true }
+    end
+
+    trait :expense_additional_loan do
+      code { TransactionType::EXPENSE_ADDITIONAL_LOAN }
       name { "Additional Loan" }
       description { "Transaction type for additional loan disbursements." }
       is_income { false }

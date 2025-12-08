@@ -1,0 +1,137 @@
+<div class="mx-auto mt-5 text-[10px]">
+  <div class="flex">
+    <div class="logo text-left">
+      <%= image_tag "logo.png", style: 'width: 180px' %>
+    </div>
+    <div class="bg-white mx-auto">
+      <div class="text-center">
+        <h3 class="font-bold text-[11px]">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</h3>
+        <p class="font-bold">Độc lập – Tự Do – Hạnh phúc</p>
+        <p class="font-bold italic pt-5 text-end">Tp Huế, <%= Date.current.to_fs(:month_vn) %></p>
+      </div>
+    </div>
+  </div>
+  <div class="mt-3">
+    <h2 class="font-bold text-center text-[11px]">HỢP ĐỒNG CẦM CỐ TÀI SẢN</h2>
+  </div>
+  <div class="mt-3 w-full">
+    <h2 class="font-bold">CƠ SỞ CẦM ĐỒ (BÊN A): Dịch vụ cầm đồ DNMONEY (DNM)</h2>
+    <div class="relative">
+      <table class="w-full text-left">
+        <tbody>
+          <tr class="bg-white">
+            <th scope="row" class="font-medium" id="pivot-1">
+              Địa chỉ cơ sở chính:
+            </th>
+            <td class="font-semibold">
+              Tỉnh lộ 10, phường Phú Thượng, Thành Phố Huế
+            </td>
+            <td class="font-semibold">
+              Phone: 19000.686.52
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="mt-5">
+    <h2 class="font-bold">KHÁCH HÀNG CẦM CỐ (BÊN B):</h2>
+    <div class="relative">
+      <table class="w-full text-left">
+        <tbody>
+          <%= render partial: "contract_info", collection: @customer_info, as: :info %>
+          <tr>
+            <td>
+              <div class="mt-5">
+                <h2 class="font-bold">ĐIỀU KHOẢN VÀ CÁC THỎA THUẬN:</h2>
+                <h3 class="pl-3 font-bold">ĐIỀU I: THỎA THUẬN CẦM CỐ TÀI SẢN</h3>
+              </div>
+            </td>
+          </tr>
+          <%= render partial: "contract_info", collection: @asset_info, as: :info %>
+          <tr>
+            <td>
+              <div class="mt-0">
+                <h2 class="font-bold pl-5">Bên B tự nguyện và đồng ý chi trả:</h2>
+              </div>
+            </td>
+          </tr>
+          <%= render partial: "contract_info", collection: @fee_info, as: :info %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="mt-5 pl-3">
+    <h2 class="font-bold ">ĐIỀU II: NGHĨA VỤ, QUYỀN LỢI VÀ THỎA THUẬN CỦA CÁC BÊN</h2>
+    <h3 class="font-bold">1. BÊN A:</h3>
+      <p>a) Có nghĩa vụ bảo quản tài sản của bên B, không mua bán định đoạt trong thời hạn hợp đồng. Hết thời hạn sẽ thông báo cho bên B để cùng thực hiện thanh lý tài sản, hợp đồng theo quy định.</p>
+      <p>b) Vì lý do biến động thị trường Bên A có trách nhiệm không gia hạn khi tài sản cầm cố bị giảm giá trị so với mức định giá ban đầu, bên B có quyền chuộc lại tài sản hoặc trả bớt vốn ban đầu lại cho bên A để được tiếp tục gia hạn. Nếu không bên A có quyền thanh lý tài sản của bên B.</p>
+      <p>c) Hoàn trả lại tài sản cầm cố và giấy tờ kèm theo (Nếu có) cho bên B sau khi bên B đã hoàn thành mọi nghĩa vụ thanh toán nợ gốc, tiền lãi và các phí cho bên A.</p>
+      <p>d) Bên A có quyền đơn phương chấm dứt hợp đồng trước thời hạn và xử lý tài sản cầm cố theo điều II khoản 3 trên hợp đồng trong trường hợp bên B không thanh toán tiền lãi và các phí cầm cố đúng theo kỳ hạn đã cam kết.</p>
+      <p>e) Bên A chịu các trách nhiệm khác theo quy định của hợp đồng này và pháp luật có liên quan.</p>
+    <h3 class="pl-3 font-bold">2. BÊN B:</h3>
+      <p>a) Có nghĩa vụ chịu trách nhiệm trước pháp luật về quyền sở hữu hợp pháp tài sản giao cho bên A.</p>
+      <p>b) Bên B phải chịu phí đơn phương hủy bỏ hợp đồng là "Phí phạt chấm dứt sớm" đã thoả thuận như trên. Trong trường hợp chấm dứt hợp đồng cầm cố trong 30 ngày đầu tiên.</p>
+      <p>c) Hết thời hạn hợp đồng cầm cố, bên B có nghĩa vụ phải thực hiện thanh toán nợ gốc, lãi hoặc gia hạn hợp đồng mới.</p>
+      <p>d) Nếu bên B không thanh toán nợ gốc, lãi hoặc gia hạn tiền lãi và các phí khác bắt đầu từ ngày kết thúc hợp đồng thì bên A sẽ xử lý tài sản đúng theo quy định hợp đồng.</p>
+      <p>e) Bên B sẽ chịu trách nhiệm khác theo quy định của hợp đồng này và pháp luật có liên quan.</p>
+    <h3 class="pl-3 font-bold">3. XỬ LÝ TÀI SẢN CẦM CỐ:</h3>
+      <p>a) Khi nào bên B vi phạm nghĩa vụ theo bản hợp đồng này, bao gồm cả nghĩa vụ trả nợ gốc, tiền lãi và các phí, Bên A có toàn quyền xử lý tài sản cầm cố theo quyết định của mình bao gồm :</p>
+      <div class="pl-4">
+        <p>a.1) Tài sản cầm cố sẽ được thay thế cho nghĩa vụ được đảm bảo, trong trường hợp này giá trị của tài sản cầm cốđược tính theo giá trị ghi nhận tại điều I khoản 1 nói trên và số tiền lãi trong thời hạn cầm cố mà bên B chưa thanh toán.cầm cố được tính theo giá trị ghi nhận tại điều I khoản 1 nói trên và số tiền lãi trong thời hạn cầm cố mà bên B chưa thanh toán.</p>
+        <p>a.2) Thanh lý tài sản cầm cố theo cách thức và giá cả do bên A tự quyết định, bên A sẽ là chủ sở hữu của tài sản cầm cố.</p>
+        <p>a.3) Trong trường hợp thanh lý tài sản theo mục a.1) và a.2) nêu trên chưa hoàn tất, bên A tiếp tục chiếm hữu, sử dụng tài sản cầm cố theo phương thức và thời hạn mà bên A thấy thích hợp và toàn quyền lựa chọn.</p>
+      </div>
+      <p>b) Trong trường hợp bên B không thực hiện đầy đủ các nghĩa vụ theo bản hợp đồng này. Bao gồm cả nghĩa vụ trả nợ gốc, tiền lãi và các phí, bên B sẽ đồng ý ủy quyền tài sản đang được cầm cố cho bên A và bên A có quyền làm đại diện ủy quyền thay mặt cho bên B ký kết các hợp đồng, tài liệu và thực hiện các thủ tục cần thiết để thanh lý tài sản cầm cố.</p>
+  </div>
+  <div class="mt-5 pl-3">
+    <h2 class="font-bold ">ĐIỀU III: CÁC THỎA THUẬN KHÁC</h2>
+    <p class="font-semibold">1. Hai bên thỏa thuận tài sản cầm cố sẽ do bên A giữ và “Bên A được quyền trưng dụng cho thuê, cho mượn, khai thác công dụng tài sản cầm cố và hưởng hoa hồng, lợi tức từ tài sản cầm cố”.</p>
+    <p>2. Để tiện cho việc quản lý, tiền lãi và các phí đều được bên A thu trước 30 ngày đầu tiên.</p>
+    <p>3. Trường hợp gia hạn lãi suất, các phí cầm cố không có biên nhận tại văn phòng của cơ sở thì phải được sự đồng ý và xác nhận của bên A bằng tin nhắn văn bản thông qua số điện thoại “0799 979 368”.</p>
+    <p>4. Bên A cam kết sẽ hoàn trả số ngày lãi và phí còn dư lại cho khách hàng khi khách hàng tất toán hợp đồng trước thời hạn.</p>
+    <p>5. Hợp đồng có hiệu lực từ ngày ký kết và coi như được thanh lý cho đến khi khách hàng thực hiện xong nghĩa vụ của mình bao gồm nghĩa vụ thanh toán nợ gốc, tiền lãi và các phí khác mà không còn bất kỳ khiếu nại nào.</p>
+    <p>6. Hợp đồng này được lập thành 01 bản và 01 biên nhận, có giá trị như nhau. Cơ sở lưu giữ hợp đồng, khách hàng lưu giữ biên nhận (Nếu làm mất vui lòng báo lại cho cơ sở để nhanh chóng xử lý).</p>
+    <p>7. Trong trường hợp xảy ra tranh chấp phát sinh hoặc liên quan đến hợp đồng sẽ được giải quyết trên tinh thần dân sự. Nếu vẫn chưa thể giải quyết được thì sẽ được đưa ra và giải quyết bởi tòa án nhân dân có thẩm quyền của Việt Nam.</p>
+    <p>8. Hai bên cam kết đã đọc và hiểu rõ các điều khoản của hợp đồng. Mọi vi phạm xin chịu hoàn toàn trách nhiệm trước pháp luật.</p>
+  </div>
+  <div class="flex gap-10 justify-center mt-8">
+    <div class="text-center">
+      <p class="font-bold">BÊN A</p>
+      <p>(Ký xác nhận - Đóng dấu)</p>
+    </div>
+    <div class="text-center">
+      <p class="font-bold">THU NGÂN</p>
+      <p>(Ký xác nhận)</p>
+    </div>
+    <div class="text-center">
+      <p class="font-bold">BÊN B</p>
+      <p>(Ký xác nhận)</p>
+    </div>
+    <div class="text-center">
+      <p class="font-bold">ĐIỂM CHỈ</p>
+      <p>(Ngón trỏ phải)</p>
+    </div>
+  </div>
+  <div class="flex gap-20 justify-center mt-20">
+    <div class="text-center">
+      <p class="font-bold">THẨM ĐỊNH VIÊN</p>
+      <p>(Ký tên)</p>
+    </div>
+    <div class="text-center">
+      <p class="font-bold">GIAO DỊCH VIÊN</p>
+      <p>(Ký tên)</p>
+    </div>
+    <div class="text-center">
+      <p class="font-bold">NGƯỜI GIỚI THIỆU</p>
+      <p>(Ký tên)</p>
+    </div>
+  </div>
+</div>
+
+<script type="application/javascript">
+  window.print()
+  window.onafterprint = function () {
+    window.close();
+  }
+</script>

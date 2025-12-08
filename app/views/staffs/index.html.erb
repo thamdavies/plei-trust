@@ -1,0 +1,15 @@
+<%= turbo_page_requires_reload %>
+<%= content_for :title, "Quản lý nhân viên" %>
+<%= content_for :subtitle, "Danh sách nhân viên" %>
+
+<%= content_for :page_header_actions do %>
+  <%= render Views::Staffs::FilterForm.new %>
+<% end %>
+
+<%= render Views::Staffs::Index.new(staffs: @staffs, form: @form, pagy: @pagy) %>
+
+<% if @pagy.pages > 1 %>
+  <div class="flex justify-center py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <%== @pagy.series_nav %>
+  </div>
+<% end %>

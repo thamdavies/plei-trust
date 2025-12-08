@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include Clearance::Controller
-  include Pagy::Backend
+  include Pagy::Method
   include Pundit::Authorization
 
   set_current_tenant_through_filter
@@ -48,5 +48,15 @@ class ApplicationController < ActionController::Base
   def handle_pundit_not_authorized(exception)
     policy_name = exception.policy.class.to_s.underscore
     flash.now[:error] = t "#{policy_name}.#{exception.query}", scope: "pundit", default: :default
+  end
+
+  def daily_balance
+    @daily_balance ||= begin
+      current_branch.daily_balances.find_or_create_by(date: Date.current) do |balance|
+        balance.opening_balance = 0
+        balance.closing_balance = 0
+        balance.created_by = current_user
+      end
+    end
   end
 end

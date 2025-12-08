@@ -1,0 +1,13 @@
+<% if @form %>
+  <%= turbo_stream.update "reminder_form" do %>
+    <%= render Views::Shared::Contracts::Tabs::Reminder::Form.new(contract: @contract, form: @form) %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.update "contract_show_modal" do %>
+    <%= render Views::Shared::Contracts::Show.new(contract: @contract, tab: "reminder") %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update "toast-notification" do %>
+  <%= render "shared/toast" %>
+<% end %>

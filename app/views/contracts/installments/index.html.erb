@@ -1,0 +1,18 @@
+<%= turbo_page_requires_reload %>
+<%= content_for :title, "Trả góp" %>
+<%= content_for :subtitle, "Danh sách hợp đồng" %>
+
+<%= content_for :page_header_actions do %>
+  <%= render Views::Contracts::Installments::FilterForm.new %>
+<% end %>
+
+<%= render Views::Contracts::Installments::Index.new(collection: @contracts, form: @form, pagy: @pagy) %>
+
+<% if @pagy.pages > 1 %>
+  <div class="flex justify-center py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <%== @pagy.series_nav %>
+  </div>
+<% end %>
+
+<%# Để tránh giao diện bị co lại khi bảng có ít dòng dữ liệu, các component ảnh hưởng: datetimepicker,... %>
+<div class="h-screen"></div>

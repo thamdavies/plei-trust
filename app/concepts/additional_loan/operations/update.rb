@@ -6,6 +6,10 @@ module AdditionalLoan::Operations
       include ActiveModel::Validations
 
       attr_accessor :transaction_date, :transaction_amount, :note, :contract_id
+
+      def contract
+        @contract ||= ::Contract.find(contract_id)
+      end
     end
 
     class Present < ApplicationOperation
@@ -21,8 +25,7 @@ module AdditionalLoan::Operations
         form.transaction_amount = model.transaction_amount
         form.note = model.note
         form.contract_id = model.contract_id
-
-        ctx[:contract] = ::Contract.find(model.contract_id)
+        ctx[:contract] = model.contract
 
         true
       end
@@ -37,13 +40,13 @@ module AdditionalLoan::Operations
       step :notify
     }
 
-    def save(ctx, model:, params:, **)
-      ctx[:financial_transaction] = FinancialTransaction.create!(
-        contract_id: model.contract_id,
-        transaction_type: TransactionType.additional_loan,
+    def save(ctx, model:, current_branch:, params:, **)
+      ctx[:financial_transaction] = current_branch.financial_transactions.create!(
+        transaction_type_code: TransactionType.config.dig(:additional_loan, model.contract.contract_type_code.to_sym, :update),
         amount: model.transaction_amount,
-        transaction_date: model.transaction_date,
+        transaction_date: Date.current,
         description: model.note,
+        owner: model.contract,
         created_by: ctx[:current_user]
       )
 
@@ -72,6 +75,7 @@ module AdditionalLoan::Operations
         other_amount: 0
       }
 
+      parameters = ctx[:contract].reverse_debit_amount_params(parameters)
       ctx[:contract].create_activity! key: "activity.additional_loan.create", owner: current_user, parameters: parameters
 
       true

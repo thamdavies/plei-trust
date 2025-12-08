@@ -7,6 +7,7 @@ class ContractDecorator < ApplicationDecorator
   decorates_association :additional_loans
   decorates_association :contract_extensions
   decorates_association :activities
+  decorates_association :reminders
 
   def customer_name
     customer.full_name
@@ -24,7 +25,12 @@ class ContractDecorator < ApplicationDecorator
     return "#{contract_date.to_fs(:date_vn)} - #{contract_date.to_fs(:date_vn)}" if no_interest?
 
     record = interest_payments
-    "#{record.first.from.to_fs(:date_vn)} - #{contract_end_date.to_fs(:date_vn)}"
+    if installment?
+      end_date = contract_end_date.change(day: record.first.from.day)
+      "#{record.first.from.to_fs(:date_vn)} - #{end_date.to_fs(:date_vn)}"
+    else
+      "#{record.first.from.to_fs(:date_vn)} - #{contract_end_date.to_fs(:date_vn)}"
+    end
   end
 
   def fm_total_interest
@@ -92,5 +98,37 @@ class ContractDecorator < ApplicationDecorator
       precision: 0,
       strip_insignificant_zeros: true
     )
+  end
+
+  def fm_old_debt_amount(unit: true, abs: false)
+    if abs
+      old_debt_amount.abs
+    else
+      old_debt_amount
+    end.to_f.to_currency(unit: unit ? "VNĐ" : "")
+  end
+
+  def fm_old_debt_amount_with_label(unit: true)
+    if old_debt_amount.positive?
+      "Tiền thừa HĐ: <span class='text-green-600 dark:text-green-400'>#{fm_old_debt_amount(unit:)}</span>".html_safe
+    else
+      "Nợ cũ HĐ: <span class='text-red-600 dark:text-red-400'>#{fm_old_debt_amount(unit:, abs: true)}</span>".html_safe
+    end
+  end
+
+  def total_payment_amount
+    contract_interest_payments.map(&:total_amount).sum * 1_000
+  end
+
+  def total_payment_amount_formatted
+    total_payment_amount.to_currency(unit: "")
+  end
+
+  def total_installment_amount
+    contract_interest_payments.map(&:other_amount).sum * 1_000
+  end
+
+  def total_installment_amount_formatted
+    total_installment_amount.to_currency(unit: "")
   end
 end

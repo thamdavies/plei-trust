@@ -4,7 +4,7 @@ class CreateContractAmountChanges < ActiveRecord::Migration[8.0]
       t.references :contract, null: false, foreign_key: true, type: :uuid
       t.date :action_date
       t.string :type
-      t.decimal :amount, precision: 15, scale: 2
+      t.decimal :amount, precision: 15, scale: 4
       t.text :note
       t.references :processed_by, null: false, foreign_key: { to_table: :users }, type: :uuid
 

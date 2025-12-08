@@ -26,7 +26,7 @@ export default class extends Controller {
       await request.perform();
     } catch (error) {
       console.error("Error updating payment status:", error);
-      alertController.show('Không thể cập nhật trạng thái thanh toán', 'alert');
+      alertController.show('Không thể cập nhật trạng thái thanh toán', 'error');
     }
   }
 }

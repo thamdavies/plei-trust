@@ -37,7 +37,7 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.2"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -65,6 +65,15 @@ group :development do
 
   # RubyUI Components
   gem "ruby_ui", "~> 1.0", require: false
+
+  # Deploy tools
+  gem "capistrano", "~> 3.19", require: false
+  gem "capistrano-rails", "~> 1.7", require: false
+  gem "capistrano-bundler", "~> 2.1", require: false
+  gem "capistrano-rvm", require: false
+  gem "capistrano3-puma", require: false
+  gem "ed25519"
+  gem "bcrypt_pbkdf"
 end
 
 group :test do
@@ -73,13 +82,18 @@ group :test do
   gem "selenium-webdriver"
 end
 
+# For systemd notify support (production)
+group :production do
+  gem "sd_notify"
+end
+
 gem "phlex-rails", "~> 2.3"
 
 gem "tailwind_merge", "~> 1.3"
 
 gem "pry-rails", "~> 0.3.11"
 
-gem "phlex-icons", "~> 2.44"
+gem "phlex-icons", "~> 2.47"
 
 gem "clearance", "~> 2.11"
 
@@ -98,7 +112,7 @@ gem "annotaterb", "~> 4.20"
 
 gem "breadcrumbs_on_rails", "~> 4.1"
 
-gem "phonelib", "~> 0.10.12"
+gem "phonelib", "~> 0.10.14"
 
 gem "ransack", "~> 4.4"
 
@@ -106,7 +120,7 @@ gem "acts_as_tenant", "~> 1.0"
 
 gem "config", "~> 5.6"
 
-gem "pagy", "~> 9.4"
+gem "pagy", "~> 43.1"
 
 gem "active_link_to", "~> 1.0"
 
@@ -123,3 +137,14 @@ gem "public_activity", "~> 3.0"
 gem "paper_trail", "~> 17.0"
 
 gem "scenic", "~> 1.9"
+
+gem "numbers_and_words", "~> 1.0"
+
+gem "twilio-ruby", "~> 7.8"
+
+gem "whenever", "~> 1.1"
+
+# Slacks
+gem "slack_alarm", git: "https://github.com/thamdavies/slack_alarm.git"
+gem "slack-notifier"
+gem "exception_notification"

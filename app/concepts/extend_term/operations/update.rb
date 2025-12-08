@@ -37,6 +37,8 @@ module ExtendTerm::Operations
         content: "Gia hạn"
       )
 
+      return true if ctx[:contract].capital?
+
       start_date = regenerate_interest_payments(contract: ctx[:contract])
 
       contract_extension.from = start_date
@@ -77,6 +79,7 @@ module ExtendTerm::Operations
         other_amount: 0
       }
 
+      parameters = ctx[:contract].reverse_debit_amount_params(parameters)
       ctx[:contract].create_activity! key: "activity.contract.extend", owner: current_user, parameters: parameters
 
       true

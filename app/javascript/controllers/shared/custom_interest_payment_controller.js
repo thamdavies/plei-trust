@@ -64,11 +64,11 @@ export default class extends Controller {
         const data = await response.json();
         this.setPaymentData(data);
       } else {
-        alertController.show('Không thể lấy thông tin lãi theo ngày, vui lòng thử lại sau.', 'alert');
+        alertController.show('Không thể lấy thông tin lãi theo ngày, vui lòng thử lại sau.', 'error');
       }
     } catch (error) {
       console.error(error);
-      alertController.show('Đã xảy ra lỗi, vui lòng thử lại sau.', 'alert');
+      alertController.show('Đã xảy ra lỗi, vui lòng thử lại sau.', 'error');
     }
   }
 

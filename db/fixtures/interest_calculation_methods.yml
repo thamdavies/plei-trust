@@ -70,3 +70,30 @@ interest_calculation_methods:
     is_active: true
     categories:
       - "capital"
+  - name: "Gốc Trả một lần"
+    code: "installment_principal_one_time"
+    note: "Gốc trả cuối kỳ, lãi trả hàng tháng"
+    percent_unit: "%/năm"
+    placeholder: "Nhập số tháng vay"
+    unit: "tháng"
+    is_active: true
+    categories:
+      - "installment"
+  - name: "Gốc Trả đều"
+    code: "installment_principal_equal"
+    note: "Gốc trả đều hàng tháng, lãi tính trên dư nợ giảm dần"
+    percent_unit: "%/năm"
+    placeholder: "Nhập số tháng vay"
+    unit: "tháng"
+    is_active: true
+    categories:
+      - "installment"
+  - name: "Gốc + Lãi Trả đều"
+    code: "installment_principal_interest_equal"
+    note: "Số tiền trả hàng tháng cố định (Gốc + Lãi)"
+    percent_unit: "%/năm"
+    placeholder: "Nhập số tháng vay"
+    unit: "tháng"
+    is_active: true
+    categories:
+      - "installment"

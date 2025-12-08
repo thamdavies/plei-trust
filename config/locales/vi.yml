@@ -47,4 +47,27 @@ vi:
       <<: *default
     pawn:
       <<: *default
-  
+    installment:
+      <<: *default
+  contract_reminder:
+    states:
+      schedule_reminder: "Hẹn giờ"
+      cancel_scheduled_reminder: "Dừng hẹn giờ"
+  labels:
+    contract:
+      capital:
+        withdraw_principal: "Rút vốn"
+        date: "Ngày rút vốn"
+        amount: "Số tiền đầu tư"
+        submit: "Rút vốn"
+      pawn:
+        withdraw_principal: "Chuộc đồ"
+        date: "Ngày chuộc đồ"
+        amount: "Số tiền cầm cố"
+        submit: "Chuộc đồ"
+      installment:
+        withdraw_principal: "Kết thúc hợp đồng"
+        date: "Ngày kết thúc"
+        amount: "Số tiền trả góp"
+        submit: "Kết thúc hợp đồng"
+    

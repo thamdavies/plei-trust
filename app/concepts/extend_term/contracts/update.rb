@@ -12,6 +12,15 @@ module ExtendTerm::Contracts
         required(:number_of_days).filled(:int?, gt?: 0)
         required(:contract_id).filled(:string)
       end
+
+      rule(:contract_id) do
+        contract = ::Contract.find_by(id: value)
+        if contract.nil?
+          key.failure(:not_found)
+        else
+          key.failure(:cannot_extend) if contract.capital?
+        end
+      end
     end
   end
 end

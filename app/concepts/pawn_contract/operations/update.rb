@@ -20,11 +20,17 @@ module PawnContract::Operations
     step Contract::Validate()
     step Wrap(AppTransaction) {
       step Contract::Persist()
+      step :update_asset_setting_values
       step :create_contract_interest_payments
       step :create_activity_log
     }
 
     private
+
+    def update_asset_setting_values(ctx, model:, params:, **)
+      model.asset_setting_values.delete_all
+      model.asset_setting_values.insert_all!(params[:asset_setting_values])
+    end
 
     def create_contract_interest_payments(ctx, model:, **)
       service = ::Contract::Services::ContractInterestPaymentGenerator.new(contract: model)
@@ -42,14 +48,22 @@ module PawnContract::Operations
 
       last_version = model.versions.last
       changes = last_version.changeset["loan_amount"].presence || []
-      amount = changes.last.to_d - changes.first.to_d
 
-      if amount.negative?
-        parameters[:debit_amount] = amount.abs
+      if changes.blank?
+        parameters[:debit_amount] = 0
+        parameters[:credit_amount] = 0
       else
-        parameters[:credit_amount] = amount
+        amount = changes.last.to_d - changes.first.to_d
+        if amount.negative?
+          parameters[:debit_amount] = amount.abs
+          model.create_financial_transaction!(is_income: false, amount: amount.abs * 1_000)
+        else
+          parameters[:credit_amount] = amount
+          model.create_financial_transaction!(is_income: true, amount: amount * 1_000)
+        end
       end
 
+      parameters = model.reverse_debit_amount_params(parameters)
       model.create_activity! key: "activity.contract.update", owner: current_user, parameters: parameters
 
       true

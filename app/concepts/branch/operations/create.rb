@@ -16,27 +16,37 @@ module Branch::Operations
     }
 
     def create_capital_customer(ctx, model:, current_user:, **)
-      ctx[:seed_capital_customer] = current_user.create_seed_capital_customer(branch: model)
+      ActsAsTenant.with_tenant(model) do
+        ctx[:seed_capital_customer] = current_user.create_seed_capital_customer(branch: model)
+      end
+
       true
     end
 
     def create_capital_contract(ctx, model:, current_user:, **)
-      ::Contract.create!(
-        asset_name: "Vốn khởi tạo",
-        code: SecureRandom.hex(4).upcase,
-        contract_date: Date.current,
-        contract_term: 0,
-        interest_calculation_method: "investment_capital",
-        interest_rate: 0.0,
-        loan_amount: model.invest_amount,
-        interest_period: 0,
-        status: "active",
-        branch: model,
-        cashier: current_user,
-        contract_type: ContractType.capital.first,
-        customer: ctx[:seed_capital_customer],
-        created_by: current_user,
-      )
+      ActsAsTenant.with_tenant(model) do
+        model.contracts.create!(
+          contract_date: Date.current,
+          contract_term: 0,
+          is_default_capital: true,
+          interest_calculation_method: InterestCalculationMethod.config[:code][:investment_capital],
+          interest_rate: 0.0,
+          loan_amount: model.invest_amount * 1_000,
+          interest_period: 0,
+          status: "active",
+          cashier: current_user,
+          contract_type_code: ContractType.codes[:capital],
+          customer: ctx[:seed_capital_customer],
+          created_by: current_user,
+        )
+
+        model.daily_balances.create!(
+          date: Date.current,
+          opening_balance: 0,
+          closing_balance: 0,
+          created_by: current_user,
+        )
+      end
 
       true
     end

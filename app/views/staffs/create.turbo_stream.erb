@@ -1,0 +1,9 @@
+<% if @form.present? %>
+  <%= turbo_stream.update "staff_form" do %>
+    <%= render Views::Staffs::Form.new(form: @form) %>
+  <% end %>  
+<% end %>
+
+<%= turbo_stream.update "toast-notification" do %>
+  <%= render "shared/toast" %>
+<% end %>

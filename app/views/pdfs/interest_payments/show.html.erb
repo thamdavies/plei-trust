@@ -1,0 +1,31 @@
+<div class="max-w-[430px] m-auto relative">
+  <%= image_tag("logo.png", class: "invoice-background") %>
+  <p class="text-center uppercase font-semibold">Biên Nhận đóng lãi</p>
+  <p class="text-center ">(<%= @interest_payment.fm_paid_at %>)</p>
+  <p>--------------------------------------------------</p>
+  <div class="uppercase pdf-line-height" style="line-height: 1.7rem">
+    <p class="text-center font-semibold">Doanh nghiệp thương mại dịch vụ DNM</p>
+    <p class="text-center">(ĐT: 1900068652)</p>
+    <p class="text-center">xác nhận khách hàng <span class="font-semibold"><%= @customer.full_name %></span></p>
+    <p class="text-center">đã đóng tiền</p>
+    <p>Tên HĐ: <span class="font-semibold">Cầm đồ</span></p>
+    <p>Số HĐ: <span class="font-semibold"><%= @contract.code %></span></p>
+    <p>Kỳ lãi: <span class="font-semibold"><%= @interest_payment.fm_dates %></span></p>
+    <p>Số tiền: <span class="uppercase font-semibold"><%= @interest_payment.total_amount_currency %></span></p>
+    <p>Hạn đóng lãi tiếp theo: <span class="uppercase font-semibold"><%= @next_period || 'Hoàn tất trả lãi' %></span></p>
+    <br />
+    <div>
+      <p><span class="font-semibold">Lưu ý:</span> Khách hàng chuyển khoản vui lòng ghi rõ họ tên để tránh nhầm lẫn</p>
+      <p>Hotline CSKH: 1900068652</p>
+      <p>Zalo: 0762525262</p>
+    </div>
+    <br />
+    <p>Cảm ơn bạn đã lựa chon DMN!</p>
+  </div>
+</div>
+<script type="text/javascript">
+  window.print();
+  window.onafterprint = function () {
+    window.close();
+  }
+</script>

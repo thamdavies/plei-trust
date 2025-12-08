@@ -13,7 +13,7 @@ class CreateContracts < ActiveRecord::Migration[8.0]
 
       # Loại hợp đồng và số tiền
       t.string :contract_type_code, null: false
-      t.decimal :loan_amount, precision: 15, scale: 2
+      t.decimal :loan_amount, precision: 15, scale: 4
 
       # Cấu hình lãi suất
       t.string :interest_calculation_method
@@ -25,10 +25,13 @@ class CreateContracts < ActiveRecord::Migration[8.0]
       t.integer :interest_period
 
       t.date :contract_date
+      t.datetime :contract_ended_at
 
       # Trạng thái và cài đặt
       t.string :status, default: 'active'
       t.text :note
+
+      t.boolean :is_default_capital, default: false, null: false
 
       t.timestamps
     end

@@ -31,9 +31,8 @@ module ReducePrincipal::Operations
       true
     end
 
-    def save(ctx, params:, model:, **)
-      contract = ctx[:contract]
-      financial_transaction = contract.financial_transactions.find(params[:id])
+    def save(ctx, params:, current_branch:, model:, **)
+      financial_transaction = current_branch.financial_transactions.find(params[:id])
       ctx[:financial_transaction] = financial_transaction
       financial_transaction.destroy!
 
@@ -66,6 +65,7 @@ module ReducePrincipal::Operations
         other_amount: 0
       }
 
+      parameters = ctx[:contract].reverse_debit_amount_params(parameters)
       ctx[:contract].create_activity! key: "activity.reduce_principal.cancel", owner: current_user, parameters: parameters
 
       true

@@ -13,8 +13,8 @@ module AdditionalLoan::Contracts
 
       rule(:id) do
         contract = ::Contract.find(form.contract_id)
-        transaction = contract.financial_transactions.find(value)
-        if transaction.transaction_type.code != TransactionType::ADDITIONAL_LOAN
+        transaction = contract.branch.financial_transactions.find(value)
+        if [ TransactionType::INCOME_ADDITIONAL_LOAN, TransactionType::EXPENSE_ADDITIONAL_LOAN ].exclude?(transaction.transaction_type_code)
           key.failure("giao dịch không phải là vay thêm")
         else
           last_interest_payment = contract.paid_interest_payments.last

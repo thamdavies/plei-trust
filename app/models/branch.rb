@@ -4,7 +4,7 @@
 #
 #  id             :uuid             not null, primary key
 #  address        :string
-#  invest_amount  :decimal(12, 2)
+#  invest_amount  :decimal(12, 4)
 #  name           :string
 #  phone          :string
 #  representative :string
@@ -25,7 +25,10 @@
 #  fk_rails_...  (ward_id => wards.code)
 #
 class Branch < ApplicationRecord
+  include PublicActivity::Model
   include LargeNumberFields
+  include Branch::Reader
+  include Branch::Writer
 
   large_number_field :invest_amount
 
@@ -39,6 +42,26 @@ class Branch < ApplicationRecord
   has_many :asset_settings, dependent: :destroy
   has_many :customers, dependent: :destroy
   has_many :contracts, dependent: :destroy
+  has_many :users, dependent: :destroy
+  has_many :daily_balances, dependent: :destroy
+  has_many :financial_transactions, as: :recordable, dependent: :destroy
+  has_many :interest_payments, class_name: ContractInterestPayment.name, dependent: :destroy
+  has_many :reminders, class_name: ContractReminder.name, dependent: :destroy
+
+  has_many :income_transactions, -> { joins(:transaction_type).where(transaction_types: { is_income: true }) }, class_name: FinancialTransaction.name, foreign_key: :recordable_id, primary_key: :id
+  has_many :expense_transactions, -> { joins(:transaction_type).where(transaction_types: { is_income: false }) }, class_name: FinancialTransaction.name, foreign_key: :recordable_id, primary_key: :id
+
+  has_many :income_principals, -> { where(transaction_type_code: TransactionType::INCOME_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_principals, -> { where(transaction_type_code: TransactionType::EXPENSE_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_additional_loans, -> { where(transaction_type_code: TransactionType::INCOME_ADDITIONAL_LOAN) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_additional_loans, -> { where(transaction_type_code: TransactionType::EXPENSE_ADDITIONAL_LOAN) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_withdrawal_principals, -> { where(transaction_type_code: TransactionType::INCOME_WITHDRAWAL_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_withdrawal_principals, -> { where(transaction_type_code: TransactionType::EXPENSE_WITHDRAWAL_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_interest_overpayments, -> { where(transaction_type_code: TransactionType::INCOME_INTEREST_OVERPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_interest_overpayments, -> { where(transaction_type_code: TransactionType::EXPENSE_INTEREST_OVERPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_debt_repayments, -> { where(transaction_type_code: TransactionType::INCOME_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :expense_debt_repayments, -> { where(transaction_type_code: TransactionType::EXPENSE_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :activities, -> { order("id DESC") }, class_name: PublicActivity::Activity.name, as: :trackable, dependent: :destroy
 
   # Views
   has_many :active_contracts, -> { where(status: :active) }, class_name: Contract.name

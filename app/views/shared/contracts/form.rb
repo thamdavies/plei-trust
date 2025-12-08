@@ -73,7 +73,7 @@ class Views::Shared::Contracts::Form < Views::Base
         end
       end
 
-      render Views::Shared::Contracts::InterestForm.new(form:)
+      render Views::Shared::Contracts::InterestForm.new(form:, contract_type:)
 
       div(class: "grid w-full max-w-sm items-center gap-1.5") do
         FormField do

@@ -34,6 +34,7 @@ module Contract::Services
         days_count: number_of_days,
         old_debt_amount: old_debt_amount.to_currency,
         interest_amount: total_amount.to_currency,
+        interest_amount_raw: total_amount,
         other_amount: other_amount.to_currency(unit: "").strip,
         total_interest_amount: total_interest_amount.to_currency,
         total_amount: (total_interest_amount + contract.total_amount * 1_000).to_currency,

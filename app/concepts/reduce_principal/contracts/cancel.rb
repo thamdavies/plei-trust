@@ -13,8 +13,8 @@ module ReducePrincipal::Contracts
 
       rule(:id) do
         contract = ::Contract.find(form.contract_id)
-        transaction = contract.financial_transactions.find(value)
-        if transaction.transaction_type.code != TransactionType::REDUCE_PRINCIPAL
+        transaction = contract.branch.financial_transactions.find(value)
+        if [ TransactionType::EXPENSE_PRINCIPAL, TransactionType::INCOME_PRINCIPAL ].exclude?(transaction.transaction_type_code)
           key.failure("giao dịch không phải là rút bớt gốc")
         else
           last_interest_payment = contract.paid_interest_payments.last

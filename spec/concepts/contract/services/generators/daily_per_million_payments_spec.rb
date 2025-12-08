@@ -4,11 +4,11 @@ RSpec.describe Contract::Services::Generators::DailyPerMillionPayments do
   let(:contract_type) { create(:contract_type, :capital, code: :capital) }
   let(:contract) { create(:contract, contract_type:, contract_date: "2025-10-03".to_date) }
   let(:processed_by) { create(:user) }
-  let(:transaction_type) { create(:transaction_type, :additional_loan) }
-  let(:additional_loan1) { create(:financial_transaction, transaction_type:, contract:, amount: 1_000_000, transaction_date: "2025-10-22".to_date) }
-  let(:additional_loan2) { create(:financial_transaction, transaction_type:, contract:, amount: 1_000_000, transaction_date: "2025-10-26".to_date) }
-  let(:additional_loan3) { create(:financial_transaction, transaction_type:, contract:, amount: 1_000_000, transaction_date: "2025-11-20".to_date) }
-  let(:additional_loan4) { create(:financial_transaction, transaction_type:, contract:, amount: 1_000_000, transaction_date: "2025-11-26".to_date) }
+  let(:transaction_type) { create(:transaction_type, :income_additional_loan) }
+  let(:additional_loan1) { create(:financial_transaction, transaction_type:, owner: contract, recordable: contract.branch, amount: 1_000_000, transaction_date: "2025-10-22".to_date) }
+  let(:additional_loan2) { create(:financial_transaction, transaction_type:, owner: contract, recordable: contract.branch, amount: 1_000_000, transaction_date: "2025-10-26".to_date) }
+  let(:additional_loan3) { create(:financial_transaction, transaction_type:, owner: contract, recordable: contract.branch, amount: 1_000_000, transaction_date: "2025-11-20".to_date) }
+  let(:additional_loan4) { create(:financial_transaction, transaction_type:, owner: contract, recordable: contract.branch, amount: 1_000_000, transaction_date: "2025-11-26".to_date) }
   let(:service) { described_class.new(contract: contract) }
 
   describe '#call' do

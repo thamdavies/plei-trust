@@ -82,6 +82,9 @@ application.register("shared--contract-detail", Shared__ContractDetailController
 import Shared__CustomInterestPaymentController from "./shared/custom_interest_payment_controller"
 application.register("shared--custom-interest-payment", Shared__CustomInterestPaymentController)
 
+import Shared__PdfController from "./shared/pdf_controller"
+application.register("shared--pdf", Shared__PdfController)
+
 import Shared__ReducePrincipalController from "./shared/reduce_principal_controller"
 application.register("shared--reduce-principal", Shared__ReducePrincipalController)
 
@@ -91,6 +94,9 @@ application.register("shared--additional-loan", Shared__AdditionalLoanController
 import Shared__WithdrawPrincipalController from "./shared/withdraw_principal_controller"
 application.register("shared--withdraw-principal", Shared__WithdrawPrincipalController)
 
+import Shared__ReminderController from "./shared/reminder_controller"
+application.register("shared--reminder", Shared__ReminderController)
+
 import SlimSelectController from "./slim_select_controller"
 application.register("slim-select", SlimSelectController)
 
@@ -99,3 +105,12 @@ application.register("notification", Notification)
 
 import AutoSubmit from '@stimulus-components/auto-submit'
 application.register("auto-submit", AutoSubmit)
+
+import Lightbox from '@stimulus-components/lightbox'
+application.register("lightbox", Lightbox)
+
+import Dropzone from "./dropzone_controller"
+application.register("dropzone", Dropzone)
+
+import JstreeController from "./jstree_controller"
+application.register("jstree", JstreeController)

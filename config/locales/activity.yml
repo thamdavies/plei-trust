@@ -5,6 +5,8 @@ vi:
       update: Cập nhật hợp đồng
       extend: Gia hạn
       close: Đóng hợp đồng
+      debt_repayment: Trả nợ
+      outstanding_interest: Nợ lãi
     contract_interest_payment:
       paid: Đóng tiền lãi
       cancel: Hủy đóng tiền lãi
@@ -14,3 +16,6 @@ vi:
     additional_loan:
       create: Vay thêm gốc
       cancel: Hủy vay thêm gốc
+    cash_control:
+      deposit: Nhập quỹ tiền mặt
+      update_opening_balance: Cập nhật tiền đầu ngày

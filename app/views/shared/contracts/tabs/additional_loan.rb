@@ -15,7 +15,7 @@ class Views::Shared::Contracts::Tabs::AdditionalLoan < Views::Base
             Remix::ListView(class: "w-6 h-6")
             h2(class: "text-md mb-2 font-medium text-gray-900 dark:text-white") { "Danh sách tiền gốc" }
           end
-          Table(class: "mt-4") do
+          Table do
             TableCaption { "Lịch sử vay thêm sẽ được hiển thị ở đây" } if contract.additional_loans.empty?
             TableHeader do
               TableRow do

@@ -2,38 +2,45 @@
 #
 # Table name: financial_transactions
 #
-#  id                  :uuid             not null, primary key
-#  amount              :decimal(15, 2)   not null
-#  description         :string
-#  reference_number    :string
-#  transaction_date    :date             not null
-#  transaction_number  :string           not null
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  contract_id         :uuid             not null
-#  created_by_id       :uuid             not null
-#  transaction_type_id :uuid             not null
+#  id                    :uuid             not null, primary key
+#  amount                :decimal(15, 4)   not null
+#  description           :string
+#  owner_type            :string
+#  party_name            :string
+#  recordable_type       :string           not null
+#  reference_number      :string
+#  transaction_date      :date             not null
+#  transaction_number    :string           not null
+#  transaction_type_code :string           not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  created_by_id         :uuid             not null
+#  owner_id              :uuid
+#  recordable_id         :uuid             not null
 #
 # Indexes
 #
-#  index_financial_transactions_on_contract_id          (contract_id)
-#  index_financial_transactions_on_created_by_id        (created_by_id)
-#  index_financial_transactions_on_transaction_type_id  (transaction_type_id)
+#  index_financial_transactions_on_created_by_id          (created_by_id)
+#  index_financial_transactions_on_transaction_type_code  (transaction_type_code)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (contract_id => contracts.id)
 #  fk_rails_...  (created_by_id => users.id)
-#  fk_rails_...  (transaction_type_id => transaction_types.id)
+#  fk_rails_...  (transaction_type_code => transaction_types.code)
 #
 class FinancialTransaction < ApplicationRecord
   include LargeNumberFields
   include AutoCodeGenerator
+  include PublicActivity::Model
 
   auto_code_config(prefix: "TX", field: :transaction_number)
   large_number_field :amount
 
-  belongs_to :contract
-  belongs_to :transaction_type
+  belongs_to :recordable, polymorphic: true
+  belongs_to :owner, polymorphic: true, optional: true
+  belongs_to :transaction_type, foreign_key: :transaction_type_code, primary_key: :code
   belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id, optional: true
+
+  scope :income, -> { joins(:transaction_type).where(transaction_types: { is_income: true }) }
+  scope :expense, -> { joins(:transaction_type).where(transaction_types: { is_income: false }) }
 end

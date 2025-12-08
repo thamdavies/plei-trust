@@ -1,6 +1,7 @@
 class Views::Shared::Contracts::InterestForm < Views::Base
-  def initialize(form:)
+  def initialize(form:, contract_type: nil)
     @form = form
+    @contract_type = contract_type
   end
 
   attr_reader :form
@@ -65,7 +66,7 @@ class Views::Shared::Contracts::InterestForm < Views::Base
       end
 
       FormField(class: "max-w-sm") do
-        FormFieldLabel { "Thời gian vay" }
+        FormFieldLabel { contract_type_label(type: @contract_type).contract_term }
         div(class: "relative") do
           Input(
             type: "number",

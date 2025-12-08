@@ -86,4 +86,13 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # Slack notification
+  Rails.application.config.middleware.use(
+    ExceptionNotification::Rack,
+    slack: {
+      webhook_url: Rails.application.credentials.dig(:slack, :webhook_url), #  webhook URL
+      channel: Rails.application.credentials.dig(:slack, :exceptions_channel)    #  channel name
+    },
+  )
 end

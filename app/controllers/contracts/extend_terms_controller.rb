@@ -6,12 +6,17 @@ class Contracts::ExtendTermsController < ContractsController
 
     ctx = ExtendTerm::Operations::Update.call(params: permit_params.to_h, current_user:)
     if ctx.success?
-      flash.now[:notice] = ctx[:message]
+      flash.now[:success] = ctx[:message]
     else
       @form = ctx["contract.default"]
+      if @form.errors[:contract_id].present?
+        flash.now[:error] = @form.errors[:contract_id].first
+      end
     end
 
     @contract = ctx[:contract].decorate
+  rescue Pundit::NotAuthorizedError
+    handle_cannot_operate_on_ended_contract
   end
 
   private

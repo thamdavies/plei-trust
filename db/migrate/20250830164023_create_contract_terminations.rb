@@ -3,11 +3,11 @@ class CreateContractTerminations < ActiveRecord::Migration[8.0]
     create_table :contract_terminations, id: :uuid, default: 'uuidv7()' do |t|
       t.references :contract, null: false, foreign_key: true, type: :uuid
       t.date :termination_date
-      t.decimal :amount, precision: 15, scale: 2
-      t.decimal :old_debt, precision: 15, scale: 2
-      t.decimal :interest_amount, precision: 15, scale: 2
-      t.decimal :other_amount, precision: 15, scale: 2
-      t.decimal :total_amount, precision: 15, scale: 2
+      t.decimal :amount, precision: 15, scale: 4
+      t.decimal :old_debt, precision: 15, scale: 4
+      t.decimal :interest_amount, precision: 15, scale: 4
+      t.decimal :other_amount, precision: 15, scale: 4
+      t.decimal :total_amount, precision: 15, scale: 4
       t.references :processed_by, null: false, foreign_key: { to_table: :users }, type: :uuid
 
       t.timestamps

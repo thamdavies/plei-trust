@@ -4,9 +4,9 @@ class Contracts::AdditionalLoansController < ContractsController
   def update
     authorize @contract, :update?
 
-    ctx = AdditionalLoan::Operations::Update.call(params: permit_params.to_h, current_user:)
+    ctx = AdditionalLoan::Operations::Update.call(params: permit_params.to_h, current_user:, current_branch:)
     if ctx.success?
-      flash.now[:notice] = ctx[:message]
+      flash.now[:success] = ctx[:message]
     else
       @form = ctx["contract.default"]
     end
@@ -19,12 +19,12 @@ class Contracts::AdditionalLoansController < ContractsController
   def destroy
     authorize @contract, :update?
 
-    ctx = AdditionalLoan::Operations::Cancel.call(params: cancel_params.to_h, current_user:)
+    ctx = AdditionalLoan::Operations::Cancel.call(params: cancel_params.to_h, current_user:, current_branch:)
     if ctx.success?
-      flash.now[:notice] = ctx[:message]
+      flash.now[:success] = ctx[:message]
     else
       err_msg = ctx["contract.default"].errors.messages[:id].first || "Đã có lỗi xảy ra khi hủy vay thêm"
-      flash.now[:alert] = err_msg
+      flash.now[:error] = err_msg
     end
 
     @contract = ctx[:contract].decorate
