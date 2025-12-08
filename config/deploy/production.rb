@@ -3,6 +3,7 @@ set :bundle_flags, "--no-deployment"
 set :deploy_to, "/home/ubuntu/dnm"
 
 set :application, "dnm"
+set :puma_enable_socket_service, true
 
 # Web deploy
 server "103.200.23.127", roles: [ :web, :db, :app ], ssh_options: fetch(:ssh_options)
