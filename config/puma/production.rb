@@ -20,7 +20,7 @@ stdout_redirect "log/puma.stdout.log", "log/puma.stderr.log", true
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
 # port ENV.fetch("PORT", 3000)
-socket_path = ENV.fetch("SOCKET_PATH", "/home/deploy/dnm/shared/tmp/sockets/puma.sock")
+socket_path = ENV.fetch("SOCKET_PATH", "/home/ubuntu/dnm/shared/tmp/sockets/puma.sock")
 bind "unix://#{socket_path}"
 
 # Specifies the `environment` that Puma will run in.
