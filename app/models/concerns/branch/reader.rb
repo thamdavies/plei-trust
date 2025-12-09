@@ -6,8 +6,8 @@ module Branch::Reader
     opening = opening_balance(date)
 
     # Công thức: Vốn + Đầu ngày + (Thu - Chi)
-    default_capital = contracts.capital_contracts.find_by(is_default_capital: true)
-    default_capital.total_amount.to_f * 1_000 + opening + today_net_transaction(date)
+    default_capital = contracts.capital_contracts.today.sum(:loan_amount)
+    default_capital.to_f * 1_000 + opening + today_net_transaction(date)
   end
 
   # Hàm tính biến động dòng tiền trong ngày (Thu - Chi)

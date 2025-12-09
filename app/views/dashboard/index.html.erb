@@ -4,7 +4,7 @@
 
 <%= render Views::Shared::LegalNoticeComponent.new %>
 
-<div class="flex m-4 justify-between">
+<div class="flex m-4 justify-between gap-4">
   <%= render Views::Shared::StatCardComponent.new(amount: @dashboard_data.cash_balance, title: "QUỸ TIỀN MẶT", variant: :icon) %>
   <%= render Views::Shared::StatCardComponent.new(amount: @dashboard_data.active_contract_count, title: "SỐ HỢP ĐỒNG ĐANG VAY", variant: :icon) %>
   <%= render Views::Shared::StatCardComponent.new(amount: @dashboard_data.active_loan_amount, title: "TIỀN ĐANG CHO VAY", variant: :icon) %>
