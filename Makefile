@@ -25,5 +25,15 @@ db-reset:
 	rm -rf db/schema.rb
 	bin/rails db:create db:migrate db:seed
 
+db-prod-reset:
+	@if [ -n "$$(docker ps -aq)" ]; then \
+		docker stop $$(docker ps -aq); \
+		docker rm $$(docker ps -aq); \
+	fi
+	docker compose down -v
+	docker compose up -d
+	rm -rf db/schema.rb
+	RAILS_ENV=production bin/rails db:create db:migrate db:seed
+
 deploy:
 	bundle exec cap production deploy
