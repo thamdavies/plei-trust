@@ -16,8 +16,10 @@ test:
 	bundle exec rspec
 
 db-reset:
-	docker stop $(docker ps -aq)
-	docker rm $(docker ps -aq)
+	@if [ -n "$$(docker ps -aq)" ]; then \
+		docker stop $$(docker ps -aq); \
+		docker rm $$(docker ps -aq); \
+	fi
 	docker compose down -v
 	docker compose up -d
 	rm -rf db/schema.rb
