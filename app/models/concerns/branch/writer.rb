@@ -6,14 +6,16 @@ module Branch::Writer
     previous_daily_balance = daily_balances.find_by(date: previous_date)
     previous_cash_balance = current_cash_balance(previous_date)
 
-    # if previous_daily_balance.blank?
-    #   message = "Previous daily balance for branch #{id} on #{previous_date} not found."
-    #   Rails.logger.error(message)
-    #   return
-    # end
+    if previous_daily_balance.blank?
+      message = "Previous daily balance for branch #{id} on #{previous_date} not found."
+      Rails.logger.error(message)
+      return
+    end
+
+    branch = previous_daily_balance.branch
 
     SlackAlarm.perform(
-      description: ":male-technologist: Cập nhập tiền đầu ngày #{date}",
+      description: ":male-technologist: Cập nhập tiền đầu ngày ngày #{date} cho chi nhánh #{branch.name}.",
       cmd: "Branch.update_opening_balance_for_date",
       context: "Announcement from the *DNM Bot*",
     ) do
