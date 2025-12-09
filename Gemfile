@@ -145,3 +145,6 @@ gem "whenever", "~> 1.1"
 gem "slack_alarm", git: "https://github.com/thamdavies/slack_alarm.git"
 gem "slack-notifier"
 gem "exception_notification"
+
+# ENV
+gem "dotenv"
