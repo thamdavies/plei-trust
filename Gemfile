@@ -117,7 +117,7 @@ gem "acts_as_tenant", "~> 1.0"
 
 gem "config", "~> 5.6"
 
-gem "pagy", "~> 43.1"
+gem "pagy", "~> 43.2"
 
 gem "active_link_to", "~> 1.0"
 
