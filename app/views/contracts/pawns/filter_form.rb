@@ -50,7 +50,7 @@ class Views::Contracts::Pawns::FilterForm < Views::Base
               FormField(class: "relative w-48 sm:w-64 xl:w-96") do
                 SearchInput(
                   name: "q[code_or_customer_full_name_or_customer_national_id_cont]",
-                  placeholder: "Tìm kiếm theo tên, CCCD khách hàng",
+                  placeholder: "Tìm kiếm theo tên, CCCD khách hàng, mã HĐ",
                   value: view_context.params.dig(:q, :code_or_customer_full_name_or_customer_national_id_cont)
                 )
               end
