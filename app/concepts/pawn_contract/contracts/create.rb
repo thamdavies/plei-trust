@@ -10,7 +10,7 @@ module PawnContract::Contracts
     property :interest_rate
     property :can_edit_contract, virtual: true, default: true
     property :loan_amount, populator: ->(options) {
-      self.loan_amount = self.input_params["loan_amount"].remove_dots if self.input_params["loan_amount"].present?
+      self.loan_amount = self.input_params["loan_amount"].remove_dots.to_f if self.input_params["loan_amount"].present?
     }
     property :note
     property :interest_period
@@ -47,6 +47,17 @@ module PawnContract::Contracts
 
         if value.present? && (value.to_d / 1000) < 1
           key.failure("phải lớn hơn hoặc bằng 1.000 đồng")
+        end
+
+        branch = Branch.find_by(id: form.branch_id)
+        if branch
+          cash_balance = branch.current_cash_balance
+          if form.id.present?
+            total_capacity = cash_balance + form.loan_amount
+            key.failure("Quỹ tiền mặt không đủ để chi.") if total_capacity < form.loan_amount
+          else
+            key.failure("Quỹ tiền mặt không đủ để chi.") if form.loan_amount > cash_balance
+          end
         end
       end
 

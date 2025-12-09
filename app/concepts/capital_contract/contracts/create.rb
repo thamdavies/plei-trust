@@ -10,7 +10,7 @@ module CapitalContract::Contracts
     property :interest_rate
     property :can_edit_contract, virtual: true, default: true
     property :loan_amount, populator: ->(options) {
-      self.loan_amount = self.input_params["loan_amount"].remove_dots if self.input_params["loan_amount"].present?
+      self.loan_amount = self.input_params["loan_amount"].remove_dots.to_f if self.input_params["loan_amount"].present?
     }
     property :note
     property :interest_period
