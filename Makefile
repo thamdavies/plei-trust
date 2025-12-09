@@ -16,6 +16,7 @@ test:
 	bundle exec rspec
 
 db-reset:
+  docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
 	docker compose down -v
 	docker compose up -d
 	rm -rf db/schema.rb
