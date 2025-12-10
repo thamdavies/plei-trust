@@ -6,7 +6,7 @@ module Branch::Reader
     opening = opening_balance(date)
 
     # Công thức: Vốn + Đầu ngày + (Thu - Chi)
-    capital_amount = contracts.capital_contracts.today.map(&:total_amount).sum.to_f * 1_000
+    capital_amount = contracts.capital_contracts.by_date(date).map(&:total_amount).sum.to_f * 1_000
     capital_amount + opening + today_net_transaction(date)
   end
 

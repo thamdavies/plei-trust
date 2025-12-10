@@ -102,7 +102,8 @@ class Contract < ApplicationRecord
   scope :without_capital, -> { where.not(contract_type_code: ContractType.codes[:capital]) }
   scope :pawn_contracts, -> { where(contract_type_code: ContractType.codes[:pawn]) }
   scope :capital_contracts, -> { where(contract_type_code: ContractType.codes[:capital]) }
-  scope :today, -> { where("created_at::date = ?", Date.current) }
+  scope :by_date, ->(date = Date.current) { where("created_at::date = ?", date) }
+  scope :today, -> { by_date }
   scope :installment_contracts, -> { where(contract_type_code: ContractType.codes[:installment]) }
 
   accepts_nested_attributes_for :customer,
