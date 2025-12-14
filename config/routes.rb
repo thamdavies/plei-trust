@@ -65,4 +65,9 @@ Rails.application.routes.draw do
   namespace :autocomplete do
     resources :customers, only: [ :index, :show ]
   end
+
+  # For reports
+  namespace :reports do
+    resources :daily_cash_flows, only: [ :index ]
+  end
 end

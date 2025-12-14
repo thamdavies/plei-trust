@@ -80,6 +80,10 @@ export default class extends Controller {
     await request.perform();
   }
 
+  async previewLoanIllustration() {
+    
+  }
+
   setInterestMethodDetails(data) {    
     this.interestUnitTarget.textContent = data.attributes.percent_unit;
     this.interestPeriodUnitTarget.textContent = data.attributes.unit;

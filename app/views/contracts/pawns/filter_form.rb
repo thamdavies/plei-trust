@@ -61,6 +61,14 @@ class Views::Contracts::Pawns::FilterForm < Views::Base
         end
       end
 
+      # div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700") do
+      #   Link(href: "javascript:void(0);", class: "cursor-pointer", data: { action: "click->resource#triggerDialog" }) do
+      #     Remix::ExternalLinkLine(class: "w-5 h-5")
+      #     span(class: "cursor-pointer ml-1") { "Phiếu minh hoạ" }
+      #   end
+      #   Button(class: "cursor-pointer", data: { action: "click->resource#triggerDialog", controller: "resource", resource_path_value: new_contracts_pawn_path, resource_dialogbutton_value: "pawn-dialog-trigger" }) { I18n.t("button.new") }
+      # end
+
       div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700",
         data: { controller: "resource", resource_path_value: new_contracts_pawn_path, resource_dialogbutton_value: "pawn-dialog-trigger" }) do
         Button(class: "cursor-pointer", data: { action: "click->resource#triggerDialog" }) { I18n.t("button.new") }

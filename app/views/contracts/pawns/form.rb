@@ -27,6 +27,19 @@ class Views::Contracts::Pawns::Form < Views::Base
         Collapsible(open: true) do
           div(class: "flex items-center justify-start") do
             CollapsibleTrigger do
+              # div(class: "flex gap-2 justify-between") do
+              #   div(class: "flex gap-2") do
+              #     Remix::ContractLine(class: "w-6 h-6")
+              #     h2(class: "text-md mb-2 font-medium text-gray-900 dark:text-white") { "Thông tin hợp đồng" }
+              #   end
+
+              #   div(class: "flex gap-1") do
+              #     Link(href: "javascript:void(0);", class: "text-blue-600", data: { action: "click->shared--contract#previewLoanIllustration" }) do
+              #       Remix::ExternalLinkLine(class: "w-5 h-5")
+              #       span(class: "cursor-pointer") { "Phiếu minh hoạ" }
+              #     end
+              #   end
+              # end
               div(class: "flex items-center space-x-2 cursor-pointer") do
                 Remix::HomeGearLine(class: "h-6 w-6")
                 h2(class: "text-md font-medium text-gray-900 dark:text-white") { "Cấu hình tài sản" }
