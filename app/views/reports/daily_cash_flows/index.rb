@@ -14,31 +14,79 @@ class Views::Reports::DailyCashFlows::Index < Views::Base
           TableCaption(class: "mb-3") { "Báo cáo dòng tiền lưu chuyển theo ngày" } if @daily_flows&.empty?
           TableHeader do
             TableRow(style: "background-color: #3f86c3;") do
-              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") { "STT [1]" }
+              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") do
+                span { "STT" }
+                br
+                span { "[1]" }
+              end
               TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") do
                 span { "Ngày" }
                 br
                 span { "[2]" }
               end
-              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") { "Tiền đầu ngày [3]" }
-              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") { "Cầm đồ [4]" }
-              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") { "Tín Chấp [5]" }
-              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") { "Trả Góp [6]" }
-              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") { "Thu chi [7]" }
-              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") { "Vốn [8]" }
-              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") { "Tiền cuối ngày [9]=[3+4+5+6+7+8]" }
-              TableHead(class: "text-center text-white border border-gray-300", colspan: 3) { "Đang cho vay+Khách nợ" }
-              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") { "Vốn đi vay [13]" }
               TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") do
-                span { "Tổng tài sản" }
+                span { "Tiền đầu ngày" }
+                br
+                span { "[3]" }
+              end
+              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") do
+                span { "Cầm đồ" }
+                br
+                span { "[4]" }
+              end
+              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") do
+                span { "Tín Chấp" }
+                br
+                span { "[5]" }
+              end
+              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") do
+                span { "Trả Góp" }
+                br
+                span { "[6]" }
+              end
+              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") do
+                span { "Thu chỉ" }
+                br
+                span { "[7]" }
+              end
+              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") do
+                span { "Vốn" }
+                br
+                span { "[8]" }
+              end
+              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") do
+                span { "Tiền cuối ngày" }
+                br
+                span { "[9]=[3+4+5+6+7+8]" }
+              end
+              TableHead(class: "text-center text-white border border-gray-300", colspan: 3) { "Đang cho vay+Khách nợ" }
+              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") do
+                span { "Vốn đi vay" }
+                br
+                span { "[13]" }
+              end
+              TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") do
+                span { "Tổng tài sản " }
                 br
                 span { "[14]=[9+10+11+12-13]" }
               end
             end
             TableRow(style: "background-color: #3f86c3;") do
-              TableHead(class: "text-center text-white border border-gray-300") { "Cầm đồ [10]" }
-              TableHead(class: "text-center text-white border border-gray-300") { "Tín Chấp [11]" }
-              TableHead(class: "text-center text-white border border-gray-300") { "Trả Góp [12]" }
+              TableHead(class: "text-center text-white border border-gray-300 p-2") do
+                span { "Cầm đồ" }
+                br
+                span { "[10]" }
+              end
+              TableHead(class: "text-center text-white border border-gray-300 p-2") do
+                span { "Tín Chấp" }
+                br
+                span { "[11]" }
+              end
+              TableHead(class: "text-center text-white border border-gray-300 p-2") do
+                span { "Trả Góp" }
+                br
+                span { "[12]" }
+              end
             end
           end
           TableBody do
