@@ -11,7 +11,7 @@ class Views::Reports::DailyCashFlows::Index < Views::Base
     div(class: "p-4 bg-white") do
       div(class: "overflow-x-auto") do
         Table do
-          TableCaption(class: "mb-3") { "Báo cáo dòng tiền lưu chuyển theo ngày" } if @daily_flows&.empty?
+          TableCaption(class: "mb-3") { "Báo cáo dòng tiền lưu chuyển theo ngày" } if @daily_flows.blank?
           TableHeader do
             TableRow(style: "background-color: #3f86c3;") do
               TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") do
@@ -90,7 +90,7 @@ class Views::Reports::DailyCashFlows::Index < Views::Base
             end
           end
           TableBody do
-            if @daily_flows&.any?
+            if @daily_flows.present?
               @daily_flows.each_with_index do |flow, index|
                 TableRow(class: "hover:bg-gray-50") do
                   TableCell(class: "text-center border border-gray-300") { index + 1 }

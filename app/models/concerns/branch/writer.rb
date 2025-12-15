@@ -19,7 +19,7 @@ module Branch::Writer
       cmd: "Branch.update_opening_balance_for_date",
       context: "Announcement from the *DNM Bot*",
     ) do
-      previous_daily_balance.update!(closing_balance: previous_cash_balance / 1000.to_f)
+      previous_daily_balance.update!(closing_balance: previous_cash_balance)
       daily_balance_record = daily_balances.find_or_initialize_by(date: date)
       if daily_balance_record.new_record?
         daily_balance_record.opening_balance = previous_cash_balance
@@ -30,9 +30,18 @@ module Branch::Writer
   end
 
   class_methods do
-    def update_opening_balance_for_all_branches
+    def update_opening_balance_for_all_branches(date: Date.current)
       Branch.find_each do |branch|
-        branch.update_opening_balance_for_date(date: Date.current)
+        branch.update_opening_balance_for_date(date: date)
+      end
+    end
+
+    def seed_daily_balances_for_all_branches(end_date: Date.current)
+      Branch.find_each do |branch|
+        start_date = branch.daily_balances.minimum(:date) || branch.created_at.to_date
+        (start_date..end_date).each do |date|
+          branch.update_opening_balance_for_date(date: date)
+        end
       end
     end
   end
