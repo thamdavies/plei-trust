@@ -4,6 +4,7 @@
 #
 #  id                    :uuid             not null, primary key
 #  amount                :decimal(15, 4)   not null
+#  canceled_at           :datetime
 #  description           :string
 #  owner_type            :string
 #  party_name            :string

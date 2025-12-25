@@ -56,8 +56,7 @@ class Components::Navigation < Components::Base
             #   Remix::SearchLine(class: "w-6 h-6")
             # end
 
-            button(type: "button", data_dropdown_toggle: "notification-dropdown", class: "relative p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700") do
-              span(class: "sr-only") { "View notifications" }
+            button(type: "button", class: "relative p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700") do
               Tooltip(placement: "bottom") do
                 TooltipTrigger do
                   Remix::AlarmWarningLine(class: "w-6 h-6 cursor-pointer", data_action: "click->app#redirectToUrl", data_url: contracts_reminders_path)

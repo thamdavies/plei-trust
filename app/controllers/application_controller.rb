@@ -15,9 +15,18 @@ class ApplicationController < ActionController::Base
   before_action :require_login
 
   rescue_from Pundit::NotAuthorizedError, with: :handle_pundit_not_authorized
+  rescue_from Errors::DailyBalanceNotFound, with: :handle_daily_balance_not_found
 
   def set_current_branch
     return unless signed_in?
+
+    if Rails.env.development?
+      ActsAsTenant.without_tenant do
+        if DailyBalance.where(date: Date.current).count != Branch.count
+          Branch.seed_daily_balances_for_all_branches
+        end
+      end
+    end
 
     branch_id = PleiTrust.redis.get(current_user.tenant_cache_key)
     @current_branch = if branch_id.present?
@@ -52,11 +61,19 @@ class ApplicationController < ActionController::Base
 
   def daily_balance
     @daily_balance ||= begin
-      current_branch.daily_balances.find_or_create_by(date: Date.current) do |balance|
-        balance.opening_balance = 0
-        balance.closing_balance = 0
-        balance.created_by = current_user
-      end
+      record = current_branch.daily_balances.find_by(date: Date.current)
+      raise Errors::DailyBalanceNotFound unless record
+
+      record
+    end
+  end
+
+  def handle_daily_balance_not_found
+    flash[:error] = "Hệ thống đang xử lý quỹ tiền mặt, vui lòng thử lại sau."
+
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: root_path) }
+      format.json { render json: { error: "Daily balance not found" }, status: :unprocessable_entity }
     end
   end
 end

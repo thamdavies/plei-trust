@@ -11,6 +11,7 @@ class CreateFinancialTransactions < ActiveRecord::Migration[8.0]
       t.string :party_name
       t.string :reference_number
       t.references :created_by, null: false, foreign_key: { to_table: :users }, type: :uuid
+      t.datetime :canceled_at, null: true
 
       t.timestamps
     end

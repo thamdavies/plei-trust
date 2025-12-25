@@ -10,6 +10,10 @@ module Contract::Reader
     end
   end
 
+  def active_reduce_principals
+    reduce_principals.where(canceled_at: nil)
+  end
+
   def additional_loans
     case contract_type_code
     when ContractType.codes[:pawn], ContractType.codes[:installment]
@@ -17,6 +21,10 @@ module Contract::Reader
     when ContractType.codes[:capital]
       branch.income_additional_loans.where(owner: self)
     end
+  end
+
+  def active_additional_loans
+    additional_loans.where(canceled_at: nil)
   end
 
   def withdrawal_principals

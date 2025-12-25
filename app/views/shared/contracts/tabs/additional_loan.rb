@@ -16,7 +16,7 @@ class Views::Shared::Contracts::Tabs::AdditionalLoan < Views::Base
             h2(class: "text-md mb-2 font-medium text-gray-900 dark:text-white") { "Danh sách tiền gốc" }
           end
           Table do
-            TableCaption { "Lịch sử vay thêm sẽ được hiển thị ở đây" } if contract.additional_loans.empty?
+            TableCaption { "Lịch sử vay thêm sẽ được hiển thị ở đây" } if contract.active_additional_loans.empty?
             TableHeader do
               TableRow do
                 TableHead { "STT" }
@@ -28,7 +28,7 @@ class Views::Shared::Contracts::Tabs::AdditionalLoan < Views::Base
               end
             end
             TableBody do
-              contract.additional_loans.includes(:transaction_type).each_with_index do |item, index|
+              contract.active_additional_loans.includes(:transaction_type).each_with_index do |item, index|
                 TableRow do
                   TableCell(class: "font-medium") { index + 1 }
                   TableCell(class: "text-center") { item.fm_transaction_date }

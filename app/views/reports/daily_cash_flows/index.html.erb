@@ -3,7 +3,7 @@
 <%= content_for :subtitle, "Báo cáo dòng tiền lưu chuyển theo ngày" %>
 
 <%= content_for :page_header_actions do %>
-  <%= render Views::Reports::DailyCashFlows::FilterForm.new %>
+  <%= render Views::Reports::DailyCashFlows::FilterForm.new(form: @form) %>
 <% end %>
 
 <%= render Views::Reports::DailyCashFlows::Index.new(daily_flows: @daily_flows, summary: @summary, pagy: @pagy) %>

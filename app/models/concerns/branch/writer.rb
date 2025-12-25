@@ -29,6 +29,19 @@ module Branch::Writer
     end
   end
 
+  def cancel_transaction(financial_transaction)
+    financial_transactions.create!(
+      transaction_date: Date.current,
+      transaction_type_code: financial_transaction.transaction_type_code,
+      amount: financial_transaction.amount_display * -1,
+      created_by: financial_transaction.created_by,
+      owner: financial_transaction.owner,
+      canceled_at: Time.current,
+      description: "Hủy giao dịch ID #{financial_transaction.id}"
+    )
+    financial_transaction.update!(canceled_at: Time.current)
+  end
+
   class_methods do
     def update_opening_balance_for_all_branches(date: Date.current)
       Branch.find_each do |branch|

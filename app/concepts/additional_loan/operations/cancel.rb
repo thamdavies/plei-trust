@@ -34,7 +34,8 @@ module AdditionalLoan::Operations
     def save(ctx, params:, model:, current_branch:, **)
       financial_transaction = current_branch.financial_transactions.find(params[:id])
       ctx[:financial_transaction] = financial_transaction
-      financial_transaction.destroy!
+
+      current_branch.cancel_transaction(financial_transaction)
 
       true
     end

@@ -34,7 +34,7 @@ module ReducePrincipal::Operations
     def save(ctx, params:, current_branch:, model:, **)
       financial_transaction = current_branch.financial_transactions.find(params[:id])
       ctx[:financial_transaction] = financial_transaction
-      financial_transaction.destroy!
+      current_branch.cancel_transaction(financial_transaction)
 
       true
     end

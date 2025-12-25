@@ -5,7 +5,9 @@ module Expense::Operations
     step :sort
 
     def filter(ctx, params:, current_branch:, **)
-      ctx[:model] = current_branch.financial_transactions.joins(:transaction_type)
+      ctx[:model] = current_branch.financial_transactions
+                                  .joins(:transaction_type)
+                                  .where(canceled_at: nil)
                                   .where(transaction_types: { code: TransactionType::EXPENSE_TYPES })
                                   .ransack(ctx[:params][:q]).result
     end

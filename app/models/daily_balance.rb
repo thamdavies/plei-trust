@@ -28,4 +28,14 @@ class DailyBalance < ApplicationRecord
 
   belongs_to :branch
   belongs_to :created_by, class_name: User.name, foreign_key: :created_by_id, optional: true
+
+  class << self
+    def ransackable_attributes(auth_object = nil)
+      [ "date" ]
+    end
+
+    def ransackable_associations(auth_object = nil)
+      []
+    end
+  end
 end

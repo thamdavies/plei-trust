@@ -290,6 +290,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_145257) do
 
   create_table "financial_transactions", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.decimal "amount", precision: 15, scale: 4, null: false
+    t.datetime "canceled_at"
     t.datetime "created_at", null: false
     t.uuid "created_by_id", null: false
     t.string "description"
