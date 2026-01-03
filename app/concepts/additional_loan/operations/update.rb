@@ -47,6 +47,7 @@ module AdditionalLoan::Operations
         transaction_date: Date.current,
         description: model.note,
         owner: model.contract,
+        recordable_type_code: model.contract.contract_type_code,
         created_by: ctx[:current_user]
       )
 

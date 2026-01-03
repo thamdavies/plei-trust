@@ -36,6 +36,7 @@ module Branch::Writer
       amount: financial_transaction.amount_display * -1,
       created_by: financial_transaction.created_by,
       owner: financial_transaction.owner,
+      recordable_type_code: financial_transaction.recordable_type_code,
       canceled_at: Time.current,
       description: "Hủy giao dịch ID #{financial_transaction.id}"
     )

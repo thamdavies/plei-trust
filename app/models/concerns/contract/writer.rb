@@ -24,7 +24,7 @@ module Contract::Writer
     parameters
   end
 
-  def create_financial_transaction!(is_income: false, amount: nil)
+  def create_financial_transaction!(is_income: false, amount: nil, owner: nil)
     return if is_default_capital?
 
     code = is_income ? TransactionType::INCOME_CONTRACT_CHANGE : TransactionType::EXPENSE_CONTRACT_CHANGE
@@ -35,7 +35,9 @@ module Contract::Writer
       transaction_type_code: code,
       created_by: current_user,
       transaction_date: Date.current,
-      recordable: self
+      recordable: self,
+      recordable_type_code: self.contract_type_code,
+      owner: owner
     )
   end
 end

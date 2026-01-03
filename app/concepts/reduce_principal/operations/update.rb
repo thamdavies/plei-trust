@@ -47,6 +47,7 @@ module ReducePrincipal::Operations
         transaction_date: Date.current,
         description: model.note,
         created_by: ctx[:current_user],
+        recordable_type_code: model.contract.contract_type_code,
         owner: model.contract
       )
 

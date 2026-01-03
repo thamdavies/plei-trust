@@ -59,7 +59,7 @@ class Views::Reports::DailyCashFlows::Index < Views::Base
                 br
                 span { "[9]=[3+4+5+6+7+8]" }
               end
-              TableHead(class: "text-center text-white border border-gray-300", colspan: 3) { "Đang cho vay+Khách nợ" }
+              TableHead(class: "text-center text-white border border-gray-300", colspan: 3) { "Đang cho vay + Khách nợ" }
               TableHead(rowspan: 2, class: "text-center text-white border border-gray-300") do
                 span { "Vốn đi vay" }
                 br
@@ -96,11 +96,11 @@ class Views::Reports::DailyCashFlows::Index < Views::Base
                   TableCell(class: "text-center border border-gray-300") { index + 1 }
                   TableCell(class: "text-center border border-gray-300") { flow.fm_date }
                   TableCell(class: "text-right border border-gray-300") { flow.fm_opening_balance }
-                  TableCell(class: "text-right border border-gray-300 #{number_color_class(flow[:pawn])}") { number_with_delimiter(flow[:pawn]) }
-                  TableCell(class: "text-right border border-gray-300 #{number_color_class(flow[:credit])}") { number_with_delimiter(flow[:credit]) }
-                  TableCell(class: "text-right border border-gray-300 #{number_color_class(flow[:installment])}") { number_with_delimiter(flow[:installment]) }
-                  TableCell(class: "text-right border border-gray-300 #{number_color_class(flow[:income_expense])}") { number_with_delimiter(flow[:income_expense]) }
-                  TableCell(class: "text-right border border-gray-300 #{number_color_class(flow[:capital])}") { number_with_delimiter(flow[:capital]) }
+                  TableCell(class: "text-right border border-gray-300 #{number_color_class(flow.pawn_total_amount)}") { flow.fm_pawn_total }
+                  TableCell(class: "text-right border border-gray-300 #{number_color_class(flow.credit_total_amount)}") { flow.fm_credit_total }
+                  TableCell(class: "text-right border border-gray-300 #{number_color_class(flow.installment_total_amount)}") { flow.fm_installment_total }
+                  TableCell(class: "text-right border border-gray-300 #{number_color_class(flow.income_expense_total_amount)}") { flow.fm_income_expense_total }
+                  TableCell(class: "text-right border border-gray-300 #{number_color_class(flow.capital_total_amount)}") { flow.fm_capital_total }
                   TableCell(class: "text-right border border-gray-300 bg-[#fffaed]") { flow.fm_closing_balance }
                   TableCell(class: "text-right border border-gray-300") { number_with_delimiter(flow[:pawn_receivable]) }
                   TableCell(class: "text-right border border-gray-300") { number_with_delimiter(flow[:credit_receivable]) }

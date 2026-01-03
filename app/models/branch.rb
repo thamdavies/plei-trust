@@ -50,6 +50,8 @@ class Branch < ApplicationRecord
 
   has_many :income_transactions, -> { joins(:transaction_type).where(transaction_types: { is_income: true }) }, class_name: FinancialTransaction.name, foreign_key: :recordable_id, primary_key: :id
   has_many :expense_transactions, -> { joins(:transaction_type).where(transaction_types: { is_income: false }) }, class_name: FinancialTransaction.name, foreign_key: :recordable_id, primary_key: :id
+  has_many :incomes, -> { joins(:transaction_type).where(transaction_types: { code: TransactionType::Core::INCOME_TYPES }) }, class_name: FinancialTransaction.name, foreign_key: :recordable_id, primary_key: :id
+  has_many :expenses, -> { joins(:transaction_type).where(transaction_types: { code: TransactionType::Core::EXPENSE_TYPES }) }, class_name: FinancialTransaction.name, foreign_key: :recordable_id, primary_key: :id
 
   has_many :income_principals, -> { where(transaction_type_code: TransactionType::INCOME_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
   has_many :expense_principals, -> { where(transaction_type_code: TransactionType::EXPENSE_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy

@@ -9,6 +9,7 @@
 #  owner_type            :string
 #  party_name            :string
 #  recordable_type       :string           not null
+#  recordable_type_code  :string
 #  reference_number      :string
 #  transaction_date      :date             not null
 #  transaction_number    :string           not null

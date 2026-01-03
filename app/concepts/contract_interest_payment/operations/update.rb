@@ -23,6 +23,7 @@ module ContractInterestPayment::Operations
           transaction_date: Date.current,
           description: "Huỷ đóng lãi #{model.contract_id}, ID: #{model.id}",
           owner: model.contract,
+          recordable_type_code: model.contract.contract_type_code,
           created_by: ctx[:current_user]
         )
         model.destroy!
@@ -43,6 +44,7 @@ module ContractInterestPayment::Operations
           transaction_date: Date.current,
           description: "Đóng lãi hợp đồng ##{model.contract_id}",
           owner: model.contract,
+          recordable_type_code: model.contract.contract_type_code,
           created_by: ctx[:current_user]
         )
       end

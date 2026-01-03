@@ -40,6 +40,7 @@ module Debt::Operations
       ctx[:financial_transaction] = current_branch.financial_transactions.create!(
         transaction_date: Date.current,
         transaction_type_code: transaction_type,
+        recordable_type_code: contract.contract_type_code,
         amount: model.amount.remove_dots.to_d,
         created_by: ctx[:current_user],
         owner: contract

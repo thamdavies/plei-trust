@@ -18,6 +18,29 @@ module Branch::Reader
     income - expense
   end
 
+  def income_expense_total(date = Date.current)
+    income = incomes.where(transaction_date: date).sum(:amount).to_f * 1_000
+    expense = expenses.where(transaction_date: date).sum(:amount).to_f * 1_000
+
+    income - expense
+  end
+
+  def pawn_total(date = Date.current)
+    financial_transactions.where(transaction_date: date, recordable_type_code: ContractType.codes[:pawn]).sum(:amount).to_f * 1_000
+  end
+
+  def credit_total(date = Date.current)
+    financial_transactions.where(transaction_date: date, recordable_type_code: ContractType.codes[:credit]).sum(:amount).to_f * 1_000
+  end
+
+  def installment_total(date = Date.current)
+    financial_transactions.where(transaction_date: date, recordable_type_code: ContractType.codes[:installment]).sum(:amount).to_f * 1_000
+  end
+
+  def capital_total(date = Date.current)
+    financial_transactions.where(transaction_date: date, recordable_type_code: ContractType.codes[:capital]).sum(:amount).to_f * 1_000
+  end
+
   def opening_balance(date = Date.current)
     daily_balances.find_by(date: date)&.opening_balance.to_f * 1_000
   end

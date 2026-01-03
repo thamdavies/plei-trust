@@ -57,6 +57,7 @@ module WithdrawPrincipal::Operations
         amount: withdraw_principal[:total_amount_raw],
         transaction_date: model.transaction_date.parse_date_vn,
         description: model.note,
+        recordable_type_code: model.contract.contract_type_code,
         created_by: ctx[:current_user]
       )
 

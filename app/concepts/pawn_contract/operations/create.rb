@@ -40,7 +40,7 @@ module PawnContract::Operations
     end
 
     def create_financial_transaction(ctx, model:, **)
-      model.create_financial_transaction!(is_income: false)
+      model.create_financial_transaction!(is_income: false, owner: model)
 
       true
     end
