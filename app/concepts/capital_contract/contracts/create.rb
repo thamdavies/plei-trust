@@ -8,7 +8,7 @@ module CapitalContract::Contracts
     property :interest_calculation_method, default: "investment_capital"
     property :collect_interest_in_advance, default: false
     property :interest_rate
-    property :field_cannot_edit, virtual: true, default: true
+    property :field_cannot_edit, virtual: true, default: false
     property :loan_amount, populator: ->(options) {
       self.loan_amount = self.input_params["loan_amount"].remove_dots.to_f if self.input_params["loan_amount"].present?
     }
