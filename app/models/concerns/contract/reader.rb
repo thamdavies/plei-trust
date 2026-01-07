@@ -91,8 +91,11 @@ module Contract::Reader
     total_amount_formatted + " VNĐ"
   end
 
-  def can_edit_contract?
-    contract_interest_payments.paid.count.zero?
+  # khi vào sự kiện edit thì
+  # + Các trường có thể chỉnh sửa: Lãi suất, Kỳ lãi, Ghi chú, Cấu hình tài sản.
+  # + Chỉ được chỉnh nếu bạn hủy các kỳ đóng lãi: Tổng tiền vay, hình thức lãi, thời gian cầm cố, ngày vay.
+  def field_cannot_edit?
+    contract_interest_payments.paid.size.positive?
   end
 
   def interest_calculation_method_obj

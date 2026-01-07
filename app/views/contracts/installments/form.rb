@@ -27,7 +27,7 @@ class Views::Contracts::Installments::Form < Views::Base
       DialogFooter(data: { controller: "shared--pdf", "shared--pdf_contract_type_code_value": "pawn" }) do
         Button(variant: :secondary, data: { action: "click->shared--pdf#printContractInfo" }) { "In HĐ" }
         Button(variant: :outline, data: { action: "click->ruby-ui--dialog#dismiss" }) { I18n.t("button.close") }
-        Button(type: "submit", disabled: !form.can_edit_contract) { I18n.t("button.save") }
+        Button(type: "submit") { I18n.t("button.save") }
       end
     end
   end

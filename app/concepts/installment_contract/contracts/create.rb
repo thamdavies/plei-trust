@@ -8,7 +8,7 @@ module InstallmentContract::Contracts
     property :interest_calculation_method, default: InterestCalculationMethod.config[:code][:daily_fixed]
     property :collect_interest_in_advance, default: false
     property :interest_rate
-    property :can_edit_contract, virtual: true, default: true
+    property :field_cannot_edit, virtual: true, default: true
     property :loan_amount, populator: ->(options) {
       self.loan_amount = self.input_params["loan_amount"].remove_dots.to_f if self.input_params["loan_amount"].present?
     }

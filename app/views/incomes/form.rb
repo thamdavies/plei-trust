@@ -64,7 +64,9 @@ class Views::Incomes::Form < Views::Base
       div(class: "grid w-full max-w-sm items-center gap-1.5") do
         FormField do
           FormFieldLabel(for: "textarea") { "Lý do thu tiền" }
-          Textarea(placeholder: "Nhập lý do thu tiền", id: "textarea", name: "form[transaction_note]", rows: 4) { form.transaction_note }
+          Textarea(placeholder: "Nhập lý do thu tiền", id: "textarea", name: "form[transaction_note]", rows: 4) do
+            form.transaction_note.presence || ""
+          end
           FormFieldError() { form.errors[:transaction_note].first }
         end
       end

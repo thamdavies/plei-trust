@@ -42,8 +42,9 @@ class Contracts::PawnsController < ContractsController
       @form.loan_amount = @form.loan_amount.to_f * 1000
       @form.interest_rate = @form.interest_rate.to_f
       @form.interest_calculation_method_obj = interest_calculation_method_obj
-      @form.can_edit_contract = @form.model.can_edit_contract?
+      @form.field_cannot_edit = @form.model.field_cannot_edit?
       @form.asset_setting_values = build_asset_setting_values(asset_setting)
+      p @form
     end
   end
 
@@ -57,11 +58,13 @@ class Contracts::PawnsController < ContractsController
     else
       @form = ctx[:"contract.default"]
       @form.prepopulate!(customer:)
-      @form.can_edit_contract = @form.model.can_edit_contract?
+      @form.field_cannot_edit = @form.model.field_cannot_edit?
       @form.interest_calculation_method_obj = interest_calculation_method_obj
     end
   rescue Pundit::NotAuthorizedError
     handle_cannot_operate_on_ended_contract
+  rescue Errors::RestrictedFieldError
+    flash.now[:error] = "Không thể cập nhật các trường đã bị khóa do hợp đồng đã phát sinh kỳ đóng lãi."
   end
 
   def show

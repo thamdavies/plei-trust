@@ -9,8 +9,6 @@ class Views::Shared::Contracts::AssetFormFields < Views::Base
         FormFieldLabel { "Loại tài sản" }
         select(
           name: "form[asset_setting_id]",
-          readonly: !form.can_edit_contract,
-          disabled: !form.can_edit_contract,
           id: "select-asset-type",
           placeholder: "Chọn loại tài sản",
           data: { controller: "slim-select",

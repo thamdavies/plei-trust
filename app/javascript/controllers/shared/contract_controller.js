@@ -46,6 +46,7 @@ export default class extends Controller {
   async fetchAssetTypeDefault() {
     const assetTypeSelect = document.getElementById("select-asset-type");
     if (!assetTypeSelect) return;
+    if (assetTypeSelect.dataset.slimSelectSelectedValue) return;
 
     this.handleAssetTypeChange(true);
   }

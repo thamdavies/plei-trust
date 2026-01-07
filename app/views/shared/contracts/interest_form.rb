@@ -19,7 +19,6 @@ class Views::Shared::Contracts::InterestForm < Views::Base
             class: "pr-10",
             validate: false,
             step: "0.1",
-            readonly: !form.can_edit_contract,
             data: {
               controller: "number-input",
               "shared--contract_target": "interestRateInput"
@@ -42,7 +41,6 @@ class Views::Shared::Contracts::InterestForm < Views::Base
               type: "number",
               placeholder: "Nhập kỳ lãi",
               name: "form[interest_period]",
-              readonly: !form.can_edit_contract,
               value: form.interest_period,
               class: "pr-10",
               data: {
@@ -75,7 +73,7 @@ class Views::Shared::Contracts::InterestForm < Views::Base
               "shared--contract_target": "contractTermDaysInput"
             },
             placeholder: "Nhập số ngày vay",
-            readonly: !form.can_edit_contract,
+            readonly: form.field_cannot_edit,
             name: "form[contract_term]",
             value: form.contract_term,
             class: "pr-10"

@@ -6,8 +6,6 @@ class Views::Shared::Contracts::Form < Views::Base
 
   def view_template
     div(data: { controller: "shared--contract" }) do
-      Text(class: "text-sm mb-2 text-red-500 italic") { "Bạn phải huỷ bỏ kỳ lãi đã thanh toán để cập nhật thông tin hợp đồng" } if !form.can_edit_contract
-
       if contract_type == :pawn
         render Views::Shared::Contracts::AssetFormFields.new(form:)
       end
@@ -20,7 +18,7 @@ class Views::Shared::Contracts::Form < Views::Base
             placeholder: "Nhập #{contract_type_label.loan_amount.downcase}",
             name: "form[loan_amount]",
             value: form.loan_amount.to_i,
-            readonly: !form.can_edit_contract,
+            readonly: form.field_cannot_edit,
             class: "pr-10"
           )
           span(class: "absolute text-sm inset-y-0 right-0 flex items-center pr-3 text-gray-500") { "VNĐ" }
@@ -34,7 +32,7 @@ class Views::Shared::Contracts::Form < Views::Base
       render Components::Fields::DateField.new(
         name: "form[contract_date]",
         wrapper_class: "max-w-sm",
-        readonly: !form.can_edit_contract,
+        readonly: form.field_cannot_edit,
         label: contract_type_label.contract_date, id: "contract_date", error: form.errors[:contract_date].first,
         value: form.contract_date
       )
@@ -44,8 +42,8 @@ class Views::Shared::Contracts::Form < Views::Base
           FormFieldLabel { "Hình thức lãi" }
           select(
             name: "form[interest_calculation_method]",
-            readonly: !form.can_edit_contract,
-            disabled: !form.can_edit_contract,
+            readonly: form.field_cannot_edit,
+            disabled: form.field_cannot_edit,
             id: "select-contract-type",
             placeholder: "Chọn hình thức lãi",
             data: { controller: "slim-select",
@@ -67,7 +65,6 @@ class Views::Shared::Contracts::Form < Views::Base
             name: "form[collect_interest_in_advance]",
             checked: form.collect_interest_in_advance,
             value: "true",
-            disabled: !form.can_edit_contract,
           )
           label(for: "collect_interest_in_advance", class: "text-sm cursor-pointer font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70") { "Thu lãi trước" }
         end

@@ -19,10 +19,9 @@ module InstallmentContract::Operations
     private
 
     def create_contract_interest_payments(ctx, model:, **)
-      return unless model.can_edit_contract?
-
       service = ::Contract::Services::ContractInterestPaymentGenerator.new(contract: model)
       service.call
+
       true
     end
 

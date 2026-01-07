@@ -123,4 +123,33 @@ class Contract < ApplicationRecord
       %w[ customer ]
     end
   end
+
+  # Định nghĩa các trường không thể chỉnh sửa khi có kỳ đóng lãi
+  RESTRICTED_FIELDS_WITH_PAYMENT = %w[
+    loan_amount
+    interest_calculation_method
+    contract_term
+    contract_date
+  ].freeze
+
+  # Validate trước khi update
+  validate :check_restricted_fields_changes, on: :update
+
+  private
+
+  def check_restricted_fields_changes
+    return unless has_payment_periods?
+
+    # Sử dụng PaperTrail để lấy changeset
+    restricted_changes = changes.keys & RESTRICTED_FIELDS_WITH_PAYMENT
+
+    if restricted_changes.any?
+      raise Errors::RestrictedFieldError, "Không thể chỉnh sửa các trường: #{restricted_changes.join(', ')} vì đã có kỳ đóng lãi."
+    end
+  end
+
+  def has_payment_periods?
+    # Kiểm tra xem có kỳ đóng lãi hay không
+    contract_interest_payments.paid.size.positive?
+  end
 end

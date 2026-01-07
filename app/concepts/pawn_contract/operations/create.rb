@@ -19,7 +19,7 @@ module PawnContract::Operations
     private
 
     def create_contract_interest_payments(ctx, model:, **)
-      return unless model.can_edit_contract?
+      return unless model.field_cannot_edit?
 
       service = ::Contract::Services::ContractInterestPaymentGenerator.new(contract: model)
       service.call
