@@ -102,11 +102,11 @@ class Views::Reports::DailyCashFlows::Index < Views::Base
                   TableCell(class: "text-right border border-gray-300 #{number_color_class(flow.income_expense_total_amount)}") { flow.fm_income_expense_total }
                   TableCell(class: "text-right border border-gray-300 #{number_color_class(flow.capital_total_amount)}") { flow.fm_capital_total }
                   TableCell(class: "text-right border border-gray-300 bg-[#fffaed]") { flow.fm_closing_balance }
-                  TableCell(class: "text-right border border-gray-300") { number_with_delimiter(flow[:pawn_receivable]) }
-                  TableCell(class: "text-right border border-gray-300") { number_with_delimiter(flow[:credit_receivable]) }
-                  TableCell(class: "text-right border border-gray-300") { number_with_delimiter(flow[:installment_receivable]) }
-                  TableCell(class: "text-right border border-gray-300") { number_with_delimiter(flow[:capital_payable]) }
-                  TableCell(class: "text-right border border-gray-300 #{number_color_class(flow[:total_assets])} bg-[#fffaed]") { 0 }
+                  TableCell(class: "text-right border border-gray-300") { flow.fm_active_pawn_total }
+                  TableCell(class: "text-right border border-gray-300") { flow.fm_active_credit_total }
+                  TableCell(class: "text-right border border-gray-300") { flow.fm_active_installment_total }
+                  TableCell(class: "text-right border border-gray-300") { flow.fm_capital_payable_total }
+                  TableCell(class: "text-right border border-gray-300 bg-[#fffaed]") { flow.fm_asset_total }
                 end
               end
             end

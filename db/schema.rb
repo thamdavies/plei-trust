@@ -277,17 +277,22 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_115151) do
   end
 
   create_table "daily_balances", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.decimal "active_credit_total", precision: 15, scale: 4
+    t.decimal "active_installment_total", precision: 15, scale: 4
+    t.decimal "active_pawn_total", precision: 15, scale: 4
+    t.decimal "asset_total", precision: 15, scale: 4
     t.uuid "branch_id", null: false
-    t.decimal "capital_total", precision: 15, scale: 2
+    t.decimal "capital_payable_total", precision: 15, scale: 4
+    t.decimal "capital_total", precision: 15, scale: 4
     t.decimal "closing_balance", precision: 15, scale: 4
     t.datetime "created_at", null: false
     t.uuid "created_by_id"
-    t.decimal "credit_total", precision: 15, scale: 2
+    t.decimal "credit_total", precision: 15, scale: 4
     t.date "date", null: false
-    t.decimal "income_expense_total", precision: 15, scale: 2
-    t.decimal "installment_total", precision: 15, scale: 2
+    t.decimal "income_expense_total", precision: 15, scale: 4
+    t.decimal "installment_total", precision: 15, scale: 4
     t.decimal "opening_balance", precision: 15, scale: 4, default: "0.0"
-    t.decimal "pawn_total", precision: 15, scale: 2
+    t.decimal "pawn_total", precision: 15, scale: 4
     t.datetime "updated_at", null: false
     t.index ["branch_id", "date"], name: "index_daily_balances_on_branch_id_and_date", unique: true
     t.index ["branch_id"], name: "index_daily_balances_on_branch_id"

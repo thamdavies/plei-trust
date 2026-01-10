@@ -6,10 +6,10 @@ class Reports::DailyCashFlowsController < ApplicationController
     end
 
     @summary = {
-      opening_balance: @daily_flows.first&.opening_balance || 0,
-      closing_balance: @daily_flows.last&.closing_balance || 0,
-      opening_assets: @daily_flows.first&.opening_balance || 0,
-      closing_assets: @daily_flows.last&.opening_balance || 0,
+      opening_balance: @daily_flows.first&.opening_balance_amount || 0,
+      closing_balance: @daily_flows.last&.closing_balance_amount || 0,
+      opening_assets: @daily_flows.first&.asset_total_amount || 0,
+      closing_assets: @daily_flows.last&.asset_total_amount || 0,
       difference: 0,
       profit: 0
     }

@@ -102,4 +102,75 @@ class DailyBalanceDecorator < ApplicationDecorator
   def fm_capital_total
     capital_total_amount.to_currency(unit: "")
   end
+
+  # Đang cho vay + Khách nợ
+  def active_pawn_total_amount
+    @active_pawn_total_amount ||= begin
+      if active_pawn_total_display.nil?
+        branch.contracts.pawn_contracts.active.by_date(date).sum(:loan_amount).to_f * 1_000
+      else
+        active_pawn_total_display
+      end.to_i
+    end
+  end
+
+  def fm_active_pawn_total
+    active_pawn_total_amount.to_currency(unit: "")
+  end
+
+  def active_credit_total_amount
+    @active_credit_total_amount ||= begin
+      if active_credit_total_display.nil?
+        branch.contracts.credit_contracts.active.by_date(date).sum(:loan_amount).to_f * 1_000
+      else
+        active_credit_total_display
+      end.to_i
+    end
+  end
+
+  def fm_active_credit_total
+    active_credit_total_amount.to_currency(unit: "")
+  end
+
+  def active_installment_total_amount
+    @active_installment_total_amount ||= begin
+      if active_installment_total_display.nil?
+        branch.contracts.installment_contracts.active.by_date(date).sum(:loan_amount).to_f * 1_000
+      else
+        active_installment_total_display
+      end.to_i
+    end
+  end
+
+  def fm_active_installment_total
+    active_installment_total_amount.to_currency(unit: "")
+  end
+
+  def capital_payable_total_amount
+    @capital_payable_total_amount ||= begin
+      if capital_payable_total_display.nil?
+        branch.contracts.capital_contracts.by_date(date).sum(:loan_amount).to_f * 1_000
+      else
+        capital_payable_total_display
+      end.to_i
+    end
+  end
+
+  def fm_capital_payable_total
+    capital_payable_total_amount.to_currency(unit: "")
+  end
+
+  def asset_total_amount
+    @asset_total_amount ||= begin
+      if asset_total_display.nil?
+        closing_balance_amount + active_pawn_total_amount + active_credit_total_amount + active_installment_total_amount - capital_payable_total_amount
+      else
+        asset_total_display
+      end.to_i
+    end
+  end
+
+  def fm_asset_total
+    asset_total_amount.to_currency(unit: "")
+  end
 end
