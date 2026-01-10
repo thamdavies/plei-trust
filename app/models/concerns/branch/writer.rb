@@ -2,23 +2,17 @@ module Branch::Writer
   extend ActiveSupport::Concern
 
   def update_opening_balance_for_date(date: Date.current)
-    previous_date = date - 1.day
-    previous_daily_balance = daily_balances.find_by(date: previous_date)
-    previous_cash_balance = current_cash_balance(previous_date)
+    ActiveRecord::Base.transaction do
+      previous_date = date - 1.day
+      previous_daily_balance = daily_balances.find_by(date: previous_date)
+      previous_cash_balance = current_cash_balance(previous_date)
 
-    if previous_daily_balance.blank?
-      message = "Previous daily balance for branch #{id} on #{previous_date} not found."
-      Rails.logger.error(message)
-      return
-    end
+      if previous_daily_balance.blank?
+        message = "Previous daily balance for branch #{id} on #{previous_date} not found."
+        Rails.logger.error(message)
+        return
+      end
 
-    branch = previous_daily_balance.branch
-
-    SlackAlarm.perform(
-      description: ":male-technologist: Cập nhập tiền đầu ngày ngày #{date} cho chi nhánh #{branch.name}.",
-      cmd: "Branch.update_opening_balance_for_date",
-      context: "Announcement from the *DNM Bot*",
-    ) do
       previous_daily_balance.update!(closing_balance: previous_cash_balance)
       daily_balance_record = daily_balances.find_or_initialize_by(date: date)
       if daily_balance_record.new_record?
@@ -26,6 +20,10 @@ module Branch::Writer
         daily_balance_record.closing_balance = 0
         daily_balance_record.save!
       end
+
+      branch = previous_daily_balance.branch
+      msg = ">>>> Cập nhập tiền đầu ngày ngày #{date} cho chi nhánh #{branch.name}"
+      Rails.logger.info(msg)
     end
   end
 

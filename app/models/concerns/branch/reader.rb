@@ -5,9 +5,8 @@ module Branch::Reader
   def current_cash_balance(date = Date.current)
     opening = opening_balance(date)
 
-    # Công thức: Vốn + Đầu ngày + (Thu - Chi)
-    capital_amount = contracts.capital_contracts.by_date(date).map(&:total_amount).sum.to_f * 1_000
-    capital_amount + opening + today_net_transaction(date)
+    # Công thức: Đầu ngày + (Thu - Chi)
+    opening + today_net_transaction(date)
   end
 
   # Hàm tính biến động dòng tiền trong ngày (Thu - Chi)

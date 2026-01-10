@@ -1,6 +1,6 @@
 # Create a capital_in transaction type record for the branch's invest_amount
 Branch.find_each do |branch|
-  Contract.create!(
+  contract = Contract.create!(
     contract_type_code: ContractType.codes[:capital],
     branch: branch,
     is_default_capital: true,
@@ -14,9 +14,16 @@ Branch.find_each do |branch|
 
   branch.daily_balances.create!(
     date: Date.current,
-    opening_balance: 0,
-    closing_balance: 0,
     created_by: branch.users.first,
+  )
+
+  branch.financial_transactions.create!(
+    transaction_date: Date.current,
+    transaction_type_code: TransactionType::INCOME_CONTRACT_CHANGE,
+    recordable_type_code: contract.contract_type_code,
+    amount: branch.invest_amount * 1_000,
+    created_by: branch.users.first,
+    owner: contract
   )
 end
 

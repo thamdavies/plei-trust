@@ -39,7 +39,15 @@ module CapitalContract::Operations
     end
 
     def create_financial_transaction(ctx, model:, **)
-      model.create_financial_transaction!(is_income: true)
+      branch = model.branch
+      branch.financial_transactions.create!(
+        transaction_date: Date.current,
+        transaction_type_code: TransactionType::INCOME_CONTRACT_CHANGE,
+        recordable_type_code: model.contract_type_code,
+        amount: model.loan_amount * 1_000,
+        created_by: branch.users.first,
+        owner: model
+      )
 
       true
     end

@@ -5,12 +5,32 @@ class DailyBalanceDecorator < ApplicationDecorator
     date.to_fs(:date_vn)
   end
 
+  def opening_balance_amount
+    @opening_balance_amount ||= begin
+      if opening_balance_display.nil?
+        branch.opening_balance(date)
+      else
+        opening_balance_display
+      end.to_i
+    end
+  end
+
   def fm_opening_balance
-    opening_balance.to_currency(unit: "")
+    opening_balance_amount.to_currency(unit: "")
+  end
+
+  def closing_balance_amount
+    @closing_balance_amount ||= begin
+      if closing_balance_display.nil?
+        opening_balance_amount + pawn_total_amount + credit_total_amount + installment_total_amount + income_expense_total_amount + capital_total_amount
+      else
+        closing_balance_display
+      end.to_i
+    end
   end
 
   def fm_closing_balance
-    closing_balance.to_currency(unit: "")
+    closing_balance_amount.to_currency(unit: "")
   end
 
   def pawn_total_amount
