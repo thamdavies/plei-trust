@@ -32,6 +32,7 @@
 #
 class DailyBalance < ApplicationRecord
   include LargeNumberFields
+  include DailyBalance::Reader
 
   large_number_field :opening_balance
   large_number_field :closing_balance

@@ -1,0 +1,124 @@
+module DailyBalance::Reader
+  extend ActiveSupport::Concern
+
+  def opening_balance_amount
+    @opening_balance_amount ||= begin
+      if opening_balance_display.nil?
+        branch.opening_balance(date)
+      else
+        opening_balance_display
+      end.to_i
+    end
+  end
+
+  def closing_balance_amount
+    @closing_balance_amount ||= begin
+      if closing_balance_display.nil?
+        opening_balance_amount + pawn_total_amount + credit_total_amount + installment_total_amount + income_expense_total_amount + capital_total_amount
+      else
+        closing_balance_display
+      end.to_i
+    end
+  end
+
+  def pawn_total_amount
+    @pawn_total_amount ||= begin
+      if pawn_total_display.nil?
+        branch.pawn_total(date)
+      else
+        pawn_total_display
+      end.to_i
+    end
+  end
+
+  def installment_total_amount
+    @installment_total_amount ||= begin
+      if installment_total_display.nil?
+        branch.installment_total(date)
+      else
+        installment_total_display
+      end.to_i
+    end
+  end
+
+  def credit_total_amount
+    @credit_total_amount ||= begin
+      if credit_total_display.nil?
+        branch.credit_total(date)
+      else
+        credit_total_display
+      end.to_i
+    end
+  end
+
+  def income_expense_total_amount
+    @income_expense_total_amount ||= begin
+      if income_expense_total_display.nil?
+        branch.income_expense_total(date)
+      else
+        income_expense_total_display
+      end.to_i
+    end
+  end
+
+  def capital_total_amount
+    @capital_total_amount ||= begin
+      if capital_total_display.nil?
+        branch.capital_total(date)
+      else
+        capital_total_display
+      end.to_i
+    end
+  end
+
+  # Đang cho vay + Khách nợ
+  def active_pawn_total_amount
+    @active_pawn_total_amount ||= begin
+      if active_pawn_total_display.nil?
+        branch.contracts.pawn_contracts.active.by_date(date).sum(:loan_amount).to_f * 1_000
+      else
+        active_pawn_total_display
+      end.to_i
+    end
+  end
+
+  def active_credit_total_amount
+    @active_credit_total_amount ||= begin
+      if active_credit_total_display.nil?
+        branch.contracts.credit_contracts.active.by_date(date).sum(:loan_amount).to_f * 1_000
+      else
+        active_credit_total_display
+      end.to_i
+    end
+  end
+
+  def active_installment_total_amount
+    @active_installment_total_amount ||= begin
+      if active_installment_total_display.nil?
+        branch.contracts.installment_contracts.active.by_date(date).sum(:loan_amount).to_f * 1_000
+      else
+        active_installment_total_display
+      end.to_i
+    end
+  end
+
+  def capital_payable_total_amount
+    @capital_payable_total_amount ||= begin
+      if capital_payable_total_display.nil?
+        branch.contracts.capital_contracts.by_date(date).sum(:loan_amount).to_f * 1_000
+      else
+        capital_payable_total_display
+      end.to_i
+    end
+  end
+
+  def asset_total_amount
+    @asset_total_amount ||= begin
+      if asset_total_display.nil?
+        closing_balance_amount + active_pawn_total_amount + active_credit_total_amount + active_installment_total_amount - capital_payable_total_amount
+      else
+        asset_total_display
+      end.to_i
+    end
+  end
+end

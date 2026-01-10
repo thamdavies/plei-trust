@@ -5,7 +5,6 @@ module Branch::Writer
     ActiveRecord::Base.transaction do
       previous_date = date - 1.day
       previous_daily_balance = daily_balances.find_by(date: previous_date)
-      previous_cash_balance = current_cash_balance(previous_date)
 
       if previous_daily_balance.blank?
         message = "Previous daily balance for branch #{id} on #{previous_date} not found."
@@ -13,17 +12,46 @@ module Branch::Writer
         return
       end
 
-      previous_daily_balance.update!(closing_balance: previous_cash_balance)
+      previous_cash_balance = current_cash_balance(previous_date)
+
+      pawn_total = branch.pawn_total(previous_date)
+      installment_total = branch.installment_total(previous_date)
+      credit_total = branch.credit_total(previous_date)
+      income_expense_total = branch.income_expense_total(previous_date)
+      capital_total = branch.capital_total(previous_date)
+
+      active_pawn_total = previous_daily_balance.active_pawn_total_amount
+      active_credit_total = previous_daily_balance.active_credit_total_amount
+      active_installment_total = previous_daily_balance.active_installment_total_amount
+      capital_payable_total = previous_daily_balance.capital_payable_total_amount
+      asset_total = previous_cash_balance.asset_total_amount
+
+      previous_daily_balance.update!(
+        closing_balance: previous_cash_balance,
+        pawn_total:,
+        installment_total:,
+        credit_total:,
+        income_expense_total:,
+        capital_total:,
+        active_pawn_total:,
+        active_credit_total:,
+        active_installment_total:,
+        capital_payable_total:,
+        asset_total:
+      )
+
       daily_balance_record = daily_balances.find_or_initialize_by(date: date)
       if daily_balance_record.new_record?
         daily_balance_record.opening_balance = previous_cash_balance
-        daily_balance_record.closing_balance = 0
         daily_balance_record.save!
       end
 
       branch = previous_daily_balance.branch
       msg = ">>>> Cập nhập tiền đầu ngày ngày #{date} cho chi nhánh #{branch.name}"
       Rails.logger.info(msg)
+    rescue => e
+      Rails.logger.error("Error updating opening balance for branch #{id} on #{date}: #{e.message}")
+      raise ActiveRecord::Rollback
     end
   end
 
