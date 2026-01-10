@@ -6,6 +6,10 @@
   <%= turbo_frame_tag "expense_form" do %>
     <%= render Views::Expenses::Form.new(form: @form) %>
   <% end %>
+
+  <div class="mt-4">
+    <%= render Views::Expenses::Filter.new(form: @form) %>
+  </div>
 <% end %>
 
 <%= render Views::Expenses::Index.new(collection: @expenses, form: @form, pagy: @pagy) %>

@@ -45,4 +45,14 @@ class FinancialTransaction < ApplicationRecord
 
   scope :income, -> { joins(:transaction_type).where(transaction_types: { is_income: true }) }
   scope :expense, -> { joins(:transaction_type).where(transaction_types: { is_income: false }) }
+
+  class << self
+    def ransackable_attributes(auth_object = nil)
+      [ "party_name", "transaction_type_code", "transaction_date" ]
+    end
+
+    def ransackable_associations(auth_object = nil)
+      [ "transaction_type" ]
+    end
+  end
 end

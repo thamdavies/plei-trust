@@ -6,6 +6,10 @@
   <%= turbo_frame_tag "income_form" do %>
     <%= render Views::Incomes::Form.new(form: @form) %>
   <% end %>
+
+  <div class="mt-4">
+    <%= render Views::Incomes::Filter.new(form: @form) %>
+  </div>
 <% end %>
 
 <%= render Views::Incomes::Index.new(collection: @incomes, form: @form, pagy: @pagy) %>
