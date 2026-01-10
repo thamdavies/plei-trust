@@ -69,5 +69,16 @@ Rails.application.routes.draw do
   # For reports
   namespace :reports do
     resources :daily_cash_flows, only: [ :index ]
+    resources :transaction_summary, only: [ :index ]
+    resources :profit_summary, only: [ :index ]
+    resources :interest_details, only: [ :index ]
+    resources :collection_stats, only: [ :index ]
+    resources :collection_stats, only: [ :index ]
+    resources :settled_contracts, only: [ :index ]
+    resources :pending_liquidation, only: [ :index ]
+    resources :liquidated_contracts, only: [ :index ]
+    resources :deleted_contracts, only: [ :index ]
+    resources :shift_handover, only: [ :index ]
+    resources :collaborators, only: [ :index ]
   end
 end
