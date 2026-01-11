@@ -7,3 +7,6 @@
 <% end %>
 
 <%= render Views::Reports::DailyCashFlows::Index.new(daily_flows: @daily_flows, summary: @summary) %>
+
+<%# Để tránh giao diện bị co lại khi bảng có ít dòng dữ liệu, các component ảnh hưởng: datetimepicker,... %>
+<div class="h-screen"></div>

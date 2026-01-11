@@ -155,18 +155,28 @@ class Components::Sidebar < Components::Base
                   variant: :sidebar,
                   arial_controls: "dropdown-layouts",
                   data_collapse_toggle: "dropdown-reports",
-                  aria_expanded: view_context.active_paths?([ reports_daily_cash_flows_path ])) do
+                  aria_expanded: view_context.active_paths?([ reports_daily_cash_flows_path, reports_transaction_summary_index_path, reports_profit_summary_index_path ])) do
                   Remix::FolderChartLine(class: "flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white")
                   span(class: "flex-1 ml-3 text-left whitespace-nowrap", sidebar_toggle_item: "") { "Báo cáo" }
                   Remix::ArrowDownSLine(class: "w-6 h-6")
                 end
 
-                ul(id: "dropdown-reports", class: "py-2 space-y-2 #{view_context.active_paths_class([ reports_daily_cash_flows_path ])}") do
+                ul(id: "dropdown-reports", class: "py-2 space-y-2 #{view_context.active_paths_class([ reports_daily_cash_flows_path, reports_transaction_summary_index_path, reports_profit_summary_index_path ])}") do
                   li do
                     Link(href: reports_daily_cash_flows_path, variant: :sidebar_item, class: view_context.active_link_class(reports_daily_cash_flows_path, active: [ [ "reports/daily_cash_flows" ], [ "index" ] ])) do
                       span(class: "text-left whitespace-nowrap") { "Dòng tiền theo ngày" }
                     end
                   end
+                  li do
+                    Link(href: reports_transaction_summary_index_path, variant: :sidebar_item, class: view_context.active_link_class(reports_transaction_summary_index_path, active: [ [ "reports/transaction_summary" ], [ "index" ] ])) do
+                      span(class: "text-left whitespace-nowrap") { "Tổng hợp giao dịch" }
+                    end
+                  end
+                  # li do
+                  #   Link(href: reports_profit_summary_index_path, variant: :sidebar_item, class: view_context.active_link_class(reports_profit_summary_index_path, active: [ [ "reports/profit_summary" ], [ "index" ] ])) do
+                  #     span(class: "text-left whitespace-nowrap") { "Tổng kết lợi nhuận" }
+                  #   end
+                  # end
                 end
               end
             end

@@ -2,6 +2,18 @@
 
 module RubyUI
   class Button < Base
+    # Initializes a new Button component with customizable attributes.
+    #
+    # @param type [Symbol] The button type attribute (default: :button)
+    # @param variant [Symbol] The visual style variant of the button (default: :primary)
+    # @param size [Symbol] The size of the button (default: :md)
+    # @param icon [Boolean] Whether the button contains an icon (default: false)
+    # @param attrs [Hash] Additional HTML attributes to be passed to the component
+    #
+    # @example
+    #   Button.new(variant: :secondary, size: :lg, class: "custom-class")
+    #
+    # @return [Button] A new instance of the Button component
     def initialize(type: :button, variant: :primary, size: :md, icon: false, **attrs)
       @type = type
       @variant = variant.to_sym
