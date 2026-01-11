@@ -163,7 +163,7 @@ class Components::Sidebar < Components::Base
 
                 ul(id: "dropdown-reports", class: "py-2 space-y-2 #{view_context.active_paths_class([ reports_daily_cash_flows_path ])}") do
                   li do
-                    Link(href: reports_daily_cash_flows_path, variant: :sidebar_item, class: view_context.active_link_class(reports_daily_cash_flows_path, active: [ [ "staffs" ], [ "edit", "new", "index" ] ])) do
+                    Link(href: reports_daily_cash_flows_path, variant: :sidebar_item, class: view_context.active_link_class(reports_daily_cash_flows_path, active: [ [ "reports/daily_cash_flows" ], [ "index" ] ])) do
                       span(class: "text-left whitespace-nowrap") { "Dòng tiền theo ngày" }
                     end
                   end
