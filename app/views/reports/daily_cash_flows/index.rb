@@ -1,10 +1,9 @@
 class Views::Reports::DailyCashFlows::Index < Views::Base
   include Phlex::Rails::Helpers::NumberWithDelimiter
 
-  def initialize(daily_flows:, summary:, pagy: nil)
+  def initialize(daily_flows:, summary:)
     @daily_flows = daily_flows
     @summary = summary
-    @pagy = pagy
   end
 
   def view_template
@@ -114,20 +113,20 @@ class Views::Reports::DailyCashFlows::Index < Views::Base
             # Summary rows
             TableRow(style: "background-color: #ede8ab;") do
               TableCell(colspan: 2, class: "border border-gray-300 font-semibold text-amber-900") { "Quỹ tiền đầu kỳ" }
-              TableCell(colspan: 2, class: "text-right border border-gray-300 font-semibold #{number_color_class(@summary[:opening_balance])}") { number_with_delimiter(@summary[:opening_balance]) }
+              TableCell(colspan: 2, class: "text-right border border-gray-300 font-semibold #{number_color_class(@summary[:opening_balance])}") { @summary[:opening_balance].to_currency(unit: "") }
               TableCell(colspan: 2, class: "border border-gray-300 font-semibold text-amber-900") { "Quỹ tiền cuối kỳ" }
-              TableCell(colspan: 2, class: "text-right border border-gray-300 font-semibold #{number_color_class(@summary[:closing_balance])}") { number_with_delimiter(@summary[:closing_balance]) }
+              TableCell(colspan: 2, class: "text-right border border-gray-300 font-semibold #{number_color_class(@summary[:closing_balance])}") { @summary[:closing_balance].to_currency(unit: "") }
               TableCell(class: "border border-gray-300 font-semibold text-amber-900") { "Tài sản đầu kỳ" }
-              TableCell(colspan: 2, class: "text-right border border-gray-300 font-semibold #{number_color_class(@summary[:opening_assets])}") { number_with_delimiter(@summary[:opening_assets]) }
+              TableCell(colspan: 2, class: "text-right border border-gray-300 font-semibold #{number_color_class(@summary[:opening_assets])}") { @summary[:opening_assets].to_currency(unit: "") }
               TableCell(colspan: 2, class: "border border-gray-300 font-semibold text-amber-900") { "Tài sản cuối kỳ" }
-              TableCell(colspan: 2, class: "text-right border border-gray-300 font-semibold #{number_color_class(@summary[:closing_assets])}") { number_with_delimiter(@summary[:closing_assets]) }
+              TableCell(colspan: 2, class: "text-right border border-gray-300 font-semibold #{number_color_class(@summary[:closing_assets])}") { @summary[:closing_assets].to_currency(unit: "") }
             end
 
             TableRow(style: "background-color: #ede8ab;") do
               TableCell(colspan: 4, class: "border border-gray-300 font-semibold text-amber-900") { "Chênh lệch" }
-              TableCell(colspan: 3, class: "text-center border border-gray-300 font-semibold #{number_color_class(@summary[:difference])}") { number_with_delimiter(@summary[:difference]) }
+              TableCell(colspan: 3, class: "text-center border border-gray-300 font-semibold #{number_color_class(@summary[:difference])}") { @summary[:difference].to_currency(unit: "") }
               TableCell(colspan: 4, class: "border border-gray-300 font-semibold text-amber-900") { "Lợi nhuận" }
-              TableCell(colspan: 3, class: "text-center border border-gray-300 font-semibold #{number_color_class(@summary[:profit])}") { number_with_delimiter(@summary[:profit]) }
+              TableCell(colspan: 3, class: "text-center border border-gray-300 font-semibold #{number_color_class(@summary[:profit])}") { @summary[:profit].to_currency(unit: "") }
             end
           end
         end

@@ -1,5 +1,9 @@
 class Reports::DailyCashFlowsController < ApplicationController
+  add_breadcrumb "Báo cáo", :reports_daily_cash_flows_path
+
   def index
+    add_breadcrumb "Dòng tiền theo ngày", :reports_daily_cash_flows_path
+
     run(DailyCashFlow::Operations::Index, current_branch:, params: search_params) do |result|
       @form = result[:"contract.default"]
       @daily_flows = result[:daily_flows]

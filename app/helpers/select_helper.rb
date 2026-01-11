@@ -49,4 +49,16 @@ module SelectHelper
       options
     end
   end
+
+  def select_options_for_transaction_categories
+    @select_options_for_transaction_categories ||= Settings.transaction_categories.map do |item|
+      OpenStruct.new(code: item.code, name: item.name)
+    end
+  end
+
+  def select_options_for_staffs
+    @select_options_for_staffs ||= User.where(status: "active").select(:id, :full_name).map do |staff|
+      OpenStruct.new(id: staff.id, name: staff.full_name)
+    end
+  end
 end

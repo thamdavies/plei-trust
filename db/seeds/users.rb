@@ -3,7 +3,7 @@ Branch.find_each do |branch|
   user = branch.users.find_or_create_by!(email: "user#{index}@plei-trust.com") do |user|
     user.branch_id = branch.id
     user.phone = "0978463712"
-    user.full_name = "Tham #{branch.name}"
+    user.full_name = Faker::Name.name
     user.password = "Abc123456$"
   end
 
