@@ -364,7 +364,7 @@ GEM
     pg (1.6.2-x86_64-linux-musl)
     phlex (2.3.1)
       zeitwerk (~> 2.7)
-    phlex-icons (2.47.0)
+    phlex-icons (2.52.0)
       phlex (>= 1.11)
     phlex-rails (2.3.1)
       phlex (~> 2.3.0)
@@ -616,7 +616,7 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yaml (0.4.0)
-    zeitwerk (2.7.3)
+    zeitwerk (2.7.4)
 
 PLATFORMS
   aarch64-linux
@@ -666,7 +666,7 @@ DEPENDENCIES
   pagy (~> 43.1)
   paper_trail (~> 17.0)
   pg (~> 1.6)
-  phlex-icons (~> 2.47)
+  phlex-icons (~> 2.52)
   phlex-rails (~> 2.3)
   phonelib (~> 0.10.14)
   propshaft
