@@ -59,7 +59,12 @@ module PawnContract::Operations
       end
 
       parameters = model.reverse_debit_amount_params(parameters)
-      model.create_activity! key: "activity.contract.update", owner: current_user, parameters: parameters
+      model.create_activity!(
+        key: "activity.contract.update",
+        branch_id: model.branch_id,
+        owner: current_user,
+        parameters: parameters
+      )
 
       true
     end

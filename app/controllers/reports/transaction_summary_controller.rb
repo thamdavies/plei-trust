@@ -5,6 +5,7 @@ class Reports::TransactionSummaryController < ApplicationController
     add_breadcrumb "Tổng hợp giao dịch", :reports_transaction_summary_index_path
 
     run(::TransactionSummary::Operations::Index, current_branch:) do |result|
+      @transaction_summary = result[:transaction_summary]
       @transactions = result[:transactions]
     end
   end

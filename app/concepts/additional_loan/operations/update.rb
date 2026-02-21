@@ -77,7 +77,12 @@ module AdditionalLoan::Operations
       }
 
       parameters = ctx[:contract].reverse_debit_amount_params(parameters)
-      ctx[:contract].create_activity! key: "activity.additional_loan.create", owner: current_user, parameters: parameters
+      ctx[:contract].create_activity!(
+        key: "activity.additional_loan.create",
+        branch_id: ctx[:current_branch].id,
+        owner: current_user,
+        parameters: parameters
+      )
 
       true
     end

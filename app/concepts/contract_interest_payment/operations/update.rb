@@ -74,7 +74,12 @@ module ContractInterestPayment::Operations
       }
 
       parameters = model.contract.reverse_debit_amount_params(parameters)
-      model.contract.create_activity! key: key, owner: current_user, parameters: parameters
+      model.contract.create_activity!(
+        key: key,
+        branch_id: model.contract.branch_id,
+        owner: current_user,
+        parameters: parameters
+      )
 
       true
     end

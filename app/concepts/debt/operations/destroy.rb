@@ -56,7 +56,12 @@ module Debt::Operations
         credit_amount: financial_transaction.amount,
         financial_transaction_id: financial_transaction.id
       }
-      contract.create_activity! key: "activity.contract.debt_repayment", owner: current_user, parameters: parameters
+      contract.create_activity!(
+        key: "activity.contract.debt_repayment",
+        branch_id: contract.branch_id,
+        owner: current_user,
+        parameters: parameters
+      )
 
       true
     end
