@@ -137,7 +137,7 @@ gem "scenic", "~> 1.9"
 
 gem "numbers_and_words", "~> 1.0"
 
-gem "twilio-ruby", "~> 7.9"
+gem "twilio-ruby", "~> 7.10"
 
 gem "whenever", "~> 1.1"
 
