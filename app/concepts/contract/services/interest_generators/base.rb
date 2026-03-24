@@ -1,4 +1,4 @@
-module Contract::Services::Generators
+module Contract::Services::InterestGenerators
   class Base
     attr_reader :interest_per_day
 

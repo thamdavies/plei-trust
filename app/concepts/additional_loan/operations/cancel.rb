@@ -54,7 +54,7 @@ module AdditionalLoan::Operations
       true
     end
 
-    def create_activity_log(ctx, current_user:, params:, **)
+    def create_activity_log(ctx, current_user:, current_branch:, params:, **)
       parameters = {
         debit_amount: ctx[:financial_transaction].amount,
         credit_amount: 0,
@@ -62,7 +62,12 @@ module AdditionalLoan::Operations
       }
 
       parameters = ctx[:contract].reverse_debit_amount_params(parameters)
-      ctx[:contract].create_activity! key: "activity.additional_loan.cancel", owner: current_user, parameters: parameters
+      ctx[:contract].create_activity!(
+        key: "activity.additional_loan.cancel",
+        branch_id: current_branch.id,
+        owner: current_user,
+        parameters: parameters
+      )
 
       true
     end

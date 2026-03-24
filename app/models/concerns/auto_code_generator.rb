@@ -118,7 +118,7 @@ module AutoCodeGenerator
         end
 
         redis.set(redis_key, next_number)
-        redis.incr(redis_key)
+        next_number
       ensure
         redis.del(sync_lock_key)
       end

@@ -101,7 +101,12 @@ module WithdrawPrincipal::Operations
       }
 
       parameters = ctx[:contract].reverse_debit_amount_params(parameters)
-      ctx[:contract].create_activity! key: "activity.contract.close", owner: current_user, parameters: parameters
+      ctx[:contract].create_activity!(
+        key: "activity.contract.close",
+        branch_id: ctx[:contract].branch_id,
+        owner: current_user,
+        parameters: parameters
+      )
 
       true
     end

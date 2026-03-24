@@ -35,7 +35,12 @@ module CashControl::Operations
       parameters = {
         amount: model.amount / 1000.to_f
       }
-      current_branch.create_activity! key: Settings.activity_keys.cash_control.update_opening_balance, owner: current_user, parameters: parameters
+      current_branch.create_activity!(
+        key: Settings.activity_keys.cash_control.update_opening_balance,
+        branch_id: current_branch.id,
+        owner: current_user,
+        parameters: parameters
+      )
     end
   end
 end

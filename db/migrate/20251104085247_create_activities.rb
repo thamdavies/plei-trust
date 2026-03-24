@@ -9,10 +9,12 @@ class CreateActivities < ActiveRecord::Migration[6.1]
       t.string :key
       t.text :parameters
       t.belongs_to :recipient, polymorphic: true, type: :uuid
+      t.belongs_to :branch, type: :uuid
 
       t.timestamps
     end
 
+    add_index :activities, %i[branch_id trackable_id trackable_type], name: 'index_activities_on_branch_and_trackable'
     add_index :activities, %i[trackable_id trackable_type]
     add_index :activities, %i[owner_id owner_type]
     add_index :activities, %i[recipient_id recipient_type]

@@ -64,6 +64,7 @@ class Branch < ApplicationRecord
   has_many :income_debt_repayments, -> { where(transaction_type_code: TransactionType::INCOME_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
   has_many :expense_debt_repayments, -> { where(transaction_type_code: TransactionType::EXPENSE_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
   has_many :activities, -> { order("id DESC") }, class_name: PublicActivity::Activity.name, as: :trackable, dependent: :destroy
+  has_many :contract_activities, -> { where(trackable_type: Contract.name).order("id DESC") }, class_name: PublicActivity::Activity.name
 
   # Views
   has_many :active_contracts, -> { where(status: :active) }, class_name: Contract.name

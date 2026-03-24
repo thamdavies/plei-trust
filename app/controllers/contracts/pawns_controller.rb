@@ -33,6 +33,7 @@ class Contracts::PawnsController < ContractsController
       @form = ctx[:"contract.default"]
       @form.prepopulate!(customer:)
       @form.interest_calculation_method_obj = interest_calculation_method_obj
+      @form.asset_setting_values = build_asset_setting_values(asset_setting, params.dig(:form, :asset_setting_values))
     end
   end
 
@@ -44,7 +45,6 @@ class Contracts::PawnsController < ContractsController
       @form.interest_calculation_method_obj = interest_calculation_method_obj
       @form.field_cannot_edit = @form.model.field_cannot_edit?
       @form.asset_setting_values = build_asset_setting_values(asset_setting)
-      p @form
     end
   end
 
@@ -60,6 +60,7 @@ class Contracts::PawnsController < ContractsController
       @form.prepopulate!(customer:)
       @form.field_cannot_edit = @form.model.field_cannot_edit?
       @form.interest_calculation_method_obj = interest_calculation_method_obj
+      @form.asset_setting_values = build_asset_setting_values(asset_setting, params.dig(:form, :asset_setting_values))
     end
   rescue Pundit::NotAuthorizedError
     handle_cannot_operate_on_ended_contract
@@ -110,15 +111,16 @@ class Contracts::PawnsController < ContractsController
     }
   end
 
-  def build_asset_setting_values(asset_setting)
+  def build_asset_setting_values(asset_setting, asset_setting_values_params = [])
     return [] unless asset_setting
 
     asset_setting.asset_setting_attributes.map do |attr|
+      value = asset_setting_values_params.find { |v| v[:asset_setting_attribute_id] == attr.id }&.dig(:value)
       asset_setting_value = attr.asset_setting_value || attr.build_asset_setting_value(
         contract_id: @form&.id,
         asset_setting_attribute: attr,
         asset_setting_attribute_id: attr.id,
-        value: ""
+        value: value
       )
 
       asset_setting_value

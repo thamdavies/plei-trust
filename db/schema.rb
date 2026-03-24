@@ -44,6 +44,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_115151) do
   end
 
   create_table "activities", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
+    t.uuid "branch_id"
     t.datetime "created_at", null: false
     t.string "key"
     t.uuid "owner_id"
@@ -54,6 +55,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_115151) do
     t.uuid "trackable_id"
     t.string "trackable_type"
     t.datetime "updated_at", null: false
+    t.index ["branch_id", "trackable_id", "trackable_type"], name: "index_activities_on_branch_and_trackable"
+    t.index ["branch_id"], name: "index_activities_on_branch_id"
     t.index ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type"
     t.index ["owner_type", "owner_id"], name: "index_activities_on_owner"
     t.index ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type"

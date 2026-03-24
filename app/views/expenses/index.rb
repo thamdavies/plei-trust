@@ -12,7 +12,7 @@ class Views::Expenses::Index < Views::Base
         TableHeader do
           TableRow do
             TableHead { "STT" }
-            TableHead { "Ngày thu" }
+            TableHead { "Ngày chi" }
             TableHead { "Khách hàng" }
             TableHead { "Loại phiếu" }
             TableHead { "Lý do" }

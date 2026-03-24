@@ -19,17 +19,16 @@ class Views::Reports::TransactionSummary::FilterForm < Views::Base
 
         div(class: "items-center mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700") do
           Form(action: reports_transaction_summary_index_path, method: "GET", class: "sm:pr-3 space-y-6") do |f|
-            div(class: "flex items-center gap-4") do
-              Remix::MenuSearchLine(class: "w-6 h-6")
-
-              FormField(class: "relative w-48") do
+            div(class: "flex flex-col lg:flex-row lg:items-center gap-4") do
+              Remix::MenuSearchLine(class: "hidden lg:block w-6 h-6")
+              FormField(class: "relative w-full lg:w-48") do
                 SearchInput(
                   name: "q[party_name_cont]",
                   placeholder: "Mã HĐ, tên KH",
                   value: view_context.params.dig(:q, :party_name_cont)
                 )
               end
-              FormField(class: "relative w-36") do
+              FormField(class: "relative w-full lg:w-36") do
                 render Components::Fields::DateField.new(
                   name: "q[transaction_date_gteq]",
                   label: "",
@@ -38,7 +37,7 @@ class Views::Reports::TransactionSummary::FilterForm < Views::Base
                   value: view_context.params.dig(:q, :transaction_date_gteq)
                 )
               end
-              FormField(class: "relative w-36") do
+              FormField(class: "relative w-full lg:w-36") do
                 render Components::Fields::DateField.new(
                   name: "q[transaction_date_lteq]",
                   label: "",
@@ -47,8 +46,8 @@ class Views::Reports::TransactionSummary::FilterForm < Views::Base
                   value: view_context.params.dig(:q, :transaction_date_lteq)
                 )
               end
-              div(class: "flex gap-4 items-center") do
-                FormField(class: "w-48") do
+              div(class: "flex gap-4 items-center w-full lg:w-auto") do
+                FormField(class: "w-full lg:w-48") do
                   select(
                     name: "q[transaction_category]",
                     id: "select-transaction-category",
@@ -64,8 +63,8 @@ class Views::Reports::TransactionSummary::FilterForm < Views::Base
                   end
                 end
               end
-              div(class: "flex gap-4 items-center") do
-                FormField(class: "w-48") do
+              div(class: "flex gap-4 items-center w-full lg:w-auto") do
+                FormField(class: "w-full lg:w-48") do
                   select(
                     name: "q[staff]",
                     id: "select-staff",
@@ -82,7 +81,7 @@ class Views::Reports::TransactionSummary::FilterForm < Views::Base
                 end
               end
 
-              Button(type: "submit") { "Tìm kiếm" }
+              Button(type: "submit", class: "w-full lg:w-auto") { "Tìm kiếm" }
             end
           end
         end

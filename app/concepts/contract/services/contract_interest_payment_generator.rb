@@ -8,46 +8,18 @@ module Contract::Services
     def call
       case @contract.interest_calculation_method
       when InterestCalculationMethod.config[:code][:daily_per_million]
-        Generators::DailyPerMillionPayments.new(contract:, start_date:).call
+        InterestGenerators::DailyPerMillionPayments.new(contract:, start_date:).call
       when InterestCalculationMethod.config[:code][:daily_fixed]
-        Generators::DailyFixedPayments.new(contract:, start_date:).call
-      when InterestCalculationMethod.config[:code][:weekly_percent]
-        Generators::WeeklyPercentPayments.new(contract:, start_date:).call
-      when InterestCalculationMethod.config[:code][:weekly_fixed]
-        Generators::WeeklyFixedPayments.new(contract:, start_date:).call
-      when InterestCalculationMethod.config[:code][:monthly_30]
-        Generators::Monthly30Payments.new(contract:, start_date:).call
-      when InterestCalculationMethod.config[:code][:monthly_calendar]
-        Generators::MonthlyCalendarPayments.new(contract:, start_date:).call
-      when InterestCalculationMethod.config[:code][:installment_principal_one_time]
-        Generators::InstallmentPrincipalOneTimePayments.new(contract:, start_date:).call
-      when InterestCalculationMethod.config[:code][:installment_principal_equal]
-        Generators::InstallmentPrincipalEqualPayments.new(contract:, start_date:).call
-      when InterestCalculationMethod.config[:code][:installment_principal_interest_equal]
-        Generators::InstallmentPrincipalInterestEqualPayments.new(contract:, start_date:).call
+        InterestGenerators::DailyFixedPayments.new(contract:, start_date:).call
       end
     end
 
     def info
       case @contract.interest_calculation_method
       when InterestCalculationMethod.config[:code][:daily_per_million]
-        Generators::DailyPerMillionPayments.new(contract:, start_date:).info
+        InterestGenerators::DailyPerMillionPayments.new(contract:, start_date:).info
       when InterestCalculationMethod.config[:code][:daily_fixed]
-        Generators::DailyFixedPayments.new(contract:, start_date:).info
-      when InterestCalculationMethod.config[:code][:weekly_percent]
-        Generators::WeeklyPercentPayments.new(contract:, start_date:).info
-      when InterestCalculationMethod.config[:code][:weekly_fixed]
-        Generators::WeeklyFixedPayments.new(contract:, start_date:).info
-      when InterestCalculationMethod.config[:code][:monthly_30]
-        Generators::Monthly30Payments.new(contract:, start_date:).info
-      when InterestCalculationMethod.config[:code][:monthly_calendar]
-        Generators::MonthlyCalendarPayments.new(contract:, start_date:).info
-      when InterestCalculationMethod.config[:code][:installment_principal_one_time]
-        Generators::InstallmentPrincipalOneTimePayments.new(contract:, start_date:).info
-      when InterestCalculationMethod.config[:code][:installment_principal_equal]
-        Generators::InstallmentPrincipalEqualPayments.new(contract:, start_date:).info
-      when InterestCalculationMethod.config[:code][:installment_principal_interest_equal]
-        Generators::InstallmentPrincipalInterestEqualPayments.new(contract:, start_date:).info
+        InterestGenerators::DailyFixedPayments.new(contract:, start_date:).info
       end
     end
 

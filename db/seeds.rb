@@ -1,4 +1,8 @@
 raise "Seeding is not allowed in production" if Rails.env.production?
+
+# Clear cache data
+load Rails.root.join('db', 'seeds', 'cache.rb')
+
 puts "🌱 Starting database seeding..."
 
 # Load contract types seed

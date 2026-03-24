@@ -1,4 +1,4 @@
-module Contract::Services::Generators
+module Contract::Services::InterestGenerators
   class DailyPerMillionPayments < Base
     def call
       insert_data

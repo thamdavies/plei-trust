@@ -19,7 +19,7 @@ module PawnContract::Operations
     private
 
     def create_contract_interest_payments(ctx, model:, **)
-      return unless model.field_cannot_edit?
+      return true if model.field_cannot_edit?
 
       service = ::Contract::Services::ContractInterestPaymentGenerator.new(contract: model)
       service.call
@@ -35,7 +35,13 @@ module PawnContract::Operations
       }
 
       parameters = model.reverse_debit_amount_params(parameters)
-      model.create_activity! key: "activity.contract.create", owner: current_user, parameters: parameters
+      model.create_activity!(
+        key: "activity.contract.create",
+        branch_id: model.branch_id,
+        owner: current_user,
+        parameters: parameters
+      )
+
       true
     end
 
