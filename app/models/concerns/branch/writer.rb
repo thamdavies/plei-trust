@@ -54,17 +54,18 @@ module Branch::Writer
     end
   end
 
-  def cancel_transaction(financial_transaction)
+  def cancel_transaction(financial_transaction, amount: nil, desc: nil)
     financial_transactions.create!(
       transaction_date: Date.current,
       transaction_type_code: financial_transaction.transaction_type_code,
-      amount: financial_transaction.amount_display * -1,
+      reference_number: financial_transaction.id,
+      amount: amount || financial_transaction.amount_display * -1,
       created_by: financial_transaction.created_by,
       owner: financial_transaction.owner,
       party_name: financial_transaction.party_name,
       recordable_type_code: financial_transaction.recordable_type_code,
       canceled_at: Time.current,
-      description: "financial_transaction.#{financial_transaction.id}.cancel"
+      description: desc || "financial_transaction.#{financial_transaction.id}.cancel"
     )
     financial_transaction.update!(canceled_at: Time.current)
   end

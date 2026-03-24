@@ -24,7 +24,7 @@ class ExpensesController < ApplicationController
 
   def destroy
     expense = current_branch.financial_transactions.find(params[:id])
-    current_branch.cancel_transaction(expense)
+    current_branch.cancel_transaction(expense, desc: "Huỷ phiếu chi")
 
     flash[:success] = "Xóa phiếu chi thành công!"
     redirect_to(expenses_path)
