@@ -90,7 +90,7 @@ gem "tailwind_merge", "~> 1.3"
 
 gem "pry-rails", "~> 0.3.11"
 
-gem "phlex-icons", "~> 2.47"
+gem "phlex-icons", "~> 2.52"
 
 gem "clearance", "~> 2.11"
 
@@ -109,7 +109,7 @@ gem "annotaterb", "~> 4.20"
 
 gem "breadcrumbs_on_rails", "~> 4.1"
 
-gem "phonelib", "~> 0.10.14"
+gem "phonelib", "~> 0.10.15"
 
 gem "ransack", "~> 4.4"
 
@@ -117,7 +117,7 @@ gem "acts_as_tenant", "~> 1.0"
 
 gem "config", "~> 5.6"
 
-gem "pagy", "~> 43.1"
+gem "pagy", "~> 43.2"
 
 gem "active_link_to", "~> 1.0"
 
@@ -137,7 +137,7 @@ gem "scenic", "~> 1.9"
 
 gem "numbers_and_words", "~> 1.0"
 
-gem "twilio-ruby", "~> 7.8"
+gem "twilio-ruby", "~> 7.9"
 
 gem "whenever", "~> 1.1"
 
