@@ -28,31 +28,20 @@ class Views::Reports::TransactionSummary::DetailTable < Views::Base
             end
           end
           TableBody do
-            TableRow do
-              TableCell(class: "font-medium") { "1" }
-              TableCell(class: "font-medium") { "Cầm đồ" }
-              TableCell(class: "font-medium") { "CD-2" }
-              TableCell(class: "font-medium") { "LT" }
-              TableCell(class: "font-medium") { "A" }
-              TableCell(class: "font-medium text-blue-600") { "xGames" }
-              TableCell(class: "font-medium") { "10/01/2026 17:31" }
-              TableCell(class: "font-medium") { "Tạo mới hợp động" }
-              TableCell(class: "font-medium text-blue-600") { "" }
-              TableCell(class: "font-medium text-red-600") { "-25,000,000" }
-              TableCell(class: "font-medium") { "" }
-            end
-            TableRow do
-              TableCell(class: "font-medium") { "2" }
-              TableCell(class: "font-medium") { "Cầm đồ" }
-              TableCell(class: "font-medium") { "CD-2" }
-              TableCell(class: "font-medium") { "LT" }
-              TableCell(class: "font-medium") { "A" }
-              TableCell(class: "font-medium text-blue-600") { "xGames" }
-              TableCell(class: "font-medium") { "10/01/2026 17:32" }
-              TableCell(class: "font-medium") { "Update hợp động" }
-              TableCell(class: "font-medium text-blue-600") { "" }
-              TableCell(class: "font-medium text-red-600") { "" }
-              TableCell(class: "font-medium") { "" }
+            @transactions.each_with_index do |item, index|
+              TableRow do
+                TableCell(class: "font-medium") { index + 1 }
+                TableCell(class: "font-medium") { item.contract_type_name }
+                TableCell(class: "font-medium") { item.contract_code }
+                TableCell(class: "font-medium") { item.asset_name }
+                TableCell(class: "font-medium") { item.transaction_by }
+                TableCell(class: "font-medium text-blue-600") { item.customer_name }
+                TableCell(class: "font-medium") { item.transaction_date }
+                TableCell(class: "font-medium") { item.description }
+                TableCell(class: "font-medium text-blue-600") { item.amount_in }
+                TableCell(class: "font-medium text-red-600") { item.amount_out }
+                TableCell(class: "font-medium") { item.notes }
+              end
             end
 
             # Tổng hàng

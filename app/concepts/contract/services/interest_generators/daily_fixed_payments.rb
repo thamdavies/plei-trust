@@ -1,5 +1,5 @@
-module Contract::Services::Generators
-  class WeeklyFixedPayments < Base
+module Contract::Services::InterestGenerators
+  class DailyFixedPayments < Base
     def call
       insert_data
     end
@@ -13,7 +13,13 @@ module Contract::Services::Generators
     def insert_data(save: true)
       schedule = []
 
-      end_date = contract.contract_end_date
+      withdrawal_principals = contract.withdrawal_principals
+      end_date = if withdrawal_principals.present?
+        withdrawal_principals.last.transaction_date
+      else
+        contract.contract_end_date
+      end
+
       current_from = start_date
 
       while current_from <= end_date
@@ -26,7 +32,7 @@ module Contract::Services::Generators
         actual_days = (current_to - current_from + 1).to_i
 
         # Tính lãi cho kỳ này
-        interest_amount = contract.interest_rate * (actual_days / 7.0)
+        interest_amount = contract.interest_rate * actual_days
 
         schedule << {
           contract_id: contract.id,

@@ -21,7 +21,7 @@ module ContractInterestPayment::Operations
           transaction_type_code: TransactionType.config.dig(:interest_payment, model.contract.contract_type_code.to_sym, :cancel),
           amount: model.total_paid_display,
           transaction_date: Date.current,
-          description: "Huỷ đóng lãi #{model.contract_id}, ID: #{model.id}",
+          description: "contract.#{model.contract_id}.interest.cancel.#{model.id}",
           owner: model.contract,
           recordable_type_code: model.contract.contract_type_code,
           created_by: ctx[:current_user]
@@ -42,7 +42,7 @@ module ContractInterestPayment::Operations
           transaction_type_code: TransactionType.config.dig(:interest_payment, model.contract.contract_type_code.to_sym, :update),
           amount: model.total_paid_display,
           transaction_date: Date.current,
-          description: "Đóng lãi hợp đồng ##{model.contract_id}",
+          description: "contract.#{model.contract_id}.interest.create.#{model.id}",
           owner: model.contract,
           recordable_type_code: model.contract.contract_type_code,
           created_by: ctx[:current_user]

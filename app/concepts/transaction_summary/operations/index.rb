@@ -16,19 +16,21 @@ module TransactionSummary::Operations
     end
 
     def load_contract_activities(ctx, params:, current_branch:, **)
-      contract_activities = current_branch.contract_activities
+      contract_activities = current_branch.contract_activities.includes(:trackable, :owner).decorate
       ctx[:contract_activities] = contract_activities.map do |activity|
+        contract = activity.trackable
+        user = activity.owner
         OpenStruct.new(
-          contract_type_name: activity.contract_type_name,
-          contract_code: activity.contract_code,
-          asset_name: activity.asset_name,
-          transaction_by: activity.transaction_by,
-          customer_name: activity.customer_name,
-          transaction_date: activity.transaction_date,
-          description: activity.description,
-          amount_in: activity.amount_in,
-          amount_out: activity.amount_out,
-          notes: activity.notes
+          contract_type_name: contract.contract_type.name,
+          contract_code: contract.code,
+          asset_name: contract.asset_name,
+          transaction_by: user.full_name,
+          customer_name: contract.customer.full_name,
+          transaction_date: activity.created_at.to_date.to_fs(:date_vn),
+          description: I18n.t(activity.key),
+          amount_in: activity.fm_debit_amount,
+          amount_out: activity.fm_credit_amount,
+          notes: activity.fm_note
         )
       end
 
@@ -45,7 +47,7 @@ module TransactionSummary::Operations
     end
 
     def set_result(ctx, params:, **)
-      ctx[:transactions] = []
+      ctx[:transactions] = ctx[:contract_activities]
       ctx[:transaction_summary] = OpenStruct.new
 
       true
