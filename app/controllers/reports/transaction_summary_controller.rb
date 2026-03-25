@@ -6,7 +6,9 @@ class Reports::TransactionSummaryController < ApplicationController
 
     run(::TransactionSummary::Operations::Index, current_branch:) do |result|
       @transaction_summary = result[:transaction_summary]
-      @transactions = result[:transactions]
+      @total_amount_in = result[:total_amount_in]
+      @total_amount_out = result[:total_amount_out]
+      @pagy, @transactions = pagy(result[:model])
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_29_115151) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_24_161827) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -546,5 +546,42 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_115151) do
     WHERE ((( SELECT interest_payment_schedule.date
              FROM interest_payment_schedule
             WHERE (interest_payment_schedule.contract_id = c.id)) < client_timezone.date) AND ((c.status)::text <> 'closed'::text));
+  SQL
+  create_view "transaction_summaries", sql_definition: <<-SQL
+      SELECT 'activity'::character varying AS source_type,
+      a.branch_id,
+      (a.created_at)::date AS transaction_date,
+      ct.name AS contract_type_name,
+      c.code AS contract_code,
+      c.asset_name,
+      COALESCE(u.full_name, 'Hệ thống'::character varying) AS transaction_by,
+      cust.full_name AS customer_name,
+      a.key AS activity_key,
+      NULL::text AS description,
+      a.parameters AS notes,
+      a.created_at
+     FROM ((((activities a
+       JOIN contracts c ON (((c.id = a.trackable_id) AND ((a.trackable_type)::text = 'Contract'::text))))
+       JOIN contract_types ct ON (((ct.code)::text = (c.contract_type_code)::text)))
+       JOIN customers cust ON ((cust.id = c.customer_id)))
+       LEFT JOIN users u ON ((u.id = a.owner_id)))
+    WHERE ((a.trackable_type)::text = 'Contract'::text)
+  UNION ALL
+   SELECT 'transaction'::character varying AS source_type,
+      ft.recordable_id AS branch_id,
+      ft.transaction_date,
+      NULL::text AS contract_type_name,
+      NULL::text AS contract_code,
+      NULL::text AS asset_name,
+      u.full_name AS transaction_by,
+      ft.party_name AS customer_name,
+      NULL::text AS activity_key,
+      ft.description,
+      NULL::text AS notes,
+      ft.created_at
+     FROM ((financial_transactions ft
+       JOIN transaction_types tt ON (((tt.code)::text = (ft.transaction_type_code)::text)))
+       LEFT JOIN users u ON ((u.id = ft.created_by_id)))
+    WHERE (((ft.recordable_type)::text = 'Branch'::text) AND ((ft.transaction_type_code)::text <> ALL ((ARRAY['income_interest'::character varying, 'expense_interest'::character varying])::text[])));
   SQL
 end

@@ -7,8 +7,9 @@
 
 <%= render Views::Reports::TransactionSummary::SummaryTable.new(summary: @summary) %>
 <%= render RubyUI::Separator.new %>
-<%= render Views::Reports::TransactionSummary::DetailTable.new(transactions: @transactions) %>
+<%= render Views::Reports::TransactionSummary::DetailTable.new(transactions: @transactions, pagy: @pagy, total_amount_in: @total_amount_in, total_amount_out: @total_amount_out) %>
 <%= render RubyUI::Separator.new %>
+<%== pagy_nav(@pagy) if @pagy.pages > 1 %>
 
 <%# Để tránh giao diện bị co lại khi bảng có ít dòng dữ liệu, các component ảnh hưởng: datetimepicker,... %>
 <div class="h-screen"></div>
