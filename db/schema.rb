@@ -561,13 +561,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_161827) do
       ft.party_name AS customer_name,
       ft.description,
           CASE
-              WHEN tt.is_income THEN ft.amount
+              WHEN (((ft.transactable_type_code)::text = 'expense'::text) AND (ft.canceled_at IS NOT NULL) AND (ft.reference_number IS NOT NULL)) THEN (ft.amount * ('-1'::integer)::numeric)
+              WHEN (((ft.transactable_type_code)::text = 'income'::text) AND (ft.reference_number IS NULL)) THEN ft.amount
+              WHEN (((ft.transactable_type_code)::text <> ALL ((ARRAY['income'::character varying, 'expense'::character varying])::text[])) AND tt.is_income) THEN ft.amount
               ELSE (0)::numeric
-          END AS raw_debit_amount,
+          END AS amount_in,
           CASE
-              WHEN (NOT tt.is_income) THEN ft.amount
+              WHEN (((ft.transactable_type_code)::text = 'expense'::text) AND (ft.reference_number IS NULL)) THEN (ft.amount * ('-1'::integer)::numeric)
+              WHEN (((ft.transactable_type_code)::text = 'income'::text) AND (ft.canceled_at IS NOT NULL) AND (ft.reference_number IS NOT NULL)) THEN ft.amount
+              WHEN (((ft.transactable_type_code)::text <> ALL ((ARRAY['income'::character varying, 'expense'::character varying])::text[])) AND (NOT tt.is_income)) THEN (ft.amount * ('-1'::integer)::numeric)
               ELSE (0)::numeric
-          END AS raw_credit_amount,
+          END AS amount_out,
       ft.notes,
       ft.created_at
      FROM (((financial_transactions ft

@@ -33,15 +33,15 @@ class Views::Reports::TransactionSummary::DetailTable < Views::Base
             @transactions.each_with_index do |item, index|
               TableRow do
                 TableCell(class: "font-medium") { @pagy.offset + index + 1 }
-                TableCell(class: "font-medium") { item.transactable_type_code }
+                TableCell(class: "font-medium") { item.transactable_type_name }
                 TableCell(class: "font-medium") { item.contract_code }
                 TableCell(class: "font-medium") { item.asset_name }
                 TableCell(class: "font-medium") { item.transaction_by }
                 TableCell(class: "font-medium text-blue-600") { item.customer_name }
-                TableCell(class: "font-medium") { item.transaction_date }
+                TableCell(class: "font-medium") { item.fm_transaction_date }
                 TableCell(class: "font-medium") { item.description }
-                TableCell(class: "font-medium text-blue-600") { item.amount_in }
-                TableCell(class: "font-medium text-red-600") { item.amount_out }
+                TableCell(class: "font-medium text-blue-600") { item.fm_amount_in }
+                TableCell(class: "font-medium text-red-600") { item.fm_amount_out }
                 TableCell(class: "font-medium") { item.notes }
               end
             end

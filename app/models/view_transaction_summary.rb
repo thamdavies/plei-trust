@@ -3,13 +3,13 @@
 # Table name: transaction_summaries
 #
 #  id                     :uuid             primary key
+#  amount_in              :decimal(, )
+#  amount_out             :decimal(, )
 #  asset_name             :string
 #  contract_code          :string
 #  customer_name          :string
 #  description            :string
 #  notes                  :text
-#  raw_credit_amount      :decimal(, )
-#  raw_debit_amount       :decimal(, )
 #  transactable_type_code :string
 #  transaction_by         :string
 #  transaction_date       :date
@@ -24,22 +24,6 @@ class ViewTransactionSummary < ApplicationRecord
 
   def readonly?
     true
-  end
-
-  def transaction_date
-    super&.to_fs(:date_vn)
-  end
-
-  def amount_in
-    return "0" if raw_debit_amount.blank? || raw_debit_amount.zero?
-
-    (raw_debit_amount * 1_000).to_currency(unit: "")
-  end
-
-  def amount_out
-    return "0" if raw_credit_amount.blank? || raw_credit_amount.zero?
-
-    (raw_credit_amount * 1_000).to_currency(unit: "")
   end
 
   class << self

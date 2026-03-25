@@ -34,7 +34,6 @@ module Income::Operations
     def filter(ctx, q_params:, current_branch:, **)
       ctx[:model] = current_branch.financial_transactions
                                   .joins(:transaction_type)
-                                  .where(canceled_at: nil)
                                   .where(transaction_types: { code: TransactionType::INCOME_TYPES })
                                   .ransack(q_params).result
     end

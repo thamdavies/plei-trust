@@ -19,8 +19,8 @@ module TransactionSummary::Operations
         .ransack(params[:q]).result
 
       totals = scope.pick(
-        Arel.sql("SUM(raw_debit_amount) * 1000"),
-        Arel.sql("SUM(raw_credit_amount) * 1000")
+        Arel.sql("SUM(amount_in) * 1000"),
+        Arel.sql("SUM(amount_out) * 1000")
       )
 
       ctx[:total_amount_in] = totals[0].to_d

@@ -8,7 +8,8 @@ class Reports::TransactionSummaryController < ApplicationController
       @transaction_summary = result[:transaction_summary]
       @total_amount_in = result[:total_amount_in]
       @total_amount_out = result[:total_amount_out]
-      @pagy, @transactions = pagy(result[:model])
+      @pagy, transactions = pagy(result[:model])
+      @transactions = transactions.decorate
     end
   end
 end
