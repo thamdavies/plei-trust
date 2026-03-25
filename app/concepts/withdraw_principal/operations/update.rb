@@ -51,14 +51,18 @@ module WithdrawPrincipal::Operations
     }
 
     def save(ctx, model:, params:, current_branch:, **)
+      contract = model.contract
       withdraw_principal = ctx[:withdraw_principal]
       ctx[:record] = current_branch.financial_transactions.create!(
-        transaction_type_code: TransactionType.config.dig(:withdraw_principal, model.contract.contract_type_code.to_sym, :update),
+        transaction_type_code: TransactionType.config.dig(:withdraw_principal, contract.contract_type_code.to_sym, :update),
         amount: withdraw_principal[:total_amount_raw],
         transaction_date: model.transaction_date.parse_date_vn,
-        description: model.note,
-        recordable_type_code: model.contract.contract_type_code,
-        created_by: ctx[:current_user]
+        description: I18n.t("activity.contract.close"),
+        transactable: contract,
+        transactable_type_code: contract.contract_type_code,
+        created_by: ctx[:current_user],
+        notes: model.note,
+        party_name: contract.customer.full_name
       )
 
       true

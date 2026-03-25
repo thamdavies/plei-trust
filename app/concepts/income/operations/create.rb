@@ -27,6 +27,7 @@ module Income::Operations
       transaction_type = TransactionType.find_by!(code: model.transaction_type_code)
 
       ctx[:current_branch].financial_transactions.create!(
+        transactable_type_code: ::Income.name.downcase,
         amount: model.amount,
         party_name: model.party_name,
         transaction_type:,

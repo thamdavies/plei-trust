@@ -2,21 +2,23 @@
 #
 # Table name: transaction_summaries
 #
-#  activity_key       :string
-#  asset_name         :string
-#  contract_code      :string
-#  contract_type_name :string
-#  customer_name      :string
-#  description        :text
-#  notes              :text
-#  source_type        :string
-#  transaction_by     :string
-#  transaction_date   :date
-#  created_at         :datetime
-#  branch_id          :uuid
+#  id                     :uuid             primary key
+#  asset_name             :string
+#  contract_code          :string
+#  customer_name          :string
+#  description            :string
+#  notes                  :text
+#  raw_credit_amount      :decimal(, )
+#  raw_debit_amount       :decimal(, )
+#  transactable_type_code :string
+#  transaction_by         :string
+#  transaction_date       :date
+#  created_at             :datetime
+#  branch_id              :uuid
 #
 class ViewTransactionSummary < ApplicationRecord
   self.table_name = "transaction_summaries"
+  self.primary_key = "id"
 
   belongs_to :branch
 
@@ -26,12 +28,6 @@ class ViewTransactionSummary < ApplicationRecord
 
   def transaction_date
     super&.to_fs(:date_vn)
-  end
-
-  def description
-    return I18n.t(activity_key) if source_type == "activity"
-
-    super
   end
 
   def amount_in
@@ -48,7 +44,7 @@ class ViewTransactionSummary < ApplicationRecord
 
   class << self
     def ransackable_attributes(auth_object = nil)
-      %w[branch_id transaction_date contract_type_name transaction_by customer_name]
+      %w[branch_id transaction_date contract_type_name transaction_by customer_name description]
     end
   end
 end

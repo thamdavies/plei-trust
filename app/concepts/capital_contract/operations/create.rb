@@ -49,10 +49,12 @@ module CapitalContract::Operations
       branch.financial_transactions.create!(
         transaction_date: Date.current,
         transaction_type_code: TransactionType::INCOME_CONTRACT_CHANGE,
-        recordable_type_code: model.contract_type_code,
+        transactable: model,
+        transactable_type_code: model.contract_type_code,
         amount: model.loan_amount * 1_000,
         created_by: branch.users.first,
-        owner: model
+        description: I18n.t("activity.contract.create"),
+        party_name: model.customer.full_name
       )
 
       true

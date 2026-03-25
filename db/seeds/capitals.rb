@@ -20,11 +20,11 @@ Branch.find_each do |branch|
   branch.financial_transactions.create!(
     transaction_date: Date.current,
     transaction_type_code: TransactionType::INCOME_CONTRACT_CHANGE,
-    recordable_type_code: contract.contract_type_code,
+    transactable_type_code: contract.contract_type_code,
     party_name: contract.customer.full_name,
     amount: branch.invest_amount * 1_000,
     created_by: branch.users.first,
-    owner: contract
+    transactable: contract
   )
 end
 

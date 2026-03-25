@@ -25,7 +25,7 @@ module TransactionSummary::Operations
 
       ctx[:total_amount_in] = totals[0].to_d
       ctx[:total_amount_out] = totals[1].to_d
-      ctx[:model] = scope.order(transaction_date: :desc)
+      ctx[:model] = scope.order(created_at: :desc)
 
       true
     end

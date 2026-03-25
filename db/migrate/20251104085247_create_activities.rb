@@ -7,7 +7,7 @@ class CreateActivities < ActiveRecord::Migration[6.1]
       t.belongs_to :trackable, polymorphic: true, type: :uuid
       t.belongs_to :owner, polymorphic: true, type: :uuid
       t.string :key
-      t.text :parameters
+      t.jsonb :parameters, default: {}
       t.belongs_to :recipient, polymorphic: true, type: :uuid
       t.belongs_to :branch, type: :uuid
 

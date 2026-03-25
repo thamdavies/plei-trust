@@ -61,11 +61,12 @@ module Branch::Writer
       reference_number: financial_transaction.id,
       amount: amount || financial_transaction.amount_display * -1,
       created_by: financial_transaction.created_by,
-      owner: financial_transaction.owner,
+      transactable: financial_transaction.transactable,
+      transactable_type_code: financial_transaction.transactable_type_code,
       party_name: financial_transaction.party_name,
-      recordable_type_code: financial_transaction.recordable_type_code,
       canceled_at: Time.current,
-      description: desc || "financial_transaction.#{financial_transaction.id}.cancel"
+      description: desc || financial_transaction.description,
+      notes: financial_transaction.notes
     )
     financial_transaction.update!(canceled_at: Time.current)
   end

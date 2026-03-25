@@ -33,7 +33,7 @@ class Views::Reports::TransactionSummary::DetailTable < Views::Base
             @transactions.each_with_index do |item, index|
               TableRow do
                 TableCell(class: "font-medium") { @pagy.offset + index + 1 }
-                TableCell(class: "font-medium") { item.contract_type_name }
+                TableCell(class: "font-medium") { item.transactable_type_code }
                 TableCell(class: "font-medium") { item.contract_code }
                 TableCell(class: "font-medium") { item.asset_name }
                 TableCell(class: "font-medium") { item.transaction_by }

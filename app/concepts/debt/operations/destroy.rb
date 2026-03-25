@@ -41,10 +41,12 @@ module Debt::Operations
       ctx[:financial_transaction] = current_branch.financial_transactions.create!(
         transaction_date: Date.current,
         transaction_type_code: transaction_type,
-        recordable_type_code: contract.contract_type_code,
+        transactable: contract,
+        transactable_type_code: contract.contract_type_code,
         amount: model.amount,
         created_by: ctx[:current_user],
-        owner: contract
+        description: I18n.t("activity.contract.debt_repayment"),
+        party_name: contract.customer.full_name
       )
 
       true

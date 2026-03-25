@@ -41,14 +41,17 @@ module ReducePrincipal::Operations
     }
 
     def save(ctx, model:, current_branch:, **)
+      contract = model.contract
       ctx[:financial_transaction] = current_branch.financial_transactions.create!(
-        transaction_type_code: TransactionType.config.dig(:reduce_principal, model.contract.contract_type_code.to_sym, :update),
+        transaction_type_code: TransactionType.config.dig(:reduce_principal, contract.contract_type_code.to_sym, :update),
         amount: model.prepayment_amount,
         transaction_date: Date.current,
-        description: model.note,
+        description: I18n.t("activity.reduce_principal.create"),
         created_by: ctx[:current_user],
-        recordable_type_code: model.contract.contract_type_code,
-        owner: model.contract
+        transactable: contract,
+        transactable_type_code: contract.contract_type_code,
+        notes: model.note,
+        party_name: contract.customer.full_name
       )
 
       true

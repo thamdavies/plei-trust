@@ -25,19 +25,19 @@ module Branch::Reader
   end
 
   def pawn_total(date = Date.current)
-    financial_transactions.where(transaction_date: date, recordable_type_code: ContractType.codes[:pawn]).sum(:amount).to_f * 1_000
+    financial_transactions.where(transaction_date: date, transactable_type_code: ContractType.codes[:pawn]).sum(:amount).to_f * 1_000
   end
 
   def credit_total(date = Date.current)
-    financial_transactions.where(transaction_date: date, recordable_type_code: ContractType.codes[:credit]).sum(:amount).to_f * 1_000
+    financial_transactions.where(transaction_date: date, transactable_type_code: ContractType.codes[:credit]).sum(:amount).to_f * 1_000
   end
 
   def installment_total(date = Date.current)
-    financial_transactions.where(transaction_date: date, recordable_type_code: ContractType.codes[:installment]).sum(:amount).to_f * 1_000
+    financial_transactions.where(transaction_date: date, transactable_type_code: ContractType.codes[:installment]).sum(:amount).to_f * 1_000
   end
 
   def capital_total(date = Date.current)
-    financial_transactions.where(transaction_date: date, recordable_type_code: ContractType.codes[:capital]).sum(:amount).to_f * 1_000
+    financial_transactions.where(transaction_date: date, transactable_type_code: ContractType.codes[:capital]).sum(:amount).to_f * 1_000
   end
 
   def opening_balance(date = Date.current)

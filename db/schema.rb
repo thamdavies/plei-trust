@@ -49,7 +49,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_161827) do
     t.string "key"
     t.uuid "owner_id"
     t.string "owner_type"
-    t.text "parameters"
+    t.jsonb "parameters", default: {}
     t.uuid "recipient_id"
     t.string "recipient_type"
     t.uuid "trackable_id"
@@ -303,22 +303,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_161827) do
 
   create_table "financial_transactions", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.decimal "amount", precision: 15, scale: 4, null: false
+    t.uuid "branch_id", null: false
     t.datetime "canceled_at"
     t.datetime "created_at", null: false
     t.uuid "created_by_id", null: false
     t.string "description"
-    t.uuid "owner_id"
-    t.string "owner_type"
+    t.text "notes"
     t.string "party_name"
-    t.uuid "recordable_id", null: false
-    t.string "recordable_type", null: false
-    t.string "recordable_type_code"
     t.string "reference_number"
+    t.uuid "transactable_id"
+    t.string "transactable_type"
+    t.string "transactable_type_code"
     t.date "transaction_date", null: false
     t.string "transaction_number", null: false
     t.string "transaction_type_code", null: false
     t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_financial_transactions_on_branch_id"
     t.index ["created_by_id"], name: "index_financial_transactions_on_created_by_id"
+    t.index ["transactable_type", "transactable_id"], name: "idx_on_transactable_type_transactable_id_f09fb7b364"
     t.index ["transaction_type_code"], name: "index_financial_transactions_on_transaction_type_code"
   end
 
@@ -420,6 +422,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_161827) do
   add_foreign_key "customers", "branches"
   add_foreign_key "customers", "users", column: "created_by_id"
   add_foreign_key "daily_balances", "branches"
+  add_foreign_key "financial_transactions", "branches"
   add_foreign_key "financial_transactions", "transaction_types", column: "transaction_type_code", primary_key: "code"
   add_foreign_key "financial_transactions", "users", column: "created_by_id"
   add_foreign_key "interest_rate_histories", "users", column: "processed_by_id"
@@ -548,40 +551,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_161827) do
             WHERE (interest_payment_schedule.contract_id = c.id)) < client_timezone.date) AND ((c.status)::text <> 'closed'::text));
   SQL
   create_view "transaction_summaries", sql_definition: <<-SQL
-      SELECT 'activity'::character varying AS source_type,
-      a.branch_id,
-      (a.created_at)::date AS transaction_date,
-      ct.name AS contract_type_name,
+      SELECT ft.id,
+      ft.branch_id,
+      ft.transaction_date,
+      ft.transactable_type_code,
       c.code AS contract_code,
       c.asset_name,
-      COALESCE(u.full_name, 'Hệ thống'::character varying) AS transaction_by,
-      cust.full_name AS customer_name,
-      a.key AS activity_key,
-      NULL::text AS description,
-      a.parameters AS notes,
-      a.created_at
-     FROM ((((activities a
-       JOIN contracts c ON (((c.id = a.trackable_id) AND ((a.trackable_type)::text = 'Contract'::text))))
-       JOIN contract_types ct ON (((ct.code)::text = (c.contract_type_code)::text)))
-       JOIN customers cust ON ((cust.id = c.customer_id)))
-       LEFT JOIN users u ON ((u.id = a.owner_id)))
-    WHERE ((a.trackable_type)::text = 'Contract'::text)
-  UNION ALL
-   SELECT 'transaction'::character varying AS source_type,
-      ft.recordable_id AS branch_id,
-      ft.transaction_date,
-      NULL::text AS contract_type_name,
-      NULL::text AS contract_code,
-      NULL::text AS asset_name,
       u.full_name AS transaction_by,
       ft.party_name AS customer_name,
-      NULL::text AS activity_key,
       ft.description,
-      NULL::text AS notes,
+          CASE
+              WHEN tt.is_income THEN ft.amount
+              ELSE (0)::numeric
+          END AS raw_debit_amount,
+          CASE
+              WHEN (NOT tt.is_income) THEN ft.amount
+              ELSE (0)::numeric
+          END AS raw_credit_amount,
+      ft.notes,
       ft.created_at
-     FROM ((financial_transactions ft
+     FROM (((financial_transactions ft
        JOIN transaction_types tt ON (((tt.code)::text = (ft.transaction_type_code)::text)))
        LEFT JOIN users u ON ((u.id = ft.created_by_id)))
-    WHERE (((ft.recordable_type)::text = 'Branch'::text) AND ((ft.transaction_type_code)::text <> ALL ((ARRAY['income_interest'::character varying, 'expense_interest'::character varying])::text[])));
+       LEFT JOIN contracts c ON ((((ft.transactable_type)::text = 'Contract'::text) AND (ft.transactable_id = c.id))));
   SQL
 end
