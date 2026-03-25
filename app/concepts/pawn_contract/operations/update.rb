@@ -55,7 +55,7 @@ module PawnContract::Operations
         parameters[:credit_amount] = 0
       else
         amount = changes.last.to_d - changes.first.to_d
-        model.create_financial_transaction!(is_income: false, amount: amount * 1_000, owner: model, description: I18n.t("activity.contract.update"))
+        model.create_financial_transaction!(is_income: false, amount: amount * 1_000, description: I18n.t("activity.contract.update"))
       end
 
       parameters = model.reverse_debit_amount_params(parameters)
