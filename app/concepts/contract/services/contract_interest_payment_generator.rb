@@ -11,6 +11,12 @@ module Contract::Services
         InterestGenerators::DailyPerMillionPayments.new(contract:, start_date:).call
       when InterestCalculationMethod.config[:code][:daily_fixed]
         InterestGenerators::DailyFixedPayments.new(contract:, start_date:).call
+      when InterestCalculationMethod.config[:code][:installment_principal_one_time]
+        InterestGenerators::InstallmentPrincipalOneTimePayments.new(contract:, start_date:).call
+      when InterestCalculationMethod.config[:code][:installment_principal_equal]
+        InterestGenerators::InstallmentPrincipalEqualPayments.new(contract:, start_date:).call
+      when InterestCalculationMethod.config[:code][:installment_principal_interest_equal]
+        InterestGenerators::InstallmentPrincipalInterestEqualPayments.new(contract:, start_date:).call
       end
     end
 
@@ -20,6 +26,12 @@ module Contract::Services
         InterestGenerators::DailyPerMillionPayments.new(contract:, start_date:).info
       when InterestCalculationMethod.config[:code][:daily_fixed]
         InterestGenerators::DailyFixedPayments.new(contract:, start_date:).info
+      when InterestCalculationMethod.config[:code][:installment_principal_one_time]
+        InterestGenerators::InstallmentPrincipalOneTimePayments.new(contract:, start_date:).info
+      when InterestCalculationMethod.config[:code][:installment_principal_equal]
+        InterestGenerators::InstallmentPrincipalEqualPayments.new(contract:, start_date:).info
+      when InterestCalculationMethod.config[:code][:installment_principal_interest_equal]
+        InterestGenerators::InstallmentPrincipalInterestEqualPayments.new(contract:, start_date:).info
       end
     end
 

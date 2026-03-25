@@ -58,6 +58,7 @@ vi:
     pawn: "Cầm đồ"
     income: "Thu hoạt động"
     expense: "Chi hoạt động"
+    installment: "Trả góp"
   labels:
     contract:
       capital:

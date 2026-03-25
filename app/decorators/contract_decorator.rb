@@ -72,6 +72,7 @@ class ContractDecorator < ApplicationDecorator
     return "" if no_interest?
 
     schedule = unpaid_interest_payments.first.presence || contract_interest_payments.order(:from).last
+
     if collect_interest_in_advance
       schedule.from.to_fs(:date_vn)
     else
