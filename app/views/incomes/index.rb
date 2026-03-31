@@ -23,14 +23,15 @@ class Views::Incomes::Index < Views::Base
         end
         TableBody do
           @collection.each_with_index do |item, index|
+            canceled = item.canceled_at.present? && item.reference_number.blank?
             TableRow do
               TableCell(class: "font-medium") { @pagy.offset + index + 1 }
-              TableCell(class: "font-medium") { item.fm_transaction_date }
-              TableCell(class: "font-medium") { item.party_name }
-              TableCell(class: "font-medium") { item.transaction_type.name }
-              TableCell(class: "font-medium") { item.description }
-              TableCell(class: "font-medium") { item.amount_formatted }
-              TableCell(class: "font-medium") { item.created_by.full_name }
+              TableCell(class: "font-medium #{"line-through" if canceled}") { item.fm_transaction_date }
+              TableCell(class: "font-medium #{"line-through" if canceled}") { item.party_name }
+              TableCell(class: "font-medium #{"line-through" if canceled}") { item.transaction_type.name }
+              TableCell(class: "font-medium #{"line-through" if canceled}") { item.description }
+              TableCell(class: "font-medium #{"line-through" if canceled}") { item.amount_formatted }
+              TableCell(class: "font-medium #{"line-through" if canceled}") { item.created_by.full_name }
               TableCell(class: "font-medium") do
                 div(class: "flex space-x-2") do
                   Remix::PrinterLine(class: "w-5 h-5 cursor-pointer")

@@ -4,9 +4,9 @@ module Contract::Reader
   def reduce_principals
     case contract_type_code
     when ContractType.codes[:pawn], ContractType.codes[:installment]
-      branch.income_principals.where(owner: self)
+      branch.income_principals.where(transactable: self)
     when ContractType.codes[:capital]
-      branch.expense_principals.where(owner: self)
+      branch.expense_principals.where(transactable: self)
     end
   end
 
@@ -17,9 +17,9 @@ module Contract::Reader
   def additional_loans
     case contract_type_code
     when ContractType.codes[:pawn], ContractType.codes[:installment]
-      branch.expense_additional_loans.where(owner: self)
+      branch.expense_additional_loans.where(transactable: self)
     when ContractType.codes[:capital]
-      branch.income_additional_loans.where(owner: self)
+      branch.income_additional_loans.where(transactable: self)
     end
   end
 
@@ -30,27 +30,27 @@ module Contract::Reader
   def withdrawal_principals
     case contract_type_code
     when ContractType.codes[:pawn], ContractType.codes[:installment]
-      branch.expense_withdrawal_principals.where(owner: self)
+      branch.expense_withdrawal_principals.where(transactable: self)
     when ContractType.codes[:capital]
-      branch.income_withdrawal_principals.where(owner: self)
+      branch.income_withdrawal_principals.where(transactable: self)
     end
   end
 
   def debt_repayments
     case contract_type_code
     when ContractType.codes[:pawn], ContractType.codes[:installment]
-      branch.income_debt_repayments.where(owner: self)
+      branch.income_debt_repayments.where(transactable: self)
     when ContractType.codes[:capital]
-      branch.expense_debt_repayments.where(owner: self)
+      branch.expense_debt_repayments.where(transactable: self)
     end
   end
 
   def interest_overpayments
     case contract_type_code
     when ContractType.codes[:pawn], ContractType.codes[:installment]
-      branch.expense_interest_overpayments.where(owner: self)
+      branch.expense_interest_overpayments.where(transactable: self)
     when ContractType.codes[:capital]
-      branch.income_interest_overpayments.where(owner: self)
+      branch.income_interest_overpayments.where(transactable: self)
     end
   end
 

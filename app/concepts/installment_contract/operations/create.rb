@@ -45,7 +45,7 @@ module InstallmentContract::Operations
     end
 
     def create_financial_transaction(ctx, model:, **)
-      model.create_financial_transaction!(is_income: false)
+      model.create_financial_transaction!(is_income: false, description: I18n.t("activity.contract.create"))
 
       true
     end

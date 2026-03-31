@@ -24,7 +24,7 @@ class IncomesController < ApplicationController
 
   def destroy
     income = current_branch.financial_transactions.find(params[:id])
-    current_branch.cancel_transaction(income)
+    current_branch.cancel_transaction(income, desc: "Huỷ phiếu thu")
 
     flash[:success] = "Xóa phiếu thu thành công!"
     redirect_to(incomes_path)

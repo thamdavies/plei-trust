@@ -74,21 +74,20 @@ class Contract < ApplicationRecord
   has_many :interest_payments, -> { order(:from) }, dependent: :destroy, class_name: ContractInterestPayment.name
   has_many :unpaid_interest_payments, -> { where(payment_status: :unpaid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
   has_many :paid_interest_payments, -> { where(payment_status: :paid).order(:from) }, class_name: ContractInterestPayment.name, dependent: :destroy
-  has_many :financial_transactions, as: :recordable, dependent: :destroy
-  has_many :transactions, as: :owner, dependent: :destroy, class_name: FinancialTransaction.name
+  has_many :financial_transactions, as: :transactable, dependent: :destroy
   has_many :asset_setting_values, dependent: :destroy
   has_many :reminders, dependent: :destroy, class_name: ContractReminder.name
 
-  has_many :income_principals, -> { where(transaction_type_code: TransactionType::INCOME_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :expense_principals, -> { where(transaction_type_code: TransactionType::EXPENSE_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :income_additional_loans, -> { where(transaction_type_code: TransactionType::INCOME_ADDITIONAL_LOAN) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :expense_additional_loans, -> { where(transaction_type_code: TransactionType::EXPENSE_ADDITIONAL_LOAN) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :income_withdrawal_principals, -> { where(transaction_type_code: TransactionType::INCOME_WITHDRAWAL_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :expense_withdrawal_principals, -> { where(transaction_type_code: TransactionType::EXPENSE_WITHDRAWAL_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :income_interest_overpayments, -> { where(transaction_type_code: TransactionType::INCOME_INTEREST_OVERPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :expense_interest_overpayments, -> { where(transaction_type_code: TransactionType::EXPENSE_INTEREST_OVERPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :income_debt_repayments, -> { where(transaction_type_code: TransactionType::INCOME_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
-  has_many :expense_debt_repayments, -> { where(transaction_type_code: TransactionType::EXPENSE_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :recordable, dependent: :destroy
+  has_many :income_principals, -> { where(transaction_type_code: TransactionType::INCOME_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :transactable, dependent: :destroy
+  has_many :expense_principals, -> { where(transaction_type_code: TransactionType::EXPENSE_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :transactable, dependent: :destroy
+  has_many :income_additional_loans, -> { where(transaction_type_code: TransactionType::INCOME_ADDITIONAL_LOAN) }, class_name: FinancialTransaction.name, as: :transactable, dependent: :destroy
+  has_many :expense_additional_loans, -> { where(transaction_type_code: TransactionType::EXPENSE_ADDITIONAL_LOAN) }, class_name: FinancialTransaction.name, as: :transactable, dependent: :destroy
+  has_many :income_withdrawal_principals, -> { where(transaction_type_code: TransactionType::INCOME_WITHDRAWAL_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :transactable, dependent: :destroy
+  has_many :expense_withdrawal_principals, -> { where(transaction_type_code: TransactionType::EXPENSE_WITHDRAWAL_PRINCIPAL) }, class_name: FinancialTransaction.name, as: :transactable, dependent: :destroy
+  has_many :income_interest_overpayments, -> { where(transaction_type_code: TransactionType::INCOME_INTEREST_OVERPAYMENT) }, class_name: FinancialTransaction.name, as: :transactable, dependent: :destroy
+  has_many :expense_interest_overpayments, -> { where(transaction_type_code: TransactionType::EXPENSE_INTEREST_OVERPAYMENT) }, class_name: FinancialTransaction.name, as: :transactable, dependent: :destroy
+  has_many :income_debt_repayments, -> { where(transaction_type_code: TransactionType::INCOME_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :transactable, dependent: :destroy
+  has_many :expense_debt_repayments, -> { where(transaction_type_code: TransactionType::EXPENSE_DEBT_REPAYMENT) }, class_name: FinancialTransaction.name, as: :transactable, dependent: :destroy
 
   has_many :contract_extensions, -> { order(:from) }, dependent: :destroy
   has_many :activities, -> { order("id DESC") }, class_name: PublicActivity::Activity.name, as: :trackable, dependent: :destroy

@@ -21,10 +21,12 @@ module ContractInterestPayment::Operations
           transaction_type_code: TransactionType.config.dig(:interest_payment, model.contract.contract_type_code.to_sym, :cancel),
           amount: model.total_paid_display,
           transaction_date: Date.current,
-          description: "contract.#{model.contract_id}.interest.cancel.#{model.id}",
-          owner: model.contract,
-          recordable_type_code: model.contract.contract_type_code,
-          created_by: ctx[:current_user]
+          description: I18n.t("activity.contract_interest_payment.cancel"),
+          transactable: model.contract,
+          transactable_type_code: model.contract.contract_type_code,
+          created_by: ctx[:current_user],
+          party_name: model.contract.customer.full_name,
+          notes: "Kỳ: #{model.from.to_fs(:date_vn)} - #{model.to.to_fs(:date_vn)}"
         )
         model.destroy!
         ::Contract::Services::ContractInterestPaymentGenerator.call(contract: model.contract, start_date: model.from)
@@ -42,10 +44,12 @@ module ContractInterestPayment::Operations
           transaction_type_code: TransactionType.config.dig(:interest_payment, model.contract.contract_type_code.to_sym, :update),
           amount: model.total_paid_display,
           transaction_date: Date.current,
-          description: "contract.#{model.contract_id}.interest.create.#{model.id}",
-          owner: model.contract,
-          recordable_type_code: model.contract.contract_type_code,
-          created_by: ctx[:current_user]
+          description: I18n.t("activity.contract_interest_payment.paid"),
+          transactable: model.contract,
+          transactable_type_code: model.contract.contract_type_code,
+          created_by: ctx[:current_user],
+          party_name: model.contract.customer.full_name,
+          notes: "Kỳ: #{model.from.to_fs(:date_vn)} - #{model.to.to_fs(:date_vn)}"
         )
       end
 

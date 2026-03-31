@@ -1,7 +1,9 @@
 class Views::Reports::TransactionSummary::DetailTable < Views::Base
-  def initialize(transactions:, pagy: nil)
+  def initialize(transactions:, pagy:, total_amount_in:, total_amount_out:)
     @transactions = transactions
     @pagy = pagy
+    @total_amount_in = total_amount_in
+    @total_amount_out = total_amount_out
   end
 
   def view_template
@@ -30,26 +32,25 @@ class Views::Reports::TransactionSummary::DetailTable < Views::Base
           TableBody do
             @transactions.each_with_index do |item, index|
               TableRow do
-                TableCell(class: "font-medium") { index + 1 }
-                TableCell(class: "font-medium") { item.contract_type_name }
+                TableCell(class: "font-medium") { @pagy.offset + index + 1 }
+                TableCell(class: "font-medium") { item.transactable_type_name }
                 TableCell(class: "font-medium") { item.contract_code }
                 TableCell(class: "font-medium") { item.asset_name }
                 TableCell(class: "font-medium") { item.transaction_by }
                 TableCell(class: "font-medium text-blue-600") { item.customer_name }
-                TableCell(class: "font-medium") { item.transaction_date }
+                TableCell(class: "font-medium") { item.fm_transaction_date }
                 TableCell(class: "font-medium") { item.description }
-                TableCell(class: "font-medium text-blue-600") { item.amount_in }
-                TableCell(class: "font-medium text-red-600") { item.amount_out }
+                TableCell(class: "font-medium text-blue-600") { item.fm_amount_in }
+                TableCell(class: "font-medium text-red-600") { item.fm_amount_out }
                 TableCell(class: "font-medium") { item.notes }
               end
             end
 
             # Tổng hàng
             TableRow(class: "border-t-2 border-gray-300 bg-gray-50") do
-              TableCell(colspan: 7, class: "font-semibold text-right") { "Tổng:" }
-              TableCell(class: "font-semibold") { "" }
-              TableCell(class: "font-semibold text-blue-600") { "0" }
-              TableCell(class: "font-semibold text-red-600") { "-25,000,000" }
+              TableCell(colspan: 8, class: "font-semibold text-right") { "Tổng:" }
+              TableCell(class: "font-semibold text-blue-600") { @total_amount_in.to_currency(unit: "") }
+              TableCell(class: "font-semibold text-red-600") { @total_amount_out.to_currency(unit: "") }
               TableCell(class: "font-semibold") { "" }
             end
           end

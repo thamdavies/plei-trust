@@ -23,22 +23,22 @@ class PublicActivity::ActivityDecorator < Draper::Decorator
   end
 
   def fm_debit_amount
-    (object.parameters[:debit_amount].to_d * 1_000).to_currency(unit: "")
+    (object.parameters["debit_amount"].to_d * 1_000).to_currency(unit: "")
   end
 
   def fm_credit_amount
-    (object.parameters[:credit_amount].to_d * 1_000).to_currency(unit: "")
+    (object.parameters["credit_amount"].to_d * 1_000).to_currency(unit: "")
   end
 
   def fm_other_amount
-    (object.parameters[:other_amount].to_d * 1_000).to_currency(unit: "")
+    (object.parameters["other_amount"].to_d * 1_000).to_currency(unit: "")
   end
 
   def fm_amount
-    (object.parameters[:amount].to_d * 1_000).to_currency(unit: "")
+    (object.parameters["amount"].to_d * 1_000).to_currency(unit: "")
   end
 
   def fm_note
-    object.parameters[:note].to_s
+    object.parameters["note"].to_s
   end
 end

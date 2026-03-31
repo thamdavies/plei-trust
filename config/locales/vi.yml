@@ -53,6 +53,12 @@ vi:
     states:
       schedule_reminder: "Hẹn giờ"
       cancel_scheduled_reminder: "Dừng hẹn giờ"
+  transactable_type:
+    capital: "Vốn"
+    pawn: "Cầm đồ"
+    income: "Thu hoạt động"
+    expense: "Chi hoạt động"
+    installment: "Trả góp"
   labels:
     contract:
       capital:

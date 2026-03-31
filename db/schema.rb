@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_29_115151) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_24_161827) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -49,7 +49,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_115151) do
     t.string "key"
     t.uuid "owner_id"
     t.string "owner_type"
-    t.text "parameters"
+    t.jsonb "parameters", default: {}
     t.uuid "recipient_id"
     t.string "recipient_type"
     t.uuid "trackable_id"
@@ -303,22 +303,24 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_115151) do
 
   create_table "financial_transactions", id: :uuid, default: -> { "uuidv7()" }, force: :cascade do |t|
     t.decimal "amount", precision: 15, scale: 4, null: false
+    t.uuid "branch_id", null: false
     t.datetime "canceled_at"
     t.datetime "created_at", null: false
     t.uuid "created_by_id", null: false
     t.string "description"
-    t.uuid "owner_id"
-    t.string "owner_type"
+    t.text "notes"
     t.string "party_name"
-    t.uuid "recordable_id", null: false
-    t.string "recordable_type", null: false
-    t.string "recordable_type_code"
     t.string "reference_number"
+    t.uuid "transactable_id"
+    t.string "transactable_type"
+    t.string "transactable_type_code"
     t.date "transaction_date", null: false
     t.string "transaction_number", null: false
     t.string "transaction_type_code", null: false
     t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_financial_transactions_on_branch_id"
     t.index ["created_by_id"], name: "index_financial_transactions_on_created_by_id"
+    t.index ["transactable_type", "transactable_id"], name: "idx_on_transactable_type_transactable_id_f09fb7b364"
     t.index ["transaction_type_code"], name: "index_financial_transactions_on_transaction_type_code"
   end
 
@@ -420,6 +422,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_115151) do
   add_foreign_key "customers", "branches"
   add_foreign_key "customers", "users", column: "created_by_id"
   add_foreign_key "daily_balances", "branches"
+  add_foreign_key "financial_transactions", "branches"
   add_foreign_key "financial_transactions", "transaction_types", column: "transaction_type_code", primary_key: "code"
   add_foreign_key "financial_transactions", "users", column: "created_by_id"
   add_foreign_key "interest_rate_histories", "users", column: "processed_by_id"
@@ -546,5 +549,33 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_115151) do
     WHERE ((( SELECT interest_payment_schedule.date
              FROM interest_payment_schedule
             WHERE (interest_payment_schedule.contract_id = c.id)) < client_timezone.date) AND ((c.status)::text <> 'closed'::text));
+  SQL
+  create_view "transaction_summaries", sql_definition: <<-SQL
+      SELECT ft.id,
+      ft.branch_id,
+      ft.transaction_date,
+      ft.transactable_type_code,
+      c.code AS contract_code,
+      c.asset_name,
+      u.id AS transaction_by_id,
+      u.full_name AS transaction_by,
+      ft.party_name AS customer_name,
+      ft.description,
+          CASE
+              WHEN ((NOT tt.is_income) AND (ft.amount < (0)::numeric)) THEN (ft.amount * ('-1'::integer)::numeric)
+              WHEN (tt.is_income AND (ft.amount > (0)::numeric)) THEN ft.amount
+              ELSE (0)::numeric
+          END AS amount_in,
+          CASE
+              WHEN ((NOT tt.is_income) AND (ft.amount >= (0)::numeric)) THEN (ft.amount * ('-1'::integer)::numeric)
+              WHEN (tt.is_income AND (ft.amount < (0)::numeric)) THEN ft.amount
+              ELSE (0)::numeric
+          END AS amount_out,
+      ft.notes,
+      ft.created_at
+     FROM (((financial_transactions ft
+       JOIN transaction_types tt ON (((tt.code)::text = (ft.transaction_type_code)::text)))
+       LEFT JOIN users u ON ((u.id = ft.created_by_id)))
+       LEFT JOIN contracts c ON ((((ft.transactable_type)::text = 'Contract'::text) AND (ft.transactable_id = c.id))));
   SQL
 end

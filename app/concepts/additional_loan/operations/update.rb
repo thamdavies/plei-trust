@@ -41,14 +41,17 @@ module AdditionalLoan::Operations
     }
 
     def save(ctx, model:, current_branch:, params:, **)
+      contract = model.contract
       ctx[:financial_transaction] = current_branch.financial_transactions.create!(
-        transaction_type_code: TransactionType.config.dig(:additional_loan, model.contract.contract_type_code.to_sym, :update),
+        transaction_type_code: TransactionType.config.dig(:additional_loan, contract.contract_type_code.to_sym, :update),
         amount: model.transaction_amount,
         transaction_date: Date.current,
-        description: model.note,
-        owner: model.contract,
-        recordable_type_code: model.contract.contract_type_code,
-        created_by: ctx[:current_user]
+        description: I18n.t("activity.additional_loan.create"),
+        transactable: contract,
+        transactable_type_code: contract.contract_type_code,
+        created_by: ctx[:current_user],
+        notes: model.note,
+        party_name: contract.customer.full_name
       )
 
       true
