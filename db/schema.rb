@@ -557,6 +557,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_161827) do
       ft.transactable_type_code,
       c.code AS contract_code,
       c.asset_name,
+      u.id AS transaction_by_id,
       u.full_name AS transaction_by,
       ft.party_name AS customer_name,
       ft.description,

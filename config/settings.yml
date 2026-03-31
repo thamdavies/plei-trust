@@ -6,12 +6,8 @@ max_customer_file_size: 10
 remove_customer_file_base_url: "/customers/files/:ID"
 remove_contract_file_base_url: "/contracts/files/:ID"
 transaction_categories:
-  - code: ""
-    name: "Tất cả loại hình"
   - code: "pawn"
     name: "Cầm đồ"
-  - code: "credit"
-    name: "Tín Chấp"
   - code: "installment"
     name: "Trả Góp"
   - code: "capital"
@@ -20,8 +16,6 @@ transaction_categories:
     name: "Thu hoạt động"
   - code: "expense"
     name: "Chi hoạt động"
-  - code: "opening_balance"
-    name: "Nhập quỹ tiền đầu ngày"
 
 activity_keys:
   cash_control:

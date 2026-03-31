@@ -15,6 +15,7 @@
 #  transaction_date       :date
 #  created_at             :datetime
 #  branch_id              :uuid
+#  transaction_by_id      :uuid
 #
 class ViewTransactionSummary < ApplicationRecord
   self.table_name = "transaction_summaries"
@@ -26,9 +27,33 @@ class ViewTransactionSummary < ApplicationRecord
     true
   end
 
+  def pawn?
+    transactable_type_code == "pawn"
+  end
+
+  def installment?
+    transactable_type_code == "installment"
+  end
+
+  def income?
+    transactable_type_code == "income"
+  end
+
+  def expense?
+    transactable_type_code == "expense"
+  end
+
+  def capital?
+    transactable_type_code == "capital"
+  end
+
   class << self
     def ransackable_attributes(auth_object = nil)
-      %w[branch_id transaction_date contract_type_name transaction_by customer_name description]
+      %w[transaction_date transactable_type_code transaction_by_id transaction_by customer_name]
+    end
+
+    def ransackable_associations(auth_object = nil)
+      []
     end
   end
 end

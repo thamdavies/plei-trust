@@ -23,9 +23,9 @@ class Views::Reports::TransactionSummary::FilterForm < Views::Base
               Remix::MenuSearchLine(class: "hidden lg:block w-6 h-6")
               FormField(class: "relative w-full lg:w-48") do
                 SearchInput(
-                  name: "q[party_name_cont]",
+                  name: "q[customer_name_cont]",
                   placeholder: "Mã HĐ, tên KH",
-                  value: view_context.params.dig(:q, :party_name_cont)
+                  value: view_context.params.dig(:q, :customer_name_cont)
                 )
               end
               FormField(class: "relative w-full lg:w-36") do
@@ -49,16 +49,16 @@ class Views::Reports::TransactionSummary::FilterForm < Views::Base
               div(class: "flex gap-4 items-center w-full lg:w-auto") do
                 FormField(class: "w-full lg:w-48") do
                   select(
-                    name: "q[transaction_category]",
+                    name: "q[transactable_type_code_eq]",
                     id: "select-transaction-category",
                     placeholder: "Tất cả loại hình",
                     data: { controller: "slim-select",
                       "slim-select-target": "select",
-                      "slim-select-selected-value": view_context.params.dig(:q, :transaction_category)
+                      "slim-select-selected-value": view_context.params.dig(:q, :transactable_type_code_eq)
                     }) do
-                    option(value: "", selected: view_context.params.dig(:q, :transaction_category).blank?) { "Tất cả loại hình" }
+                    option(value: "", selected: view_context.params.dig(:q, :transactable_type_code_eq).blank?) { "Tất cả loại hình" }
                     view_context.select_options_for_transaction_categories.each do |item|
-                      option(value: item.code, selected: item.code == view_context.params.dig(:q, :transaction_category)) { item.name }
+                      option(value: item.code, selected: item.code == view_context.params.dig(:q, :transactable_type_code_eq)) { item.name }
                     end
                   end
                 end
@@ -66,16 +66,16 @@ class Views::Reports::TransactionSummary::FilterForm < Views::Base
               div(class: "flex gap-4 items-center w-full lg:w-auto") do
                 FormField(class: "w-full lg:w-48") do
                   select(
-                    name: "q[staff]",
+                    name: "q[transaction_by_id_eq]",
                     id: "select-staff",
                     placeholder: "Tất cả nhân viên",
                     data: { controller: "slim-select",
                       "slim-select-target": "select",
-                      "slim-select-selected-value": view_context.params.dig(:q, :staff)
+                      "slim-select-selected-value": view_context.params.dig(:q, :transaction_by_id_eq)
                     }) do
-                    option(value: "", selected: view_context.params.dig(:q, :staff).blank?) { "Tất cả nhân viên" }
+                    option(value: "", selected: view_context.params.dig(:q, :transaction_by_id_eq).blank?) { "Tất cả nhân viên" }
                     view_context.select_options_for_staffs.each do |item|
-                      option(value: item.id, selected: item.id == view_context.params.dig(:q, :staff)) { item.name }
+                      option(value: item.id, selected: item.id == view_context.params.dig(:q, :transaction_by_id_eq)) { item.name }
                     end
                   end
                 end

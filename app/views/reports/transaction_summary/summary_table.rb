@@ -25,49 +25,43 @@ class Views::Reports::TransactionSummary::SummaryTable < Views::Base
               TableCell { "Tiền đầu ngày" }
               TableCell { "-" }
               TableCell { "-" }
-              TableCell(class: "font-semibold text-blue-600") { "450,120,000" }
+              TableCell(class: "font-semibold #{@summary.opening_balance >= 0 ? 'text-blue-600' : 'text-red-600'}") { @summary.opening_balance.to_currency(unit: "") }
             end
             TableRow do
               TableCell { "Cầm Đồ" }
-              TableCell(class: "text-blue-600") { "0" }
-              TableCell(class: "text-red-600") { "-25,000,000" }
-              TableCell(class: "font-semibold text-red-600") { "-25,000,000" }
-            end
-            TableRow do
-              TableCell { "Tín Chấp" }
-              TableCell(class: "text-blue-600") { "0" }
-              TableCell(class: "text-red-600") { "0" }
-              TableCell(class: "font-semibold text-blue-600") { "0" }
+              TableCell(class: "text-blue-600") { @summary.pawn.amount_in.to_currency(unit: "") }
+              TableCell(class: "text-red-600") { @summary.pawn.amount_out.to_currency(unit: "") }
+              TableCell(class: "font-semibold #{@summary.pawn.difference >= 0 ? 'text-blue-600' : 'text-red-600'}") { @summary.pawn.difference.to_currency(unit: "") }
             end
             TableRow do
               TableCell { "Trả Góp" }
-              TableCell(class: "text-blue-600") { "0" }
-              TableCell(class: "text-red-600") { "0" }
-              TableCell(class: "font-semibold text-blue-600") { "0" }
+              TableCell(class: "text-blue-600") { @summary.installment.amount_in.to_currency(unit: "") }
+              TableCell(class: "text-red-600") { @summary.installment.amount_out.to_currency(unit: "") }
+              TableCell(class: "font-semibold #{@summary.installment.difference >= 0 ? 'text-blue-600' : 'text-red-600'}") { @summary.installment.difference.to_currency(unit: "") }
             end
             TableRow do
               TableCell { "Thu Hoạt Động" }
-              TableCell(class: "text-blue-600") { "0" }
-              TableCell(class: "text-red-600") { "0" }
-              TableCell(class: "font-semibold text-blue-600") { "0" }
+              TableCell(class: "text-blue-600") { @summary.income.amount_in.to_currency(unit: "") }
+              TableCell(class: "text-red-600") { @summary.income.amount_out.to_currency(unit: "") }
+              TableCell(class: "font-semibold #{@summary.income.difference >= 0 ? 'text-blue-600' : 'text-red-600'}") { @summary.income.difference.to_currency(unit: "") }
             end
             TableRow do
               TableCell { "Chi Hoạt Động" }
-              TableCell(class: "text-blue-600") { "0" }
-              TableCell(class: "text-red-600") { "0" }
-              TableCell(class: "font-semibold text-blue-600") { "0" }
+              TableCell(class: "text-blue-600") { @summary.expense.amount_in.to_currency(unit: "") }
+              TableCell(class: "text-red-600") { @summary.expense.amount_out.to_currency(unit: "") }
+              TableCell(class: "font-semibold #{@summary.expense.difference >= 0 ? 'text-blue-600' : 'text-red-600'}") { @summary.expense.difference.to_currency(unit: "") }
             end
             TableRow do
               TableCell { "Nguồn Vốn" }
-              TableCell(class: "text-blue-600") { "0" }
-              TableCell(class: "text-red-600") { "0" }
-              TableCell(class: "font-semibold text-blue-600") { "0" }
+              TableCell(class: "text-blue-600") { @summary.capital.amount_in.to_currency(unit: "") }
+              TableCell(class: "text-red-600") { @summary.capital.amount_out.to_currency(unit: "") }
+              TableCell(class: "font-semibold #{@summary.capital.difference >= 0 ? 'text-blue-600' : 'text-red-600'}") { @summary.capital.difference.to_currency(unit: "") }
             end
             TableRow(class: "border-t-2 border-gray-300") do
               TableCell(class: "font-semibold") { "Tiền mặt còn lại" }
               TableCell { "-" }
               TableCell { "-" }
-              TableCell(class: "font-semibold text-blue-600") { "425,120,000" }
+              TableCell(class: "font-semibold #{@summary.remaining_cash >= 0 ? 'text-blue-600' : 'text-red-600'}") { @summary.remaining_cash.to_currency(unit: "") }
             end
           end
         end
