@@ -26,8 +26,6 @@ module TransactionSummary::Operations
         params[:q][:transaction_date_lteq] = Date.current.to_s
       end
 
-      p params[:q]
-
       true
     end
 
