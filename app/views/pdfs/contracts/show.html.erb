@@ -129,7 +129,7 @@
   </div>
 </div>
 
-<script type="application/javascript">
+<script nonce="<%= request.content_security_policy_nonce %>">
   window.print()
   window.onafterprint = function () {
     window.close();

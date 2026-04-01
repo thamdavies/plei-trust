@@ -22,4 +22,13 @@ export default class extends Controller {
 		const url = event.currentTarget.dataset.url;
 		window.location.href = url;
 	}
+
+	printPage() {
+		const printableElement = document.querySelector('#printable');
+
+		if (printableElement) {
+			const url = printableElement.dataset.url;
+			window.open(url + '&printable=true', 'popup', 'width='+screen.width + 'height='+screen.height).print();
+		}
+	}
 }

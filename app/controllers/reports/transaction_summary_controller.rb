@@ -1,4 +1,6 @@
 class Reports::TransactionSummaryController < ApplicationController
+  layout -> { params[:printable].present? ? "blank" : "application" }
+
   add_breadcrumb "Báo cáo", :reports_transaction_summary_index_path
 
   def index
