@@ -346,7 +346,7 @@ GEM
     numbers_and_words (1.0.3)
       i18n (<= 2)
     ostruct (0.6.3)
-    pagy (43.4.3)
+    pagy (43.4.4)
       json
       uri
       yaml
