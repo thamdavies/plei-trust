@@ -1,28 +1,34 @@
 # frozen_string_literal: true
 
-# Pagy initializer file (43.0.3)
-# See https://ddnexus.github.io/pagy/resources/initializer/
+# Pagy initializer file (43.4.4)
+# See https://ddnexus.github.io/pagy/toolbox/configuration/initializer/
+
 
 ############ Global Options ################################################################
-# See https://ddnexus.github.io/pagy/toolbox/options/ for details.
+# See https://ddnexus.github.io/pagy/toolbox/configuration/options/ for details.
 # Add your global options below. They will be applied globally.
 # For example:
 #
-Pagy.options[:limit] = 15               # Limit the items per page
-# Pagy.options[:client_max_limit] = 100   # The client can request a limit up to 100
-# Pagy.options[:max_pages] = 200          # Allow only 200 pages
-# Pagy.options[:jsonapi] = true           # Use JSON:API compliant URLs
+Pagy::OPTIONS[:limit] = 15                 # Limit the items per page
+# Pagy::OPTIONS[:client_max_limit] = 100   # The client is allowed to request a limit up to 100
+# Pagy::OPTIONS[:jsonapi] = true           # Use JSON:API compliant URLs
 
+Pagy::OPTIONS.freeze
 
-############ JavaScript ####################################################################
-# See https://ddnexus.github.io/pagy/resources/javascript/ for details.
-# Examples for Rails:
-# For apps with an assets pipeline
-# Rails.application.config.assets.paths << Pagy::ROOT.join('javascripts')
+############ JS and CSS Resources ##########################################################
+# See https://ddnexus.github.io/pagy/resources/javascript/
+# and https://ddnexus.github.io/pagy/resources/stylesheets/ for more resources and details.
+# Copy and keep the resource files synced in the app. For example:
 #
-# For apps with a javascript builder (e.g. esbuild, webpack, etc.)
-# javascript_dir = Rails.root.join('app/javascript')
-# Pagy.sync_javascript(javascript_dir, 'pagy.mjs') if Rails.env.development?
+# if Rails.env.development?
+#   Pagy.sync(:javascript, Rails.root.join('app/javascript'), 'pagy.mjs')
+#   Pagy.sync(:stylesheet, Rails.root.join('app/stylesheets'), 'pagy.css')
+# end
+#
+# As an alternative, use this config ONLY for apps with an asset pipeline
+#
+# Rails.application.config.assets.paths << Pagy::ROOT.join(':javascripts')
+# Rails.application.config.assets.paths << Pagy::ROOT.join(':stylesheets')
 
 
 ############# Overriding Pagy::I18n Lookup #################################################
