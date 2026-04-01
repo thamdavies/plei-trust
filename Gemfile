@@ -84,7 +84,7 @@ group :production do
   gem "sd_notify"
 end
 
-gem "phlex-rails", "~> 2.3"
+gem "phlex-rails", "~> 2.4"
 
 gem "tailwind_merge", "~> 1.4"
 
