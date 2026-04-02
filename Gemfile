@@ -121,7 +121,7 @@ gem "pagy", "~> 43.4"
 
 gem "active_link_to", "~> 1.0"
 
-gem "active_hash", "~> 4.0"
+gem "active_hash", "~> 4.1"
 
 gem "draper", "~> 4.0"
 
