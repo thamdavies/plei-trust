@@ -1,5 +1,5 @@
 <div class="max-w-[430px] m-auto relative">
-  <%= image_tag("logo.png", class: "invoice-background") %>
+  <%= image_tag("logo.png", class: "invoice-background", alt: "DNM Logo") %>
   <p class="text-center uppercase font-semibold">Biên Nhận đóng lãi</p>
   <p class="text-center ">(<%= @interest_payment.fm_paid_at %>)</p>
   <p>--------------------------------------------------</p>
@@ -13,17 +13,17 @@
     <p>Kỳ lãi: <span class="font-semibold"><%= @interest_payment.fm_dates %></span></p>
     <p>Số tiền: <span class="uppercase font-semibold"><%= @interest_payment.total_amount_currency %></span></p>
     <p>Hạn đóng lãi tiếp theo: <span class="uppercase font-semibold"><%= @next_period || 'Hoàn tất trả lãi' %></span></p>
-    <br />
+    <br>
     <div>
       <p><span class="font-semibold">Lưu ý:</span> Khách hàng chuyển khoản vui lòng ghi rõ họ tên để tránh nhầm lẫn</p>
       <p>Hotline CSKH: 1900068652</p>
       <p>Zalo: 0762525262</p>
     </div>
-    <br />
+    <br>
     <p>Cảm ơn bạn đã lựa chon DMN!</p>
   </div>
 </div>
-<script type="text/javascript">
+<script type="text/javascript" nonce="<%= request.content_security_policy_nonce %>">
   window.print();
   window.onafterprint = function () {
     window.close();
