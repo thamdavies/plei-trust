@@ -69,7 +69,9 @@ Rails.application.routes.draw do
   # For reports
   namespace :reports do
     resources :daily_cash_flows, only: [ :index ]
-    resources :transaction_summary, only: [ :index ]
+    resources :transaction_summary, only: [ :index ] do
+      collection { get :excel }
+    end
     resources :profit_summary, only: [ :index ]
     resources :interest_details, only: [ :index ]
     resources :collection_stats, only: [ :index ]

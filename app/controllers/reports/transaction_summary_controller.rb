@@ -14,4 +14,15 @@ class Reports::TransactionSummaryController < ApplicationController
       @transactions = transactions.decorate
     end
   end
+
+  def excel
+    run(::TransactionSummary::Operations::Excel, current_branch:) do |result|
+      wb = result[:workbook]
+
+      send_data wb.to_stream.read,
+                type:        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                filename:    "tong_hop_giao_dich_#{Date.current.strftime('%d%m%Y')}.xlsx",
+                disposition: "attachment"
+    end
+  end
 end
