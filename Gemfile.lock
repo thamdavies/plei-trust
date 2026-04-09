@@ -348,7 +348,7 @@ GEM
     numbers_and_words (1.0.3)
       i18n (<= 2)
     ostruct (0.6.3)
-    pagy (43.4.4)
+    pagy (43.5.0)
       json
       uri
       yaml
@@ -670,7 +670,7 @@ DEPENDENCIES
   kamal
   letter_opener_web (~> 3.0)
   numbers_and_words (~> 1.0)
-  pagy (~> 43.4)
+  pagy (~> 43.5)
   paper_trail (~> 17.0)
   pg (~> 1.6)
   phlex-icons (~> 2.56)
