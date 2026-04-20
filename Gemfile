@@ -92,7 +92,7 @@ gem "pry-rails", "~> 0.3.11"
 
 gem "phlex-icons", "~> 2.56"
 
-gem "clearance", "~> 2.11"
+gem "clearance", "~> 2.12"
 
 gem "simple_form", "~> 5.4"
 
