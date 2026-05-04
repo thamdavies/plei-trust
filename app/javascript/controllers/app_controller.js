@@ -28,7 +28,8 @@ export default class extends Controller {
 
 		if (printableElement) {
 			const url = printableElement.dataset.url;
-			window.open(url + '&printable=true', 'popup', 'width='+screen.width + 'height='+screen.height).print();
+			const separator = url.includes('?') ? '&' : '?';
+			window.open(`${url}${separator}printable=true`, 'popup', 'width='+screen.width + 'height='+screen.height).print();
 		}
 	}
 }
