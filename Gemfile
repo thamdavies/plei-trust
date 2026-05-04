@@ -92,7 +92,7 @@ gem "pry-rails", "~> 0.3.11"
 
 gem "phlex-icons", "~> 2.56"
 
-gem "clearance", "~> 2.11"
+gem "clearance", "~> 2.12"
 
 gem "simple_form", "~> 5.4"
 
@@ -105,11 +105,11 @@ gem "dry-validation"
 gem "letter_opener_web", "~> 3.0"
 
 # A Ruby gem for generating annotated documentation for Ruby code.
-gem "annotaterb", "~> 4.20"
+gem "annotaterb", "~> 4.22"
 
 gem "breadcrumbs_on_rails", "~> 4.1"
 
-gem "phonelib", "~> 0.10.17"
+gem "phonelib", "~> 0.10.18"
 
 gem "ransack", "~> 4.4"
 
@@ -117,11 +117,11 @@ gem "acts_as_tenant", "~> 1.0"
 
 gem "config", "~> 5.6"
 
-gem "pagy", "~> 43.4"
+gem "pagy", "~> 43.5"
 
 gem "active_link_to", "~> 1.0"
 
-gem "active_hash", "~> 4.0"
+gem "active_hash", "~> 4.1"
 
 gem "draper", "~> 4.0"
 
