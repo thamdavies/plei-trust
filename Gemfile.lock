@@ -659,6 +659,7 @@ DEPENDENCIES
   capistrano-rvm
   capistrano3-puma
   capybara
+  caxlsx
   clearance (~> 2.12)
   config (~> 5.6)
   cssbundling-rails
