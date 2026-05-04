@@ -109,7 +109,7 @@ gem "annotaterb", "~> 4.22"
 
 gem "breadcrumbs_on_rails", "~> 4.1"
 
-gem "phonelib", "~> 0.10.17"
+gem "phonelib", "~> 0.10.18"
 
 gem "ransack", "~> 4.4"
 
