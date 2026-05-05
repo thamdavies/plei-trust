@@ -61,7 +61,7 @@ group :development do
   gem "web-console"
 
   # RubyUI Components
-  gem "ruby_ui", "~> 1.0", require: false
+  gem "ruby_ui", "~> 1.2", require: false
 
   # Deploy tools
   gem "capistrano", "~> 3.19", require: false
