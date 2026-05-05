@@ -125,6 +125,8 @@ gem "active_hash", "~> 4.1"
 
 gem "draper", "~> 4.0"
 
+gem "caxlsx"
+
 gem "jsonapi-serializer", "~> 2.2"
 
 gem "pundit", "~> 2.5"

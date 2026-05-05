@@ -135,6 +135,11 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    caxlsx (4.4.2)
+      htmlentities (~> 4.3, >= 4.3.4)
+      marcel (~> 1.0)
+      nokogiri (~> 1.10, >= 1.10.4)
+      rubyzip (>= 2.4, < 4)
     childprocess (5.1.0)
       logger (~> 1.5)
     chronic (0.10.2)
@@ -243,6 +248,7 @@ GEM
       activesupport (>= 6.1)
     hashie (5.0.0)
     hirb (0.7.3)
+    htmlentities (4.4.2)
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     image_processing (1.14.0)
@@ -653,6 +659,7 @@ DEPENDENCIES
   capistrano-rvm
   capistrano3-puma
   capybara
+  caxlsx
   clearance (~> 2.12)
   config (~> 5.6)
   cssbundling-rails

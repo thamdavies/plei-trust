@@ -7,9 +7,11 @@ class Views::Reports::TransactionSummary::FilterForm < Views::Base
     div(class: "flex justify-between w-full") do
       div(class: "w-full") do
         div(class: "flex items-center gap-4 mb-3") do
-          Button(variant: :outline, class: "flex items-center gap-2 bg-green cursor-pointer") do
-            Remix::FileExcelLine(class: "w-5 h-5")
-            plain "Excel"
+          a(href: view_context.excel_reports_transaction_summary_index_path(q: view_context.params[:q]&.to_unsafe_h)) do
+            Button(variant: :outline, class: "flex items-center gap-2 bg-green cursor-pointer", type: "button") do
+              Remix::FileExcelLine(class: "w-5 h-5")
+              plain "Excel"
+            end
           end
           Button(variant: :outline, class: "flex items-center gap-2 cursor-pointer", data: { action: "click->app#printPage" }) do
             Remix::PrinterLine(class: "w-5 h-5")
