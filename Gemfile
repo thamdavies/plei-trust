@@ -86,7 +86,7 @@ end
 
 gem "phlex-rails", "~> 2.4"
 
-gem "tailwind_merge", "~> 1.4"
+gem "tailwind_merge", "~> 1.5"
 
 gem "pry-rails", "~> 0.3.11"
 
