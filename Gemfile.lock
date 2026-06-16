@@ -531,7 +531,7 @@ GEM
       ffi (~> 1.12)
       logger
     ruby2_keywords (0.0.5)
-    ruby_ui (1.0.2)
+    ruby_ui (1.2.0)
     rubyzip (3.2.2)
     scenic (1.9.0)
       activerecord (>= 4.0.0)
@@ -695,7 +695,7 @@ DEPENDENCIES
   reform-rails
   rspec-rails (~> 8.0.4)
   rubocop-rails-omakase
-  ruby_ui (~> 1.0)
+  ruby_ui (~> 1.2)
   scenic (~> 1.9)
   sd_notify
   selenium-webdriver
