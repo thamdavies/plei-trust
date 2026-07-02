@@ -64,7 +64,7 @@ group :development do
   gem "ruby_ui", "~> 1.2", require: false
 
   # Deploy tools
-  gem "capistrano", "~> 3.19", require: false
+  gem "capistrano", "~> 3.20", require: false
   gem "capistrano-rails", "~> 1.7", require: false
   gem "capistrano-bundler", "~> 2.1", require: false
   gem "capistrano-rvm", require: false
