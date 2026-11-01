@@ -1,0 +1,5 @@
+admin:
+  id: 0190a000-0000-7000-8000-000000002001
+  username: admin
+  password_digest: <%= BCrypt::Password.create("12345678") %>
+  status: active

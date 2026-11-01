@@ -353,9 +353,7 @@ function createContract() {
         <div
           class="breadcrumbs flex items-center gap-2.25 text-[14px] text-[#9aa49c] [&_svg]:text-[#c2cac3] [&_strong]:font-bold [&_strong]:text-[#46534b] max-[680px]:hidden"
         >
-          <span>Cửa hàng</span><AppIcon name="chevron" :size="13" /><strong>{{
-            activeMenu
-          }}</strong>
+          <strong>{{ activeMenu }}</strong>
         </div>
         <div class="topbar-actions flex items-center gap-2.5 max-[680px]:gap-0.5">
           <label

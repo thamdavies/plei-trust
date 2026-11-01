@@ -1,0 +1,24 @@
+#!/bin/sh
+set -eu
+
+if [ "${RAILS_ENV:-}" != "test" ]; then
+  echo "E2E server must run with RAILS_ENV=test" >&2
+  exit 1
+fi
+
+unset DATABASE_URL
+export ADMIN_PASSWORD="${E2E_ADMIN_PASSWORD:-${ADMIN_PASSWORD:-12345678}}"
+
+rails() {
+  if command -v asdf >/dev/null 2>&1; then
+    asdf exec ruby bin/rails "$@"
+  else
+    bundle exec rails "$@"
+  fi
+}
+
+rails db:prepare
+rails db:seed
+rails runner 'User.find_by!(username: "admin").update!(password: ENV.fetch("ADMIN_PASSWORD"))'
+rails runner 'LoginAttempt.delete_all'
+rails server -b 127.0.0.1 -p 3100

@@ -1,0 +1,42 @@
+customers:
+  id: 0190a000-0000-7000-8000-000000005001
+  key: customers
+  label: Customers
+  category: customers
+  assignable: false
+  sort_order: 1
+
+phone_view:
+  id: 0190a000-0000-7000-8000-000000005002
+  parent_id: 0190a000-0000-7000-8000-000000005001
+  key: customers.phone.view
+  label: View customer phone numbers
+  category: customers
+  assignable: true
+  sort_order: 2
+
+identity_view:
+  id: 0190a000-0000-7000-8000-000000005003
+  parent_id: 0190a000-0000-7000-8000-000000005001
+  key: customers.identity.view
+  label: View customer identity numbers
+  category: customers
+  assignable: true
+  sort_order: 3
+
+pawn:
+  id: 0190a000-0000-7000-8000-000000005004
+  key: pawn
+  label: Pawn contracts
+  category: pawn
+  assignable: false
+  sort_order: 4
+
+pawn_contracts_view:
+  id: 0190a000-0000-7000-8000-000000005005
+  parent_id: 0190a000-0000-7000-8000-000000005004
+  key: pawn.contracts.view
+  label: View pawn contracts
+  category: pawn
+  assignable: true
+  sort_order: 5

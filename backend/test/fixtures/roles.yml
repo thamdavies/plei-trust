@@ -1,0 +1,12 @@
+owner:
+  id: 0190a000-0000-7000-8000-000000003001
+  account_id: 0190a000-0000-7000-8000-000000001001
+  name: Owner
+  scope: account
+  system_key: owner
+
+store_clerk:
+  id: 0190a000-0000-7000-8000-000000003002
+  account_id: 0190a000-0000-7000-8000-000000001001
+  name: Store clerk
+  scope: store

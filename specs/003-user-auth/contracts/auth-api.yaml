@@ -1,0 +1,154 @@
+openapi: 3.1.0
+info:
+  title: Pawnify Authentication API
+  version: 1.0.0
+  description: Browser sign-in, sign-out, and current-user contract for the existing API v1.
+servers:
+  - url: /api/v1
+paths:
+  /session:
+    post:
+      operationId: createSession
+      summary: Sign in with an existing account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                  minLength: 1
+                password:
+                  type: string
+                  minLength: 1
+                  format: password
+      responses:
+        '201':
+          description: Session created; browser token is returned in an HttpOnly cookie.
+          headers:
+            Set-Cookie:
+              description: Session cookie; HttpOnly, SameSite=Lax, Secure in production, Path=/api/v1; expiry matches token.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionContext'
+        '401':
+          description: Credentials are incorrect or the account is not eligible to sign in.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '422':
+          description: Required credentials are missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '429':
+          description: Five consecutive failures triggered a 15-minute temporary limit; the next sign-in request receives this response.
+          headers:
+            Retry-After:
+              description: Seconds remaining before another sign-in attempt is allowed.
+              schema:
+                type: integer
+                minimum: 1
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+    delete:
+      operationId: destroySession
+      summary: Sign out and revoke the active session
+      security:
+        - sessionCookie: []
+        - bearerAuth: []
+      responses:
+        '204':
+          description: Session revoked and browser cookie cleared.
+          headers:
+            Set-Cookie:
+              description: Expired session cookie.
+              schema:
+                type: string
+        '401':
+          description: No valid session was supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /me:
+    get:
+      operationId: getCurrentUser
+      summary: Restore and retrieve the current authenticated user
+      security:
+        - sessionCookie: []
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Current user and account context.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionContext'
+        '401':
+          description: Session is missing, expired, revoked, or no longer eligible.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: pawnify_session
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    SessionContext:
+      type: object
+      required: [user, account]
+      properties:
+        user:
+          type: object
+          required: [id, username]
+          properties:
+            id:
+              type: string
+            username:
+              type: string
+            name:
+              type: [string, 'null']
+        account:
+          type: object
+          required: [id, name, slug]
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            slug:
+              type: string
+        membership:
+          type: object
+          properties:
+            role:
+              type: string
+    ApiError:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+            message:
+              type: string
