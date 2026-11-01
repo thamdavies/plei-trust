@@ -16,6 +16,7 @@ import {
   HandCoins,
   LayoutGrid,
   ListFilter,
+  LogOut,
   Menu,
   Moon,
   Plus,
@@ -60,6 +61,7 @@ const icons = {
   filter: ListFilter,
   plus: Plus,
   'file-plus': FilePlus2,
+  'log-out': LogOut,
   check: Check,
 }
 </script>

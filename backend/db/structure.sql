@@ -59,6 +59,20 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: login_attempts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.login_attempts (
+    id uuid DEFAULT uuidv7() NOT NULL,
+    normalized_username character varying NOT NULL,
+    failed_attempts integer DEFAULT 0 NOT NULL,
+    locked_until timestamp(6) without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
 -- Name: memberships; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -200,6 +214,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
+-- Name: login_attempts login_attempts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.login_attempts
+    ADD CONSTRAINT login_attempts_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: memberships memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -289,6 +311,13 @@ CREATE INDEX index_api_tokens_on_membership_id_and_expires_at ON public.api_toke
 --
 
 CREATE UNIQUE INDEX index_api_tokens_on_token_digest ON public.api_tokens USING btree (token_digest);
+
+
+--
+-- Name: index_login_attempts_on_normalized_username; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_login_attempts_on_normalized_username ON public.login_attempts USING btree (normalized_username);
 
 
 --
@@ -382,6 +411,7 @@ CREATE UNIQUE INDEX index_users_on_username ON public.users USING btree (usernam
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261101160000'),
 ('20261101000010'),
 ('20261101000009'),
 ('20261101000008'),
