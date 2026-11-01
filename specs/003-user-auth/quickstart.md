@@ -25,6 +25,7 @@
 
 ## Automated checks
 
-- Backend: run the relevant Minitest controller/model tests, then the full backend test suite from `backend/` with `bin/rails test`.
+- Backend: run the auth integration tests with `bin/rails test test/controllers/api/v1/sessions_controller_test.rb test/controllers/api/v1/me_controller_test.rb`, then the full backend suite with `bin/rails test`.
 - Frontend: run `npm test`, `npm run lint`, and `npm run build` from `frontend/`.
+- Browser E2E: make the test PostgreSQL database available, then run `pnpm test:e2e` from the repository root. Playwright prepares and seeds only `pawnify_test`, clears its login-attempt records, and starts the Rails test server and Vite on `127.0.0.1:3100` and `127.0.0.1:5174`. Set `E2E_ADMIN_PASSWORD` if the test admin uses a password other than the seed default `12345678`. Install the browser once with `pnpm --filter pawnify-dashboard exec playwright install chromium`.
 - API contract: compare the session and current-user responses, status codes, cookie behavior, and retry header with [`contracts/auth-api.yaml`](contracts/auth-api.yaml).

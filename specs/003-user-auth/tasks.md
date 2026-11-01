@@ -146,8 +146,14 @@ Task: T015 Implement the frontend sign-out store action in frontend/src/modules/
 3. Add sign-out as the second increment, reusing the session and auth module.
 4. Reconcile the contract and quickstart after implementation.
 
+## Browser E2E Coverage
+
+- [X] T019 Add a pinned Playwright Test runner, Chromium configuration, and root/frontend `test:e2e` scripts.
+- [X] T020 Add browser scenarios for Vue validation, generic invalid-credential feedback, login, cookie-session restoration, account-menu logout, protected-route redirection, and temporary throttling.
+- [X] T021 Add a test-only Rails server bootstrap that prepares and seeds `pawnify_test`, clears login-attempt state, and document E2E setup and execution.
+
 ## Notes
 
 - Every task uses the required checkbox, sequential task ID, optional `[P]`, story label for user-story tasks, and concrete file paths.
-- No test-writing tasks are included; automated and browser validation scenarios remain documented in `quickstart.md`.
+- Backend and frontend unit/integration tests complement the browser E2E scenarios documented in `quickstart.md`.
 - Frontend modules import another module only through its public `index.js`; `shared` does not depend on business modules.

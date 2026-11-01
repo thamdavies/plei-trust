@@ -19,5 +19,11 @@ export default [
       globals: globals.node,
     },
   },
+  {
+    files: ['e2e/**/*.{js,mjs,cjs}'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
   eslintConfigPrettier,
 ]

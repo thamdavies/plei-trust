@@ -1,20 +1,23 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
+import { useForm } from 'vee-validate'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/authStore'
+import { signInSchema } from '../validation/signInSchema'
 
 const auth = useAuthStore()
 const router = useRouter()
-const username = ref('')
-const password = ref('')
 const canSubmit = computed(() => !auth.pending && auth.retrySeconds === 0)
+const { errors, defineField, handleSubmit, isSubmitting } = useForm({
+  validationSchema: signInSchema,
+  initialValues: { username: '', password: '' },
+})
+const [username, usernameAttrs] = defineField('username', { validateOnModelUpdate: false })
+const [password, passwordAttrs] = defineField('password', { validateOnModelUpdate: false })
 
-async function submit() {
-  if (!username.value.trim() || !password.value) return
-  if (await auth.submitSignIn({ username: username.value, password: password.value })) {
-    await router.replace({ name: 'dashboard' })
-  }
-}
+const submit = handleSubmit(async (credentials) => {
+  if (await auth.submitSignIn(credentials)) await router.replace({ name: 'dashboard' })
+})
 </script>
 
 <template>
@@ -25,17 +28,34 @@ async function submit() {
         <h1 class="m-0 text-2xl font-bold">Đăng nhập</h1>
         <p class="mt-2 text-sm text-[#78857b]">Đăng nhập để tiếp tục quản lý cửa hàng của bạn.</p>
       </div>
-      <form class="grid gap-5" @submit.prevent="submit">
+      <form class="grid gap-5" novalidate @submit="submit">
         <label class="grid gap-2 text-sm font-semibold">
           Tên đăng nhập
-          <input v-model="username" autocomplete="username" required class="h-11 rounded-lg border border-[#dfe5df] px-3 font-normal outline-none focus:border-[#66816d]" />
+          <input
+            v-model="username"
+            v-bind="usernameAttrs"
+            autocomplete="username"
+            :aria-invalid="errors.username ? 'true' : 'false'"
+            :aria-describedby="errors.username ? 'username-error' : undefined"
+            class="h-11 rounded-lg border border-[#dfe5df] px-3 font-normal outline-none focus:border-[#66816d]"
+          />
+          <span v-if="errors.username" id="username-error" role="alert" class="text-xs font-normal text-[#a4493c]">{{ errors.username }}</span>
         </label>
         <label class="grid gap-2 text-sm font-semibold">
           Mật khẩu
-          <input v-model="password" type="password" autocomplete="current-password" required class="h-11 rounded-lg border border-[#dfe5df] px-3 font-normal outline-none focus:border-[#66816d]" />
+          <input
+            v-model="password"
+            v-bind="passwordAttrs"
+            type="password"
+            autocomplete="current-password"
+            :aria-invalid="errors.password ? 'true' : 'false'"
+            :aria-describedby="errors.password ? 'password-error' : undefined"
+            class="h-11 rounded-lg border border-[#dfe5df] px-3 font-normal outline-none focus:border-[#66816d]"
+          />
+          <span v-if="errors.password" id="password-error" role="alert" class="text-xs font-normal text-[#a4493c]">{{ errors.password }}</span>
         </label>
         <p v-if="auth.error" role="alert" class="m-0 rounded-lg bg-[#fff1ee] p-3 text-sm text-[#a4493c]">{{ auth.error }}</p>
-        <button type="submit" :disabled="!canSubmit" class="h-11 rounded-lg bg-[#315d46] font-bold text-white disabled:cursor-not-allowed disabled:opacity-60">
+        <button type="submit" :disabled="!canSubmit || isSubmitting" class="h-11 rounded-lg bg-[#315d46] font-bold text-white disabled:cursor-not-allowed disabled:opacity-60">
           {{ auth.pending ? 'Đang đăng nhập…' : auth.retrySeconds ? `Thử lại sau ${auth.retrySeconds} giây` : 'Đăng nhập' }}
         </button>
       </form>

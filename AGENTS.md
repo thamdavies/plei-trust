@@ -21,3 +21,10 @@ Rules:
 - Do not add component or layout styling rules to `frontend/src/style.css`; reserve it for Tailwind/DaisyUI imports, theme configuration, font imports, and design tokens that utilities reference.
 - Prefer standard Tailwind utilities, and use arbitrary utility values when needed to preserve the established design precisely.
 - Preserve existing component dimensions, spacing, and typography unless the user explicitly requests a visual change.
+
+
+## Vue form validation
+
+- Use `vee-validate` 4.15.1 with `@vee-validate/zod` 4.15.1 and `zod` 3.25.76 for Vue form validation. Keep these exact versions pinned in `frontend/package.json` and `pnpm-lock.yaml`.
+- Add `novalidate` when vee-validate owns a form's client-side validation, and render accessible field errors in the Vue template.
+- Keep server-side validation authoritative; client validation is for immediate user feedback.

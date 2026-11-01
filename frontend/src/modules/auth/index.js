@@ -7,3 +7,5 @@ export const authRoutes = [
 
 export { default as SignOutButton } from './components/SignOutButton.vue'
 export { useAuthStore } from './stores/authStore'
+
+export { authRouteGuard } from './routeGuard.js'

@@ -16,7 +16,7 @@ Add a Vue sign-in flow, persistent authenticated routing, and sign-out using the
 
 **Storage**: Existing relational database for users, memberships, accounts, and API tokens; add a login-attempts table.
 
-**Testing**: Backend Minitest; frontend lint/build scripts and end-to-end browser scenarios. No frontend test runner is currently declared.
+**Testing**: Backend Minitest; frontend Node unit tests, lint/build, and Playwright browser E2E tests against the Rails test environment.
 
 **Target Platform**: Web browser, Rails API server, and relational database.
 
@@ -76,7 +76,7 @@ frontend/
         └── ui/                   # Reusable presentation primitives
 ```
 
-**Structure Decision**: Keep the existing two-project layout and one frontend app/build. Organize frontend by business capability rather than placing feature code into global technical buckets. `app` composes modules, `auth` owns authentication behavior, and `shared` contains only business-agnostic infrastructure and UI. Modules consume another module only through its public entry point; `shared` never imports business modules. Move existing router, dashboard view, and dashboard store into their corresponding module/app boundaries as part of implementation. Do not create another service or introduce a frontend test framework in this plan.
+**Structure Decision**: Keep the existing two-project layout and one frontend app/build. Organize frontend by business capability rather than placing feature code into global technical buckets. `app` composes modules, `auth` owns authentication behavior, and `shared` contains only business-agnostic infrastructure and UI. Modules consume another module only through its public entry point; `shared` never imports business modules. Move existing router, dashboard view, and dashboard store into their corresponding module/app boundaries as part of implementation. Do not create another service. Use Playwright Test for browser-level authentication coverage, with a dedicated test-only Rails server and seeded test database.
 
 ## Complexity Tracking
 

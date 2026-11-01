@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { authRoutes, useAuthStore } from '../modules/auth'
+import { authRoutes, authRouteGuard, useAuthStore } from '../modules/auth'
 import { dashboardRoutes } from '../modules/dashboard'
 import { createPinia } from 'pinia'
 
@@ -10,12 +10,6 @@ const router = createRouter({
   routes: [...authRoutes, ...dashboardRoutes],
 })
 
-router.beforeEach(async (to) => {
-  const auth = useAuthStore(pinia)
-  if (!auth.initialized) await auth.restoreSession()
-  if (to.meta.requiresAuth && !auth.user) return { name: 'sign-in' }
-  if (to.name === 'sign-in' && auth.user) return { name: 'dashboard' }
-  return true
-})
+router.beforeEach((to) => authRouteGuard(to, useAuthStore(pinia)))
 
 export default router
