@@ -9,4 +9,19 @@
 !.env.example
 .DS_Store
 
+# Rails backend runtime and secrets
+/backend/.env
+/backend/config/master.key
+/backend/config/credentials/*.key
+/backend/.bundle/
+/backend/log/*
+!/backend/log/.keep
+/backend/tmp/*
+!/backend/tmp/.keep
+/backend/tmp/pids/*
+!/backend/tmp/pids/.keep
+/backend/storage/*
+!/backend/storage/.keep
+/backend/vendor/bundle/
+
 .next/
