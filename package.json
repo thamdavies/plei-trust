@@ -1,0 +1,14 @@
+{
+  "name": "plei-trust",
+  "private": true,
+  "packageManager": "pnpm@10.34.1",
+  "scripts": {
+    "dev": "pnpm --filter pawnify-dashboard dev",
+    "build": "pnpm --filter pawnify-dashboard build",
+    "preview": "pnpm --filter pawnify-dashboard preview",
+    "lint": "pnpm --filter pawnify-dashboard lint",
+    "lint:fix": "pnpm --filter pawnify-dashboard lint:fix",
+    "format": "pnpm --filter pawnify-dashboard format",
+    "format:check": "pnpm --filter pawnify-dashboard format:check"
+  }
+}

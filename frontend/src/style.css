@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+@plugin "daisyui" {
+  themes:
+    pawnify --default,
+    dark;
+}
+@plugin "daisyui/theme" {
+  name: 'pawnify';
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+  --color-base-100: oklch(99% 0.004 150);
+  --color-base-200: oklch(96.8% 0.008 150);
+  --color-base-300: oklch(92% 0.012 150);
+  --color-base-content: oklch(25% 0.025 160);
+  --color-primary: oklch(42% 0.075 158);
+  --color-primary-content: oklch(98% 0.01 155);
+  --color-secondary: oklch(77% 0.09 88);
+  --color-secondary-content: oklch(27% 0.035 85);
+  --color-accent: oklch(63% 0.09 157);
+  --color-accent-content: oklch(98% 0.01 155);
+  --color-neutral: oklch(26% 0.03 160);
+  --color-neutral-content: oklch(96% 0.01 150);
+  --color-info: oklch(67% 0.09 235);
+  --color-info-content: oklch(98% 0.01 235);
+  --color-success: oklch(68% 0.1 155);
+  --color-success-content: oklch(23% 0.04 155);
+  --color-warning: oklch(82% 0.12 85);
+  --color-warning-content: oklch(30% 0.06 70);
+  --color-error: oklch(63% 0.16 28);
+  --color-error-content: oklch(98% 0.01 28);
+  --radius-selector: 0.55rem;
+  --radius-field: 0.65rem;
+  --radius-box: 0.9rem;
+}
+:root {
+  --canvas: #f5f7f5;
+  --surface: #fff;
+  --ink: #29352e;
+  --muted: #8c978f;
+  --line: #e9eee9;
+  --forest: #254c3b;
+  --forest-2: #356b52;
+  --gold: #d8bd70;
+  --sage: #ecf4ee;
+  --shadow: 0 2px 8px rgba(34, 60, 46, 0.035);
+}
